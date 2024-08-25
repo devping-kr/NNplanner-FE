@@ -1,0 +1,78 @@
+{
+  "root": true,
+  "env": {
+    "browser": true,
+    "commonjs": true,
+    "es6": true,
+    "node": true
+  },
+  "extends": [
+    "next/core-web-vitals",
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:import/recommended",
+    "plugin:import/typescript",
+    "plugin:@typescript-eslint/recommended",
+    "prettier"
+  ],
+  "plugins": [
+    "react",
+    "react-hooks",
+    "eslint-plugin-import",
+    "@typescript-eslint"
+  ],
+  "settings": {
+    "import/resolver": {
+      "typescript": {
+        "alwaysTryTypes": true
+      }
+    },
+    "react": {
+      "version": "detect"
+    }
+  },
+  "rules": {
+    "linebreak-style": 2,
+    "require-await": "error",
+    "no-console": "warn",
+    "import/prefer-default-export": "off",
+    "react/react-in-jsx-scope": "off",
+    "import/order": [
+      "error",
+      {
+        "groups": [
+          "builtin",
+          "external",
+          "internal",
+          ["parent", "sibling"],
+          "object",
+          "unknown",
+          "type",
+          "index"
+        ],
+        "pathGroups": [
+          { "pattern": "next", "group": "external", "position": "before" },
+          { "pattern": "next/**", "group": "external", "position": "before" },
+          { "pattern": "react", "group": "external", "position": "before" },
+          { "pattern": "react/**", "group": "external", "position": "before" },
+          { "pattern": "@/lib/**", "group": "external", "position": "before" },
+          { "pattern": "@/components/**", "group": "unknown" },
+          { "pattern": "@/hooks/**", "group": "unknown" },
+          {
+            "pattern": "@/constants/**",
+            "group": "unknown"
+          },
+          { "pattern": "@/types", "group": "unknown" },
+          { "pattern": "@/shema/**", "group": "unknown" },
+          { "pattern": "@/styles/**", "group": "unknown" },
+          { "pattern": "@/assets/**", "group": "unknown" },
+          { "pattern": "@/stores/**", "group": "unknown" },
+          { "pattern": "./**", "group": "index" }
+        ],
+        "pathGroupsExcludedImportTypes": ["builtin"],
+        "alphabetize": { "order": "asc", "caseInsensitive": true }
+      }
+    ]
+  }
+}
