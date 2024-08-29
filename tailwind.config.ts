@@ -8,10 +8,23 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+      backgroundColor: {
+        primary: '#F5F6FA',
+        active: '#4880FF',
+        tableHeader: '#F1F4F9',
+        button: '#FAFBFD',
+        select: '#F9F9FB',
+        apply: '#E2EAF8',
+      },
+      textColor: {
+        primary: '#FDFDFD',
+        white: '#272727',
+        label: '#060606',
+      },
+      borderColor: {
+        calendar: '#3F3F3F',
+        input: '#D5D5D5',
+        card: '#B9B9B9',
       },
     },
   },
