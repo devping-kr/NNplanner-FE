@@ -9,41 +9,20 @@ export type ButtonProps = VariantProps<typeof buttonVariants> &
   ComponentPropsWithoutRef<'button'> & {
     size?: 'small' | 'basic' | 'large';
     width?: 'fit' | 'full';
-    height?: number;
   };
 
-const customButton = (variants: VariantProps<typeof buttonVariants>) => {
-  const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-    ({ size, width, height, className, ...props }, ref) => {
-      const buttonStyle = {
-        height: height ? `${height}px` : undefined,
-      };
+const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ size, width, className, variant = 'primary', ...props }, ref) => {
+    return (
+      <button
+        className={cn(buttonVariants({ variant, size, width }), className)}
+        ref={ref}
+        {...props}
+      />
+    );
+  },
+);
 
-      return (
-        <button
-          className={cn(
-            buttonVariants({ ...variants, size, width }),
-            className,
-          )}
-          ref={ref}
-          style={buttonStyle}
-          {...props}
-        />
-      );
-    },
-  );
-  Button.displayName = 'Button';
-  return Button;
-};
+Button.displayName = 'Button';
 
-export const PrimaryButton = customButton({
-  variant: 'primary',
-});
-
-export const SecondaryButton = customButton({
-  variant: 'secondary',
-});
-
-export const OutlineButton = customButton({
-  variant: 'outline',
-});
+export default Button;
