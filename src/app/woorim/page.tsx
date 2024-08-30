@@ -1,46 +1,42 @@
 'use client';
 
-import {
-  OutlineButton,
-  PrimaryButton,
-  SecondaryButton,
-} from '@/components/Button/Button';
+import Button from '@/components/Button/Button';
 
 const page = () => {
   return (
     <div className='flex flex-col gap-4 p-4 bg-slate-600 w-full h-full'>
       <div className='flex gap-4 items-end'>
-        <PrimaryButton size='small' width='fit'>
+        <Button variant='primary' size='small' width='fit'>
           SMALL PRIMARY
-        </PrimaryButton>
-        <PrimaryButton size='basic' width='fit'>
+        </Button>
+        <Button variant='primary' size='basic' width='fit'>
           BASIC PRIMARY
-        </PrimaryButton>
-        <PrimaryButton size='large' width='fit'>
+        </Button>
+        <Button variant='primary' size='large' width='fit'>
           LARGE PRIMARY
-        </PrimaryButton>
+        </Button>
       </div>
       <div className='flex gap-4 items-end'>
-        <SecondaryButton size='small' width='fit'>
+        <Button variant='secondary' size='small' width='fit'>
           SMALL SECONDARY
-        </SecondaryButton>
-        <SecondaryButton size='basic' width='fit'>
+        </Button>
+        <Button variant='secondary' size='basic' width='fit'>
           BASIC SECONDARY
-        </SecondaryButton>
-        <SecondaryButton size='large' width='fit'>
+        </Button>
+        <Button variant='secondary' size='large' width='fit'>
           LARGE SECONDARY
-        </SecondaryButton>
+        </Button>
       </div>
       <div className='flex gap-4 items-end'>
-        <OutlineButton size='small' width='fit'>
+        <Button variant='outline' size='small' width='fit'>
           SMALL OUTLINE
-        </OutlineButton>
-        <OutlineButton size='basic' width='fit'>
+        </Button>
+        <Button variant='outline' size='basic' width='fit'>
           BASIC OUTLINE
-        </OutlineButton>
-        <OutlineButton size='large' width='fit'>
+        </Button>
+        <Button variant='outline' size='large' width='fit'>
           LARGE OUTLINE
-        </OutlineButton>
+        </Button>
       </div>
     </div>
   );
