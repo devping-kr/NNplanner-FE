@@ -1,15 +1,10 @@
-import {
-  BodyPrimary,
-  HeadPrimary,
-  Label,
-} from '@/components/Typography/Typography';
+import Link from 'next/link';
 
 export default function Home() {
   return (
-    <>
-      <BodyPrimary>바디 Primary색상임다</BodyPrimary>
-      <HeadPrimary>헤더 Primary색상임다</HeadPrimary>
-      <Label>라벨임다</Label>
-    </>
+    <div className='flex flex-col gap-20'>
+      <Link href={'/seunghyun'}>승현 작업</Link>
+      <Link href={'/woorim'}>우림 작업</Link>
+    </div>
   );
 }
