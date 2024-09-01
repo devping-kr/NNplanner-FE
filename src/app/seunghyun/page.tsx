@@ -4,6 +4,8 @@ import Search from '@/assets/icons/search.svg';
 import Xmark from '@/assets/icons/xmark.svg';
 import { Input } from '@/components/Input/Input';
 import NavMenu from '@/components/NavMenu';
+import Radio from '@/components/Radio';
+
 import {
   BodyPrimary,
   HeadPrimary,
@@ -44,6 +46,16 @@ const page = () => {
         <Image src={Xmark} alt='xmark' width={15} height={15} />
         수동 식단 작성
       </NavMenu>
+      <div className='flex gap-4'>
+        <div className='flex items-center gap-1'>
+          <Radio color='primary' name='test' />
+          <Label>test1</Label>
+        </div>
+        <div className='flex items-center gap-1'>
+          <Radio color='secondary' name='test' />
+          <Label>test2</Label>
+        </div>
+      </div>
     </div>
   );
 };

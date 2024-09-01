@@ -4,6 +4,7 @@ const colors = {
   buttonOutline: '#4880FF',
   buttonOutlineHover: '#2D6CFC',
   buttonOutlineActive: '#0F58FE',
+  thead: '#E5E7EB',
 };
 
 const config: Config = {
@@ -29,6 +30,7 @@ const config: Config = {
         buttonSecondary: '#E2EAF8',
         buttonSecondaryHover: '#D7DFEC',
         buttonSecondaryActive: '#CBD1DD',
+        thead: colors.thead,
       },
       textColor: {
         primary: '#FDFDFD',
@@ -47,6 +49,7 @@ const config: Config = {
         buttonOutline: colors.buttonOutline,
         buttonOutlineHover: colors.buttonOutlineHover,
         buttonOutlineActive: colors.buttonOutlineActive,
+        thead: colors.thead,
       },
     },
   },
