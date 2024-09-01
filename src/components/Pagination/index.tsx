@@ -1,6 +1,6 @@
 import Link from 'next/link';
-import React from 'react';
 import Icon from '../Icon';
+import { CAL_PAGE_NUM } from '@/constants/_pagination';
 
 interface Props {
   totalPosts: number;
@@ -12,18 +12,19 @@ interface Props {
 const Pagination = ({ totalPosts, currentPage, pageSize, category }: Props) => {
   const totalPages = Math.ceil(totalPosts / pageSize);
 
-  const floorFive = 5 * Math.floor(currentPage / 5);
-  const ceilFive = 5 * Math.ceil(currentPage / 5);
+  const floorFive = pageSize * Math.floor(currentPage / pageSize);
+  const ceilFive = pageSize * Math.ceil(currentPage / pageSize);
 
-  const prevPage = floorFive - 4;
-  const nextPage = ceilFive + 1;
+  const prevPage = floorFive - CAL_PAGE_NUM.FIRST_PAGE;
+  const nextPage = ceilFive + CAL_PAGE_NUM.LAST_PAGE;
 
-  const startPage = ceilFive - 4;
+  const startPage = ceilFive - CAL_PAGE_NUM.FIRST_PAGE;
 
   const generatePageLinks = (currentPage: number) => {
     const links = [];
 
-    const lastPage = totalPages >= ceilFive ? startPage + 4 : totalPages;
+    const lastPage =
+      totalPages >= ceilFive ? startPage + CAL_PAGE_NUM.FIRST_PAGE : totalPages;
     for (let i = startPage; i <= lastPage; i++) {
       links.push(
         <Link
@@ -45,7 +46,7 @@ const Pagination = ({ totalPosts, currentPage, pageSize, category }: Props) => {
 
   return (
     <div className='flex items-center justify-center p-2'>
-      {currentPage <= 5 ? null : (
+      {!(currentPage <= pageSize) && (
         <Link
           className='m-2 flex justify-center rounded-full p-2 text-center hover:bg-navAction'
           href={{
@@ -57,7 +58,7 @@ const Pagination = ({ totalPosts, currentPage, pageSize, category }: Props) => {
         </Link>
       )}
       {generatePageLinks(currentPage)}
-      {totalPages < ceilFive ? null : (
+      {!(totalPages < ceilFive) && (
         <Link
           className='m-2 flex justify-center rounded-full p-2 text-center hover:bg-navAction'
           href={{
