@@ -1,45 +1,22 @@
-import { cloneElement, ReactElement, SVGProps } from 'react';
-import { cn } from '@/utils/core';
-import { iconVariants } from '@/components/Icon/Icon.variant';
+import { COLORS, IconColor, iconMap, IconType } from '@/components/icons';
 
 type IconProps = {
-  icon: ReactElement<SVGProps<SVGSVGElement>>;
-  padding?: 'small' | 'basic' | 'large';
-  className?: string;
+  name: IconType;
   width?: number;
   height?: number;
-  stroke?: string;
-  fill?: string;
+  color?: IconColor;
 };
 
-const Icon = ({
-  icon,
-  padding = 'basic',
-  className,
-  width,
-  height,
-  stroke,
-  fill,
-}: IconProps) => {
-  const {
-    width: iconWidth,
-    height: iconHeight,
-    stroke: iconStroke,
-    fill: iconFill,
-    ...iconProps
-  } = icon.props;
+const Icon = ({ name, width, height, color = 'black' }: IconProps) => {
+  const IconComponent = iconMap[name];
 
   return (
-    <span className={cn(iconVariants({ padding }), className)}>
-      {cloneElement(icon, {
-        width: width ?? iconWidth,
-        height: height ?? iconHeight,
-        stroke: stroke ?? iconStroke,
-        fill: fill ?? iconFill,
-        ...iconProps,
-      })}
+    <span className='inline-block w-fit h-fit'>
+      <IconComponent width={width} height={height} color={COLORS[color]} />
     </span>
   );
 };
+
+Icon.displayName = 'Icon';
 
 export default Icon;
