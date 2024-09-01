@@ -3,7 +3,7 @@ import { SVGProps } from 'react';
 const Edit = ({
   width = 20,
   height = 20,
-  fill = '#000',
+  color = '#000',
   ...props
 }: SVGProps<SVGSVGElement>) => {
   return (
@@ -11,7 +11,7 @@ const Edit = ({
       width={width}
       height={height}
       viewBox='0 -960 960 960'
-      fill={fill}
+      fill={color}
       xmlns='http://www.w3.org/2000/svg'
       {...props}
     >
