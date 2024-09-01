@@ -1,3 +1,4 @@
+import { cn } from '@/utils/core';
 import { COLORS, IconColor, iconMap, IconType } from '@/components/icons';
 
 type IconProps = {
@@ -5,15 +6,25 @@ type IconProps = {
   width?: number;
   height?: number;
   color?: IconColor;
+  className?: string;
 };
 
-const Icon = ({ name, width, height, color = 'black' }: IconProps) => {
+const Icon = ({
+  name,
+  width,
+  height,
+  color = 'black',
+  className,
+}: IconProps) => {
   const IconComponent = iconMap[name];
 
   return (
-    <span className='inline-block w-fit h-fit'>
-      <IconComponent width={width} height={height} color={COLORS[color]} />
-    </span>
+    <IconComponent
+      className={cn('inline-block h-fit w-fit', className)}
+      width={width}
+      height={height}
+      color={COLORS[color]}
+    />
   );
 };
 
