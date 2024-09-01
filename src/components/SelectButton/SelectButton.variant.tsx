@@ -5,9 +5,9 @@ export const selectButtonVariants = cva(
   {
     variants: {
       size: {
-        small: 'px-3 py-2 text-sm rounded-md',
-        basic: 'px-5 py-3 text-basic rounded-lg',
-        large: 'px-7 py-5 text-lg rounded-lg',
+        small: 'px-3 py-2 text-sm rounded-md pr-8',
+        basic: 'px-5 py-3 text-basic rounded-lg pr-10',
+        large: 'px-7 py-5 text-lg rounded-lg pr-12',
       },
     },
   },
