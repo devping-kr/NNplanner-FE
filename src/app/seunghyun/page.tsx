@@ -1,5 +1,9 @@
 'use client';
+import Image from 'next/image';
+import Search from '@/assets/icons/search.svg';
+import Xmark from '@/assets/icons/xmark.svg';
 import { Input } from '@/components/Input/Input';
+import NavMenu from '@/components/NavMenu';
 import {
   BodyPrimary,
   HeadPrimary,
@@ -32,6 +36,14 @@ const page = () => {
         value={value}
       />
       <Input disabled />
+      <NavMenu isActive={true} href={'/auto'}>
+        <Image src={Search} alt='search' width={15} height={15} />
+        자동 식단 작성
+      </NavMenu>
+      <NavMenu isActive={false} href={'/hand'}>
+        <Image src={Xmark} alt='xmark' width={15} height={15} />
+        수동 식단 작성
+      </NavMenu>
     </div>
   );
 };

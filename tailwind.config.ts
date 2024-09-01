@@ -21,6 +21,7 @@ const config: Config = {
         button: '#FAFBFD',
         select: '#F9F9FB',
         apply: '#E2EAF8',
+        NavActionBg: '#EEF2FF',
         buttonPrimary: '#4379EE',
         buttonPrimaryHover: '#2B64E0',
         buttonPrimaryActive: '#195CEB',
@@ -35,6 +36,8 @@ const config: Config = {
         buttonOutline: colors.buttonOutline,
         buttonOutlineHover: colors.buttonOutlineHover,
         buttonOutlineActive: colors.buttonOutlineActive,
+        navActionText: '#4F46E5',
+        navNoActionText: '#64748B',
       },
       borderColor: {
         calendar: '#3F3F3F',
