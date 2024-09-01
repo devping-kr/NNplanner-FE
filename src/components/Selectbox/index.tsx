@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { type VariantProps } from 'class-variance-authority';
+import { cn } from '@/utils/core';
 import Dropdown from '@/components/Dropdown';
 import Icon from '@/components/Icon';
 import OptionList from '@/components/OptionList';
@@ -22,6 +23,7 @@ export type SelectboxProps = VariantProps<typeof selectboxVariants> & {
   options: Option[];
   placeholder?: string;
   size?: Size;
+  className?: string;
   onChange?: (value: string) => void;
 };
 
@@ -29,6 +31,7 @@ export const Selectbox = ({
   options,
   placeholder = '옵션을 선택하세요',
   size = 'small',
+  className,
   onChange,
 }: SelectboxProps) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -72,7 +75,7 @@ export const Selectbox = ({
   const iconSize = ICON_SIZE[size];
 
   return (
-    <div className='relative h-fit w-fit' ref={selectboxRef}>
+    <div className={cn('relative h-fit', className)} ref={selectboxRef}>
       <div className={selectboxVariants({ isOpen })}>
         <SelectButton
           selectedOption={chosenOption}
