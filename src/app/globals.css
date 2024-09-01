@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 20px; /* 스크롤바 너비 */
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background-color: transparent; /* 트랙 색상 */
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: theme('borderColor.input'); /* 손잡이 색상 */
+    border-radius: 20px;
+    border: 6px solid theme('backgroundColor.white'); /* 트랙과의 구분을 위한 여백 */
+  }
+}
