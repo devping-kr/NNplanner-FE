@@ -2,10 +2,19 @@
 
 import Button from '@/components/Button/Button';
 import Icon from '@/components/Icon';
+import Table from '@/components/Table';
+
+const tableData = {
+  '에너지(kcal)': 250,
+  '탄수화물(g)': 30,
+  '단백질(g)': 15,
+  '지방(g)': 10,
+};
 
 const page = () => {
   return (
     <div className='flex flex-col gap-4 p-4 bg-slate-600 w-full h-full'>
+      <Table data={tableData} />
       <div className='flex gap-4 items-end'>
         <Icon name='search' />
       </div>
