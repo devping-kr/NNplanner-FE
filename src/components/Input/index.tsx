@@ -1,6 +1,5 @@
 'use client';
 
-import Image from 'next/image';
 import {
   ComponentPropsWithoutRef,
   forwardRef,
@@ -9,8 +8,7 @@ import {
 } from 'react';
 import { type VariantProps } from 'class-variance-authority';
 import { cn } from '@/utils/core';
-import Search from '@/assets/icons/search.svg';
-import Xmark from '@/assets/icons/xmark.svg';
+import Icon from '../Icon';
 import { inputContainerVariants, inputVariants } from './Input.variant';
 
 export type InputIconProps =
@@ -64,9 +62,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             disabled,
           })}
         >
-          {isLeftIcon && (
-            <Image src={Search} alt='xmark' width={15} height={15} />
-          )}
+          {isLeftIcon && <Icon name='search' width={15} height={15} />}
           <input
             className={cn(inputVariants(), className)}
             ref={ref}
@@ -77,20 +73,20 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             {...props}
           />
           {value && (
-            <Image
-              src={Xmark}
-              width={15}
-              height={15}
-              alt='xmark'
-              onClick={onClear}
-              className='cursor-pointer'
-            />
+            <button onClick={onClear}>
+              <Icon
+                name='xmark'
+                width={20}
+                height={20}
+                className='cursor-pointer'
+              />
+            </button>
           )}
         </div>
         {includeButton && (
           <button
             onClick={onSubmit}
-            className='w-14 bg-button justify-center items-center cursor-pointer rounded'
+            className='w-14 cursor-pointer items-center justify-center rounded bg-button'
             disabled={disabled || !value}
           >
             검색

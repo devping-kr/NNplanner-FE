@@ -1,19 +1,13 @@
 'use client';
 
-import Image from 'next/image';
 import { useState } from 'react';
-import Search from '@/assets/icons/search.svg';
-import Xmark from '@/assets/icons/xmark.svg';
 import ControlTab from '@/components/ControlTab';
-import { Input } from '@/components/Input/Input';
+import Icon from '@/components/Icon';
+import { Input } from '@/components/Input';
 import NavMenu from '@/components/NavMenu';
 import Radio from '@/components/Radio';
 
-import {
-  BodyPrimary,
-  HeadPrimary,
-  Label,
-} from '@/components/Typography/Typography';
+import { BodyPrimary, HeadPrimary, Label } from '@/components/Typography';
 
 const page = () => {
   const value = '추후 useInput를 통해 받아올 value';
@@ -44,11 +38,11 @@ const page = () => {
       />
       <Input disabled />
       <NavMenu isActive={true} href={'/auto'}>
-        <Image src={Search} alt='search' width={15} height={15} />
+        <Icon name='edit' width={15} height={15} />
         자동 식단 작성
       </NavMenu>
       <NavMenu isActive={false} href={'/hand'}>
-        <Image src={Xmark} alt='xmark' width={15} height={15} />
+        <Icon name='search' width={15} height={15} />
         수동 식단 작성
       </NavMenu>
       <ControlTab
