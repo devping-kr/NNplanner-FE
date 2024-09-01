@@ -1,5 +1,6 @@
 'use client';
 import { Input } from '@/components/Input/Input';
+import Radio from '@/components/Radio';
 import {
   BodyPrimary,
   HeadPrimary,
@@ -32,6 +33,16 @@ const page = () => {
         value={value}
       />
       <Input disabled />
+      <div className='flex gap-4'>
+        <div className='flex items-center gap-1'>
+          <Radio color='primary' name='test' />
+          <Label>test1</Label>
+        </div>
+        <div className='flex items-center gap-1'>
+          <Radio color='secondary' name='test' />
+          <Label>test2</Label>
+        </div>
+      </div>
     </div>
   );
 };
