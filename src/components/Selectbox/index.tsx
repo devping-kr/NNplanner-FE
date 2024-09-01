@@ -5,7 +5,10 @@ import { type VariantProps } from 'class-variance-authority';
 import Dropdown from '@/components/Dropdown';
 import Icon from '@/components/Icon';
 import OptionList from '@/components/OptionList';
-import { selectboxVariants } from '@/components/Selectbox/Selectbox.variant';
+import {
+  selectboxVariants,
+  selectIconVariants,
+} from '@/components/Selectbox/Selectbox.variant';
 import SelectButton from '@/components/SelectButton';
 
 export type Option = {
@@ -69,7 +72,7 @@ export const Selectbox = ({
   const iconSize = ICON_SIZE[size];
 
   return (
-    <div className='relative' ref={selectboxRef}>
+    <div className='relative h-fit w-fit' ref={selectboxRef}>
       <div className={selectboxVariants({ isOpen })}>
         <SelectButton
           selectedOption={chosenOption}
@@ -87,7 +90,7 @@ export const Selectbox = ({
         </Dropdown>
       </div>
       <Icon
-        className='absolute right-4 top-1/2 z-20 -translate-y-1/2'
+        className={selectIconVariants({ size })}
         name={isOpen ? 'arrowUp' : 'arrowDown'}
         width={iconSize}
         height={iconSize}
