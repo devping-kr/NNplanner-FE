@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useState } from 'react';
 import dayjs from 'dayjs';
 import { getDaysInMonth, isHoliday, isInvalidDate } from '@/utils/calendar';
-import CalendarDay from '@/components/CalendarDay';
+import CalendarDay from '@/components/common/CalendarDay';
 
 export type CalendarData = {
   [date: `${number}-${number}-${number}`]: Array<{

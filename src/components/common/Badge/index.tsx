@@ -15,7 +15,7 @@ const Badge = ({
   className,
 }: BadgeProps) => {
   return (
-    <div className={cn(`rounded-full overflow-hidden w-fit h-fit`, className)}>
+    <div className={cn(`h-fit w-fit overflow-hidden rounded-full`, className)}>
       <Image
         src={imageSrc}
         width={size}

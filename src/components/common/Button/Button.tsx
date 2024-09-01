@@ -3,7 +3,7 @@
 import { ComponentPropsWithoutRef, forwardRef } from 'react';
 import { VariantProps } from 'class-variance-authority';
 import { cn } from '@/utils/core';
-import { buttonVariants } from '@/components/Button/Button.variant';
+import { buttonVariants } from '@/components/common/Button/Button.variant';
 
 export type ButtonProps = VariantProps<typeof buttonVariants> &
   ComponentPropsWithoutRef<'button'> & {

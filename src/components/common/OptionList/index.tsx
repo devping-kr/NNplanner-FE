@@ -1,6 +1,6 @@
 import { cn } from '@/utils/core';
-import { optionListVariants } from '@/components/OptionList/OptionList.variant';
-import { Option, Size } from '@/components/Selectbox';
+import { optionListVariants } from '@/components/common/OptionList/OptionList.variant';
+import { Option, Size } from '@/components/common/Selectbox';
 
 type OptionListProps = {
   options: Option[];

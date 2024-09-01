@@ -1,6 +1,6 @@
 import { VariantProps } from 'class-variance-authority';
-import { Size } from '@/components/Selectbox';
-import { selectButtonVariants } from '@/components/SelectButton/SelectButton.variant';
+import { Size } from '@/components/common/Selectbox';
+import { selectButtonVariants } from '@/components/common/SelectButton/SelectButton.variant';
 
 type SelectButtonProps = VariantProps<typeof selectButtonVariants> & {
   selectedOption: string | null;
