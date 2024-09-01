@@ -11,13 +11,13 @@ const Table = ({ data }: TableProps) => {
 
   return (
     <div className='overflow-hidden rounded-md'>
-      <table className='w-full text-center border-collapse'>
+      <table className='w-full border-collapse text-center'>
         <thead>
           <tr>
             {headers.map((header) => (
               <th
                 key={header}
-                className='bg-thead border border-thead p-3 font-semibold'
+                className='border border-thead bg-thead p-3 font-semibold'
               >
                 {header}
               </th>
@@ -27,7 +27,7 @@ const Table = ({ data }: TableProps) => {
         <tbody>
           <tr>
             {headers.map((header) => (
-              <td key={header} className='bg-primary p-3 border border-x-thead'>
+              <td key={header} className='border border-x-thead bg-primary p-3'>
                 {data[header] ?? '-'}
               </td>
             ))}

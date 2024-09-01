@@ -1,18 +1,27 @@
 'use client';
 
 import { useState } from 'react';
-import ControlTab from '@/components/ControlTab';
-import Icon from '@/components/Icon';
-import { Input } from '@/components/Input';
-import NavMenu from '@/components/NavMenu';
-import Radio from '@/components/Radio';
+import Button from '@/components/common/Button/Button';
+import ControlTab from '@/components/common/ControlTab';
+import Icon from '@/components/common/Icon';
+import { Input } from '@/components/common/Input';
+import { Modal } from '@/components/common/Modal';
+import { useModal } from '@/components/common/Modal/useModal';
+import NavMenu from '@/components/common/NavMenu';
+import Pagination from '@/components/common/Pagination';
+import Radio from '@/components/common/Radio';
 
-import { BodyPrimary, HeadPrimary, Label } from '@/components/Typography';
+import {
+  BodyPrimary,
+  HeadPrimary,
+  Label,
+} from '@/components/common/Typography';
 
 const page = () => {
   const value = '추후 useInput를 통해 받아올 value';
   const tabList = ['최신순', '오래된순'];
   const [selectedTab, setSelectedTab] = useState('최신순'); // eslint-disable-line react-hooks/rules-of-hooks
+  const { isOpen, modalRef, openModal, closeModal } = useModal(); // eslint-disable-line react-hooks/rules-of-hooks
   return (
     <div className='flex flex-col gap-3'>
       <BodyPrimary>바디 Primary색상임다</BodyPrimary>
@@ -59,6 +68,25 @@ const page = () => {
           <Radio color='secondary' name='test' />
           <Label>test2</Label>
         </div>
+      </div>
+      <div>
+        <Modal
+          title='제목입니다'
+          isOpen={isOpen}
+          onClose={closeModal}
+          modalRef={modalRef}
+        >
+          <BodyPrimary>내용내용</BodyPrimary>
+        </Modal>
+        <Button onClick={openModal}>모달 열기</Button>
+      </div>
+      <div>
+        <Pagination
+          totalPosts={40}
+          currentPage={1}
+          pageSize={5}
+          category='meals'
+        />
       </div>
     </div>
   );

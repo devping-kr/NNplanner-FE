@@ -3,14 +3,14 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { type VariantProps } from 'class-variance-authority';
 import { cn } from '@/utils/core';
-import Dropdown from '@/components/Dropdown';
-import Icon from '@/components/Icon';
-import OptionList from '@/components/OptionList';
+import Dropdown from '@/components/common/Dropdown';
+import Icon from '@/components/common/Icon';
+import OptionList from '@/components/common/OptionList';
 import {
   selectboxVariants,
   selectIconVariants,
-} from '@/components/Selectbox/Selectbox.variant';
-import SelectButton from '@/components/SelectButton';
+} from '@/components/common/Selectbox/Selectbox.variant';
+import SelectButton from '@/components/common/SelectButton';
 
 export type Option = {
   value: string;

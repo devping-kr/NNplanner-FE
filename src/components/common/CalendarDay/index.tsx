@@ -1,4 +1,4 @@
-import { calendarDayVariants } from '@/components/Calendar/Calendar.variant';
+import { calendarDayVariants } from '@/components/common/Calendar/Calendar.variant';
 
 export type CalendarDayProps = {
   date: string;

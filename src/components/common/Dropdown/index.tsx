@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import { type VariantProps } from 'class-variance-authority';
 import { cn } from '@/utils/core';
-import { dropdownVariants } from '@/components/Dropdown/Dropdown.variant';
+import { dropdownVariants } from '@/components/common/Dropdown/Dropdown.variant';
 
 export type DropdownProps = VariantProps<typeof dropdownVariants> & {
   children: ReactNode;

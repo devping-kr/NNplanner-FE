@@ -1,6 +1,6 @@
 import { ComponentPropsWithoutRef } from 'react';
 import Icon from '../Icon';
-import { HeadPrimary } from '../Typography/Typography';
+import { HeadPrimary } from '../Typography';
 
 export type Props = {
   isOpen: boolean;

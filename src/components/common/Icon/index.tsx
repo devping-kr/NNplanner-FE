@@ -1,5 +1,5 @@
 import { cn } from '@/utils/core';
-import { COLORS, IconColor, iconMap, IconType } from '@/components/icons';
+import { COLORS, IconColor, iconMap, IconType } from './assets';
 
 type IconProps = {
   name: IconType;

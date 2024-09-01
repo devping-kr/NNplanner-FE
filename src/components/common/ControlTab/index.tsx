@@ -19,7 +19,7 @@ const ControlTab = <T extends string>({
           key={tab}
           className={cn(
             'text-sm text-gray-400',
-            tab === selectedTab && 'text-gray-600 font-semibold',
+            tab === selectedTab && 'font-semibold text-gray-600',
           )}
           onClick={() => setSelectedTab(tab)}
         >
