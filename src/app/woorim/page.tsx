@@ -1,6 +1,7 @@
 'use client';
 
 import Button from '@/components/Button/Button';
+import Icon from '@/components/Icon';
 import Table from '@/components/Table';
 
 const tableData = {
@@ -14,6 +15,10 @@ const page = () => {
   return (
     <div className='flex flex-col gap-4 p-4 bg-slate-600 w-full h-full'>
       <Table data={tableData} />
+      <div className='flex gap-4 items-end'>
+        <Icon name='search' />
+      </div>
+
       <div className='flex gap-4 items-end'>
         <Button variant='primary' size='small' width='fit'>
           SMALL PRIMARY
