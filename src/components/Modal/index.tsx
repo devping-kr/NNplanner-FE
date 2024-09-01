@@ -1,6 +1,6 @@
 import { ComponentPropsWithoutRef } from 'react';
 import Icon from '../Icon';
-import { ModalHeadWhite } from '../Typography/Typography';
+import { HeadPrimary } from '../Typography/Typography';
 
 export type Props = {
   isOpen: boolean;
@@ -31,7 +31,7 @@ export const Modal = ({
         ref={modalRef}
       >
         <div className='flex items-center justify-between'>
-          <ModalHeadWhite>{title}</ModalHeadWhite>
+          <HeadPrimary>{title}</HeadPrimary>
           {showCloseButton && (
             <div onClick={onClose} className='cursor-pointer'>
               <Icon name='xmark' width={15} height={15} />

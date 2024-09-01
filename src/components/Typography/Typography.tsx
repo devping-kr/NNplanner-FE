@@ -26,11 +26,6 @@ export const HeadPrimary = customTypography('h1', {
   type: 'heading1',
   weight: 'bold',
 });
-export const ModalHeadWhite = customTypography('h1', {
-  type: 'heading1',
-  weight: 'bold',
-  color: 'white',
-});
 export const BodyPrimary = customTypography('p', {
   type: 'body1',
 });
