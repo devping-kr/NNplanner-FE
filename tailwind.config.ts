@@ -47,6 +47,10 @@ const config: Config = {
         buttonOutlineActive: colors.buttonOutlineActive,
         thead: colors.thead,
       },
+      translate: {
+        // transform: translate-Y(-50%)
+        '-1/2': '-50%',
+      },
     },
   },
   plugins: [],
