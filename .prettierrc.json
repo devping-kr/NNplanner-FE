@@ -8,5 +8,6 @@
   "trailingComma": "all",
   "bracketSpacing": true,
   "endOfLine": "lf",
-  "jsxSingleQuote": true
+  "jsxSingleQuote": true,
+  "plugins": ["prettier-plugin-tailwindcss"]
 }
