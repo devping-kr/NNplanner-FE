@@ -7,12 +7,46 @@ import Icon from '@/components/common/Icon';
 import { Option, Selectbox } from '@/components/common/Selectbox';
 import Table from '@/components/common/Table';
 
-const tableData = {
-  '에너지(kcal)': 250,
-  '탄수화물(g)': 30,
-  '단백질(g)': 15,
-  '지방(g)': 10,
-};
+// 테이블 예시 데이터
+const tableData2 = [
+  {
+    id: 1,
+    title: 'First Item',
+    createdAt: '2024-09-01T12:00:00Z',
+  },
+  {
+    id: 2,
+    title: 'Second Item',
+  },
+  {
+    id: 3,
+    title: 'Third Item',
+    description: 'This is the description for the third item.',
+    createdAt: '2024-09-03T09:15:00Z',
+  },
+  {
+    id: 4,
+    title: 'Item',
+    description: 'This is the description for the third item.',
+    createdAt: '2024-09-03T09:15:00Z',
+  },
+];
+
+// 영양성분 보여줄 때. 백엔드에서 객체로 받는 데이터.
+const tableData1 = [
+  {
+    '에너지(kcal)': 250,
+    '탄수화물(g)': 30,
+    '단백질(g)': 15,
+    '지방(g)': 10,
+  },
+  {
+    '에너지(kcal)': 250,
+    '탄수화물(g)': 30,
+    '단백질(g)': 15,
+    '지방(g)': 10,
+  },
+];
 
 const page = () => {
   const calendarData = {
@@ -99,7 +133,8 @@ const page = () => {
         <Selectbox size='large' options={options} />
       </div>
 
-      <Table data={tableData} />
+      <Table data={tableData2} />
+      <Table data={tableData1} />
       <div className='flex items-end gap-4'>
         <Icon name='search' />
         <Badge imageSrc='/imgs/pi-gon-ping.jpg' />
