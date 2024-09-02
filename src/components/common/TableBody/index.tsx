@@ -1,31 +1,27 @@
-import React from 'react';
+import { TableRowData, TableType } from '@/components/common/Table';
 
-type Data = {
-  id: number;
-  title: string;
-  description: string;
-  createdAt: string;
+type TableBodyProps = {
+  headerData: string[];
+  bodyData: TableRowData[];
+  type: TableType;
 };
 
-export type DataList = Data[];
-interface Props {
-  data: DataList;
-}
-const TableBody = ({ data }: Props) => {
+const TableBody = ({ headerData, bodyData, type }: TableBodyProps) => {
+  const handleTrClick = () => {};
+
   return (
     <tbody>
-      {data.map((item, idx) => (
+      {bodyData.map((item, index) => (
         <tr
-          key={idx}
-          className='flex h-14 w-full items-center justify-between border-b-[1px] border-thead bg-tableHeader px-3 text-xs'
+          key={index}
+          className='border-y border-thead'
+          onClick={type === 'list' ? handleTrClick : undefined}
         >
-          {Object.entries(item).map(([key, value]) => {
-            return (
-              <th key={key} className='font-normal'>
-                {value}
-              </th>
-            );
-          })}
+          {headerData.map((header) => (
+            <td key={header} className='bg-primary p-3'>
+              {item[header] !== undefined ? item[header] : '-'}
+            </td>
+          ))}
         </tr>
       ))}
     </tbody>
