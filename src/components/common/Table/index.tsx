@@ -1,41 +1,31 @@
 'use client';
 
-import { useMemo } from 'react';
+import TableBody from '@/components/common/TableBody';
+import TableHeader from '@/components/common/TableHeader';
 
-type TableProps = {
-  data: Record<string, string | number>;
+export type TableRowData = {
+  [key: string]: string | number | undefined;
 };
 
-const Table = ({ data }: TableProps) => {
-  const headers = useMemo(() => Object.keys(data), [data]);
+export type TableType = 'table' | 'list';
+
+type TableProps = {
+  data: TableRowData[];
+  type?: TableType;
+};
+
+const Table = ({ data, type = 'table' }: TableProps) => {
+  const tableHeaders = Array.from(
+    new Set(data.flatMap((item) => Object.keys(item))),
+  );
 
   return (
     <div className='overflow-hidden rounded-md'>
       <table className='w-full border-collapse text-center'>
-        <thead>
-          <tr>
-            {headers.map((header) => (
-              <th
-                key={header}
-                className='border border-thead bg-thead p-3 font-semibold'
-              >
-                {header}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            {headers.map((header) => (
-              <td key={header} className='border border-x-thead bg-primary p-3'>
-                {data[header] ?? '-'}
-              </td>
-            ))}
-          </tr>
-        </tbody>
+        <TableHeader headerData={tableHeaders} />
+        <TableBody headerData={tableHeaders} bodyData={data} type={type} />
       </table>
     </div>
   );
 };
-
 export default Table;
