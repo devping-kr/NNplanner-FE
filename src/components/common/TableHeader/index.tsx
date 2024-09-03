@@ -9,7 +9,7 @@ const TableHeader = ({ headerData }: TableHeaderProps) => {
         {headerData.map((header) => (
           <th
             key={header}
-            className='border border-thead bg-thead p-3 font-semibold'
+            className='border-thead border bg-gray-100 p-3 font-semibold'
           >
             {header}
           </th>

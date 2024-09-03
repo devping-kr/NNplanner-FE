@@ -28,9 +28,9 @@ export const typographyVariants = cva(
         thin: 'font-thin',
       },
       color: {
-        primary: 'text-primary',
-        white: 'text-white',
-        label: 'text-label',
+        primary: 'text-white-100',
+        white: 'text-dark-200',
+        label: 'text-dark-100',
       },
     },
     defaultVariants: {

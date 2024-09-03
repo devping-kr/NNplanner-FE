@@ -27,7 +27,7 @@ export const Modal = ({
       {...modalProps}
     >
       <div
-        className='w-[90%] max-w-[400px] rounded-xl bg-primary p-5'
+        className='w-[90%] max-w-[400px] rounded-xl bg-white-100 p-5'
         ref={modalRef}
       >
         <div className='flex items-center justify-between'>

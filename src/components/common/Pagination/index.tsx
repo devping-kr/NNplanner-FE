@@ -33,8 +33,8 @@ const Pagination = ({ totalPosts, currentPage, pageSize, category }: Props) => {
             pathname: `${category}`,
             query: { page: `${i}` },
           }}
-          className={`mx-1 w-10 rounded-full p-2 text-center hover:bg-navAction hover:text-white ${
-            i === currentPage ? 'bg-navActionActive text-white' : ''
+          className={`mx-1 w-10 rounded-full p-2 text-center hover:bg-green-100 hover:text-dark-200 ${
+            i === currentPage ? 'bg-green-100 text-dark-200' : ''
           }`}
         >
           {i}
@@ -48,7 +48,7 @@ const Pagination = ({ totalPosts, currentPage, pageSize, category }: Props) => {
     <div className='flex items-center justify-center p-2'>
       {!(currentPage <= pageSize) && (
         <Link
-          className='m-2 flex justify-center rounded-full p-2 text-center hover:bg-navAction'
+          className='m-2 flex justify-center rounded-full p-2 text-center hover:bg-green-100'
           href={{
             pathname: `/${category}`,
             query: { page: `${prevPage}` },
@@ -60,7 +60,7 @@ const Pagination = ({ totalPosts, currentPage, pageSize, category }: Props) => {
       {generatePageLinks(currentPage)}
       {!(totalPages < ceilFive) && (
         <Link
-          className='m-2 flex justify-center rounded-full p-2 text-center hover:bg-navAction'
+          className='m-2 flex justify-center rounded-full p-2 text-center hover:bg-green-100'
           href={{
             pathname: `/${category}`,
             query: { page: `${nextPage}` },

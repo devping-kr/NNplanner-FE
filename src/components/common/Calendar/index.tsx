@@ -66,7 +66,7 @@ const Calendar = ({
         {SUN_TO_SAT.map((day) => (
           <div
             key={day}
-            className='text-center font-bold text-label'
+            className='text-center font-bold text-dark-100'
             aria-label={`${day}요일`}
           >
             {day}
