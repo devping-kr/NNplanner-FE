@@ -28,14 +28,15 @@ export const typographyVariants = cva(
         thin: 'font-thin',
       },
       color: {
-        primary: 'text-white-100',
-        white: 'text-dark-200',
-        label: 'text-dark-100',
+        white: 'text-white-100',
+        darken: 'text-dark-200',
+        dark: 'text-dark-100',
+        gray: 'text-gray-500',
       },
     },
     defaultVariants: {
       type: 'body3',
-      color: 'primary',
+      color: 'dark',
     },
   },
 );

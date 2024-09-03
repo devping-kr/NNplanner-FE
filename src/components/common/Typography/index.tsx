@@ -28,8 +28,13 @@ export const HeadPrimary = customTypography('h1', {
 });
 export const BodyPrimary = customTypography('p', {
   type: 'body1',
+  color: 'dark',
 });
 export const Label = customTypography('label', {
   type: 'caption1',
-  color: 'label',
+  color: 'darken',
+});
+export const BodyGray = customTypography('p', {
+  type: 'body3',
+  color: 'gray',
 });
