@@ -4,6 +4,7 @@ import ArrowPrev from './ArrowPrev';
 import Arrowup from './ArrowUp';
 import Edit from './Edit';
 import Search from './Search';
+import Warning from './Warning';
 import Xmark from './Xmark';
 
 export const iconMap = {
@@ -14,6 +15,7 @@ export const iconMap = {
   arrowDown: ArrowDown,
   arrowPrev: ArrowPrev,
   arrowNext: ArrowNext,
+  warning: Warning,
 };
 
 export const COLORS = {
