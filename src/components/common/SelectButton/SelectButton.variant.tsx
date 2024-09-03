@@ -1,7 +1,7 @@
 import { cva } from 'class-variance-authority';
 
 export const selectButtonVariants = cva(
-  'w-full border-[1px] border-input rounded-md bg-button text-left focus:border-buttonOutline focus:outline-none',
+  'w-full border-[1px] border-gray-300 rounded-md bg-white-200 text-left focus:border-green-700 focus:outline-none',
   {
     variants: {
       size: {

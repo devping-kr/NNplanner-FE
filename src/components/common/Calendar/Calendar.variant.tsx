@@ -1,7 +1,7 @@
 import { cva } from 'class-variance-authority';
 
 export const calendarDayVariants = cva(
-  'w-52 h-48 py-3 px-4 flex flex-col bg-primary text-left border-[1px] border-gray-200 hover:border-gray-400 active:border-gray-500',
+  'w-52 h-48 py-3 px-4 flex flex-col bg-white-100 text-left border-[1px] border-gray-200 hover:border-gray-400 active:border-gray-500',
   {
     variants: {
       isInvalid: {
@@ -9,7 +9,7 @@ export const calendarDayVariants = cva(
         false: '',
       },
       isActive: {
-        true: 'bg-thead',
+        true: 'bg-gray-100',
         false: '',
       },
       readonly: {

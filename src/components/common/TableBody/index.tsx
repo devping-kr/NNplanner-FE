@@ -14,11 +14,11 @@ const TableBody = ({ headerData, bodyData, type }: TableBodyProps) => {
       {bodyData.map((item, index) => (
         <tr
           key={index}
-          className='border-y border-thead'
+          className='border-thead border-y'
           onClick={type === 'list' ? handleTrClick : undefined}
         >
           {headerData.map((header) => (
-            <td key={header} className='bg-primary p-3'>
+            <td key={header} className='bg-white-100 p-3'>
               {item[header] !== undefined ? item[header] : '-'}
             </td>
           ))}

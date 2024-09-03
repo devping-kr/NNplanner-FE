@@ -8,8 +8,8 @@ export const inputContainerVariants = cva(
         empty: 'border-none bg-inherit shadow-none',
       },
       bgcolor: {
-        form: 'bg-tableHeader',
-        search: 'bg-select',
+        form: 'bg-white-200',
+        search: 'bg-white-200',
       },
       borderRadius: {
         basic: 'rounded-md',
@@ -20,8 +20,8 @@ export const inputContainerVariants = cva(
         large: 'h-md',
       },
       isFocused: {
-        true: 'border-card',
-        false: 'border-input',
+        true: 'border-gray-400',
+        false: 'border-gray-300',
       },
       disabled: {
         true: 'cursor-not-allowed opacity-50',

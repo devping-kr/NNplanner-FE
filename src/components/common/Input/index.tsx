@@ -86,7 +86,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         {includeButton && (
           <button
             onClick={onSubmit}
-            className='w-14 cursor-pointer items-center justify-center rounded bg-button'
+            className='w-14 cursor-pointer items-center justify-center rounded bg-white-200'
             disabled={disabled || !value}
           >
             검색

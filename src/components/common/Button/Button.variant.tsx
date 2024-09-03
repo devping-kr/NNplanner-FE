@@ -6,11 +6,11 @@ export const buttonVariants = cva(
     variants: {
       variant: {
         primary:
-          'bg-buttonPrimary text-primary hover:bg-buttonPrimaryHover active:bg-buttonPrimaryActive',
+          'bg-green-400 text-white-100 hover:bg-green-500 active:bg-green-600',
         secondary:
-          'bg-buttonSecondary text-label hover:bg-buttonSecondaryHover active:bg-buttonSecondaryActive',
+          'bg-gray-100 text-dark-100 hover:bg-gray-200 active:bg-gray-300',
         outline:
-          'text-buttonOutline border-[1px] border-solid border-buttonOutline hover:border-buttonOutlineHover hover:text-buttonOutlineHover active:border-buttonOutlineActive active:text-buttonOutlineActive',
+          'text-green-700 border-[1px] border-solid border-green-700 hover:border-green-800 hover:text-green-800 active:border-green-900 active:text-green-900',
       },
       size: {
         small: 'py-2 px-4 text-xs',

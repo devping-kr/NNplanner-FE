@@ -1,11 +1,5 @@
 import type { Config } from 'tailwindcss';
-
-const colors = {
-  buttonOutline: '#4880FF',
-  buttonOutlineHover: '#2D6CFC',
-  buttonOutlineActive: '#0F58FE',
-  thead: '#E5E7EB',
-};
+import { colors } from './src/styles/colors';
 
 const config: Config = {
   content: [
@@ -15,42 +9,7 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      backgroundColor: {
-        primary: '#F5F6FA',
-        active: '#4880FF',
-        tableHeader: '#F1F4F9',
-        button: '#FAFBFD',
-        select: '#F9F9FB',
-        apply: '#E2EAF8',
-        navAction: '#EEF2FF',
-        navActionActive: '#A9BCF5',
-        buttonPrimary: '#4379EE',
-        buttonPrimaryHover: '#2B64E0',
-        buttonPrimaryActive: '#195CEB',
-        buttonSecondary: '#E2EAF8',
-        buttonSecondaryHover: '#D7DFEC',
-        buttonSecondaryActive: '#CBD1DD',
-        thead: colors.thead,
-      },
-      textColor: {
-        primary: '#FDFDFD',
-        white: '#272727',
-        label: '#060606',
-        buttonOutline: colors.buttonOutline,
-        buttonOutlineHover: colors.buttonOutlineHover,
-        buttonOutlineActive: colors.buttonOutlineActive,
-        navAction: '#4F46E5',
-        navNoAction: '#64748B',
-      },
-      borderColor: {
-        calendar: '#3F3F3F',
-        input: '#D5D5D5',
-        card: '#B9B9B9',
-        buttonOutline: colors.buttonOutline,
-        buttonOutlineHover: colors.buttonOutlineHover,
-        buttonOutlineActive: colors.buttonOutlineActive,
-        thead: colors.thead,
-      },
+      colors,
       translate: {
         // transform: translate-Y(-50%)
         '-1/2': '-50%',
