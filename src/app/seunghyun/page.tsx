@@ -71,8 +71,13 @@ const page = () => {
       </div>
       <div>
         <Modal
-          title='제목입니다'
+          title='제목입니다다다다다다다다다다다다다다'
+          content='내용입니다다다다다다다다다다다다다다다다다다다다다다다다다다'
           isOpen={isOpen}
+          acceptText='Delete'
+          onAccept={() => console.log('done!')}
+          color='warning'
+          icon='warning'
           onClose={closeModal}
           modalRef={modalRef}
         >
