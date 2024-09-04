@@ -6,7 +6,7 @@ export const navMenuVariants = cva(
     variants: {
       isActive: {
         true: 'bg-green-100 text-green-800 ',
-        false: 'text-dark-100',
+        false: 'text-gray-600',
       },
     },
   },
