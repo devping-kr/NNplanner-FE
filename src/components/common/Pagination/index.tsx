@@ -1,74 +1,113 @@
-import Link from 'next/link';
-import Icon from '../Icon';
-import { CAL_PAGE_NUM } from '@/constants/_pagination';
+'use client';
+
+import { useState } from 'react';
+import { cn } from '@/utils/core';
 
 interface Props {
+  limit: number;
+  page: number;
+  setPage: React.Dispatch<React.SetStateAction<number>>;
   totalPosts: number;
-  currentPage: number;
-  pageSize: number;
-  category: string;
+  // setSelection: Dispatch<SetStateAction<Set<unknown>>>;
 }
 
-const Pagination = ({ totalPosts, currentPage, pageSize, category }: Props) => {
-  const totalPages = Math.ceil(totalPosts / pageSize);
+const Pagination = ({
+  limit,
+  page,
+  setPage,
+  totalPosts,
+  // setSelection,
+}: Props) => {
+  const [blockNum, setBlockNum] = useState(0);
+  const pageLimit = 5;
+  const blockArea = Number(blockNum * pageLimit);
+  const totalPages = Math.ceil(totalPosts / limit);
+  const createArr = Array(totalPages)
+    .fill(0)
+    .map((_, i) => (
+      <button
+        key={i + 1}
+        onClick={() => {
+          setPage(i + 1);
+          // setSelection(new Set());
+        }}
+        aria-current={page === i + 1 ? 'page' : undefined}
+        className={cn(
+          'flex h-7 w-7 cursor-pointer items-center justify-center rounded-[4px] bg-green-200 text-center text-white-100',
+          page === i + 1 ? 'bg-green-400' : '',
+        )}
+      >
+        {i + 1}
+      </button>
+    ));
 
-  const floorFive = pageSize * Math.floor(currentPage / pageSize);
-  const ceilFive = pageSize * Math.ceil(currentPage / pageSize);
+  const sliceArr = createArr.slice(blockArea, Number(pageLimit) + blockArea);
 
-  const prevPage = floorFive - CAL_PAGE_NUM.FIRST_PAGE;
-  const nextPage = ceilFive + CAL_PAGE_NUM.LAST_PAGE;
+  const firstPage = () => {
+    setPage(1);
+    setBlockNum(0);
+    // setSelection(new Set());
+  };
 
-  const startPage = ceilFive - CAL_PAGE_NUM.FIRST_PAGE;
+  const lastPage = () => {
+    setPage(totalPages);
+    setBlockNum(Math.ceil(totalPages / pageLimit) - 1);
+    // setSelection(new Set());
+  };
 
-  const generatePageLinks = (currentPage: number) => {
-    const links = [];
-
-    const lastPage =
-      totalPages >= ceilFive ? startPage + CAL_PAGE_NUM.FIRST_PAGE : totalPages;
-    for (let i = startPage; i <= lastPage; i++) {
-      links.push(
-        <Link
-          key={i}
-          href={{
-            pathname: `${category}`,
-            query: { page: `${i}` },
-          }}
-          className={`mx-1 w-10 rounded-full p-2 text-center hover:bg-green-100 hover:text-dark-200 ${
-            i === currentPage ? 'bg-green-100 text-dark-200' : ''
-          }`}
-        >
-          {i}
-        </Link>,
-      );
+  const prevBtnHandler = () => {
+    if (page <= 1) {
+      return;
     }
-    return links;
+    if (page - 1 <= pageLimit * blockNum) {
+      setBlockNum((num) => num - 1);
+      // setSelection(new Set());
+    }
+    setPage((num) => num - 1);
+  };
+
+  const nextBtnHandler = () => {
+    if (page >= totalPages) {
+      return;
+    }
+    if (pageLimit * Number(blockNum + 1) < Number(page + 1)) {
+      setBlockNum((num) => num + 1);
+      // setSelection(new Set());
+    }
+    setPage((num) => num + 1);
   };
 
   return (
-    <div className='flex items-center justify-center p-2'>
-      {!(currentPage <= pageSize) && (
-        <Link
-          className='m-2 flex justify-center rounded-full p-2 text-center hover:bg-green-100'
-          href={{
-            pathname: `/${category}`,
-            query: { page: `${prevPage}` },
-          }}
-        >
-          <Icon name='arrowPrev' width={15} height={15} />
-        </Link>
-      )}
-      {generatePageLinks(currentPage)}
-      {!(totalPages < ceilFive) && (
-        <Link
-          className='m-2 flex justify-center rounded-full p-2 text-center hover:bg-green-100'
-          href={{
-            pathname: `/${category}`,
-            query: { page: `${nextPage}` },
-          }}
-        >
-          <Icon name='arrowNext' width={15} height={15} />
-        </Link>
-      )}
+    <div className='flex w-full items-center justify-center gap-2'>
+      <button
+        onClick={firstPage}
+        disabled={blockNum === 0}
+        className='flex h-7 w-7 cursor-pointer items-center justify-center rounded-[4px] bg-green-200 text-center text-white-100 hover:bg-green-300 disabled:cursor-default disabled:hover:bg-green-200'
+      >
+        <span className=''>&lt;&lt;</span>
+      </button>
+      <button
+        onClick={prevBtnHandler}
+        disabled={page === 1}
+        className='flex h-7 w-7 cursor-pointer items-center justify-center rounded-[4px] bg-green-200 text-center text-white-100 hover:bg-green-300 disabled:cursor-default disabled:hover:bg-green-200'
+      >
+        &lt;
+      </button>
+      {sliceArr}
+      <button
+        onClick={nextBtnHandler}
+        disabled={page === totalPages}
+        className='flex h-7 w-7 cursor-pointer items-center justify-center rounded-[4px] bg-green-200 text-center text-white-100 hover:bg-green-300 disabled:cursor-default disabled:hover:bg-green-200'
+      >
+        &gt;
+      </button>
+      <button
+        onClick={lastPage}
+        disabled={blockArea >= totalPages - 5}
+        className='flex h-7 w-7 cursor-pointer items-center justify-center rounded-[4px] bg-green-200 text-center text-white-100 hover:bg-green-300 disabled:cursor-default disabled:hover:bg-green-200'
+      >
+        &gt;&gt;
+      </button>
     </div>
   );
 };
