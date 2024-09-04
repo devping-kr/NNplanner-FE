@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+/* app/styles/globals.css */
+@import url('https://cdn.jsdelivr.net/npm/pretendard@latest/dist/web/static/pretendard.css');
+
+body {
+  font-family: 'Pretendard', sans-serif;
+}
+
 @layer utilities {
   .custom-scrollbar::-webkit-scrollbar {
     width: 20px; /* 스크롤바 너비 */
@@ -12,8 +19,8 @@
   }
 
   .custom-scrollbar::-webkit-scrollbar-thumb {
-    background-color: theme('borderColor.input'); /* 손잡이 색상 */
+    background-color: #aaaaaa; /* 손잡이 색상 gray400 */
     border-radius: 20px;
-    border: 6px solid theme('backgroundColor.white'); /* 트랙과의 구분을 위한 여백 */
+    border: 6px solid #fcfbfa; /* 트랙과의 구분을 위한 여백 white100*/
   }
 }
