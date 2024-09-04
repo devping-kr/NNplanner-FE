@@ -94,7 +94,7 @@ export const COLORS = {
 };
 
 export type IconType = keyof typeof iconMap;
-export type IconColorKey = keyof typeof COLORS;
+export type IconColor = keyof typeof COLORS;
 
 type ColorGroup = keyof typeof COLOR_CLASSNAMES;
 type ColorShade = keyof (typeof COLOR_CLASSNAMES)[ColorGroup];
