@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { cn } from '@/utils/core';
+import Button from '../Button/Button';
 
 interface Props {
   limit: number;
@@ -25,20 +26,18 @@ const Pagination = ({
   const createArr = Array(totalPages)
     .fill(0)
     .map((_, i) => (
-      <button
+      <Button
         key={i + 1}
-        onClick={() => {
-          setPage(i + 1);
-          // setSelection(new Set());
-        }}
+        onClick={() => setPage(i + 1)}
         aria-current={page === i + 1 ? 'page' : undefined}
+        variant={'pagination'}
         className={cn(
-          'flex h-7 w-7 cursor-pointer items-center justify-center rounded-[4px] bg-green-200 text-center text-white-100',
-          page === i + 1 ? 'bg-green-400' : '',
+          '',
+          page === i + 1 ? 'bg-green-400 hover:bg-green-400' : '',
         )}
       >
         {i + 1}
-      </button>
+      </Button>
     ));
 
   const sliceArr = createArr.slice(blockArea, Number(pageLimit) + blockArea);
@@ -79,35 +78,35 @@ const Pagination = ({
 
   return (
     <div className='flex w-full items-center justify-center gap-2'>
-      <button
+      <Button
         onClick={firstPage}
         disabled={blockNum === 0}
-        className='flex h-7 w-7 cursor-pointer items-center justify-center rounded-[4px] bg-green-200 text-center text-white-100 hover:bg-green-300 disabled:cursor-default disabled:hover:bg-green-200'
+        variant={'pagination'}
       >
-        <span className=''>&lt;&lt;</span>
-      </button>
-      <button
+        <span className='pb-[2px]'>&lt;&lt;</span>
+      </Button>
+      <Button
         onClick={prevBtnHandler}
         disabled={page === 1}
-        className='flex h-7 w-7 cursor-pointer items-center justify-center rounded-[4px] bg-green-200 text-center text-white-100 hover:bg-green-300 disabled:cursor-default disabled:hover:bg-green-200'
+        variant={'pagination'}
       >
-        &lt;
-      </button>
+        <span className='pb-[2px]'>&lt;</span>
+      </Button>
       {sliceArr}
-      <button
+      <Button
         onClick={nextBtnHandler}
         disabled={page === totalPages}
-        className='flex h-7 w-7 cursor-pointer items-center justify-center rounded-[4px] bg-green-200 text-center text-white-100 hover:bg-green-300 disabled:cursor-default disabled:hover:bg-green-200'
+        variant={'pagination'}
       >
-        &gt;
-      </button>
-      <button
+        <span className='pb-[2px]'>&gt;</span>
+      </Button>
+      <Button
         onClick={lastPage}
         disabled={blockArea >= totalPages - 5}
-        className='flex h-7 w-7 cursor-pointer items-center justify-center rounded-[4px] bg-green-200 text-center text-white-100 hover:bg-green-300 disabled:cursor-default disabled:hover:bg-green-200'
+        variant={'pagination'}
       >
-        &gt;&gt;
-      </button>
+        <span className='pb-[2px]'>&gt;&gt;</span>
+      </Button>
     </div>
   );
 };
