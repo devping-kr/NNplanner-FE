@@ -7,15 +7,14 @@ import Divider from '@/components/common/Divider';
 import Icon from '@/components/common/Icon';
 import NavMenu from '@/components/common/NavMenu';
 import NavProfile from '@/components/common/NavProfile';
+import { NAV_LINKS } from '@/constants/_navbar';
 
 const Navbar = () => {
   const pathname = usePathname();
 
-  const isDashboardActive = pathname === '/dashboard';
-  const isAutoPlanActive = pathname === '/autoPlan ';
-  const isManualPlanActive = pathname === '/manualPlan ';
-  const isViewPlanActive = pathname === '/viewPlan';
-  const isResearchViewActive = pathname === '/researchView';
+  const defualtTab = NAV_LINKS[0].name;
+  const selecedTab =
+    NAV_LINKS.find((nav) => nav.href === pathname)?.name ?? defualtTab;
 
   return (
     <nav className='fixed left-0 top-0 z-50 flex h-screen w-60 flex-col place-content-between bg-white-100'>
@@ -30,26 +29,12 @@ const Navbar = () => {
         </Link>
         <div className='flex h-full flex-col'>
           <div className='flex flex-col gap-2'>
-            <NavMenu href='#' isActive={isDashboardActive}>
-              <Icon name='dashboard' className='hover:stroke-green-800' />홈
-              대시보드
-            </NavMenu>
-            <NavMenu href='#' isActive={isAutoPlanActive}>
-              <Icon name='auto' className='hover:stroke-green-800' />
-              자동 식단 작성
-            </NavMenu>
-            <NavMenu href='#' isActive={isManualPlanActive}>
-              <Icon name='calendar' className='hover:stroke-green-800' />
-              수동 식단 작성
-            </NavMenu>
-            <NavMenu href='#' isActive={isViewPlanActive}>
-              <Icon name='search' className='hover:stroke-green-800' />
-              식단 조회
-            </NavMenu>
-            <NavMenu href='#' isActive={isResearchViewActive}>
-              <Icon name='chart' className='hover:stroke-green-800' />
-              설문 결과 조회
-            </NavMenu>
+            {NAV_LINKS.map(({ name, href, icon }) => (
+              <NavMenu key={name} href={href} isActive={selecedTab === name}>
+                <Icon name={icon} className='hover:stroke-green-800' />
+                <span>{name}</span>
+              </NavMenu>
+            ))}
           </div>
         </div>
       </div>
