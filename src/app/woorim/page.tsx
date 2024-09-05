@@ -4,6 +4,7 @@ import Badge from '@/components/common/Badge';
 import Button from '@/components/common/Button/Button';
 import Calendar from '@/components/common/Calendar';
 import Icon from '@/components/common/Icon';
+import Navbar from '@/components/common/Navbar';
 import { Option, Selectbox } from '@/components/common/Selectbox';
 import Table from '@/components/common/Table';
 
@@ -120,7 +121,8 @@ const page = () => {
     { value: 'quince', label: 'Quince' },
   ];
   return (
-    <div className='flex h-full w-full flex-col gap-4 p-4'>
+    <div className='flex h-full w-full flex-col gap-4 bg-blue-200'>
+      <Navbar />
       <Calendar
         year={2024}
         month={9}

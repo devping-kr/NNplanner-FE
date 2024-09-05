@@ -3,17 +3,17 @@ import { cn } from '@/utils/core';
 import { navMenuVariants } from './NavMenu.variant';
 
 interface NavMenuProps extends Omit<LinkProps, 'href'> {
-  isActive: boolean;
-  className?: string;
   href: string;
   children: React.ReactNode;
+  isActive?: boolean;
+  className?: string;
 }
 
 const NavMenu = ({
-  isActive,
   href,
-  className = '',
   children,
+  isActive = false,
+  className,
   ...props
 }: NavMenuProps) => {
   return (
