@@ -1,9 +1,9 @@
 import { SVGProps } from 'react';
 
 const Search = ({
-  width = 20,
-  height = 20,
-  color = '#000',
+  width,
+  height,
+  color,
   ...props
 }: SVGProps<SVGSVGElement>) => {
   return (
@@ -15,10 +15,19 @@ const Search = ({
       xmlns='http://www.w3.org/2000/svg'
       {...props}
     >
-      <path
-        d='M15.7955 15.8111L21 21M18 10.5C18 14.6421 14.6421 18 10.5 18C6.35786 18 3 14.6421 3 10.5C3 6.35786 6.35786 3 10.5 3C14.6421 3 18 6.35786 18 10.5Z'
+      <circle
+        cx='11.7666'
+        cy='11.7666'
+        r='8.98856'
         stroke={color}
-        strokeWidth='2'
+        strokeWidth='1.5'
+        strokeLinecap='round'
+        strokeLinejoin='round'
+      />
+      <path
+        d='M18.0183 18.4852L21.5423 22.0001'
+        stroke={color}
+        strokeWidth='1.5'
         strokeLinecap='round'
         strokeLinejoin='round'
       />
