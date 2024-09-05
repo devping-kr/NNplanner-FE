@@ -1,13 +1,15 @@
 import axios, { AxiosResponse } from 'axios';
 import { env } from './env';
 
+const TIME_OUT = 1000 * 10;
+
 const instance = axios.create({
   baseURL: env.BASE_API_URL,
   headers: {
     'Content-Type': 'application/json;charset=UTF-8',
   },
   withCredentials: true,
-  timeout: 10000,
+  timeout: TIME_OUT,
 });
 
 instance.interceptors.request.use(
