@@ -11,6 +11,7 @@ export const buttonVariants = cva(
           'bg-gray-100 text-dark-100 hover:bg-gray-200 active:bg-gray-300',
         outline:
           'text-green-700 border-[1px] border-solid border-green-700 hover:border-green-800 hover:text-green-800 active:border-green-900 active:text-green-900',
+        pagination: '',
       },
       size: {
         small: 'py-2 px-4 text-xs',
@@ -27,5 +28,12 @@ export const buttonVariants = cva(
       size: 'basic',
       width: 'full',
     },
+    compoundVariants: [
+      {
+        variant: 'pagination',
+        className:
+          'flex w-7 h-7 p-0 cursor-pointer items-center justify-center rounded bg-green-200 text-center text-white-100 hover:bg-green-300 disabled:cursor-default disabled:hover:bg-green-200 active:bg-green-400',
+      },
+    ],
   },
 );

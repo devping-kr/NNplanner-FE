@@ -22,6 +22,10 @@ const page = () => {
   const tabList = ['최신순', '오래된순'];
   const [selectedTab, setSelectedTab] = useState('최신순'); // eslint-disable-line react-hooks/rules-of-hooks
   const { isOpen, modalRef, openModal, closeModal } = useModal(); // eslint-disable-line react-hooks/rules-of-hooks
+  const limit = 4;
+  const [page, setPage] = useState(1); // eslint-disable-line react-hooks/rules-of-hooks
+  // const [selection, setSelection] = useState(new Set()); // eslint-disable-line react-hooks/rules-of-hooks
+
   return (
     <div className='flex flex-col gap-3'>
       <BodyPrimary>바디 Primary색상임다</BodyPrimary>
@@ -87,10 +91,11 @@ const page = () => {
       </div>
       <div>
         <Pagination
-          totalPosts={40}
-          currentPage={1}
-          pageSize={5}
-          category='meals'
+          limit={limit}
+          page={page}
+          setPage={setPage}
+          totalPosts={26}
+          // setSelection={setSelection}
         />
       </div>
     </div>
