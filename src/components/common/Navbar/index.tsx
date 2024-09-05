@@ -41,7 +41,10 @@ const Navbar = () => {
       <div>
         <Divider />
         <button className='flex h-[90px] w-full items-center gap-3 px-10 py-6 text-sm'>
-          <Icon name='logout' className='fill-gray-600 hover:fill-green-800' />
+          <Icon
+            name='logout'
+            className='stroke-gray-600 hover:stroke-green-800'
+          />
           <span>로그아웃</span>
         </button>
         <Divider />
