@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Button from '@/components/common/Button/Button';
 import ControlTab from '@/components/common/ControlTab';
+import DatePicker from '@/components/common/DatePicker/DatePicker';
 import Icon from '@/components/common/Icon';
 import { Input } from '@/components/common/Input';
 import { Modal } from '@/components/common/Modal';
@@ -25,9 +26,15 @@ const page = () => {
   const limit = 4;
   const [page, setPage] = useState(1); // eslint-disable-line react-hooks/rules-of-hooks
   // const [selection, setSelection] = useState(new Set()); // eslint-disable-line react-hooks/rules-of-hooks
+  const [selectedYear, setSelectedYear] = useState<string>( // eslint-disable-line react-hooks/rules-of-hooks
+    new Date().getFullYear().toString(),
+  );
+  const [selectedMonth, setSelectedMonth] = useState<string>( // eslint-disable-line react-hooks/rules-of-hooks
+    (new Date().getMonth() + 1).toString(),
+  );
 
   return (
-    <div className='flex flex-col gap-3'>
+    <div className='mb-60 flex flex-col gap-3'>
       <BodyPrimary>바디 Primary색상임다</BodyPrimary>
       <HeadPrimary>헤더 Primary색상임다</HeadPrimary>
       <Label>라벨임다</Label>
@@ -96,6 +103,14 @@ const page = () => {
           setPage={setPage}
           totalPosts={26}
           // setSelection={setSelection}
+        />
+      </div>
+      <div>
+        <DatePicker
+          selectedYear={selectedYear}
+          selectedMonth={selectedMonth}
+          onYearChange={setSelectedYear}
+          onMonthChange={setSelectedMonth}
         />
       </div>
     </div>
