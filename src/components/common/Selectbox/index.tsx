@@ -4,12 +4,8 @@ import { useState, useRef, useEffect, useCallback } from 'react';
 import { type VariantProps } from 'class-variance-authority';
 import { cn } from '@/utils/core';
 import Dropdown from '@/components/common/Dropdown';
-import Icon from '@/components/common/Icon';
 import OptionList from '@/components/common/OptionList';
-import {
-  selectboxVariants,
-  selectIconVariants,
-} from '@/components/common/Selectbox/Selectbox.variant';
+import { selectboxVariants } from '@/components/common/Selectbox/Selectbox.variant';
 import SelectButton from '@/components/common/SelectButton';
 
 export type Option = {
@@ -66,14 +62,6 @@ export const Selectbox = ({
   const chosenOption =
     options.find((option) => option.value === selectedOption)?.label ?? null;
 
-  const ICON_SIZE: Record<Size, number> = {
-    small: 16,
-    basic: 16,
-    large: 20,
-  };
-
-  const iconSize = ICON_SIZE[size];
-
   return (
     <div className={cn('relative h-fit', className)} ref={selectboxRef}>
       <div className={selectboxVariants({ isOpen })}>
@@ -92,12 +80,6 @@ export const Selectbox = ({
           />
         </Dropdown>
       </div>
-      <Icon
-        className={selectIconVariants({ size })}
-        name={isOpen ? 'arrowUp' : 'arrowDown'}
-        width={iconSize}
-        height={iconSize}
-      />
     </div>
   );
 };
