@@ -1,17 +1,20 @@
+import ArrowDown from '@/components/common/Icon/assets/ArrowDown';
+import ArrowNext from '@/components/common/Icon/assets/ArrowNext';
+import ArrowPrev from '@/components/common/Icon/assets/ArrowPrev';
+import Arrowup from '@/components/common/Icon/assets/ArrowUp';
+import Auto from '@/components/common/Icon/assets/Auto';
 import Calendar from '@/components/common/Icon/assets/Calendar';
 import Chart from '@/components/common/Icon/assets/Chart';
+import Danger from '@/components/common/Icon/assets/Danger';
+import Dashboard from '@/components/common/Icon/assets/Dashboard';
+import Edit from '@/components/common/Icon/assets/Edit';
+import Normal from '@/components/common/Icon/assets/Info';
 import Logout from '@/components/common/Icon/assets/Logout';
+import Search from '@/components/common/Icon/assets/Search';
+import Success from '@/components/common/Icon/assets/Success';
+import Warning from '@/components/common/Icon/assets/Warning';
+import Xmark from '@/components/common/Icon/assets/Xmark';
 import { colors } from '@/styles/colors';
-import ArrowDown from './ArrowDown';
-import ArrowNext from './ArrowNext';
-import ArrowPrev from './ArrowPrev';
-import Arrowup from './ArrowUp';
-import Auto from './Auto';
-import Dashboard from './Dashboard';
-import Edit from './Edit';
-import Search from './Search';
-import Warning from './Warning';
-import Xmark from './Xmark';
 
 type IconMapEntry = {
   type: 'fill' | 'stroke';
@@ -49,6 +52,18 @@ export const iconMap: Record<string, IconMapEntry> = {
   warning: {
     type: 'stroke',
     file: Warning,
+  },
+  success: {
+    type: 'stroke',
+    file: Success,
+  },
+  normal: {
+    type: 'stroke',
+    file: Normal,
+  },
+  dander: {
+    type: 'stroke',
+    file: Danger,
   },
 };
 
@@ -91,6 +106,8 @@ export const COLORS = {
   warning: colors.red[100],
   white: colors.white[100],
   black: colors.dark[100],
+  normal: colors.gray[500],
+  success: colors.blue[200],
 };
 
 export type IconType = keyof typeof iconMap;
