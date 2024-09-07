@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Button from '@/components/common/Button/Button';
 import ControlTab from '@/components/common/ControlTab';
-import DatePicker from '@/components/common/DatePicker/DatePicker';
+import DatePicker from '@/components/common/DatePicker';
 import Icon from '@/components/common/Icon';
 import { Input } from '@/components/common/Input';
 import { Modal } from '@/components/common/Modal';

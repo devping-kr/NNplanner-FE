@@ -1,6 +1,5 @@
 'use client';
-
-import { Selectbox } from '../Selectbox';
+import { Selectbox } from '@/components/common/Selectbox';
 
 interface Props {
   selectedYear: string;
@@ -15,13 +14,15 @@ const DatePicker = ({
   onYearChange,
   onMonthChange,
 }: Props) => {
+  const totalYearsOption = 15;
+  const totalMonthsOption = 12;
   const currentYear = new Date().getFullYear();
 
-  const years = Array.from({ length: 15 }, (_, i) => ({
+  const years = Array.from({ length: totalYearsOption }, (_, i) => ({
     value: (currentYear - i).toString(),
     label: (currentYear - i).toString(),
   }));
-  const months = Array.from({ length: 12 }, (_, i) => ({
+  const months = Array.from({ length: totalMonthsOption }, (_, i) => ({
     value: (i + 1).toString(),
     label: (i + 1).toString(),
   }));

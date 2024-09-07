@@ -1,6 +1,7 @@
 import { VariantProps } from 'class-variance-authority';
-import Icon from '../Icon';
+
 import { selectIconVariants } from '../Selectbox/Selectbox.variant';
+import Icon from '@/components/common/Icon';
 import { Size } from '@/components/common/Selectbox';
 import { selectButtonVariants } from '@/components/common/SelectButton/SelectButton.variant';
 
