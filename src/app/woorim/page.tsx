@@ -4,9 +4,10 @@ import Badge from '@/components/common/Badge';
 import Button from '@/components/common/Button/Button';
 import Calendar from '@/components/common/Calendar';
 import Icon from '@/components/common/Icon';
-import Navbar from '@/components/common/Navbar';
+// import Navbar from '@/components/common/Navbar';
 import { Option, Selectbox } from '@/components/common/Selectbox';
 import Table from '@/components/common/Table';
+import { useToastStore } from '@/stores/useToastStore';
 
 // 테이블 예시 데이터
 const tableData2 = [
@@ -103,6 +104,7 @@ const page = () => {
       { id: '6', content: '무말랭이' },
     ],
   };
+
   const options: Option[] = [
     { value: 'apple', label: 'Apple' },
     { value: 'banana', label: 'Banana' },
@@ -120,9 +122,30 @@ const page = () => {
     { value: 'papaya', label: 'Papaya' },
     { value: 'quince', label: 'Quince' },
   ];
+
+  const showToast = useToastStore((state) => state.showToast); // eslint-disable-line react-hooks/rules-of-hooks
+
+  const handleSuccess = () => {
+    showToast('Operation successful!', 'success', 3000);
+  };
+
+  const handleFailure = () => {
+    showToast('Operation failed!', 'warning', 3000);
+  };
+
+  const handleNormal = () => {
+    showToast('This is a normal message', 'normal');
+  };
+
   return (
     <div className='flex h-full w-full flex-col gap-4 bg-blue-200'>
-      <Navbar />
+      <div className='bg-gray-100'>
+        <button onClick={handleNormal}>Show Normal Toast</button>
+        <button onClick={handleSuccess}>Show Success Toast</button>
+        <button onClick={handleFailure}>Show warning Toast</button>
+      </div>
+
+      {/* <Navbar /> */}
       <Calendar
         year={2024}
         month={9}
