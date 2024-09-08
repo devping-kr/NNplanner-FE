@@ -8,6 +8,7 @@ import { useForm } from 'react-hook-form';
 import { loginSchema } from '@/schema/authSchema';
 import Button from '@/components/common/Button/Button';
 import { Input } from '@/components/common/Input';
+import Logo from '@/components/common/Logo';
 import {
   AuthTitle,
   BodyGray,
@@ -55,55 +56,48 @@ const Login = () => {
           />
         </div>
       </section>
-      <div className='w- h-full bg-gradient-to-b from-green-100 to-transparent'></div>
+      <div className='h-full bg-gradient-to-b from-green-100 to-transparent'></div>
       <section className='flex h-screen w-1/2 flex-col items-center justify-center gap-10'>
-        <Link href='#'>
-          <Image
-            src={'/imgs/navbar-logo.png'}
-            alt='로고이미지'
-            width={180}
-            height={42}
-          />
-        </Link>
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className='flex w-full flex-col gap-5 px-6'
-        >
-          <div>
-            <Input
-              type='text'
-              placeholder='이메일을 입력해주세요'
-              height='large'
-              className='text-green-500 placeholder:text-green-400'
-              {...register('email')}
-            />
-            {errors.email && (
-              <span className='text-red-300'>{errors.email.message}</span>
-            )}
-          </div>
-          <div>
-            <Input
-              type={isShowPassword ? 'text' : 'password'}
-              placeholder='비밀번호를 입력해주세요'
-              height='large'
-              className='text-green-500 placeholder:text-green-400'
-              isRightIcon={true}
-              rightIcon={isShowPassword ? 'show' : 'hide'}
-              rightIconAction={() => setIsShowPassword(!isShowPassword)}
-              {...register('password')}
-            />
-            {errors.password && (
-              <span className='text-red-300'>{errors.password.message}</span>
-            )}
-          </div>
-          <div className='flex flex-col gap-2'>
-            <Button type='submit' size='basic' className='shadow-lg'>
-              로그인
-            </Button>
-            <Button type='submit' size='basic' className='shadow-lg'>
-              구글 로그인
-            </Button>
-          </div>
+        <Logo width={180} height={42} href='#' />
+        <form onSubmit={handleSubmit(onSubmit)} className='w-full'>
+          <fieldset className='flex w-full flex-col gap-5 px-6'>
+            <legend className='sr-only'>로그인 인증</legend>
+            <div>
+              <Input
+                type='text'
+                placeholder='이메일을 입력해주세요'
+                height='large'
+                className='text-green-500 placeholder:text-green-400'
+                {...register('email')}
+              />
+              {errors.email && (
+                <span className='text-red-300'>{errors.email.message}</span>
+              )}
+            </div>
+            <div>
+              <Input
+                type={isShowPassword ? 'text' : 'password'}
+                placeholder='비밀번호를 입력해주세요'
+                height='large'
+                className='text-green-500 placeholder:text-green-400'
+                isRightIcon={true}
+                rightIcon={isShowPassword ? 'show' : 'hide'}
+                rightIconAction={() => setIsShowPassword(!isShowPassword)}
+                {...register('password')}
+              />
+              {errors.password && (
+                <span className='text-red-300'>{errors.password.message}</span>
+              )}
+            </div>
+            <div className='flex w-full flex-col gap-2'>
+              <Button type='submit' size='basic' className='shadow-lg'>
+                로그인
+              </Button>
+              <Button type='submit' size='basic' className='shadow-lg'>
+                구글 로그인
+              </Button>
+            </div>
+          </fieldset>
         </form>
       </section>
     </main>
