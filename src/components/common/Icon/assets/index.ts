@@ -1,6 +1,8 @@
 import Calendar from '@/components/common/Icon/assets/Calendar';
 import Chart from '@/components/common/Icon/assets/Chart';
+import Hide from '@/components/common/Icon/assets/Hide';
 import Logout from '@/components/common/Icon/assets/Logout';
+import Show from '@/components/common/Icon/assets/Show';
 import { colors } from '@/styles/colors';
 import ArrowDown from './ArrowDown';
 import ArrowNext from './ArrowNext';
@@ -49,6 +51,14 @@ export const iconMap: Record<string, IconMapEntry> = {
   warning: {
     type: 'stroke',
     file: Warning,
+  },
+  show: {
+    type: 'stroke',
+    file: Show,
+  },
+  hide: {
+    type: 'stroke',
+    file: Hide,
   },
 };
 
