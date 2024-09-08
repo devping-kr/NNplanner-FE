@@ -38,3 +38,7 @@ export const BodyGray = customTypography('p', {
   type: 'body3',
   color: 'gray',
 });
+export const AuthTitle = customTypography('h1', {
+  type: 'authTitle',
+  weight: 'bold',
+});

@@ -8,7 +8,7 @@ export const inputContainerVariants = cva(
         empty: 'border-none bg-inherit shadow-none',
       },
       bgcolor: {
-        form: 'bg-white-200',
+        form: 'bg-green-100',
         search: 'bg-white-200',
       },
       borderRadius: {
@@ -17,11 +17,11 @@ export const inputContainerVariants = cva(
       },
       height: {
         basic: 'h-[36px]',
-        large: 'h-md',
+        large: 'h-[62px]',
       },
       isFocused: {
-        true: 'border-gray-400',
-        false: 'border-gray-300',
+        true: 'border-green-600',
+        false: 'border-green-400',
       },
       disabled: {
         true: 'cursor-not-allowed opacity-50',

@@ -14,16 +14,20 @@ import { inputContainerVariants, inputVariants } from './Input.variant';
 export type InputIconProps =
   | {
       isLeftIcon?: boolean;
+      isRightIcon?: boolean;
+      rightIcon?: string;
     }
   | {
       isLeftIcon?: never;
+      isRightIcon?: never;
+      rightIcon?: string;
     };
 
 export type InputProps = ComponentPropsWithoutRef<'input'> &
   VariantProps<typeof inputVariants> &
   VariantProps<typeof inputContainerVariants> &
   InputIconProps & {
-    onClear?: VoidFunction;
+    rightIconAction?: VoidFunction;
     includeButton?: boolean;
     onSubmit?: VoidFunction;
   };
@@ -35,11 +39,13 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       borderRadius,
       className,
       bgcolor,
-      isLeftIcon,
+      isLeftIcon = false,
+      isRightIcon = false,
+      rightIcon = '',
       includeButton = false,
       value,
       disabled,
-      onClear = () => {},
+      rightIconAction = () => {},
       onSubmit = () => {},
       height,
       ...props
@@ -72,10 +78,10 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             onBlur={handleBlur}
             {...props}
           />
-          {value && (
-            <button onClick={onClear}>
+          {isRightIcon && rightIcon && (
+            <button onClick={rightIconAction} type='button'>
               <Icon
-                name='xmark'
+                name={rightIcon}
                 width={20}
                 height={20}
                 className='cursor-pointer'
