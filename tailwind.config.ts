@@ -14,6 +14,15 @@ const config: Config = {
         // transform: translate-Y(-50%)
         '-1/2': '-50%',
       },
+      animation: {
+        shrink: 'shrink 3s linear forwards',
+      },
+      keyframes: {
+        shrink: {
+          '0%': { width: '100%' },
+          '100%': { width: '0%' },
+        },
+      },
     },
   },
   plugins: [],
