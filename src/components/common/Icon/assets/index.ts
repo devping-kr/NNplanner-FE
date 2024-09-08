@@ -5,15 +5,14 @@ import Arrowup from '@/components/common/Icon/assets/ArrowUp';
 import Auto from '@/components/common/Icon/assets/Auto';
 import Calendar from '@/components/common/Icon/assets/Calendar';
 import Chart from '@/components/common/Icon/assets/Chart';
-import Hide from '@/components/common/Icon/assets/Hide';
-import Logout from '@/components/common/Icon/assets/Logout';
-import Show from '@/components/common/Icon/assets/Show';
 import Danger from '@/components/common/Icon/assets/Danger';
 import Dashboard from '@/components/common/Icon/assets/Dashboard';
 import Edit from '@/components/common/Icon/assets/Edit';
+import Hide from '@/components/common/Icon/assets/Hide';
 import Normal from '@/components/common/Icon/assets/Info';
 import Logout from '@/components/common/Icon/assets/Logout';
 import Search from '@/components/common/Icon/assets/Search';
+import Show from '@/components/common/Icon/assets/Show';
 import Success from '@/components/common/Icon/assets/Success';
 import Warning from '@/components/common/Icon/assets/Warning';
 import Xmark from '@/components/common/Icon/assets/Xmark';
@@ -63,6 +62,7 @@ export const iconMap: Record<string, IconMapEntry> = {
   hide: {
     type: 'stroke',
     file: Hide,
+  },
   success: {
     type: 'stroke',
     file: Success,
