@@ -97,10 +97,10 @@ const Login = () => {
             )}
           </div>
           <div className='flex flex-col gap-2'>
-            <Button type='submit' size='basic'>
+            <Button type='submit' size='basic' className='shadow-lg'>
               로그인
             </Button>
-            <Button type='submit' size='basic'>
+            <Button type='submit' size='basic' className='shadow-lg'>
               구글 로그인
             </Button>
           </div>
