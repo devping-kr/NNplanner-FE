@@ -1,10 +1,13 @@
 'use client';
 
 import { useEffect } from 'react';
+import { VariantProps } from 'class-variance-authority';
 import Icon from '@/components/common/Icon';
 import { progressVariants } from '@/components/common/Toast/Toast.variant';
 
-export type ToastVariant = 'normal' | 'success' | 'warning';
+export type ToastVariant = NonNullable<
+  VariantProps<typeof progressVariants>['variant']
+>;
 
 type ToastProps = {
   message: string;
