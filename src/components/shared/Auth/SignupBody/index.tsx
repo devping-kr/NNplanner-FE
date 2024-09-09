@@ -6,18 +6,22 @@ import { useForm } from 'react-hook-form';
 import { signUpSchema } from '@/schema/authSchema';
 import Button from '@/components/common/Button/Button';
 import { Input } from '@/components/common/Input';
+import { useToastStore } from '@/stores/useToastStore';
 
 const SignupBody = () => {
   const [isShowPassword, setIsShowPassword] = useState(false);
   const [isShowPasswordConfirm, setIsShowPasswordConfirm] = useState(false);
   const [verification, setVerification] = useState('');
+  const [showVerificationInput, setShowVerificationInput] = useState(false);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
+    watch,
   } = useForm({
     resolver: zodResolver(signUpSchema),
+    mode: 'onChange',
     defaultValues: {
       email: '',
       name: '',
@@ -26,8 +30,24 @@ const SignupBody = () => {
     },
   });
 
+  const email = watch('email');
+
   const handleVerification = (e: ChangeEvent<HTMLInputElement>) => {
     setVerification(e.target.value);
+  };
+
+  const showToast = useToastStore((state) => state.showToast);
+
+  // TODO: 인증번호 요청 api 성공시 해당 함수 실행하도록 바꿔줘야함
+  const handleEmailVerification = () => {
+    if (!errors.email) {
+      setShowVerificationInput(true);
+      showToast(
+        '인증번호가 이메일로 전송되었습니다. 이메일을 확인해주세요.',
+        'success',
+        1000,
+      );
+    }
   };
 
   const onSubmit = (data: {
@@ -36,7 +56,6 @@ const SignupBody = () => {
     passwordConfirm: string;
     name: string;
   }) => {
-    // TODO: auth api 배포후 작성예정
     console.log(data);
   };
 
@@ -49,7 +68,7 @@ const SignupBody = () => {
             <Input
               type='text'
               placeholder='이메일을 입력해주세요'
-              height='basic'
+              height='large'
               className='text-green-500 placeholder:text-green-400'
               {...register('email')}
             />
@@ -57,23 +76,34 @@ const SignupBody = () => {
               <span className='text-red-300'>{errors.email.message}</span>
             )}
           </div>
-          <Button size='small' type='button' className='flex w-1/3'>
+          <Button
+            size='small'
+            type='button'
+            className='w-1/3'
+            onClick={handleEmailVerification}
+            disabled={!email || !!errors.email}
+          >
             인증번호 받기
           </Button>
         </div>
-        <div className='flex w-full gap-3'>
-          <Input
-            type='text'
-            placeholder='인증번호를 입력해주세요'
-            height='basic'
-            value={verification}
-            onChange={handleVerification}
-            className='text-green-500 placeholder:text-xs placeholder:text-green-400'
-          />
-          <Button size='small' type='button' className='flex w-1/5'>
-            인증
-          </Button>
-        </div>
+        {showVerificationInput && (
+          <div className='flex gap-3'>
+            <div className='w-full'>
+              <Input
+                type='text'
+                placeholder='인증번호를 입력해주세요'
+                height='large'
+                value={verification}
+                onChange={handleVerification}
+                className='text-green-500 placeholder:text-xs placeholder:text-green-400'
+              />
+            </div>
+            <Button size='small' type='button' className='flex w-1/3'>
+              인증
+            </Button>
+          </div>
+        )}
+
         <div>
           <Input
             type='text'
