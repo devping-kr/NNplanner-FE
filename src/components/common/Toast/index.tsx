@@ -12,11 +12,13 @@ export type ToastVariant = NonNullable<
 type ToastProps = {
   message: string;
   variant: ToastVariant;
-  duration: number;
+  duration?: number;
   onClose: () => void;
 };
 
-const Toast = ({ message, variant, duration, onClose }: ToastProps) => {
+export type AnimateDuration = '1000' | '2000' | '3000';
+
+const Toast = ({ message, variant, duration = 3000, onClose }: ToastProps) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       onClose();
@@ -32,7 +34,12 @@ const Toast = ({ message, variant, duration, onClose }: ToastProps) => {
         <span>{message}</span>
       </div>
       <div className='h-1.5 w-full overflow-hidden rounded-full bg-gray-200'>
-        <div className={progressVariants({ variant })} />
+        <div
+          className={progressVariants({
+            variant,
+            duration: `${duration}` as AnimateDuration,
+          })}
+        />
       </div>
     </div>
   );
