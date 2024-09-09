@@ -15,7 +15,9 @@ const config: Config = {
         '-1/2': '-50%',
       },
       animation: {
-        shrink: 'shrink 3s linear forwards',
+        'shrink-1s': 'shrink 1s linear forwards',
+        'shrink-2s': 'shrink 2s linear forwards',
+        'shrink-3s': 'shrink 3s linear forwards',
       },
       keyframes: {
         shrink: {
