@@ -126,11 +126,11 @@ const page = () => {
   const showToast = useToastStore((state) => state.showToast); // eslint-disable-line react-hooks/rules-of-hooks
 
   const handleSuccess = () => {
-    showToast('Operation successful!', 'success', 3000);
+    showToast('Operation successful!', 'success', 1000);
   };
 
   const handleFailure = () => {
-    showToast('Operation failed!', 'warning', 3000);
+    showToast('Operation failed!', 'warning', 2000);
   };
 
   const handleNormal = () => {
