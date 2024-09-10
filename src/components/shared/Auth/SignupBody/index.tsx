@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { ChangeEvent, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -9,6 +10,7 @@ import { Input } from '@/components/common/Input';
 import { useToastStore } from '@/stores/useToastStore';
 
 const SignupBody = () => {
+  const router = useRouter();
   const [isShowPassword, setIsShowPassword] = useState(false);
   const [isShowPasswordConfirm, setIsShowPasswordConfirm] = useState(false);
   const [verification, setVerification] = useState('');
@@ -60,106 +62,152 @@ const SignupBody = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className='w-full'>
-      <fieldset className='flex w-full flex-col gap-5 px-6'>
-        <legend className='sr-only'>회원가입 인증</legend>
-        <div className='flex gap-3'>
-          <div className='flex w-full flex-col'>
-            <Input
-              type='text'
-              placeholder='이메일을 입력해주세요'
-              height='large'
-              className='text-green-500 placeholder:text-green-400'
-              {...register('email')}
-            />
-            {errors.email && (
-              <span className='text-red-300'>{errors.email.message}</span>
-            )}
-          </div>
-          <Button
-            size='small'
-            type='button'
-            className='w-1/3'
-            onClick={handleEmailVerification}
-            disabled={!email || !!errors.email}
-          >
-            인증번호 받기
-          </Button>
-        </div>
-        {showVerificationInput && (
+    <div className='flex w-full flex-col gap-3'>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <fieldset className='flex w-full flex-col gap-8'>
+          <legend className='sr-only'>회원가입 인증</legend>
           <div className='flex gap-3'>
-            <div className='w-full'>
+            <div className='relative w-full'>
+              <label
+                htmlFor='email'
+                className='absolute left-0 top-[-24px] font-semibold text-green-800'
+              >
+                이메일
+              </label>
               <Input
                 type='text'
-                placeholder='인증번호를 입력해주세요'
+                placeholder='이메일을 입력해주세요'
+                id='email'
                 height='large'
-                value={verification}
-                onChange={handleVerification}
-                className='text-green-500 placeholder:text-xs placeholder:text-green-400'
+                className='text-green-500 placeholder:text-green-400'
+                {...register('email')}
               />
+              {errors.email && (
+                <span className='text-red-300'>{errors.email.message}</span>
+              )}
             </div>
-            <Button size='small' type='button' className='flex w-1/3'>
-              인증
+            <Button
+              size='small'
+              type='button'
+              className='h-auto w-1/3'
+              onClick={handleEmailVerification}
+              disabled={!email || !!errors.email}
+            >
+              인증번호 받기
             </Button>
           </div>
-        )}
-
-        <div>
-          <Input
-            type='text'
-            placeholder='이름을 입력해주세요'
-            height='large'
-            className='text-green-500 placeholder:text-green-400'
-            {...register('name')}
-          />
-          {errors.name && (
-            <span className='text-red-300'>{errors.name.message}</span>
+          {showVerificationInput && (
+            <div className='flex gap-3'>
+              <div className='relative w-full'>
+                <label
+                  htmlFor='verification'
+                  className='absolute left-0 top-[-24px] font-semibold text-green-800'
+                >
+                  인증번호
+                </label>
+                <Input
+                  type='text'
+                  id='verification'
+                  placeholder='인증번호를 입력해주세요'
+                  height='basic'
+                  value={verification}
+                  onChange={handleVerification}
+                  className='text-green-500 placeholder:text-xs placeholder:text-green-400'
+                />
+              </div>
+              <Button size='small' type='button' className='flex w-1/3'>
+                인증
+              </Button>
+            </div>
           )}
-        </div>
-        <div>
-          <Input
-            type={isShowPassword ? 'text' : 'password'}
-            placeholder='비밀번호를 입력해주세요'
-            height='large'
-            className='text-green-500 placeholder:text-green-400'
-            isRightIcon={true}
-            rightIcon={isShowPassword ? 'show' : 'hide'}
-            rightIconAction={() => setIsShowPassword(!isShowPassword)}
-            {...register('password')}
-          />
-          {errors.password && (
-            <span className='text-red-300'>{errors.password.message}</span>
-          )}
-        </div>
-        <div>
-          <Input
-            type={isShowPasswordConfirm ? 'text' : 'password'}
-            placeholder='비밀번호를 다시 입력해주세요'
-            height='large'
-            className='text-green-500 placeholder:text-green-400'
-            isRightIcon={true}
-            rightIcon={isShowPasswordConfirm ? 'show' : 'hide'}
-            rightIconAction={() =>
-              setIsShowPasswordConfirm(!isShowPasswordConfirm)
-            }
-            {...register('passwordConfirm')}
-          />
-          {errors.passwordConfirm && (
-            <span className='text-red-300'>
-              {errors.passwordConfirm.message}
-            </span>
-          )}
-        </div>
-        <div className='flex w-full flex-col gap-2'>
-          <Button type='submit' size='basic' className='shadow-lg'>
-            회원가입
-          </Button>
-          <Button type='submit' size='basic' className='shadow-lg'>
-            구글 회원가입
-          </Button>
-        </div>
-      </fieldset>
-    </form>
+          <div className='relative'>
+            <label
+              htmlFor='name'
+              className='absolute left-0 top-[-24px] font-semibold text-green-800'
+            >
+              이름
+            </label>
+            <Input
+              type='text'
+              id='name'
+              placeholder='이름을 입력해주세요'
+              height='large'
+              className='text-green-500 placeholder:text-green-400'
+              {...register('name')}
+            />
+            {errors.name && (
+              <span className='text-red-300'>{errors.name.message}</span>
+            )}
+          </div>
+          <div className='relative'>
+            <label
+              htmlFor='password'
+              className='absolute left-0 top-[-24px] font-semibold text-green-800'
+            >
+              비밀번호
+            </label>
+            <Input
+              type={isShowPassword ? 'text' : 'password'}
+              id='password'
+              placeholder='비밀번호를 입력해주세요'
+              height='large'
+              className='text-green-500 placeholder:text-green-400'
+              isRightIcon={true}
+              rightIcon={isShowPassword ? 'show' : 'hide'}
+              rightIconAction={() => setIsShowPassword(!isShowPassword)}
+              {...register('password')}
+            />
+            {errors.password && (
+              <span className='text-red-300'>{errors.password.message}</span>
+            )}
+          </div>
+          <div className='relative'>
+            <label
+              htmlFor='passwordConfirm'
+              className='absolute left-0 top-[-24px] font-semibold text-green-800'
+            >
+              비밀번호 확인
+            </label>
+            <Input
+              type={isShowPasswordConfirm ? 'text' : 'password'}
+              id='passwordConfirm'
+              placeholder='비밀번호를 다시 입력해주세요'
+              height='large'
+              className='text-green-500 placeholder:text-green-400'
+              isRightIcon={true}
+              rightIcon={isShowPasswordConfirm ? 'show' : 'hide'}
+              rightIconAction={() =>
+                setIsShowPasswordConfirm(!isShowPasswordConfirm)
+              }
+              {...register('passwordConfirm')}
+            />
+            {errors.passwordConfirm && (
+              <span className='text-red-300'>
+                {errors.passwordConfirm.message}
+              </span>
+            )}
+          </div>
+          <div className='flex w-full flex-col gap-2'>
+            <Button type='submit' size='basic' className='shadow-lg'>
+              회원가입
+            </Button>
+            <Button type='submit' size='basic' className='shadow-lg'>
+              구글 회원가입
+            </Button>
+          </div>
+        </fieldset>
+      </form>
+      <span className='text-center'>
+        이미 계정이 있다면{' '}
+        <span
+          onClick={() => router.push('/login')}
+          className='cursor-pointer font-semibold text-green-700'
+        >
+          여기서
+        </span>{' '}
+        로그인하세요
+      </span>
+    </div>
   );
 };
 
