@@ -7,6 +7,9 @@ import Icon from '@/components/common/Icon';
 // import Navbar from '@/components/common/Navbar';
 import { Option, Selectbox } from '@/components/common/Selectbox';
 import Table from '@/components/common/Table';
+import MealHeader, {
+  schoolCategory,
+} from '@/components/shared/Meal/MealHeader';
 import { useToastStore } from '@/stores/useToastStore';
 
 // 테이블 예시 데이터
@@ -137,8 +140,28 @@ const page = () => {
     showToast('This is a normal message', 'normal');
   };
 
+  const categories = [
+    schoolCategory,
+    [
+      { value: '하이', label: '하이' },
+      { value: '학교명', label: '학교명' },
+      { value: '병원', label: '병원' },
+    ],
+    [
+      { value: '세번쨰', label: '세번쨰' },
+      { value: '학교명', label: '학교명' },
+      { value: '병원', label: '병원' },
+      { value: '세번쨰', label: '세번쨰' },
+      { value: '학교명', label: '학교명' },
+      { value: '병원', label: '병원' },
+      { value: '세번쨰', label: '세번쨰' },
+      { value: '학교명', label: '학교명' },
+      { value: '병원', label: '병원' },
+    ],
+  ];
   return (
-    <div className='flex h-full w-full flex-col gap-4 bg-blue-200'>
+    <div className='flex h-full w-full flex-col gap-4 bg-blue-100'>
+      <MealHeader name='식단 이름' categories={categories} />
       <div className='bg-gray-100'>
         <button onClick={handleNormal}>Show Normal Toast</button>
         <button onClick={handleSuccess}>Show Success Toast</button>
