@@ -42,3 +42,8 @@ export const AuthTitle = customTypography('h1', {
   type: 'authTitle',
   weight: 'bold',
 });
+export const MealHeaderTitle = customTypography('h1', {
+  type: 'mealHeaderTitle',
+  weight: 'bold',
+  color: 'dark',
+});
