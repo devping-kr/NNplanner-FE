@@ -8,10 +8,6 @@ export const optionListUlVariants = cva('flex h-full w-full flex-col', {
         'pl-[10px] pt-[10px] pb-[10px] pr-[5px] gap-2 text-basic rounded-lg',
       large: 'pl-3 pt-3 pb-3 pr-[6px] gap-2 text-lg rounded-lg',
     },
-    isNoScroll: {
-      true: '',
-      false: '',
-    },
   },
 });
 
