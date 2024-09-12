@@ -8,7 +8,7 @@ import Icon from '@/components/common/Icon';
 import { Option, Selectbox } from '@/components/common/Selectbox';
 import Table from '@/components/common/Table';
 import MealHeader, {
-  schoolCategory,
+  schoolLevelList,
 } from '@/components/shared/Meal/MealHeader';
 import { useToastStore } from '@/stores/useToastStore';
 
@@ -141,7 +141,7 @@ const page = () => {
   };
 
   const categories = [
-    schoolCategory,
+    schoolLevelList,
     [
       { value: '하이', label: '하이' },
       { value: '학교명', label: '학교명' },
