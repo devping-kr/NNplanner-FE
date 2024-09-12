@@ -1,7 +1,7 @@
 import { cva } from 'class-variance-authority';
 
 export const dropdownVariants = cva(
-  'absolute z-10 w-full max-h-56 overflow-y-scroll custom-scrollbar bg-white-100 border-[1px] border-red rounded-md shadow-md',
+  'absolute z-10 w-full max-h-56 overflow-y-auto custom-scrollbar bg-white-100 border-[1px] border-red rounded-md shadow-md',
   {
     variants: {
       isOpen: {

@@ -1,5 +1,7 @@
-import { cn } from '@/utils/core';
-import { optionListVariants } from '@/components/common/OptionList/OptionList.variant';
+import {
+  optionListLiVariants,
+  optionListUlVariants,
+} from '@/components/common/OptionList/OptionList.variant';
 import { Option, Size } from '@/components/common/Selectbox';
 
 type OptionListProps = {
@@ -9,14 +11,11 @@ type OptionListProps = {
 };
 
 const OptionList = ({ options, size, onSelect }: OptionListProps) => (
-  <ul className={optionListVariants({ size })} role='listbox'>
+  <ul className={optionListUlVariants({ size })} role='listbox'>
     {options.map((option) => (
       <li
         key={option.value}
-        className={cn(
-          optionListVariants({ size }),
-          'cursor-pointer rounded-md hover:bg-gray-100 active:bg-gray-200',
-        )}
+        className={optionListLiVariants({ size })}
         onClick={() => onSelect(option.value)}
       >
         {option.label}
