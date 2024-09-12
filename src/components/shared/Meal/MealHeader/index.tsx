@@ -7,13 +7,13 @@ type MealHeaderProps = {
   categories: Option[][];
 };
 
-export const organizationCategory = [
+export const organizationList = [
   { value: '학교', label: '학교' },
   { value: '학교명', label: '학교명' },
   { value: '병원', label: '병원' },
 ];
 
-export const schoolCategory = [
+export const schoolLevelList = [
   { value: '초등학교', label: '초등학교' },
   { value: '중학교', label: '중학교' },
   { value: '고등학교', label: '고등학교' },
@@ -22,8 +22,8 @@ export const schoolCategory = [
 const MealHeader = ({ name, categories }: MealHeaderProps) => {
   const [organization, setOrganization] = useState<null | string>(null);
 
-  const onOrganizationChange = (value: string) => {
-    setOrganization(value);
+  const onOrganizationChange = (organization: string) => {
+    setOrganization(organization);
   };
 
   return (
@@ -31,18 +31,19 @@ const MealHeader = ({ name, categories }: MealHeaderProps) => {
       <MealHeaderTitle>{name}</MealHeaderTitle>
       <div className='flex gap-2'>
         <Selectbox
-          options={organizationCategory}
+          options={organizationList}
           size='basic'
-          onChange={(value) => onOrganizationChange(value)}
+          onChange={(organization) => onOrganizationChange(organization)}
         />
-        {organization === '학교' && (
-          <Selectbox options={categories[0]} size='basic' />
-        )}
-        {organization === '학교명' && (
-          <Selectbox options={categories[1]} size='basic' />
-        )}
-        {organization === '병원' && (
-          <Selectbox options={categories[2]} size='basic' />
+        {organizationList.map(
+          (item, index) =>
+            organization === item.value && (
+              <Selectbox
+                key={item.value}
+                options={categories[index]}
+                size='basic'
+              />
+            ),
         )}
       </div>
     </div>
