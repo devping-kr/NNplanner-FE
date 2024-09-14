@@ -15,7 +15,9 @@ interface Props {
   onMonthChange: (month: string) => void;
   organization?: string | null;
   setOrganization?: React.Dispatch<React.SetStateAction<string | null>>;
-  handleSearchName: () => void;
+  searchValue: string;
+  handlechangeSearchValue: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  submitSearchValue: () => void;
   selectedTab: string;
   setSelectedTab: React.Dispatch<React.SetStateAction<string>>;
 }
@@ -27,7 +29,9 @@ const GetAllListControls = ({
   onYearChange,
   organization,
   setOrganization,
-  handleSearchName,
+  searchValue,
+  handlechangeSearchValue,
+  submitSearchValue,
   selectedTab,
   setSelectedTab,
 }: Props) => {
@@ -47,7 +51,9 @@ const GetAllListControls = ({
             placeholder='식단 이름을 입력해주세요.'
             bgcolor='search'
             includeButton={true}
-            onSubmit={handleSearchName}
+            value={searchValue}
+            onChange={handlechangeSearchValue}
+            onSubmit={submitSearchValue}
           />
           <div className='flex gap-2'>
             <Selectbox
