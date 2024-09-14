@@ -35,4 +35,16 @@ export const PLAN_DATA = [
     createdAt: '2024.09.14',
     category: '초등학교',
   },
+  {
+    id: 7,
+    title: '식단이름7',
+    createdAt: '2024.09.14',
+    category: '고등학교',
+  },
+  {
+    id: 8,
+    title: '식단이름8',
+    createdAt: '2024.09.14',
+    category: '초등학교',
+  },
 ];
