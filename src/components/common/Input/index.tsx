@@ -58,7 +58,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     const handleFocus = useCallback(() => setIsFocused(true), []);
     const handleBlur = useCallback(() => setIsFocused(false), []);
     return (
-      <div className='flex items-center gap-4'>
+      <div className='flex items-center gap-2'>
         <div
           className={inputContainerVariants({
             isFocused,

@@ -18,7 +18,7 @@ const ControlTab = <T extends string>({
         <button
           key={tab}
           className={cn(
-            'text-sm text-gray-400',
+            'text-xs text-gray-400',
             tab === selectedTab && 'font-semibold text-gray-600',
           )}
           onClick={() => setSelectedTab(tab)}
