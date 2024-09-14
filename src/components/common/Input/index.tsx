@@ -8,6 +8,7 @@ import {
 } from 'react';
 import { type VariantProps } from 'class-variance-authority';
 import { cn } from '@/utils/core';
+import Button from '../Button/Button';
 import Icon from '../Icon';
 import { inputContainerVariants, inputVariants } from './Input.variant';
 
@@ -90,13 +91,15 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           )}
         </div>
         {includeButton && (
-          <button
+          <Button
             onClick={onSubmit}
-            className='w-14 cursor-pointer items-center justify-center rounded bg-white-200'
+            className='w-16 cursor-pointer items-center justify-center rounded'
+            size='small'
+            width='fit'
             disabled={disabled || !value}
           >
             검색
-          </button>
+          </Button>
         )}
       </div>
     );
