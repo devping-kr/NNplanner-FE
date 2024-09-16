@@ -63,7 +63,7 @@ export const Selectbox = ({
     options.find((option) => option.value === selectedOption)?.label ?? null;
 
   return (
-    <div className={cn('relative h-fit', className)} ref={selectboxRef}>
+    <div className={cn('relative h-fit')} ref={selectboxRef}>
       <div className={selectboxVariants({ isOpen })}>
         <SelectButton
           selectedOption={chosenOption}
@@ -71,6 +71,7 @@ export const Selectbox = ({
           size={size}
           onClick={handleToggle}
           isOpen={isOpen}
+          className={className}
         />
         <Dropdown isOpen={isOpen} size={size}>
           <OptionList
