@@ -83,14 +83,14 @@ const Pagination = ({
         disabled={blockNum === 0}
         variant={'pagination'}
       >
-        <span className='pb-[2px]'>&lt;&lt;</span>
+        &lt;&lt;
       </Button>
       <Button
         onClick={prevBtnHandler}
         disabled={page === 1}
         variant={'pagination'}
       >
-        <span className='pb-[2px]'>&lt;</span>
+        &lt;
       </Button>
       {sliceArr}
       <Button
@@ -98,14 +98,14 @@ const Pagination = ({
         disabled={page === totalPages}
         variant={'pagination'}
       >
-        <span className='pb-[2px]'>&gt;</span>
+        &gt;
       </Button>
       <Button
         onClick={lastPage}
         disabled={blockArea >= totalPages - 5}
         variant={'pagination'}
       >
-        <span className='pb-[2px]'>&gt;&gt;</span>
+        &gt;&gt;
       </Button>
     </div>
   );
