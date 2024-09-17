@@ -44,7 +44,7 @@ const GetAllListControls = ({
           onMonthChange={onMonthChange}
           onYearChange={onYearChange}
         />
-        <div className='flex items-end gap-5'>
+        <div className='flex w-full justify-end gap-5'>
           <Input
             isLeftIcon={true}
             height='basic'
@@ -55,7 +55,7 @@ const GetAllListControls = ({
             onChange={handlechangeSearchValue}
             onSubmit={submitSearchValue}
           />
-          <div className='flex gap-2'>
+          <div className='flex whitespace-pre'>
             <Selectbox
               options={ORGANIZATIONS}
               size='small'

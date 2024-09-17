@@ -1,7 +1,7 @@
 import { cva } from 'class-variance-authority';
 
 export const inputContainerVariants = cva(
-  'flex w-full items-center gap-2 border p-4',
+  'flex w-full items-center gap-2 border px-2 box-border',
   {
     variants: {
       variant: {
@@ -9,14 +9,14 @@ export const inputContainerVariants = cva(
       },
       bgcolor: {
         form: 'bg-green-100',
-        search: 'bg-white-200',
+        search: 'bg-white-100',
       },
       borderRadius: {
         basic: 'rounded-md',
         large: 'rounded-lg',
       },
       height: {
-        basic: 'h-[36px]',
+        basic: 'h-[38px]',
         large: 'h-[62px]',
       },
       isFocused: {
@@ -36,5 +36,5 @@ export const inputContainerVariants = cva(
 );
 
 export const inputVariants = cva(
-  'w-full bg-transparent text-[14px] placeholder:text-gray-900 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50',
+  'w-full flex items-center bg-transparent text-[14px] placeholder:text-gray-400 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50',
 );

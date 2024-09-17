@@ -58,42 +58,40 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     const handleFocus = useCallback(() => setIsFocused(true), []);
     const handleBlur = useCallback(() => setIsFocused(false), []);
     return (
-      <div className='flex items-center gap-2'>
-        <div
-          className={inputContainerVariants({
-            isFocused,
-            borderRadius,
-            bgcolor,
-            variant,
-            height,
-            disabled,
-          })}
-        >
-          {isLeftIcon && <Icon name='search' width={15} height={15} />}
-          <input
-            className={cn(inputVariants(), className)}
-            ref={ref}
-            value={value}
-            disabled={disabled}
-            onFocus={handleFocus}
-            onBlur={handleBlur}
-            {...props}
-          />
-          {isRightIcon && rightIcon && (
-            <button onClick={rightIconAction} type='button'>
-              <Icon
-                name={rightIcon}
-                width={20}
-                height={20}
-                className='cursor-pointer'
-              />
-            </button>
-          )}
-        </div>
+      <div
+        className={inputContainerVariants({
+          isFocused,
+          borderRadius,
+          bgcolor,
+          variant,
+          height,
+          disabled,
+        })}
+      >
+        {isLeftIcon && <Icon name='search' width={22} height={22} />}
+        <input
+          className={cn(inputVariants(), className)}
+          ref={ref}
+          value={value}
+          disabled={disabled}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+          {...props}
+        />
+        {isRightIcon && rightIcon && (
+          <button onClick={rightIconAction} type='button'>
+            <Icon
+              name={rightIcon}
+              width={20}
+              height={20}
+              className='cursor-pointer'
+            />
+          </button>
+        )}
         {includeButton && (
           <Button
             onClick={onSubmit}
-            className='w-16 cursor-pointer items-center justify-center rounded'
+            className='w-14 cursor-pointer items-center justify-center rounded px-0 py-1'
             size='small'
             width='fit'
             disabled={disabled || !value}

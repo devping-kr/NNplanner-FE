@@ -28,7 +28,7 @@ const DatePicker = ({
   }));
 
   return (
-    <div className='flex items-center gap-2'>
+    <div className='flex w-full items-center gap-2'>
       <div className='flex flex-col gap-1'>
         <label className='text-xs'>년도</label>
         <Selectbox
