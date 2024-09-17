@@ -1,3 +1,4 @@
+import { cn } from '@/utils/core';
 import { calendarDayVariants } from '@/components/common/Calendar/Calendar.variant';
 
 export type CalendarDayProps = {
@@ -10,6 +11,8 @@ export type CalendarDayProps = {
   onClick: () => void;
 };
 
+const MAXIUM_MENU_PER_DAY = 7;
+
 const CalendarDay = ({
   date,
   isHoliday,
@@ -21,19 +24,18 @@ const CalendarDay = ({
 }: CalendarDayProps) => {
   return (
     <button
-      className={calendarDayVariants({ isInvalid, isActive, readonly })}
+      className={cn(
+        calendarDayVariants({ isInvalid, isActive, readonly }),
+        isHoliday ? 'text-red-500' : 'test-dark-100',
+      )}
       onClick={onClick}
     >
-      <div
-        className={`text-left font-bold ${isHoliday ? 'text-red-500' : 'test-back'}`}
-      >
-        {date}
-      </div>
-      <div className='mt-0.5'>
-        {data.slice(0, 6).map((item) => (
-          <div key={item.id} className='py-0.5 text-sm'>
+      <div className={`text-left font-bold`}>{date}</div>
+      <div className='mt-[0.5] w-full text-dark-100'>
+        {data.slice(0, MAXIUM_MENU_PER_DAY).map((item) => (
+          <span key={item.id} className='block w-full text-sm'>
             {item.content}
-          </div>
+          </span>
         ))}
       </div>
     </button>
