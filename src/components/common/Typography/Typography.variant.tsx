@@ -29,6 +29,7 @@ export const typographyVariants = cva(
       weight: {
         bold: 'font-bold',
         thin: 'font-thin',
+        normal: 'font-normal',
       },
       color: {
         white: 'text-white-100',

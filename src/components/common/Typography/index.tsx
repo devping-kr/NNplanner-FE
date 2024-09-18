@@ -51,3 +51,16 @@ export const MealCalenderTitle = customTypography('h1', {
   type: 'mealCalendarTitle',
   color: 'dark',
 });
+export const NutritionDate = customTypography('h2', {
+  type: 'title2',
+  color: 'dark',
+});
+export const NutritionMenu = customTypography('h3', {
+  type: 'title3',
+  color: 'dark',
+});
+export const NutritionEtc = customTypography('h4', {
+  type: 'title4',
+  color: 'gray',
+  weight: 'normal',
+});
