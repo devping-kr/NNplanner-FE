@@ -24,6 +24,7 @@ export const typographyVariants = cva(
         question: 'text-[22px] leading-[145%]',
         mealHeaderTitle: 'text-[42px] leading-[150%]',
         authTitle: 'text-[50px] leading-[150%]',
+        pageHeaderTitle: 'text-[28px] leading-[145%]',
       },
       weight: {
         bold: 'font-bold',

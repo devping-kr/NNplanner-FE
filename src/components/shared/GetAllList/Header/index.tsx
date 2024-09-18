@@ -1,6 +1,6 @@
 'use client';
 
-import { MealHeaderTitle } from '@/components/common/Typography';
+import { PageHeaderTitle } from '@/components/common/Typography';
 
 interface Props {
   title: string;
@@ -9,7 +9,7 @@ interface Props {
 const ViewPlanHeader = ({ title }: Props) => {
   return (
     <>
-      <MealHeaderTitle>{title}</MealHeaderTitle>
+      <PageHeaderTitle>{title}</PageHeaderTitle>
     </>
   );
 };
