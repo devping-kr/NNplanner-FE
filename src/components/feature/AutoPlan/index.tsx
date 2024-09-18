@@ -14,8 +14,8 @@ const month = now.getMonth() + 1;
 
 const AutoPlan = () => {
   const [selectedCategory, setSelectedCategory] = useState({
-    organization: null as string | null,
-    organizationDetail: null as string | null,
+    organization: '',
+    organizationDetail: '',
   });
   const isCategoryEmpty = !(
     selectedCategory.organization || selectedCategory.organizationDetail
@@ -50,11 +50,8 @@ const AutoPlan = () => {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className='flex w-fit flex-col gap-8'
-    >
-      <fieldset>
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <fieldset className='flex w-fit flex-col gap-8'>
         <legend className='sr-only'>자동 식단 이름 및 카테고리 등록</legend>
         <MealHeader
           categories={MOCK_CATEGORY_LIST}
