@@ -8,12 +8,14 @@ import NutritionInfo, {
   NutritionData,
 } from '@/components/shared/Meal/NutritionInfo';
 
+export type Category = {
+  organization: string;
+  organizationDetail: string;
+};
+
 type MealCalendarProps = {
   type?: 'default' | 'create' | 'edit';
-  selectedCategory?: {
-    organization: string | null;
-    organizationDetail: string | null;
-  };
+  selectedCategory?: Category;
   isValid?: boolean;
   selectedDate?: string;
   handleChangeMenu?: (
