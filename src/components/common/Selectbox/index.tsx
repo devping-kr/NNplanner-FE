@@ -16,11 +16,13 @@ export type Option = {
 export type Size = 'small' | 'basic' | 'large';
 
 export type SelectboxProps = VariantProps<typeof selectboxVariants> & {
-  options: Option[];
+  options?: Option[];
   placeholder?: string;
   size?: Size;
   className?: string;
   onChange?: (value: string) => void;
+  selectedValue?: string;
+  readonly?: boolean;
 };
 
 export const Selectbox = ({
@@ -29,20 +31,28 @@ export const Selectbox = ({
   size = 'small',
   className,
   onChange,
+  selectedValue,
+  readonly = false,
 }: SelectboxProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const selectboxRef = useRef<HTMLDivElement>(null);
 
-  const handleToggle = useCallback(() => setIsOpen((prev) => !prev), []);
+  const handleToggle = useCallback(() => {
+    if (!readonly) {
+      setIsOpen((prev) => !prev);
+    }
+  }, [readonly]);
 
   const handleOptionSelect = useCallback(
     (value: string) => {
-      setSelectedOption(value);
-      setIsOpen(false);
-      onChange?.(value);
+      if (!readonly) {
+        setSelectedOption(value);
+        setIsOpen(false);
+        onChange?.(value);
+      }
     },
-    [onChange],
+    [onChange, readonly],
   );
 
   useEffect(() => {
@@ -60,26 +70,28 @@ export const Selectbox = ({
   }, []);
 
   const chosenOption =
-    options.find((option) => option.value === selectedOption)?.label ?? null;
+    options?.find((option) => option.value === selectedOption)?.label ?? null;
 
   return (
     <div className={cn('relative h-fit')} ref={selectboxRef}>
       <div className={selectboxVariants({ isOpen })}>
         <SelectButton
-          selectedOption={chosenOption}
+          selectedOption={chosenOption ?? (selectedValue as string)}
           placeholder={placeholder}
           size={size}
           onClick={handleToggle}
           isOpen={isOpen}
           className={className}
         />
-        <Dropdown isOpen={isOpen} size={size}>
-          <OptionList
-            options={options}
-            size={size}
-            onSelect={handleOptionSelect}
-          />
-        </Dropdown>
+        {!readonly && options && (
+          <Dropdown isOpen={isOpen} size={size}>
+            <OptionList
+              options={options}
+              size={size}
+              onSelect={handleOptionSelect}
+            />
+          </Dropdown>
+        )}
       </div>
     </div>
   );
