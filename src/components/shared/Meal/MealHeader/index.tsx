@@ -40,7 +40,7 @@ const MealHeader = ({
     <div className='flex w-full flex-col gap-4'>
       <div className='flex w-fit flex-col gap-2'>
         <Input
-          bgcolor='search'
+          bgcolor='meal'
           height='large'
           placeholder='식단 이름을 입력하세요'
           className='text-2xl font-semibold'
