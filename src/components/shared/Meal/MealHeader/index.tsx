@@ -3,16 +3,17 @@
 import { FieldErrors, UseFormRegister } from 'react-hook-form';
 import { Input } from '@/components/common/Input';
 import { Option, Selectbox } from '@/components/common/Selectbox';
+import { ORGANIZATION_LIST } from '@/constants/_category';
 
 type MealHeaderFormData = {
   name: string;
 };
 
 type MealHeaderProps = {
-  month: number;
   categories: Option[][];
   register: UseFormRegister<MealHeaderFormData>;
   errors: FieldErrors<MealHeaderFormData>;
+  categoryErrorMsg?: string;
   selectedCategory: {
     organization: string | null;
     organizationDetail: string | null;
@@ -24,22 +25,11 @@ type MealHeaderProps = {
   isValid: boolean;
 };
 
-export const organizationList = [
-  { value: '학교', label: '학교' },
-  { value: '학교명', label: '학교명' },
-  { value: '병원', label: '병원' },
-];
-
-export const schoolLevelList = [
-  { value: '초등학교', label: '초등학교' },
-  { value: '중학교', label: '중학교' },
-  { value: '고등학교', label: '고등학교' },
-];
-
 const MealHeader = ({
   categories,
   register,
   errors,
+  categoryErrorMsg = '모든 카테고리를 선택해주세요',
   selectedCategory,
   handleCategoryChange,
 }: MealHeaderProps) => {
@@ -61,14 +51,14 @@ const MealHeader = ({
         )}
         <div className='flex gap-2'>
           <Selectbox
-            options={organizationList}
+            options={ORGANIZATION_LIST}
             size='basic'
             onChange={(organization) =>
               handleCategoryChange('organization', organization)
             }
             className={isCategoryEmpty ? 'border-red-300' : ''}
           />
-          {organizationList.map(
+          {ORGANIZATION_LIST.map(
             (item, index) =>
               selectedCategory.organization === item.value && (
                 <Selectbox
@@ -87,9 +77,7 @@ const MealHeader = ({
           )}
         </div>
         {isCategoryEmpty && (
-          <span className='mt-auto text-red-300'>
-            모든 카테고리를 선택해주세요
-          </span>
+          <span className='mt-auto text-red-300'>{categoryErrorMsg}</span>
         )}
       </div>
     </div>
