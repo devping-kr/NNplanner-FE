@@ -68,11 +68,13 @@ const ChartDetail = ({ id }: Props) => {
         </div>
       </div>
       <div className='flex w-full items-center gap-5'>
-        <div className='w-3/4 flex-col'>
+        <div className='flex w-full flex-col'>
           <CardTitle>월별 총 만족도 점수 분포도</CardTitle>
           <BarGraph data={satisfactionDistribution} />
         </div>
-        <AverageCard averageScores={averageScores} />
+        <div className='w-1/5'>
+          <AverageCard averageScores={averageScores} />
+        </div>
       </div>
     </div>
   );
