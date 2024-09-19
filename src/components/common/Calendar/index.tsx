@@ -25,33 +25,28 @@ const Calendar = ({
 }: CalendarProps) => {
   const [activeDate, setActiveDate] = useState<string | null>(null);
 
-  const { days, prevMonthDays, nextMonthDays } = useMemo(() => {
+  const { allDays } = useMemo(() => {
     const days = getDaysInMonth(year, month);
     const startOfMonth = dayjs(new Date(year, month - 1)).startOf('month');
-    const endOfMonth = dayjs(new Date(year, month - 1)).endOf('month');
-
+    const endOfMonth = startOfMonth.endOf('month');
     const prevMonthDays = Array.from({ length: startOfMonth.day() }, (_, i) =>
       startOfMonth.subtract(startOfMonth.day() - i, 'day'),
     );
-
     const nextMonthDays = Array.from({ length: 6 - endOfMonth.day() }, (_, i) =>
       endOfMonth.add(i + 1, 'day'),
     );
 
-    return { days, prevMonthDays, nextMonthDays };
-  }, [year, month]);
+    const allDays = [...prevMonthDays, ...days, ...nextMonthDays];
 
-  const allDays = useMemo(
-    () => [...prevMonthDays, ...days, ...nextMonthDays],
-    [prevMonthDays, days, nextMonthDays],
-  );
+    return { allDays };
+  }, [year, month]);
 
   const handleDateClick = useCallback(
     (date: string) => {
-      if (!readonly) {
-        setActiveDate(date);
-        onDateClick?.(date);
-      }
+      if (readonly) return;
+
+      setActiveDate(date);
+      onDateClick!(date);
     },
     [readonly, onDateClick],
   );
