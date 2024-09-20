@@ -47,6 +47,11 @@ export const MealHeaderTitle = customTypography('h1', {
   weight: 'bold',
   color: 'dark',
 });
+export const PageHeaderTitle = customTypography('h1', {
+  type: 'pageHeaderTitle',
+  weight: 'bold',
+  color: 'dark',
+});
 export const MealCalenderTitle = customTypography('h1', {
   type: 'mealCalendarTitle',
   color: 'dark',
