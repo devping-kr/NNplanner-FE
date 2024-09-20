@@ -86,12 +86,12 @@ const MealCalendar = ({
       </div>
       <div className='mt-[56px]'>
         {type === 'create' && selectedDate && data && (
-          <NutritionInfo date={selectedDate} data={data?.[selectedDate]} />
+          <NutritionInfo date={selectedDate} data={data[selectedDate]} />
         )}
         {type === 'edit' && selectedDate && data && (
           <MealEdit
             date={selectedDate}
-            data={data?.[selectedDate]}
+            data={data[selectedDate]}
             handleChangeMenu={handleChangeMenu}
           />
         )}
