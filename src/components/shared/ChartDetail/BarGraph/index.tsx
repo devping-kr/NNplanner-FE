@@ -24,6 +24,12 @@ const BarGraph = ({ data }: SatisfactionDistribution) => {
     chart: {
       type: 'bar',
       toolbar: { show: false },
+      zoom: { enabled: false },
+    },
+    legend: {
+      markers: {
+        shape: 'circle',
+      },
     },
     xaxis: {
       categories: [
@@ -43,8 +49,22 @@ const BarGraph = ({ data }: SatisfactionDistribution) => {
     yaxis: {
       title: {},
     },
+    colors: [
+      '#D0F0C0',
+      '#B2F2BB',
+      '#AEE1D8',
+      '#CDE7BE',
+      '#B2DFDB',
+      '#C1DAB3',
+      '#ACE1AF',
+      '#A8E4A0',
+      '#B3CC9F',
+      '#77DD77',
+    ],
     plotOptions: {
       bar: {
+        borderRadiusApplication: 'end',
+        borderRadius: 6,
         distributed: true,
         horizontal: false,
       },
@@ -52,19 +72,15 @@ const BarGraph = ({ data }: SatisfactionDistribution) => {
     dataLabels: {
       enabled: false,
     },
-    title: {
-      text: '월별 총 만족도 점수 분포도 (1-10)',
-      align: 'center',
-    },
   });
 
   return (
     <div id='chart'>
       <ApexCharts
         options={chartOptions}
-        series={[{ data: valuesArray, name: '월별 만족도 점수' }]}
+        series={[{ data: valuesArray, name: '해당 점수 답변수' }]}
         type='bar'
-        height='400'
+        height='300'
       />
     </div>
   );

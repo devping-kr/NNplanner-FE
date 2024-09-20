@@ -8,16 +8,16 @@ interface Props {
 }
 const TextList = ({ list, title, type }: Props) => {
   return (
-    <div className='flex h-full flex-col gap-3'>
+    <div className='flex flex-col gap-3 rounded border border-gray-300 bg-white-100 p-5'>
       <CardTitle>{title}</CardTitle>
       <ul
         className={cn(
-          'flex h-full flex-col gap-2 overflow-y-auto rounded border border-gray-300 p-3',
-          type === 'desireMenu' ? 'max-h-[300px]' : 'max-h-[590px]',
+          'flex flex-col gap-2 overflow-y-auto pr-2',
+          type === 'desireMenu' ? 'max-h-[310px]' : 'max-h-[600px]',
         )}
       >
-        {list.map((text) => (
-          <li key={text}>{text}</li>
+        {list.map((text, idx) => (
+          <li key={idx}>{text}</li>
         ))}
       </ul>
     </div>
