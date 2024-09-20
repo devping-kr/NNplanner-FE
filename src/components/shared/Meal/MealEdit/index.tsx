@@ -63,7 +63,7 @@ const MealEdit = ({ date, data, handleChangeMenu }: MealEditProps) => {
   return (
     <MealInfoContainer date={date}>
       <div className='flex w-full flex-col gap-1'>
-        {data?.map((item) => {
+        {data.map((item) => {
           return (
             <button
               key={item.id}
@@ -82,8 +82,8 @@ const MealEdit = ({ date, data, handleChangeMenu }: MealEditProps) => {
         {isSearchShow && (
           <Input
             className='text-md placeholder:text-md font-semibold'
-            type='search'
             placeholder='메뉴 이름을 입력해주세요'
+            bgcolor='search'
             onChange={(e) => setKeyword(e.target.value)}
             value={keyword || ''}
           />
