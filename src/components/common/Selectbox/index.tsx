@@ -46,11 +46,10 @@ export const Selectbox = ({
 
   const handleOptionSelect = useCallback(
     (value: string) => {
-      if (!readonly) {
-        setSelectedOption(value);
-        setIsOpen(false);
-        onChange?.(value);
-      }
+      if (readonly) return;
+      setSelectedOption(value);
+      setIsOpen(false);
+      onChange!(value);
     },
     [onChange, readonly],
   );
