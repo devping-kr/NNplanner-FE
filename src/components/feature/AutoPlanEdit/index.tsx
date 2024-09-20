@@ -12,18 +12,19 @@ import { MOCK_CALENDAR_NUTRITION } from '@/constants/_calendarData';
 import { MOCK_CATEGORY_LIST } from '@/constants/_category';
 
 const AutoPlanEdit = () => {
+  // api로부터 전달 받는 값
+  const mealName = '맛있는 9월 식단 야호';
+  const category = {
+    organization: '초등학교',
+    organizationDetail: '냠냠초등학교',
+  };
   const [totalMenuList, setTotalMenuList] = useState(MOCK_CALENDAR_NUTRITION);
   const [selectedDate, setSelectedDate] = useState<string>('');
   const [selectedCategory, setSelectedCategory] = useState({
-    organization: '' as string,
-    organizationDetail: '' as string,
+    organization: category.organization,
+    organizationDetail: category.organizationDetail,
   });
-  const isCategoryEmpty = !(
-    selectedCategory.organization || selectedCategory.organizationDetail
-  );
 
-  // api로부터 전달 받는 값
-  const mealName = '맛있는 9월 식단 야호';
   const {
     register,
     handleSubmit,
@@ -68,7 +69,6 @@ const AutoPlanEdit = () => {
   };
 
   const onSubmit = (data: { name: string }) => {
-    if (isCategoryEmpty) return;
     // 선택한 카테고리 + 식단이름 제출 + 식단 리스트로 이동
     console.log(data);
   };
