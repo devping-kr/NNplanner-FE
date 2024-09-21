@@ -1,0 +1,27 @@
+import { cn } from '@/utils/core';
+import { CardTitle } from '@/components/common/Typography';
+
+interface Props {
+  list: string[];
+  title: string;
+  type: 'desireMenu' | 'message';
+}
+const TextList = ({ list, title, type }: Props) => {
+  return (
+    <div className='flex flex-col gap-3 rounded border border-gray-300 bg-white-100 p-5'>
+      <CardTitle>{title}</CardTitle>
+      <ul
+        className={cn(
+          'flex flex-col gap-2 overflow-y-auto pr-2',
+          type === 'desireMenu' ? 'max-h-[310px]' : 'max-h-[600px]',
+        )}
+      >
+        {list.map((text, idx) => (
+          <li key={idx}>{text}</li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+export default TextList;
