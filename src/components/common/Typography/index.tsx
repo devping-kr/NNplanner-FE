@@ -52,3 +52,9 @@ export const PageHeaderTitle = customTypography('h1', {
   weight: 'bold',
   color: 'dark',
 });
+
+export const CardTitle = customTypography('h1', {
+  type: 'title2',
+  weight: 'bold',
+  color: 'dark',
+});
