@@ -2,26 +2,19 @@
 
 import { useCallback, useMemo, useState } from 'react';
 import dayjs from 'dayjs';
+import { CalendarNutritionData } from '@/type/mealType';
 import { getDaysInMonth, isHoliday, isInvalidDate } from '@/utils/calendar';
 import { cn } from '@/utils/core';
 import CalendarDay from '@/components/common/CalendarDay';
-
-export type CalendarData = {
-  [date: `${number}-${number}-${number}`]: Array<{
-    id: string;
-    content: string;
-  }>;
-};
+import { SUN_TO_SAT } from '@/constants/_calendarData';
 
 export type CalendarProps = {
   year: number;
   month: number;
-  data?: CalendarData;
+  data?: CalendarNutritionData;
   readonly?: boolean;
-  onDateClick: (date: string) => void;
+  onDateClick?: (date: string) => void;
 };
-
-const SUN_TO_SAT = ['일', '월', '화', '수', '목', '금', '토'];
 
 const Calendar = ({
   year,
@@ -32,33 +25,28 @@ const Calendar = ({
 }: CalendarProps) => {
   const [activeDate, setActiveDate] = useState<string | null>(null);
 
-  const { days, prevMonthDays, nextMonthDays } = useMemo(() => {
+  const { allDays } = useMemo(() => {
     const days = getDaysInMonth(year, month);
     const startOfMonth = dayjs(new Date(year, month - 1)).startOf('month');
-    const endOfMonth = dayjs(new Date(year, month - 1)).endOf('month');
-
+    const endOfMonth = startOfMonth.endOf('month');
     const prevMonthDays = Array.from({ length: startOfMonth.day() }, (_, i) =>
       startOfMonth.subtract(startOfMonth.day() - i, 'day'),
     );
-
     const nextMonthDays = Array.from({ length: 6 - endOfMonth.day() }, (_, i) =>
       endOfMonth.add(i + 1, 'day'),
     );
 
-    return { days, prevMonthDays, nextMonthDays };
-  }, [year, month]);
+    const allDays = [...prevMonthDays, ...days, ...nextMonthDays];
 
-  const allDays = useMemo(
-    () => [...prevMonthDays, ...days, ...nextMonthDays],
-    [prevMonthDays, days, nextMonthDays],
-  );
+    return { allDays };
+  }, [year, month]);
 
   const handleDateClick = useCallback(
     (date: string) => {
-      if (!readonly) {
-        setActiveDate(date);
-        onDateClick(date);
-      }
+      if (readonly) return;
+
+      setActiveDate(date);
+      onDateClick!(date);
     },
     [readonly, onDateClick],
   );
@@ -79,7 +67,7 @@ const Calendar = ({
           </div>
         ))}
       </div>
-      <div className='grid grid-cols-7 overflow-hidden border-[0.5px] border-gray-200'>
+      <div className='w-160 grid grid-cols-7 overflow-hidden border-[0.5px] border-gray-200'>
         {allDays.map((date, index) => {
           const formattedDate = date.format('YYYY-MM-DD');
           const isActive = formattedDate === activeDate;
@@ -90,7 +78,7 @@ const Calendar = ({
               date={date.format('D')}
               isHoliday={isHoliday(date)}
               isInvalid={isInvalidDate(date, year, month)}
-              data={data?.[formattedDate as keyof CalendarData] || []}
+              data={data?.[formattedDate as keyof CalendarNutritionData] || []}
               isActive={isActive}
               readonly={readonly}
               onClick={() =>

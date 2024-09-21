@@ -9,7 +9,8 @@ export const inputContainerVariants = cva(
       },
       bgcolor: {
         form: 'bg-green-100',
-        search: 'bg-white-100',
+        search: 'bg-white-200',
+        meal: 'bg-white-100',
       },
       borderRadius: {
         basic: 'rounded-md',

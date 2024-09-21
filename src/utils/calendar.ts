@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import { NutritionData } from '@/components/shared/Meal/NutritionInfo';
 
 export const getDaysInMonth = (year: number, month: number) => {
   const startOfMonth = dayjs(new Date(year, month - 1)).startOf('month');
@@ -42,4 +43,12 @@ export const isInvalidDate = (
     date.isBefore(firstDayOfMonth.startOf('month')) ||
     date.isAfter(lastDayOfMonth.endOf('month'))
   );
+};
+
+export const isValidDateString = (date: string): boolean => {
+  return dayjs(date, 'YYYY-MM-DD', true).isValid();
+};
+
+export const sumCalrories = (data: NutritionData[]): number => {
+  return data.reduce((total, item) => total + item.kcal, 0);
 };

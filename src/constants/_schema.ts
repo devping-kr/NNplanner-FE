@@ -7,3 +7,10 @@ export const AUTH_ERROR = {
     name: '2~5자의 한글/영문만 사용 가능합니다',
   },
 };
+
+export const MEAL_HEADER_ERROR = {
+  name: {
+    min: '식단 이름은 최소 2자 이상 입력해주세요',
+    max: '식단 이름은 최대 20자까지 입력 가능합니다',
+  },
+};
