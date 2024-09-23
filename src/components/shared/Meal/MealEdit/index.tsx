@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { memo, useCallback, useEffect, useState } from 'react';
 import Icon from '@/components/common/Icon';
 import { Input } from '@/components/common/Input';
 import { NutritionMenu } from '@/components/common/Typography';
@@ -20,7 +20,7 @@ type MealEditProps = {
 
 const MealEdit = ({ date, data, handleChangeMenu }: MealEditProps) => {
   const [clickedMenu, setClickedMenu] = useState('');
-  const [keyword, setKeyword] = useState('');
+  const [keyword, setKeyword] = useState<string | null>(null);
   const [isSearchShow, setIsSearchShow] = useState(false);
   const [searchResult, setSearchResult] = useState<NutritionData[]>([]);
 
@@ -39,23 +39,32 @@ const MealEdit = ({ date, data, handleChangeMenu }: MealEditProps) => {
     [],
   );
 
-  const handleClickNewMenu = (menu: string) => {
-    const result = MOCK_ALL_MENU.find((item) => item.content === menu);
+  const handleClickNewMenu = useCallback(
+    (menu: string) => {
+      const result = MOCK_ALL_MENU.find((item) => item.content === menu);
 
-    if (result && handleChangeMenu) {
-      const menuName =
-        data.find((item) => item.content === clickedMenu)?.content || '';
-      handleChangeMenu(date, menuName, result);
-    }
-  };
+      if (result && handleChangeMenu) {
+        const menuName =
+          data.find((item) => item.content === clickedMenu)?.content || '';
+        handleChangeMenu(date, menuName, result);
+
+        setClickedMenu(menu);
+        setKeyword(menu);
+        setIsSearchShow(false);
+      }
+    },
+    [date, data, clickedMenu, handleChangeMenu],
+  );
 
   useEffect(() => {
+    if (!keyword) return;
     handleChangeKeyword(MOCK_ALL_MENU, keyword);
   }, [keyword, handleChangeKeyword]);
 
   useEffect(() => {
     setClickedMenu('');
     setKeyword('');
+    setIsSearchShow(false);
   }, [date]);
 
   if (!data) return null;
@@ -79,31 +88,31 @@ const MealEdit = ({ date, data, handleChangeMenu }: MealEditProps) => {
         <KcalInfo data={data} />
       </div>
       <div className='flex w-full flex-col gap-2'>
-        {isSearchShow && (
-          <Input
-            className='text-md placeholder:text-md font-semibold'
-            placeholder='메뉴 이름을 입력해주세요'
-            bgcolor='search'
-            onChange={(e) => setKeyword(e.target.value)}
-            value={keyword || ''}
-          />
-        )}
-        {keyword && (
-          <div className='custom-scrollbar max-h-[500px] w-full overflow-y-auto rounded-md bg-white-200 p-2'>
-            {searchResult.length === 0 ? (
-              <NutritionMenu>메뉴가 존재하지 않습니다</NutritionMenu>
-            ) : (
-              <MealTable
-                data={searchResult}
-                isButton
-                onClick={handleClickNewMenu}
-              />
-            )}
-          </div>
+        {isSearchShow && keyword!.length >= 0 && (
+          <>
+            <Input
+              className='text-md placeholder:text-md font-semibold'
+              placeholder='메뉴 이름을 입력해주세요'
+              bgcolor='search'
+              onChange={(e) => setKeyword(e.target.value)}
+              value={keyword || ''}
+            />
+            <div className='custom-scrollbar max-h-[500px] w-full overflow-y-auto rounded-md bg-white-200 p-2'>
+              {searchResult.length === 0 ? (
+                <NutritionMenu>메뉴가 존재하지 않습니다</NutritionMenu>
+              ) : (
+                <MealTable
+                  data={searchResult}
+                  isButton
+                  onClick={handleClickNewMenu}
+                />
+              )}
+            </div>
+          </>
         )}
       </div>
     </MealInfoContainer>
   );
 };
 
-export default MealEdit;
+export default memo(MealEdit);
