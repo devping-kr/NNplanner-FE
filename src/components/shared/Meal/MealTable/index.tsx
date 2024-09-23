@@ -11,7 +11,7 @@ type MealTableProps = {
 
 const MealTable = ({ data, isButton = false, onClick }: MealTableProps) => {
   return (
-    <div className='flex w-full flex-col gap-2'>
+    <div className='flex w-full flex-col'>
       {data?.map((item) => {
         const tableData = [
           {
