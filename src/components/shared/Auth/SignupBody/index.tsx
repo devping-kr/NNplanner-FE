@@ -3,14 +3,16 @@
 import { useRouter } from 'next/navigation';
 import { ChangeEvent, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { signUpSchema } from '@/schema/authSchema';
 import Button from '@/components/common/Button/Button';
 import { Input } from '@/components/common/Input';
+import { usePostSignup, UserRequest } from '@/hooks/auth/usePostSignup';
 import { useToastStore } from '@/stores/useToastStore';
 
 const SignupBody = () => {
   const router = useRouter();
+  const { mutate: signupMutate, isSuccess } = usePostSignup();
   const [isShowPassword, setIsShowPassword] = useState(false);
   const [isShowPasswordConfirm, setIsShowPasswordConfirm] = useState(false);
   const [verification, setVerification] = useState('');
@@ -21,14 +23,15 @@ const SignupBody = () => {
     handleSubmit,
     formState: { errors },
     watch,
-  } = useForm({
+  } = useForm<UserRequest>({
     resolver: zodResolver(signUpSchema),
     mode: 'onChange',
     defaultValues: {
       email: '',
-      name: '',
+      username: '',
       password: '',
       passwordConfirm: '',
+      loginType: 'LOCAL',
     },
   });
 
@@ -52,13 +55,9 @@ const SignupBody = () => {
     }
   };
 
-  const onSubmit = (data: {
-    email: string;
-    password: string;
-    passwordConfirm: string;
-    name: string;
-  }) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<UserRequest> = (data) => {
+    signupMutate(data);
+    isSuccess && console.log('회원가입 성공');
   };
 
   return (
@@ -133,10 +132,10 @@ const SignupBody = () => {
               placeholder='이름을 입력해주세요'
               height='large'
               className='text-green-500 placeholder:text-green-400'
-              {...register('name')}
+              {...register('username')}
             />
-            {errors.name && (
-              <span className='text-red-300'>{errors.name.message}</span>
+            {errors.username && (
+              <span className='text-red-300'>{errors.username.message}</span>
             )}
           </div>
           <div className='relative'>
