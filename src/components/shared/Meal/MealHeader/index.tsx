@@ -37,8 +37,8 @@ const MealHeader = ({
     !selectedCategory.organization || !selectedCategory.organizationDetail;
 
   return (
-    <div className='flex w-full flex-col gap-4'>
-      <div className='flex w-fit flex-col gap-2'>
+    <div className='flex w-full items-center gap-4'>
+      <div className='relative flex h-fit flex-col'>
         <Input
           bgcolor='meal'
           height='large'
@@ -47,37 +47,38 @@ const MealHeader = ({
           {...register('name')}
         />
         {errors?.name?.message && (
-          <span className='text-red-300'>{errors.name.message.toString()}</span>
+          <span className='absolute bottom-[-26px] text-nowrap text-red-300'>
+            {errors.name.message.toString()}
+          </span>
         )}
-        <div className='flex gap-2'>
-          <Selectbox
-            options={ORGANIZATION_LIST}
-            size='basic'
-            onChange={(organization) =>
-              handleCategoryChange('organization', organization)
-            }
-            className={isCategoryEmpty ? 'border-red-300' : ''}
-          />
-          {ORGANIZATION_LIST.map(
-            (item, index) =>
-              selectedCategory.organization === item.value && (
-                <Selectbox
-                  key={item.value}
-                  options={categories[index]}
-                  size='basic'
-                  onChange={(organizationDetail) =>
-                    handleCategoryChange(
-                      'organizationDetail',
-                      organizationDetail,
-                    )
-                  }
-                  className={isCategoryEmpty ? 'border-red-300' : ''}
-                />
-              ),
-          )}
-        </div>
+      </div>
+      <div className='relative flex gap-2'>
+        <Selectbox
+          options={ORGANIZATION_LIST}
+          size='basic'
+          onChange={(organization) =>
+            handleCategoryChange('organization', organization)
+          }
+          className={isCategoryEmpty ? 'border-red-300' : ''}
+        />
+        {ORGANIZATION_LIST.map(
+          (item, index) =>
+            selectedCategory.organization === item.value && (
+              <Selectbox
+                key={item.value}
+                options={categories[index]}
+                size='basic'
+                onChange={(organizationDetail) =>
+                  handleCategoryChange('organizationDetail', organizationDetail)
+                }
+                className={isCategoryEmpty ? 'border-red-300' : ''}
+              />
+            ),
+        )}
         {isCategoryEmpty && (
-          <span className='mt-auto text-red-300'>{categoryErrorMsg}</span>
+          <span className='absolute bottom-[-32px] mt-auto text-nowrap text-red-300'>
+            {categoryErrorMsg}
+          </span>
         )}
       </div>
     </div>
