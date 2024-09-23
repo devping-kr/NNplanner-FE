@@ -42,8 +42,8 @@ const MealCalendar = ({
 
   return (
     <div className='flex gap-8'>
-      <div className='flex w-fit flex-col gap-4'>
-        <div className='flex w-full justify-between'>
+      <div className='flex w-fit flex-col gap-2'>
+        <div className='flex w-full items-center justify-between'>
           <MealCalenderTitle>{month}월</MealCalenderTitle>
           {type === 'default' && (
             <Button
