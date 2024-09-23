@@ -15,8 +15,8 @@ type MealHeaderProps = {
   errors: FieldErrors<MealHeaderFormData>;
   categoryErrorMsg?: string;
   selectedCategory: {
-    organization: string | null;
-    organizationDetail: string | null;
+    organization: string;
+    organizationDetail: string;
   };
   handleCategoryChange: (
     type: 'organization' | 'organizationDetail',
@@ -60,6 +60,7 @@ const MealHeader = ({
             handleCategoryChange('organization', organization)
           }
           className={isCategoryEmpty ? 'border-red-300' : ''}
+          selectedValue={selectedCategory.organization}
         />
         {ORGANIZATION_LIST.map(
           (item, index) =>
@@ -72,6 +73,7 @@ const MealHeader = ({
                   handleCategoryChange('organizationDetail', organizationDetail)
                 }
                 className={isCategoryEmpty ? 'border-red-300' : ''}
+                selectedValue={selectedCategory.organizationDetail}
               />
             ),
         )}
