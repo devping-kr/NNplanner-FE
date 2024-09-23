@@ -11,9 +11,9 @@ const MealCreateHeader = ({
   seletedCategory,
 }: MealCreateHeaderProps) => {
   return (
-    <div className='flex w-fit flex-col gap-4'>
+    <div className='flex w-fit items-center gap-4'>
       <Input
-        className='text-2xl font-semibold'
+        className='text-2xl font-semibold focus:border-green-400'
         bgcolor='meal'
         height='large'
         value={inputValue}
@@ -22,11 +22,13 @@ const MealCreateHeader = ({
         <Selectbox
           size='basic'
           selectedValue={seletedCategory[0]}
+          className='cursor-not-allowed focus:border-gray-300'
           readonly={true}
         />
         <Selectbox
           size='basic'
           selectedValue={seletedCategory[1]}
+          className='cursor-not-allowed focus:border-gray-300'
           readonly={true}
         />
       </div>
