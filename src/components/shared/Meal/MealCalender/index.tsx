@@ -56,7 +56,7 @@ const MealCalendar = ({
             </Button>
           )}
           {type === 'create' && (
-            <div className='flex w-fit gap-2'>
+            <div className='flex w-fit items-center gap-2'>
               <Button className='h-10 w-fit' size='large' type='submit'>
                 저장
               </Button>
@@ -66,7 +66,7 @@ const MealCalendar = ({
             </div>
           )}
           {type === 'edit' && (
-            <div className='flex w-fit gap-2'>
+            <div className='flex w-fit items-center gap-2'>
               <Button className='h-10 w-fit' size='large' type='submit'>
                 수정 완료
               </Button>
