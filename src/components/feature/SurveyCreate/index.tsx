@@ -57,15 +57,15 @@ const SurveyCreate = () => {
       2000,
     );
     setSuccessSubmit(true);
-    // TODO: 성공했을때 설문조회리스트 페이지로 이동
+    // TODO: 성공했을때 설문조회리스트 페이지로 이동한다고 하면, disabled, readonly 설정 해제 가능
   };
 
   return (
-    <div className='flex w-full flex-col gap-5'>
-      <div className='flex w-full justify-between'>
+    <div className='flex flex-col gap-5'>
+      <div className='flex justify-between'>
         <PageHeaderTitle>설문 생성</PageHeaderTitle>
         <div className='flex gap-3'>
-          <Button onClick={submitSurvey} size='small'>
+          <Button onClick={submitSurvey} disabled={successSubmit} size='small'>
             설문 생성
           </Button>
           <Button
@@ -77,7 +77,7 @@ const SurveyCreate = () => {
           </Button>
         </div>
       </div>
-      <div className='flex w-full gap-4'>
+      <div className='flex gap-4'>
         <div className='w-1/3'>
           <Input
             value={surveyTitle}
@@ -102,6 +102,7 @@ const SurveyCreate = () => {
             onChange={(date) => {
               setDeadLine(date);
             }}
+            readOnly={successSubmit}
             calendarClassName='custom-calendar'
             dayClassName={() => 'custom-day'}
             wrapperClassName='custom-wrapper'
@@ -118,8 +119,8 @@ const SurveyCreate = () => {
           </button>
         </div>
       </div>
-      <div className='flex w-full flex-col gap-10'>
-        <div className='flex w-full gap-5'>
+      <div className='flex flex-col gap-10'>
+        <div className='flex gap-5'>
           <DefaultQuestions />
           <AdditionQuestions
             inputs={inputs}

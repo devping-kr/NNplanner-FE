@@ -56,6 +56,7 @@ const AdditionQuestions = ({
           size='small'
           width='fit'
           className={successSubmit ? 'cursor-default' : ''}
+          disabled={successSubmit}
         >
           + 질문 추가
         </Button>
@@ -83,7 +84,7 @@ const AdditionQuestions = ({
             </li>
           ))
         ) : (
-          <div className='flex w-full items-center justify-center'>
+          <div className='text-center'>
             <CardTitle>추가 질문이 없습니다.</CardTitle>
           </div>
         )}
