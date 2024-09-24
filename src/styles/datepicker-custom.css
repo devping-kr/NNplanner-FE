@@ -60,7 +60,3 @@
     @apply bg-inherit hover:bg-green-600;
   }
 }
-
-/* .custom-wrapper {
-  @apply flex flex-col;
-} */

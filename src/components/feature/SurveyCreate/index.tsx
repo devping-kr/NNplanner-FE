@@ -105,7 +105,6 @@ const SurveyCreate = () => {
             readOnly={successSubmit}
             calendarClassName='custom-calendar'
             dayClassName={() => 'custom-day'}
-            wrapperClassName='custom-wrapper'
             placeholderText='마감날짜 선택'
           />
           <button onClick={() => deadLineDatePickerRef.current!.setFocus()}>
