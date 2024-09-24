@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import Button from '@/components/common/Button/Button';
 import { Input } from '@/components/common/Input';
+import { CardTitle } from '@/components/common/Typography';
 
 interface Props {
   inputs: string[];
@@ -45,35 +46,47 @@ const AdditionQuestions = ({
   };
 
   return (
-    <div className='flex w-full flex-col gap-5'>
-      <Button
-        variant={'outline'}
-        onClick={handleAddInput}
-        className={successSubmit ? 'cursor-default' : ''}
-      >
-        질문 추가
-      </Button>
+    <div className='flex w-full flex-col gap-5 rounded border border-gray-300 bg-white-100 p-5'>
+      <div className='flex items-center'>
+        <div className='w-full'>
+          <CardTitle>추가 질문</CardTitle>
+        </div>
+        <Button
+          onClick={handleAddInput}
+          size='small'
+          width='fit'
+          className={successSubmit ? 'cursor-default' : ''}
+        >
+          + 질문 추가
+        </Button>
+      </div>
       <ul className='flex flex-col gap-3'>
-        {inputs.map((input, idx) => (
-          <li key={idx} className='flex gap-3'>
-            <Input
-              type='text'
-              ref={idx === inputs.length - 1 ? inputRef : null}
-              value={input}
-              onChange={(e) => handleChangeInput(e, idx)}
-              readOnly={successSubmit}
-            />
-            <Button
-              size='small'
-              width='fit'
-              variant={'outline'}
-              onClick={() => handleDeleteInput(idx)}
-              className={successSubmit ? 'cursor-default' : ''}
-            >
-              질문 삭제
-            </Button>
-          </li>
-        ))}
+        {inputs.length !== 0 ? (
+          inputs.map((input, idx) => (
+            <li key={idx} className='flex gap-2'>
+              <Input
+                type='text'
+                ref={idx === inputs.length - 1 ? inputRef : null}
+                value={input}
+                onChange={(e) => handleChangeInput(e, idx)}
+                readOnly={successSubmit}
+              />
+              <Button
+                size='small'
+                width='fit'
+                variant={'outline'}
+                onClick={() => handleDeleteInput(idx)}
+                className={successSubmit ? 'cursor-default' : ''}
+              >
+                질문 삭제
+              </Button>
+            </li>
+          ))
+        ) : (
+          <div className='flex w-full items-center justify-center'>
+            <CardTitle>추가 질문이 없습니다.</CardTitle>
+          </div>
+        )}
       </ul>
     </div>
   );

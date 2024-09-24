@@ -8,7 +8,7 @@ interface Props {
 }
 const TextList = ({ list, title, type }: Props) => {
   return (
-    <div className='flex flex-col gap-3 rounded border border-gray-300 bg-white-100 p-5'>
+    <div className='flex w-full flex-col gap-3 rounded border border-gray-300 bg-white-100 p-5'>
       <CardTitle>{title}</CardTitle>
       <ul
         className={cn(
