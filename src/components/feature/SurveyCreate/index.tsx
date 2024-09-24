@@ -24,13 +24,13 @@ const imageInfo = {
   size: 245,
   src: '/imgs/pi-gon-ping.jpg',
 };
-
+const twoWeekDays = 14;
 const domain = 'https://n-nplanner-fe.vercel.app/';
+const today = new Date();
+const twoWeeksLater = new Date();
+twoWeeksLater.setDate(twoWeeksLater.getDate() + twoWeekDays);
 
 const SurveyCreate = () => {
-  const today = new Date();
-  const twoWeeksLater = new Date();
-  twoWeeksLater.setDate(twoWeeksLater.getDate() + 14);
   const router = useRouter();
   const [inputs, setInputs] = useState<string[]>([]);
   const [surveyTitle, setSurveyTitle] = useState('');
@@ -77,21 +77,23 @@ const SurveyCreate = () => {
           </Button>
         </div>
       </div>
-      <div className='flex flex-col gap-4'>
-        <Input
-          value={surveyTitle}
-          onChange={handleTitleChange}
-          readOnly={successSubmit}
-          placeholder='설문 이름을 입력하세요.'
-          className='font-semibold'
-          bgcolor='meal'
-          height='basic'
-        />
-        <div className='relative h-[29px] w-fit'>
+      <div className='flex w-full gap-4'>
+        <div className='w-1/3'>
+          <Input
+            value={surveyTitle}
+            onChange={handleTitleChange}
+            readOnly={successSubmit}
+            placeholder='설문 이름을 입력하세요.'
+            className='font-semibold'
+            bgcolor='meal'
+            height='basic'
+          />
+        </div>
+        <div className='relative flex w-1/2 max-w-fit items-center'>
           <Label>마감 일자</Label>
           <DatePicker
             ref={deadLineDatePickerRef}
-            className='ml-3 cursor-pointer border-b border-green-400 bg-transparent pb-1 pl-1 focus:outline-none'
+            className='ml-2 cursor-pointer border-b border-green-400 bg-transparent pb-1 pl-1 focus:outline-none'
             shouldCloseOnSelect
             dateFormat='yyyy-MM-dd'
             selected={deadLine}
@@ -111,7 +113,7 @@ const SurveyCreate = () => {
               width={16}
               height={16}
               color='green'
-              className='absolute right-0 top-1'
+              className='absolute bottom-3 right-2'
             />
           </button>
         </div>
