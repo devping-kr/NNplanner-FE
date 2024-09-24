@@ -51,7 +51,7 @@ const AutoPlan = () => {
   };
 
   return (
-    <div className='relative'>
+    <div className='flex gap-8'>
       <form onSubmit={handleSubmit(onSubmit)}>
         <fieldset className='flex w-fit flex-col gap-4'>
           <legend className='sr-only'>자동 식단 이름 및 카테고리 등록</legend>
@@ -72,7 +72,7 @@ const AutoPlan = () => {
           />
         </fieldset>
       </form>
-      <div className='absolute right-2 top-1/4 flex flex-col gap-2'>
+      <div className='flex flex-col gap-2 pt-[166px]'>
         <InfoCard message='선택한 카테고리에 맞는 식단이 자동으로 생성됩니다.' />
         <InfoCard message='식단을 원하는 이름으로 생성하고, 관리할 수 있습니다.' />
       </div>
