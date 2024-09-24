@@ -1,4 +1,4 @@
-import { memo, useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import Icon from '@/components/common/Icon';
 import { Input } from '@/components/common/Input';
 import { NutritionMenu } from '@/components/common/Typography';
@@ -20,24 +20,17 @@ type MealEditProps = {
 
 const MealEdit = ({ date, data, handleChangeMenu }: MealEditProps) => {
   const [clickedMenu, setClickedMenu] = useState('');
-  const [keyword, setKeyword] = useState<string | null>(null);
+  const [keyword, setKeyword] = useState('');
   const [isSearchShow, setIsSearchShow] = useState(false);
-  const [searchResult, setSearchResult] = useState<NutritionData[]>([]);
+
+  const searchResult = useMemo(() => {
+    return MOCK_ALL_MENU.filter((item) => item.content.includes(keyword));
+  }, [keyword]);
 
   const handleClickMenu = (menu: string) => {
     setKeyword(menu);
     setClickedMenu(menu);
   };
-
-  const handleChangeKeyword = useCallback(
-    (allMenuData: NutritionData[], keyword: string) => {
-      const result = allMenuData.filter((item) =>
-        item.content.includes(keyword),
-      );
-      setSearchResult(result);
-    },
-    [],
-  );
 
   const handleClickNewMenu = useCallback(
     (menu: string) => {
@@ -55,11 +48,6 @@ const MealEdit = ({ date, data, handleChangeMenu }: MealEditProps) => {
     },
     [date, data, clickedMenu, handleChangeMenu],
   );
-
-  useEffect(() => {
-    if (!keyword) return;
-    handleChangeKeyword(MOCK_ALL_MENU, keyword);
-  }, [keyword, handleChangeKeyword]);
 
   useEffect(() => {
     setClickedMenu('');
@@ -115,4 +103,4 @@ const MealEdit = ({ date, data, handleChangeMenu }: MealEditProps) => {
   );
 };
 
-export default memo(MealEdit);
+export default MealEdit;
