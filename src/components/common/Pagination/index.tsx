@@ -3,22 +3,16 @@
 import { useState } from 'react';
 import { cn } from '@/utils/core';
 import Button from '../Button/Button';
+import Icon from '../Icon';
 
 interface Props {
   limit: number;
   page: number;
   setPage: React.Dispatch<React.SetStateAction<number>>;
   totalPosts: number;
-  // setSelection: Dispatch<SetStateAction<Set<unknown>>>;
 }
 
-const Pagination = ({
-  limit,
-  page,
-  setPage,
-  totalPosts,
-  // setSelection,
-}: Props) => {
+const Pagination = ({ limit, page, setPage, totalPosts }: Props) => {
   const [blockNum, setBlockNum] = useState(0);
   const pageLimit = 5;
   const blockArea = Number(blockNum * pageLimit);
@@ -45,13 +39,11 @@ const Pagination = ({
   const firstPage = () => {
     setPage(1);
     setBlockNum(0);
-    // setSelection(new Set());
   };
 
   const lastPage = () => {
     setPage(totalPages);
     setBlockNum(Math.ceil(totalPages / pageLimit) - 1);
-    // setSelection(new Set());
   };
 
   const prevBtnHandler = () => {
@@ -60,7 +52,6 @@ const Pagination = ({
     }
     if (page - 1 <= pageLimit * blockNum) {
       setBlockNum((num) => num - 1);
-      // setSelection(new Set());
     }
     setPage((num) => num - 1);
   };
@@ -71,7 +62,6 @@ const Pagination = ({
     }
     if (pageLimit * Number(blockNum + 1) < Number(page + 1)) {
       setBlockNum((num) => num + 1);
-      // setSelection(new Set());
     }
     setPage((num) => num + 1);
   };
@@ -83,14 +73,14 @@ const Pagination = ({
         disabled={blockNum === 0}
         variant={'pagination'}
       >
-        &lt;&lt;
+        <Icon name='arrowPrevBlock' width={15} height={15} color='white' />
       </Button>
       <Button
         onClick={prevBtnHandler}
         disabled={page === 1}
         variant={'pagination'}
       >
-        &lt;
+        <Icon name='arrowPrev' width={15} height={15} color='white' />
       </Button>
       {sliceArr}
       <Button
@@ -98,14 +88,14 @@ const Pagination = ({
         disabled={page === totalPages}
         variant={'pagination'}
       >
-        &gt;
+        <Icon name='arrowNext' width={15} height={15} color='white' />
       </Button>
       <Button
         onClick={lastPage}
         disabled={blockArea >= totalPages - 5}
         variant={'pagination'}
       >
-        &gt;&gt;
+        <Icon name='arrowNextBlock' width={15} height={15} color='white' />
       </Button>
     </div>
   );

@@ -17,6 +17,8 @@ import Success from '@/components/common/Icon/assets/Success';
 import Warning from '@/components/common/Icon/assets/Warning';
 import Xmark from '@/components/common/Icon/assets/Xmark';
 import { colors } from '@/styles/colors';
+import ArrowNextBlock from './ArrowNextBlock';
+import ArrowPrevBlock from './ArrowPrevBlock';
 
 type IconMapEntry = {
   type: 'fill' | 'stroke';
@@ -37,6 +39,8 @@ export const iconMap: Record<string, IconMapEntry> = {
   arrowDown: { type: 'stroke', file: ArrowDown },
   arrowPrev: { type: 'stroke', file: ArrowPrev },
   arrowNext: { type: 'stroke', file: ArrowNext },
+  arrowPrevBlock: { type: 'stroke', file: ArrowPrevBlock },
+  arrowNextBlock: { type: 'stroke', file: ArrowNextBlock },
   dashboard: {
     type: 'stroke',
     file: Dashboard,
