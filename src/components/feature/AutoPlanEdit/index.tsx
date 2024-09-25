@@ -15,7 +15,7 @@ const AutoPlanEdit = () => {
   // api로부터 전달 받는 값
   const mealName = '맛있는 9월 식단 야호';
   const category = {
-    organization: '초등학교',
+    organization: '학교명',
     organizationDetail: '냠냠초등학교',
   };
   const [totalMenuList, setTotalMenuList] = useState(MOCK_CALENDAR_NUTRITION);
@@ -75,7 +75,7 @@ const AutoPlanEdit = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <fieldset className='flex w-fit flex-col gap-8'>
+      <fieldset className='flex w-fit flex-col gap-4'>
         <legend className='sr-only'>자동 식단 이름 및 카테고리 수정</legend>
         <MealHeader
           categories={MOCK_CATEGORY_LIST}

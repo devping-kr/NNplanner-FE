@@ -71,7 +71,7 @@ export const iconMap: Record<string, IconMapEntry> = {
     type: 'stroke',
     file: Normal,
   },
-  dander: {
+  danger: {
     type: 'stroke',
     file: Danger,
   },
