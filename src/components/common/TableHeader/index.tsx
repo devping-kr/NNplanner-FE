@@ -13,7 +13,7 @@ const TableHeader = ({ headerData, className }: TableHeaderProps) => {
           <th
             key={header}
             className={cn(
-              'border-thead border bg-gray-100 p-3 font-semibold',
+              'border-thead border-[1px] border-green-400 bg-green-100 p-3 font-semibold',
               className,
             )}
           >
