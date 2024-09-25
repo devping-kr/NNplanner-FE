@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Icon from '@/components/common/Icon';
 import { Input } from '@/components/common/Input';
 import { NutritionMenu } from '@/components/common/Typography';
@@ -32,22 +32,19 @@ const MealEdit = ({ date, data, handleChangeMenu }: MealEditProps) => {
     setClickedMenu(menu);
   };
 
-  const handleClickNewMenu = useCallback(
-    (menu: string) => {
-      const result = MOCK_ALL_MENU.find((item) => item.content === menu);
+  const handleClickNewMenu = (menu: string) => {
+    const result = MOCK_ALL_MENU.find((item) => item.content === menu);
 
-      if (result && handleChangeMenu) {
-        const menuName =
-          data.find((item) => item.content === clickedMenu)?.content || '';
-        handleChangeMenu(date, menuName, result);
+    if (result && handleChangeMenu) {
+      const menuName =
+        data.find((item) => item.content === clickedMenu)?.content || '';
+      handleChangeMenu(date, menuName, result);
 
-        setClickedMenu(menu);
-        setKeyword(menu);
-        setIsSearchShow(false);
-      }
-    },
-    [date, data, clickedMenu, handleChangeMenu],
-  );
+      setClickedMenu(menu);
+      setKeyword(menu);
+      setIsSearchShow(false);
+    }
+  };
 
   useEffect(() => {
     setClickedMenu('');
