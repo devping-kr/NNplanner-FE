@@ -106,6 +106,34 @@ const SurveyCreate = () => {
             calendarClassName='custom-calendar'
             dayClassName={() => 'custom-day'}
             placeholderText='마감날짜 선택'
+            renderCustomHeader={({
+              date,
+              decreaseMonth,
+              increaseMonth,
+              prevMonthButtonDisabled,
+              nextMonthButtonDisabled,
+            }) => (
+              <div className='mb-2 flex items-center justify-between px-6 font-semibold'>
+                <button
+                  onClick={decreaseMonth}
+                  className={prevMonthButtonDisabled ? 'invisible' : 'block'}
+                  disabled={prevMonthButtonDisabled}
+                >
+                  <Icon name='arrowPrev' width={20} color='green' />
+                </button>
+                <div className='text-base font-bold'>
+                  {date.getFullYear()}
+                  {'년 '}
+                  {date.toLocaleString('default', { month: 'long' })}
+                </div>
+                <button
+                  onClick={increaseMonth}
+                  disabled={nextMonthButtonDisabled}
+                >
+                  <Icon name='arrowNext' width={20} color='green' />
+                </button>
+              </div>
+            )}
           />
           <button onClick={() => deadLineDatePickerRef.current!.setFocus()}>
             <Icon
