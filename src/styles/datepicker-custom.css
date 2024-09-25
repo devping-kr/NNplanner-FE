@@ -1,19 +1,5 @@
 .custom-calendar {
-  @apply left-10 rounded-lg border border-green-500 bg-green-300 p-2 shadow-lg;
-
-  & .react-datepicker__navigation--previous {
-    @apply left-3 top-4 bg-green-400;
-  }
-  & .react-datepicker__navigation-icon::before {
-    @apply border-green-700;
-  }
-
-  & .react-datepicker__navigation--next {
-    @apply right-3 top-4;
-  }
-  & .react-datepicker__navigation-icon::before {
-    @apply border-green-700;
-  }
+  @apply left-10 rounded-lg border border-green-500 bg-white-100 p-2 shadow-2xl;
 }
 
 .react-datepicker__triangle {
@@ -21,35 +7,31 @@
 }
 
 .react-datepicker__header {
-  @apply border-b border-green-500 bg-green-400;
+  @apply border-b border-green-500 bg-transparent;
 
   & .react-datepicker__current-month {
     @apply py-1 text-dark-200;
   }
 
   & .react-datepicker__day-name {
-    @apply text-dark-200;
+    @apply text-green-800;
   }
 }
 
 .custom-day {
-  @apply text-sm text-dark-100 hover:bg-green-600;
+  @apply text-sm text-dark-100 hover:bg-green-800 hover:text-white-100;
 
   &.react-datepicker__day--selected,
   &.react-datepicker__day--in-selecting-range,
   &.react-datepicker__day--in-range {
-    @apply bg-green-500 text-dark-100;
+    @apply border border-green-800 bg-transparent font-semibold text-green-800;
   }
   &.react-datepicker__day:not([aria-disabled='true']) {
-    @apply hover:bg-green-600;
+    @apply hover:bg-green-800 hover:text-white-100;
   }
 
   &.react-datepicker__day--today {
-    @apply bg-inherit hover:bg-green-600;
-  }
-
-  &.react-datepicker__day--today.react-datepicker__day--selected {
-    @apply bg-green-300 text-dark-100;
+    @apply bg-inherit font-bold;
   }
 
   &.react-datepicker__day--disabled {
@@ -57,6 +39,6 @@
   }
 
   &.react-datepicker__day--keyboard-selected {
-    @apply bg-inherit hover:bg-green-600;
+    @apply bg-inherit;
   }
 }
