@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Button from '@/components/common/Button/Button';
 import { Input } from '@/components/common/Input';
 import { CardTitle } from '@/components/common/Typography';
@@ -6,21 +6,16 @@ import { CardTitle } from '@/components/common/Typography';
 interface Props {
   inputs: string[];
   setInputs: React.Dispatch<React.SetStateAction<string[]>>;
-  inputRef: React.RefObject<HTMLInputElement>;
   successSubmit: boolean;
 }
 
-const AdditionQuestions = ({
-  inputs,
-  setInputs,
-  inputRef,
-  successSubmit,
-}: Props) => {
+const AdditionQuestions = ({ inputs, setInputs, successSubmit }: Props) => {
   const [prevInputCount, setPrevInputCount] = useState(0);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (inputs.length > prevInputCount && inputRef.current) {
-      inputRef.current.focus();
+      inputRef.current?.focus();
     }
     setPrevInputCount(inputs.length);
   }, [inputs]);

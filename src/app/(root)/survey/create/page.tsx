@@ -1,4 +1,4 @@
-import SurveyCreate from '@/components/feature/SurveyCreate';
+import SurveyCreate from '@/components/feature/Survey/Create';
 
 const page = () => {
   return <SurveyCreate />;
