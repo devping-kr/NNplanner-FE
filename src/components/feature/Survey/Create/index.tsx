@@ -51,15 +51,13 @@ const SurveyCreate = () => {
         deadLine={deadLine}
         setDeadLine={setDeadLine}
       />
-      <div className='flex flex-col gap-10'>
-        <div className='flex gap-5'>
-          <DefaultQuestions />
-          <AdditionQuestions
-            inputs={inputs}
-            setInputs={setInputs}
-            successSubmit={successSubmit}
-          />
-        </div>
+      <div className='flex gap-5'>
+        <DefaultQuestions />
+        <AdditionQuestions
+          inputs={inputs}
+          setInputs={setInputs}
+          successSubmit={successSubmit}
+        />
       </div>
     </div>
   );

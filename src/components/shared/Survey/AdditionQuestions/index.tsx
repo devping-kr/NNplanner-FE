@@ -66,6 +66,7 @@ const AdditionQuestions = ({ inputs, setInputs, successSubmit }: Props) => {
                 value={input}
                 onChange={(e) => handleChangeInput(e, idx)}
                 readOnly={successSubmit}
+                placeholder='추가 질문을 입력해주세요.'
               />
               <Button
                 size='small'

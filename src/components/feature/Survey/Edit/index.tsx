@@ -43,15 +43,13 @@ const SurveyEdit = () => {
         surveyName={DefaultData.surveyName}
         deadLine={DefaultData.deadlineAt}
       />
-      <div className='flex flex-col gap-10'>
-        <div className='flex gap-5'>
-          <DefaultQuestions />
-          <AdditionQuestions
-            inputs={inputs}
-            setInputs={setInputs}
-            successSubmit={false}
-          />
-        </div>
+      <div className='flex gap-5'>
+        <DefaultQuestions />
+        <AdditionQuestions
+          inputs={inputs}
+          setInputs={setInputs}
+          successSubmit={false}
+        />
       </div>
     </div>
   );
