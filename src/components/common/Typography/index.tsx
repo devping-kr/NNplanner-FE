@@ -31,7 +31,7 @@ export const BodyPrimary = customTypography('p', {
   color: 'dark',
 });
 export const Label = customTypography('label', {
-  type: 'caption1',
+  type: 'subLabel1',
   color: 'darken',
 });
 export const BodyGray = customTypography('p', {
