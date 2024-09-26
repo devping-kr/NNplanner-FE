@@ -75,7 +75,7 @@ const SurveyControls = ({
             name='calendar'
             width={16}
             height={16}
-            color='green'
+            color='active'
             className='absolute bottom-3 right-9'
           />
         </button>

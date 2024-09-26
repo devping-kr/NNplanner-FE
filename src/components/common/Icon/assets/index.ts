@@ -120,7 +120,7 @@ export const COLORS = {
   black: colors.dark[100],
   normal: colors.gray[500],
   success: colors.blue[200],
-  green: colors.green[400],
+  active: colors.green[800],
 };
 
 export type IconType = keyof typeof iconMap;
