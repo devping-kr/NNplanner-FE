@@ -44,14 +44,13 @@ const AdditionQuestions = ({ inputs, setInputs, successSubmit }: Props) => {
 
   return (
     <div className='flex w-full flex-col gap-5 rounded border border-gray-300 bg-white-100 p-5'>
-      <div className='flex items-center justify-between'>
+      <div className='flex items-center justify-between border-b border-gray-200 pb-2'>
         <CardTitle>추가 질문</CardTitle>
         <div className='w-24'>
           <Button
             onClick={handleAddInput}
             size='small'
-            width='full'
-            className={cn('flex', successSubmit ? 'cursor-default' : '')}
+            className={successSubmit ? 'cursor-default' : ''}
             disabled={successSubmit}
           >
             <Icon name='plus' width={15} height={15} color='white' />
@@ -62,7 +61,7 @@ const AdditionQuestions = ({ inputs, setInputs, successSubmit }: Props) => {
       <ul className='flex flex-col gap-3'>
         {inputs.length !== 0 ? (
           inputs.map((input, idx) => (
-            <li key={`${input}-${idx}`} className='flex gap-2'>
+            <li key={`input${idx}-${idx}`} className='flex gap-2'>
               <Input
                 type='text'
                 ref={idx === inputs.length - 1 ? inputRef : null}
@@ -74,13 +73,9 @@ const AdditionQuestions = ({ inputs, setInputs, successSubmit }: Props) => {
               <div className='flex w-24'>
                 <Button
                   size='small'
-                  width='full'
                   variant={'outline'}
                   onClick={() => handleDeleteInput(idx)}
-                  className={cn(
-                    'flex w-24',
-                    successSubmit ? 'cursor-default' : '',
-                  )}
+                  className={cn('w-24', successSubmit ? 'cursor-default' : '')}
                 >
                   질문 삭제
                 </Button>
