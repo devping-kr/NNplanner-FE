@@ -41,4 +41,8 @@
   &.react-datepicker__day--keyboard-selected {
     @apply bg-inherit;
   }
+
+  &.react-datepicker__day--outside-month {
+    @apply text-gray-400;
+  }
 }
