@@ -25,7 +25,7 @@ export const inputContainerVariants = cva(
         false: 'border-green-400',
       },
       disabled: {
-        true: 'cursor-not-allowed opacity-50',
+        true: 'cursor-not-allowed opacity-80',
       },
     },
     defaultVariants: {
@@ -37,5 +37,5 @@ export const inputContainerVariants = cva(
 );
 
 export const inputVariants = cva(
-  'w-full flex items-center bg-transparent text-[14px] placeholder:text-gray-400 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50',
+  'w-full flex items-center bg-transparent text-[14px] placeholder:text-gray-400 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-80',
 );

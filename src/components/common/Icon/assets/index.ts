@@ -11,6 +11,7 @@ import Edit from '@/components/common/Icon/assets/Edit';
 import Hide from '@/components/common/Icon/assets/Hide';
 import Normal from '@/components/common/Icon/assets/Info';
 import Logout from '@/components/common/Icon/assets/Logout';
+import Plus from '@/components/common/Icon/assets/Plus';
 import Search from '@/components/common/Icon/assets/Search';
 import Show from '@/components/common/Icon/assets/Show';
 import Success from '@/components/common/Icon/assets/Success';
@@ -33,6 +34,7 @@ export const iconMap: Record<string, IconMapEntry> = {
   search: { type: 'stroke', file: Search },
   edit: { type: 'fill', file: Edit },
   xmark: { type: 'fill', file: Xmark },
+  plus: { type: 'stroke', file: Plus },
   arrowUp: { type: 'stroke', file: Arrowup },
   arrowDown: { type: 'stroke', file: ArrowDown },
   arrowPrev: { type: 'stroke', file: ArrowPrev },
