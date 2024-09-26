@@ -21,7 +21,7 @@ const CustomDatePickerHeader = ({
       className={prevMonthButtonDisabled ? 'invisible' : 'block'}
       disabled={prevMonthButtonDisabled}
     >
-      <Icon name='arrowPrev' width={20} color='green' />
+      <Icon name='arrowPrev' width={20} color='active' />
     </button>
     <div className='text-base font-bold'>
       {date.getFullYear()}
@@ -29,7 +29,7 @@ const CustomDatePickerHeader = ({
       {date.toLocaleString('default', { month: 'long' })}
     </div>
     <button onClick={increaseMonth} disabled={nextMonthButtonDisabled}>
-      <Icon name='arrowNext' width={20} color='green' />
+      <Icon name='arrowNext' width={20} color='active' />
     </button>
   </div>
 );
