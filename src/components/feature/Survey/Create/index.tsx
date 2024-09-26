@@ -6,13 +6,14 @@ import AdditionQuestions from '@/components/shared/Survey/AdditionQuestions';
 import SurveyControls from '@/components/shared/Survey/Controls';
 import DefaultQuestions from '@/components/shared/Survey/DefaultQuestions';
 import SurveyHeader from '@/components/shared/Survey/Header';
+import { NAV_LINKS } from '@/constants/_navbar';
 import { useToastStore } from '@/stores/useToastStore';
 import 'react-datepicker/dist/react-datepicker.css';
 import '@/styles/datepicker-custom.css';
 
-const twoWeekDays = 14;
+const TWO_WEEK_DAYS = 14;
 const twoWeeksLater = new Date();
-twoWeeksLater.setDate(twoWeeksLater.getDate() + twoWeekDays);
+twoWeeksLater.setDate(twoWeeksLater.getDate() + TWO_WEEK_DAYS);
 
 const SurveyCreate = () => {
   const router = useRouter();
@@ -34,7 +35,7 @@ const SurveyCreate = () => {
       return;
     }
     setSuccessSubmit(true);
-    router.push('/viewChart');
+    router.push(NAV_LINKS[4].href);
   };
 
   return (

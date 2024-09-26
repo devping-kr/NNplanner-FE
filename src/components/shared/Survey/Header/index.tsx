@@ -7,6 +7,7 @@ interface Props {
   accessBtnText: string;
   accessHandler: () => void;
 }
+
 const SurveyHeader = ({ title, accessBtnText, accessHandler }: Props) => {
   const router = useRouter();
 

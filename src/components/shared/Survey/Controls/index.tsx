@@ -4,6 +4,7 @@ import DatePicker from 'react-datepicker';
 import Icon from '@/components/common/Icon';
 import { Input } from '@/components/common/Input';
 import { Label } from '@/components/common/Typography';
+import CustomDatePickerHeader from '@/components/shared/Survey/CustomDatePickerHeader';
 
 interface Props {
   type: 'create' | 'edit';
@@ -13,10 +14,7 @@ interface Props {
   setDeadLine?: React.Dispatch<React.SetStateAction<Date | null>>;
 }
 
-const twoWeekDays = 14;
 const today = new Date();
-const twoWeeksLater = new Date();
-twoWeeksLater.setDate(twoWeeksLater.getDate() + twoWeekDays);
 
 const SurveyControls = ({
   type,
@@ -27,6 +25,16 @@ const SurveyControls = ({
 }: Props) => {
   const deadLineDatePickerRef = useRef<DatePicker | null>(null);
   const isChangeable = type === 'create';
+
+  const handleChangeDate = (date: Date | null) => {
+    if (date) {
+      setDeadLine!(date);
+    }
+  };
+
+  const handleOpenDatePicker = () => {
+    deadLineDatePickerRef.current!.setFocus();
+  };
 
   return (
     <div className='flex gap-4'>
@@ -41,58 +49,25 @@ const SurveyControls = ({
           height='basic'
         />
       </div>
-      <div className='relative flex w-1/2 max-w-fit items-center'>
+      <div className='relative flex w-56 items-center gap-2'>
         <Label>마감 일자</Label>
         <DatePicker
           ref={deadLineDatePickerRef}
-          className='ml-2 cursor-pointer border-b border-green-400 bg-transparent pb-1 pl-1 focus:outline-none disabled:cursor-not-allowed disabled:text-gray-400'
+          className='flex w-28 cursor-pointer border-b border-green-400 bg-transparent pl-1 focus:outline-none disabled:cursor-not-allowed disabled:opacity-80'
           shouldCloseOnSelect
           dateFormat='yyyy-MM-dd'
           disabled={!isChangeable}
           selected={deadLine}
           locale={ko}
           minDate={today}
-          onChange={
-            isChangeable
-              ? (date) => {
-                  setDeadLine!(date);
-                }
-              : undefined
-          }
+          onChange={handleChangeDate}
           calendarClassName='custom-calendar'
           dayClassName={() => 'custom-day'}
           placeholderText='마감날짜 선택'
-          renderCustomHeader={({
-            date,
-            decreaseMonth,
-            increaseMonth,
-            prevMonthButtonDisabled,
-            nextMonthButtonDisabled,
-          }) => (
-            <div className='mb-2 flex items-center justify-between px-6 font-semibold'>
-              <button
-                onClick={decreaseMonth}
-                className={prevMonthButtonDisabled ? 'invisible' : 'block'}
-                disabled={prevMonthButtonDisabled}
-              >
-                <Icon name='arrowPrev' width={20} color='green' />
-              </button>
-              <div className='text-base font-bold'>
-                {date.getFullYear()}
-                {'년 '}
-                {date.toLocaleString('default', { month: 'long' })}
-              </div>
-              <button
-                onClick={increaseMonth}
-                disabled={nextMonthButtonDisabled}
-              >
-                <Icon name='arrowNext' width={20} color='green' />
-              </button>
-            </div>
-          )}
+          renderCustomHeader={CustomDatePickerHeader}
         />
         <button
-          onClick={() => deadLineDatePickerRef.current!.setFocus()}
+          onClick={handleOpenDatePicker}
           disabled={!isChangeable}
           className='disabled:cursor-not-allowed'
         >
@@ -101,7 +76,7 @@ const SurveyControls = ({
             width={16}
             height={16}
             color='green'
-            className='absolute bottom-3 right-2'
+            className='absolute bottom-3 right-9'
           />
         </button>
       </div>

@@ -1,4 +1,4 @@
-import TextList from '../../ChartDetail/TextList';
+import TextList from '@/components/shared/ChartDetail/TextList';
 import { DEFAULT_QUESTIONS } from '@/constants/_defaultQuestion';
 
 const DefaultQuestions = () => {
