@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
+import { cn } from '@/utils/core';
 import Button from '@/components/common/Button/Button';
+import Icon from '@/components/common/Icon';
 import { Input } from '@/components/common/Input';
 import { CardTitle } from '@/components/common/Typography';
 
@@ -42,24 +44,25 @@ const AdditionQuestions = ({ inputs, setInputs, successSubmit }: Props) => {
 
   return (
     <div className='flex w-full flex-col gap-5 rounded border border-gray-300 bg-white-100 p-5'>
-      <div className='flex items-center'>
-        <div className='w-full'>
-          <CardTitle>추가 질문</CardTitle>
+      <div className='flex items-center justify-between'>
+        <CardTitle>추가 질문</CardTitle>
+        <div className='w-24'>
+          <Button
+            onClick={handleAddInput}
+            size='small'
+            width='full'
+            className={cn('flex', successSubmit ? 'cursor-default' : '')}
+            disabled={successSubmit}
+          >
+            <Icon name='plus' width={15} height={15} color='white' />
+            <span>질문 추가</span>
+          </Button>
         </div>
-        <Button
-          onClick={handleAddInput}
-          size='small'
-          width='fit'
-          className={successSubmit ? 'cursor-default' : ''}
-          disabled={successSubmit}
-        >
-          + 질문 추가
-        </Button>
       </div>
       <ul className='flex flex-col gap-3'>
         {inputs.length !== 0 ? (
           inputs.map((input, idx) => (
-            <li key={idx} className='flex gap-2'>
+            <li key={`${input}-${idx}`} className='flex gap-2'>
               <Input
                 type='text'
                 ref={idx === inputs.length - 1 ? inputRef : null}
@@ -68,15 +71,20 @@ const AdditionQuestions = ({ inputs, setInputs, successSubmit }: Props) => {
                 readOnly={successSubmit}
                 placeholder='추가 질문을 입력해주세요.'
               />
-              <Button
-                size='small'
-                width='fit'
-                variant={'outline'}
-                onClick={() => handleDeleteInput(idx)}
-                className={successSubmit ? 'cursor-default' : ''}
-              >
-                질문 삭제
-              </Button>
+              <div className='flex w-24'>
+                <Button
+                  size='small'
+                  width='full'
+                  variant={'outline'}
+                  onClick={() => handleDeleteInput(idx)}
+                  className={cn(
+                    'flex w-24',
+                    successSubmit ? 'cursor-default' : '',
+                  )}
+                >
+                  질문 삭제
+                </Button>
+              </div>
             </li>
           ))
         ) : (
