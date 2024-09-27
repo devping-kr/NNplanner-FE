@@ -52,42 +52,46 @@ const Calendar = ({
   );
 
   return (
-    <div className='w-fit'>
-      <div className='mb-2 grid grid-cols-7'>
+    <div className='w-164'>
+      <div className='mb-2 grid w-fit grid-cols-7'>
         {SUN_TO_SAT.map((day) => (
-          <div
+          <span
             key={day}
             className={cn(
-              'text-center font-bold text-dark-100',
+              'w-40 text-center font-bold text-dark-100',
               day === SUN_TO_SAT[0] && 'text-red-500',
             )}
             aria-label={`${day}요일`}
           >
             {day}
-          </div>
+          </span>
         ))}
       </div>
-      <div className='custom-scrollbar w-160 grid h-[690px] grid-cols-7 overflow-y-scroll border-[0.5px] border-gray-200'>
-        {allDays.map((date, index) => {
-          const formattedDate = date.format('YYYY-MM-DD');
-          const isActive = formattedDate === activeDate;
+      <div className='scrollbar-gray-100 h-[690px] w-full overflow-y-scroll'>
+        <div className='grid grid-cols-7 border-[0.5px] border-gray-200'>
+          {allDays.map((date, index) => {
+            const formattedDate = date.format('YYYY-MM-DD');
+            const isActive = formattedDate === activeDate;
 
-          return (
-            <CalendarDay
-              key={index}
-              date={date.format('D')}
-              isHoliday={isHoliday(date)}
-              isInvalid={isInvalidDate(date, year, month)}
-              data={data?.[formattedDate as keyof CalendarNutritionData] || []}
-              isActive={isActive}
-              readonly={readonly}
-              onClick={() =>
-                !isInvalidDate(date, year, month) &&
-                handleDateClick(formattedDate)
-              }
-            />
-          );
-        })}
+            return (
+              <CalendarDay
+                key={index}
+                date={date.format('D')}
+                isHoliday={isHoliday(date)}
+                isInvalid={isInvalidDate(date, year, month)}
+                data={
+                  data?.[formattedDate as keyof CalendarNutritionData] || []
+                }
+                isActive={isActive}
+                readonly={readonly}
+                onClick={() =>
+                  !isInvalidDate(date, year, month) &&
+                  handleDateClick(formattedDate)
+                }
+              />
+            );
+          })}
+        </div>
       </div>
     </div>
   );
