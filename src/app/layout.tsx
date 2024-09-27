@@ -1,7 +1,14 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import localFont from 'next/font/local';
 import Providers from '@/contexts/Providers';
 import { ToastProvider } from '@/components/common/ToastProvider';
+
+const pretendard = localFont({
+  src: '../public/fonts/PretendardVariable.woff2',
+  display: 'swap',
+  variable: '--font-pretendard',
+});
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -14,7 +21,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang='ko'>
+    <html lang='ko' className={`${pretendard.variable}`}>
       <body className='bg-white-100'>
         <Providers>
           <div>{children}</div>

@@ -2,17 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
-  font-family: 'Pretendard';
-  src: url('/fonts/Pretendard-Regular.woff2') format('woff2');
-  font-weight: 500;
-  font-style: normal;
-}
-
-body {
-  font-family: 'Pretendard', sans-serif;
-}
-
 @layer utilities {
   .custom-scrollbar::-webkit-scrollbar,
   .scrollbar-gray-100::-webkit-scrollbar {
