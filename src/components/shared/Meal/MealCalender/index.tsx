@@ -42,8 +42,8 @@ const MealCalendar = ({
 
   return (
     <div className='flex gap-8'>
-      <div className='flex w-fit flex-col gap-4'>
-        <div className='flex w-full justify-between'>
+      <div className='flex w-fit flex-col gap-2'>
+        <div className='flex w-full items-center justify-between'>
           <MealCalenderTitle>{month}월</MealCalenderTitle>
           {type === 'default' && (
             <Button
@@ -56,7 +56,7 @@ const MealCalendar = ({
             </Button>
           )}
           {type === 'create' && (
-            <div className='flex w-fit gap-2'>
+            <div className='flex w-fit items-center gap-2'>
               <Button className='h-10 w-fit' size='large' type='submit'>
                 저장
               </Button>
@@ -66,7 +66,7 @@ const MealCalendar = ({
             </div>
           )}
           {type === 'edit' && (
-            <div className='flex w-fit gap-2'>
+            <div className='flex w-fit items-center gap-2'>
               <Button className='h-10 w-fit' size='large' type='submit'>
                 수정 완료
               </Button>

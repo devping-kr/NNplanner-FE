@@ -1,0 +1,48 @@
+.custom-calendar {
+  @apply left-10 rounded-lg border border-green-500 bg-white-100 p-2 shadow-2xl;
+}
+
+.react-datepicker__triangle {
+  display: none;
+}
+
+.react-datepicker__header {
+  @apply border-b border-green-500 bg-transparent;
+
+  & .react-datepicker__current-month {
+    @apply py-1 text-dark-200;
+  }
+
+  & .react-datepicker__day-name {
+    @apply text-green-800;
+  }
+}
+
+.custom-day {
+  @apply text-sm text-dark-100 hover:bg-green-800 hover:text-white-100;
+
+  &.react-datepicker__day--selected,
+  &.react-datepicker__day--in-selecting-range,
+  &.react-datepicker__day--in-range {
+    @apply border border-green-800 bg-transparent font-semibold text-green-800;
+  }
+  &.react-datepicker__day:not([aria-disabled='true']) {
+    @apply hover:bg-green-800 hover:text-white-100;
+  }
+
+  &.react-datepicker__day--today {
+    @apply bg-inherit font-bold;
+  }
+
+  &.react-datepicker__day--disabled {
+    @apply text-gray-400 hover:bg-inherit;
+  }
+
+  &.react-datepicker__day--keyboard-selected {
+    @apply bg-inherit;
+  }
+
+  &.react-datepicker__day--outside-month {
+    @apply text-gray-400;
+  }
+}

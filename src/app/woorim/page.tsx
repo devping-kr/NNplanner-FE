@@ -7,12 +7,12 @@
 // // import Navbar from '@/components/common/Navbar';
 // import { Option, Selectbox } from '@/components/common/Selectbox';
 // import Table from '@/components/common/Table';
-// import MealHeader from '@/components/shared/Meal/MealHeader';
-// import { SCHOOL_LEVEL_LIST } from '@/constants/_category';
-
+// import MealHeader, {
+//   schoolLevelList,
+// } from '@/components/shared/Meal/MealHeader';
 // import { useToastStore } from '@/stores/useToastStore';
 
-// // 테이블 예시 데이터
+// 테이블 예시 데이터
 // const tableData2 = [
 //   {
 //     id: 1,

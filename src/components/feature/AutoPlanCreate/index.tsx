@@ -27,7 +27,7 @@ const AutoPlanCreate = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <fieldset className='flex w-fit flex-col gap-8'>
+      <fieldset className='flex w-fit flex-col gap-4'>
         <legend className='sr-only'>자동 식단 이름 및 카테고리 등록</legend>
         <MealCreateHeader
           inputValue={mealName}

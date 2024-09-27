@@ -2,95 +2,88 @@
 
 import { useState } from 'react';
 import { cn } from '@/utils/core';
-import Button from '../Button/Button';
+import Button from '@/components/common/Button/Button';
+import Icon from '@/components/common/Icon';
 
 interface Props {
   limit: number;
   page: number;
   setPage: React.Dispatch<React.SetStateAction<number>>;
   totalPosts: number;
-  // setSelection: Dispatch<SetStateAction<Set<unknown>>>;
 }
 
-const Pagination = ({
-  limit,
-  page,
-  setPage,
-  totalPosts,
-  // setSelection,
-}: Props) => {
+const PAGE_LIMIT = 5;
+const ZERO = 0;
+const ONE = 1;
+
+const Pagination = ({ limit, page, setPage, totalPosts }: Props) => {
   const [blockNum, setBlockNum] = useState(0);
-  const pageLimit = 5;
-  const blockArea = Number(blockNum * pageLimit);
+  const blockArea = Number(blockNum * PAGE_LIMIT);
   const totalPages = Math.ceil(totalPosts / limit);
   const createArr = Array(totalPages)
-    .fill(0)
+    .fill(ZERO)
     .map((_, i) => (
       <Button
-        key={i + 1}
-        onClick={() => setPage(i + 1)}
-        aria-current={page === i + 1 ? 'page' : undefined}
+        key={i + ONE}
+        onClick={() => setPage(i + ONE)}
+        aria-current={page === i + ONE ? 'page' : undefined}
         variant={'pagination'}
         className={cn(
           '',
-          page === i + 1 ? 'bg-green-400 hover:bg-green-400' : '',
+          page === i + ONE ? 'bg-green-400 hover:bg-green-400' : '',
         )}
       >
-        {i + 1}
+        {i + ONE}
       </Button>
     ));
 
-  const sliceArr = createArr.slice(blockArea, Number(pageLimit) + blockArea);
+  const sliceArr = createArr.slice(blockArea, Number(PAGE_LIMIT) + blockArea);
 
   const firstPage = () => {
-    setPage(1);
-    setBlockNum(0);
-    // setSelection(new Set());
+    setPage(ONE);
+    setBlockNum(ZERO);
   };
 
   const lastPage = () => {
     setPage(totalPages);
-    setBlockNum(Math.ceil(totalPages / pageLimit) - 1);
-    // setSelection(new Set());
+    setBlockNum(Math.ceil(totalPages / PAGE_LIMIT) - ONE);
   };
 
   const prevBtnHandler = () => {
-    if (page <= 1) {
+    if (page <= ONE) {
       return;
     }
-    if (page - 1 <= pageLimit * blockNum) {
-      setBlockNum((num) => num - 1);
-      // setSelection(new Set());
+    if (page - ONE <= PAGE_LIMIT * blockNum) {
+      setBlockNum((num) => num - ONE);
     }
-    setPage((num) => num - 1);
+    setPage((num) => num - ONE);
   };
 
   const nextBtnHandler = () => {
     if (page >= totalPages) {
       return;
     }
-    if (pageLimit * Number(blockNum + 1) < Number(page + 1)) {
-      setBlockNum((num) => num + 1);
-      // setSelection(new Set());
+    if (PAGE_LIMIT * Number(blockNum + ONE) < Number(page + ONE)) {
+      setBlockNum((num) => num + ONE);
     }
-    setPage((num) => num + 1);
+    setPage((num) => num + ONE);
   };
 
   return (
     <div className='flex w-full items-center justify-center gap-2'>
       <Button
         onClick={firstPage}
-        disabled={blockNum === 0}
+        disabled={blockNum === ZERO}
         variant={'pagination'}
       >
-        &lt;&lt;
+        <Icon name='arrowPrevBlock' width={15} height={15} color='white' />
       </Button>
       <Button
         onClick={prevBtnHandler}
-        disabled={page === 1}
+        disabled={page === ONE}
         variant={'pagination'}
       >
-        &lt;
+        <Icon name='arrowPrev' width={15} height={15} color='white' />
       </Button>
       {sliceArr}
       <Button
@@ -98,14 +91,14 @@ const Pagination = ({
         disabled={page === totalPages}
         variant={'pagination'}
       >
-        &gt;
+        <Icon name='arrowNext' width={15} height={15} color='white' />
       </Button>
       <Button
         onClick={lastPage}
-        disabled={blockArea >= totalPages - 5}
+        disabled={blockArea >= totalPages - PAGE_LIMIT}
         variant={'pagination'}
       >
-        &gt;&gt;
+        <Icon name='arrowNextBlock' width={15} height={15} color='white' />
       </Button>
     </div>
   );

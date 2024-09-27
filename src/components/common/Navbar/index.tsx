@@ -31,7 +31,11 @@ const Navbar = () => {
           <div className='flex flex-col gap-2'>
             {NAV_LINKS.map(({ name, href, icon }) => (
               <NavMenu key={name} href={href} isActive={selecedTab === name}>
-                <Icon name={icon} className='hover:stroke-green-800' />
+                <Icon
+                  name={icon}
+                  className='hover:stroke-green-800'
+                  color={selecedTab === name ? 'active' : 'normal'}
+                />
                 <span>{name}</span>
               </NavMenu>
             ))}

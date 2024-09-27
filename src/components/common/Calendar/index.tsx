@@ -67,7 +67,7 @@ const Calendar = ({
           </div>
         ))}
       </div>
-      <div className='w-160 grid grid-cols-7 overflow-hidden border-[0.5px] border-gray-200'>
+      <div className='custom-scrollbar w-160 grid h-[690px] grid-cols-7 overflow-y-scroll border-[0.5px] border-gray-200'>
         {allDays.map((date, index) => {
           const formattedDate = date.format('YYYY-MM-DD');
           const isActive = formattedDate === activeDate;
