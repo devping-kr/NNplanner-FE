@@ -1,9 +1,14 @@
 import { z } from 'zod';
 import { AUTH_ERROR } from '@/constants/_schema';
 
+const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
+
 const baseAuthSchema = z.object({
   email: z.string().email({ message: AUTH_ERROR.base.email }),
-  password: z.string().min(8, { message: AUTH_ERROR.base.password }),
+  password: z
+    .string()
+    .min(8, { message: AUTH_ERROR.base.password })
+    .regex(passwordRegex, { message: AUTH_ERROR.base.password }),
 });
 
 export const loginSchema = baseAuthSchema;
