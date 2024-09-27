@@ -5,7 +5,7 @@ import Providers from '@/contexts/Providers';
 import { ToastProvider } from '@/components/common/ToastProvider';
 
 const pretendard = localFont({
-  src: '../public/fonts/PretendardVariable.woff2',
+  src: '../../public/fonts/PretendardVariable.woff2',
   display: 'swap',
   variable: '--font-pretendard',
 });
