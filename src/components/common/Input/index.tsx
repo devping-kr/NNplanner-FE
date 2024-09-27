@@ -30,6 +30,7 @@ export type InputProps = ComponentPropsWithoutRef<'input'> &
   InputIconProps & {
     rightIconAction?: VoidFunction;
     includeButton?: boolean;
+    buttonText?: string;
     onSubmit?: VoidFunction;
   };
 
@@ -49,6 +50,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       rightIconAction = () => {},
       onSubmit = () => {},
       height,
+      buttonText = '검색',
       ...props
     }: InputProps,
     ref,
@@ -96,7 +98,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             width='fit'
             disabled={disabled || !value}
           >
-            검색
+            {buttonText}
           </Button>
         )}
       </div>
