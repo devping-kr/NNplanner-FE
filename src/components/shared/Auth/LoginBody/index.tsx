@@ -3,29 +3,33 @@
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { loginSchema } from '@/schema/authSchema';
+import { LoginRequest } from '@/type/auth/authRequest';
 import Button from '@/components/common/Button/Button';
 import { Input } from '@/components/common/Input';
+import { usePostLogin } from '@/hooks/auth/usePostLogin';
 
 const LoginBody = () => {
   const router = useRouter();
   const [isShowPassword, setIsShowPassword] = useState(false);
+  const { mutate: loginMutate } = usePostLogin();
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({
+  } = useForm<LoginRequest>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
       email: '',
       password: '',
+      loginType: 'LOCAL',
     },
   });
-  const onSubmit = (data: { email: string; password: string }) => {
-    // TODO: auth api 배포후 작성예정
-    console.log(data);
+
+  const onSubmit: SubmitHandler<LoginRequest> = (data) => {
+    loginMutate(data);
   };
 
   return (
@@ -49,7 +53,9 @@ const LoginBody = () => {
               {...register('email')}
             />
             {errors.email && (
-              <span className='text-red-300'>{errors.email.message}</span>
+              <span className='text-xs text-red-300'>
+                {errors.email.message}
+              </span>
             )}
           </div>
           <div className='relative w-full'>
@@ -71,7 +77,9 @@ const LoginBody = () => {
               {...register('password')}
             />
             {errors.password && (
-              <span className='text-red-300'>{errors.password.message}</span>
+              <span className='text-xs text-red-300'>
+                {errors.password.message}
+              </span>
             )}
           </div>
           <div className='flex w-full flex-col gap-2'>
