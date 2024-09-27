@@ -2,25 +2,25 @@
 @tailwind components;
 @tailwind utilities;
 
-/* app/styles/globals.css */
-@import url('https://cdn.jsdelivr.net/npm/pretendard@latest/dist/web/static/pretendard.css');
-
-body {
-  font-family: 'Pretendard', sans-serif;
-}
-
 @layer utilities {
-  .custom-scrollbar::-webkit-scrollbar {
+  .custom-scrollbar::-webkit-scrollbar,
+  .scrollbar-gray-100::-webkit-scrollbar {
     width: 20px; /* 스크롤바 너비 */
   }
 
-  .custom-scrollbar::-webkit-scrollbar-track {
+  .custom-scrollbar::-webkit-scrollbar-track,
+  .scrollbar-gray-100::-webkit-scrollbar {
     background-color: transparent; /* 트랙 색상 */
   }
 
-  .custom-scrollbar::-webkit-scrollbar-thumb {
+  .custom-scrollbar::-webkit-scrollbar-thumb,
+  .scrollbar-gray-100::-webkit-scrollbar-thumb {
     background-color: #aaaaaa; /* 손잡이 색상 gray400 */
     border-radius: 20px;
     border: 6px solid #fcfbfa; /* 트랙과의 구분을 위한 여백 white100*/
+  }
+
+  .scrollbar-gray-100::-webkit-scrollbar-thumb {
+    border-color: #f5f5f5; /* navbar 제외한 배경색 white-200  */
   }
 }
