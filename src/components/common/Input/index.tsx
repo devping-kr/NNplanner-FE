@@ -92,6 +92,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         )}
         {includeButton && (
           <Button
+            type='button'
             onClick={onSubmit}
             className='w-14 cursor-pointer items-center justify-center rounded px-0 py-1'
             size='small'
