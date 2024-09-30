@@ -26,14 +26,14 @@ const imageInfo = {
 const userData = {
   name: '내 이름',
   email: 'test123@naver.com',
-  mealPlan: 0,
+  mealPlan: 3,
   survey: 3,
 };
 
 const MyPage = () => {
   const [isOpenPasswordChange, setIsOpenPasswordChange] = useState(false);
 
-  // 아래 변수는 api 동작시 success로 대체예정
+  // 아래 변수는 현재 비밀번호확인 api 동작시 success로 대체예정
   const isSuccessConfirm = false;
 
   const {
@@ -245,6 +245,9 @@ const MyPage = () => {
             <GetAllListTable data={SURVEY_DATA.slice(0, 3)} />
           )}
         </div>
+        <button className='flex justify-end text-xs text-gray-400 underline opacity-50'>
+          회원탈퇴
+        </button>
       </div>
     </div>
   );
