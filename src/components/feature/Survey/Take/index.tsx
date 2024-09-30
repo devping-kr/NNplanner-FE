@@ -92,20 +92,10 @@ const SurveyTake = ({ id }: Props) => {
   const year = now.getFullYear();
   const month = now.getMonth() + 1;
 
-  const handleRadioChange = (questionId: number, value: number) => {
+  const handleChange = (questionId: number, value: number | string) => {
     setAnswers((prev) => ({
       ...prev,
       [questionId]: value,
-    }));
-  };
-
-  const handleTextChange = (
-    questionId: number,
-    e: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    setAnswers((prev) => ({
-      ...prev,
-      [questionId]: e.target.value,
     }));
   };
 
@@ -136,7 +126,9 @@ const SurveyTake = ({ id }: Props) => {
             {question.type === 'text' ? (
               <Input
                 value={answers[question.questionId] || ''}
-                onChange={(e) => handleTextChange(question.questionId, e)}
+                onChange={(e) =>
+                  handleChange(question.questionId, e.target.value)
+                }
               />
             ) : (
               <div className='flex justify-around'>
@@ -148,9 +140,7 @@ const SurveyTake = ({ id }: Props) => {
                       id={`${question.questionId}_${option}`}
                       value={option}
                       checked={answers[question.questionId] === option}
-                      onChange={() =>
-                        handleRadioChange(question.questionId, option)
-                      }
+                      onChange={() => handleChange(question.questionId, option)}
                     />
                     <label htmlFor={`${question.questionId}_${option}`}>
                       {option}
