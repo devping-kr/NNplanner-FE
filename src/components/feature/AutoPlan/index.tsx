@@ -8,6 +8,9 @@ import InfoCard from '@/components/common/InfoCard';
 import MealCalendar from '@/components/shared/Meal/MealCalender';
 import MealHeader from '@/components/shared/Meal/MealHeader';
 import { MOCK_CATEGORY_LIST } from '@/constants/_category';
+import { INFOCARD_MESSAGE } from '@/constants/_infoCard';
+import { MEAL_HEADER_ERROR } from '@/constants/_schema';
+import { useToastStore } from '@/stores/useToastStore';
 
 const now = new Date();
 const year = now.getFullYear();
@@ -18,9 +21,8 @@ const AutoPlan = () => {
     organization: '',
     organizationDetail: '',
   });
-  const isCategoryEmpty = !(
-    selectedCategory.organization || selectedCategory.organizationDetail
-  );
+  const [isCategoryError, setIsCategoryError] = useState(false);
+  const { showToast } = useToastStore();
 
   const {
     register,
@@ -34,7 +36,7 @@ const AutoPlan = () => {
     },
   });
 
-  const handleCategoryChange = (
+  const handleChangeCategory = (
     type: 'organization' | 'organizationDetail',
     value: string,
   ) => {
@@ -42,17 +44,37 @@ const AutoPlan = () => {
       ...prev,
       [type]: value,
     }));
+    setIsCategoryError(false);
   };
 
   const onSubmit = (data: { name: string }) => {
-    if (isCategoryEmpty) return;
+    // if (isCategoryEmpty) return;
     // 선택한 카테고리 + 식단이름 제출 + autoPlan/create로 이동
     console.log(data);
+    const isSelectedCategoryInvalid =
+      selectedCategory.organization === '' ||
+      selectedCategory.organizationDetail === '';
+
+    if (isSelectedCategoryInvalid) {
+      showToast(MEAL_HEADER_ERROR.category.min, 'warning', 3000);
+      setIsCategoryError(true);
+      return;
+    }
+  };
+
+  // 폼 스키마 충족하지 못한 상태로 submit할 경우
+  const onError = () => {
+    const hasInputError = !!errors.name?.message;
+
+    if (hasInputError) {
+      showToast(MEAL_HEADER_ERROR.name.min, 'warning', 3000);
+      return;
+    }
   };
 
   return (
     <div className='flex gap-8'>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form className='w-fit' onSubmit={handleSubmit(onSubmit, onError)}>
         <fieldset className='flex w-fit flex-col gap-4'>
           <legend className='sr-only'>자동 식단 이름 및 카테고리 등록</legend>
           <MealHeader
@@ -60,8 +82,8 @@ const AutoPlan = () => {
             register={register}
             errors={errors}
             selectedCategory={selectedCategory}
-            handleCategoryChange={handleCategoryChange}
-            isValid={isValid}
+            handleChangeCategory={handleChangeCategory}
+            isCategoryError={isCategoryError}
           />
           <MealCalendar
             selectedCategory={selectedCategory}
@@ -72,9 +94,9 @@ const AutoPlan = () => {
           />
         </fieldset>
       </form>
-      <div className='flex flex-col gap-2 pt-[166px]'>
-        <InfoCard message='선택한 카테고리에 맞는 식단이 자동으로 생성됩니다.' />
-        <InfoCard message='식단을 원하는 이름으로 생성하고, 관리할 수 있습니다.' />
+      <div className='flex w-fit max-w-[500px] flex-col gap-2 pt-[166px]'>
+        <InfoCard message={INFOCARD_MESSAGE.name} />
+        <InfoCard message={INFOCARD_MESSAGE.category} />
       </div>
     </div>
   );
