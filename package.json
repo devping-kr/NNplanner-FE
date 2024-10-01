@@ -26,8 +26,8 @@
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
     "dayjs": "^1.11.13",
-    "js-cookie": "^3.0.5",
     "next": "14.2.6",
+    "nookies": "^2.5.2",
     "react": "^18",
     "react-apexcharts": "^1.4.1",
     "react-datepicker": "^7.4.0",
@@ -38,7 +38,6 @@
     "zustand": "^4.5.5"
   },
   "devDependencies": {
-    "@types/js-cookie": "^3.0.6",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-datepicker": "^7.0.0",
