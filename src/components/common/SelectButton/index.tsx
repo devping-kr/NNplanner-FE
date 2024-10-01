@@ -12,6 +12,7 @@ type SelectButtonProps = VariantProps<typeof selectButtonVariants> & {
   isOpen: boolean;
   className?: string;
   onClick: () => void;
+  isError?: boolean;
 };
 
 const ICON_SIZE: Record<Size, number> = {
@@ -27,11 +28,12 @@ const SelectButton = ({
   isOpen,
   className,
   onClick,
+  isError = false,
 }: SelectButtonProps) => {
   const iconSize = ICON_SIZE[size];
   return (
     <button
-      className={cn(selectButtonVariants({ size }), className)}
+      className={cn(selectButtonVariants({ size, isError }), className)}
       type='button'
       onClick={onClick}
       aria-haspopup='listbox'

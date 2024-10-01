@@ -23,6 +23,7 @@ export type SelectboxProps = VariantProps<typeof selectboxVariants> & {
   onChange?: (value: string) => void;
   selectedValue?: string;
   readonly?: boolean;
+  isError?: boolean;
 };
 
 export const Selectbox = ({
@@ -33,6 +34,7 @@ export const Selectbox = ({
   onChange,
   selectedValue,
   readonly = false,
+  isError = false,
 }: SelectboxProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
@@ -81,6 +83,7 @@ export const Selectbox = ({
           onClick={handleToggle}
           isOpen={isOpen}
           className={className}
+          isError={isError}
         />
         {!readonly && options && (
           <Dropdown isOpen={isOpen} size={size}>
