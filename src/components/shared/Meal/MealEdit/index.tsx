@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Icon from '@/components/common/Icon';
 import { Input } from '@/components/common/Input';
 import { NutritionMenu } from '@/components/common/Typography';
@@ -22,18 +22,23 @@ const MealEdit = ({ date, data, handleChangeMenu }: MealEditProps) => {
   const [clickedMenu, setClickedMenu] = useState('');
   const [keyword, setKeyword] = useState('');
   const [isSearchShow, setIsSearchShow] = useState(false);
+  const [searchResultList] = useState<NutritionData[]>(MOCK_ALL_MENU);
 
-  const searchResult = useMemo(() => {
-    return MOCK_ALL_MENU.filter((item) => item.content.includes(keyword));
-  }, [keyword]);
-
+  // 기존 메뉴 클릭 했을 때
   const handleClickMenu = (menu: string) => {
     setKeyword(menu);
     setClickedMenu(menu);
   };
 
+  // 검색창에 keyword 입력 후 검색 버튼 눌렀을 때
+  const handleSearchClick = () => {
+    // api 요청
+    // 받은 데이터로 setSearchResultList 업데이트
+  };
+
+  // 검색한 메뉴 목록에서 새로운 메뉴 선택
   const handleClickNewMenu = (menu: string) => {
-    const result = MOCK_ALL_MENU.find((item) => item.content === menu);
+    const result = searchResultList.find((item) => item.content === menu);
 
     if (result && handleChangeMenu) {
       const menuName =
@@ -79,15 +84,17 @@ const MealEdit = ({ date, data, handleChangeMenu }: MealEditProps) => {
               className='text-md placeholder:text-md font-semibold'
               placeholder='메뉴 이름을 입력해주세요'
               bgcolor='search'
+              includeButton
               onChange={(e) => setKeyword(e.target.value)}
+              onSubmit={handleSearchClick}
               value={keyword || ''}
             />
             <div className='custom-scrollbar max-h-[500px] w-full overflow-y-auto rounded-md bg-white-200 p-2'>
-              {searchResult.length === 0 ? (
+              {searchResultList.length === 0 ? (
                 <NutritionMenu>메뉴가 존재하지 않습니다</NutritionMenu>
               ) : (
                 <MealTable
-                  data={searchResult}
+                  data={searchResultList}
                   isButton
                   onClick={handleClickNewMenu}
                 />
