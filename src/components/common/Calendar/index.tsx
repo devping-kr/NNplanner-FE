@@ -53,12 +53,12 @@ const Calendar = ({
 
   return (
     <div className='w-164'>
-      <div className='mb-2 grid w-fit grid-cols-7'>
+      <div className='mb-2 grid w-[calc(100%-20px)] grid-cols-7'>
         {SUN_TO_SAT.map((day) => (
           <span
             key={day}
             className={cn(
-              'w-40 text-center font-bold text-dark-100',
+              'w-full text-center font-bold text-dark-100',
               day === SUN_TO_SAT[0] && 'text-red-500',
             )}
             aria-label={`${day}요일`}
@@ -67,7 +67,7 @@ const Calendar = ({
           </span>
         ))}
       </div>
-      <div className='scrollbar-gray-100 h-[690px] w-full overflow-y-scroll'>
+      <div className='scrollbar-gray-100 h-[690px] w-full overflow-x-hidden overflow-y-scroll'>
         <div className='grid grid-cols-7 border-[0.5px] border-gray-200'>
           {allDays.map((date, index) => {
             const formattedDate = date.format('YYYY-MM-DD');
