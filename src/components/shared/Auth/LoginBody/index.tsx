@@ -29,7 +29,12 @@ const LoginBody = () => {
   });
 
   const onSubmit: SubmitHandler<LoginRequest> = (data) => {
-    loginMutate(data);
+    try {
+      loginMutate(data);
+      return router.push('/');
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

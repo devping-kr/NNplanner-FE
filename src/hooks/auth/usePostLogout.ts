@@ -1,7 +1,6 @@
 import { useRouter } from 'next/navigation';
 import { useMutation } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import Cookies from 'js-cookie';
 import { auth } from '@/api/auth';
 import { FailResponse, Result } from '@/type/response';
 import { useToastStore } from '@/stores/useToastStore';
@@ -16,7 +15,6 @@ export const usePostLogout = () => {
       router.push('/login');
       showToast(message, 'success', 1000);
       localStorage.removeItem('accessToken');
-      Cookies.remove('refreshToken');
     },
     onError: (error: AxiosError<FailResponse>) => {
       const errorMessage = error.response?.data?.message || '로그아웃 실패';

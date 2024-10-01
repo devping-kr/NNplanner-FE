@@ -1,4 +1,4 @@
-import Cookies from 'js-cookie';
+import { setCookie } from 'nookies';
 import { ReissueResponse } from '@/type/auth/authResponse';
 
 export const saveTokens = (response: ReissueResponse) => {
@@ -7,7 +7,7 @@ export const saveTokens = (response: ReissueResponse) => {
 
   localStorage.setItem('accessToken', accessToken);
 
-  Cookies.set('refreshToken', refreshToken, {
+  setCookie(null, 'refreshToken', refreshToken, {
     maxAge: 60 * 60 * 24 * 4,
     path: '/',
     secure: true,

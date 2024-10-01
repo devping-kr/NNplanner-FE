@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
-import Cookies from 'js-cookie';
+import { parseCookies } from 'nookies';
 import { saveTokens } from '@/utils/saveTokens';
 import { env } from './env';
 
@@ -21,7 +21,7 @@ const getAccessToken = (): string | null => {
 const instance = axios.create({
   baseURL: env.BASE_API_URL,
   headers: {
-    'Content-Type': 'application/json;charset=UTF-8',
+    'Content-Type': 'application/json',
   },
   withCredentials: true,
   timeout: TIME_OUT,
@@ -53,7 +53,7 @@ instance.interceptors.response.use(
       originalRequest._retry = true;
 
       if (typeof window !== 'undefined') {
-        const refreshToken = Cookies.get('refreshToken');
+        const refreshToken = parseCookies().refreshToken;
         if (refreshToken) {
           try {
             const response = await instance.get('/api/auths/reissue', {
