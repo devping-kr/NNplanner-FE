@@ -13,4 +13,7 @@ export const MEAL_HEADER_ERROR = {
     min: '식단 이름은 최소 2자 이상 입력해주세요',
     max: '식단 이름은 최대 20자까지 입력 가능합니다',
   },
+  category: {
+    min: '식단의 카테고리를 선택해주세요.',
+  },
 };
