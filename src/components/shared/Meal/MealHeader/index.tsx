@@ -6,6 +6,7 @@ import { Input } from '@/components/common/Input';
 import { Option, Selectbox } from '@/components/common/Selectbox';
 import { PageHeaderTitle } from '@/components/common/Typography';
 import { ORGANIZATION_LIST } from '@/constants/_category';
+import { PAGE_TITLE } from '@/constants/_pageTitle';
 
 type MealHeaderFormData = {
   name: string;
@@ -24,7 +25,10 @@ type MealHeaderProps = {
     value: string,
   ) => void;
   isCategoryError?: boolean;
+  isPageEdit?: boolean;
 };
+
+const { autoPlan } = PAGE_TITLE;
 
 const MealHeader = ({
   categories,
@@ -33,10 +37,13 @@ const MealHeader = ({
   selectedCategory,
   handleChangeCategory,
   isCategoryError,
+  isPageEdit,
 }: MealHeaderProps) => {
   return (
     <div className='flex flex-col gap-5'>
-      <PageHeaderTitle>자동 식단 수정</PageHeaderTitle>
+      <PageHeaderTitle>
+        {isPageEdit ? autoPlan.edit : autoPlan.default}
+      </PageHeaderTitle>
       <div className='flex w-full items-center gap-4'>
         <div className='relative flex h-fit flex-col'>
           <Input
