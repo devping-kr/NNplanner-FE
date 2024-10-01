@@ -1,8 +1,10 @@
 'use client';
 
 import { FieldErrors, UseFormRegister } from 'react-hook-form';
+import { cn } from '@/utils/core';
 import { Input } from '@/components/common/Input';
 import { Option, Selectbox } from '@/components/common/Selectbox';
+import { PageHeaderTitle } from '@/components/common/Typography';
 import { ORGANIZATION_LIST } from '@/constants/_category';
 
 type MealHeaderFormData = {
@@ -13,75 +15,69 @@ type MealHeaderProps = {
   categories: Option[][];
   register: UseFormRegister<MealHeaderFormData>;
   errors: FieldErrors<MealHeaderFormData>;
-  categoryErrorMsg?: string;
   selectedCategory: {
     organization: string;
     organizationDetail: string;
   };
-  handleCategoryChange: (
+  handleChangeCategory: (
     type: 'organization' | 'organizationDetail',
     value: string,
   ) => void;
-  isValid: boolean;
+  isCategoryError?: boolean;
 };
 
 const MealHeader = ({
   categories,
   register,
   errors,
-  categoryErrorMsg = '모든 카테고리를 선택해주세요',
   selectedCategory,
-  handleCategoryChange,
+  handleChangeCategory,
+  isCategoryError,
 }: MealHeaderProps) => {
-  const isCategoryEmpty =
-    !selectedCategory.organization || !selectedCategory.organizationDetail;
-
   return (
-    <div className='flex w-full items-center gap-4'>
-      <div className='relative flex h-fit flex-col'>
-        <Input
-          bgcolor='meal'
-          height='large'
-          placeholder='식단 이름을 입력하세요'
-          className='text-2xl font-semibold'
-          {...register('name')}
-        />
-        {errors?.name?.message && (
-          <span className='absolute bottom-[-26px] text-nowrap text-red-300'>
-            {errors.name.message.toString()}
-          </span>
-        )}
-      </div>
-      <div className='relative flex gap-2'>
-        <Selectbox
-          options={ORGANIZATION_LIST}
-          size='basic'
-          onChange={(organization) =>
-            handleCategoryChange('organization', organization)
-          }
-          className={isCategoryEmpty ? 'border-red-300' : ''}
-          selectedValue={selectedCategory.organization}
-        />
-        {ORGANIZATION_LIST.map(
-          (item, index) =>
-            selectedCategory.organization === item.value && (
-              <Selectbox
-                key={item.value}
-                options={categories[index]}
-                size='basic'
-                onChange={(organizationDetail) =>
-                  handleCategoryChange('organizationDetail', organizationDetail)
-                }
-                className={isCategoryEmpty ? 'border-red-300' : ''}
-                selectedValue={selectedCategory.organizationDetail}
-              />
-            ),
-        )}
-        {isCategoryEmpty && (
-          <span className='absolute bottom-[-32px] mt-auto text-nowrap text-red-300'>
-            {categoryErrorMsg}
-          </span>
-        )}
+    <div className='flex flex-col gap-5'>
+      <PageHeaderTitle>자동 식단 수정</PageHeaderTitle>
+      <div className='flex w-full items-center gap-4'>
+        <div className='relative flex h-fit flex-col'>
+          <Input
+            bgcolor='meal'
+            height='basic'
+            placeholder='식단 이름을 입력하세요'
+            className={cn('text-lg')}
+            isError={!!errors.name?.message}
+            autoComplete='off'
+            {...register('name')}
+          />
+        </div>
+        <div className='relative flex gap-2'>
+          <Selectbox
+            options={ORGANIZATION_LIST}
+            size='small'
+            onChange={(organization) => {
+              handleChangeCategory('organization', organization);
+            }}
+            selectedValue={selectedCategory.organization}
+            isError={isCategoryError}
+          />
+          {ORGANIZATION_LIST.map(
+            (item, index) =>
+              selectedCategory.organization === item.value && (
+                <Selectbox
+                  key={item.value}
+                  options={categories[index]}
+                  size='small'
+                  onChange={(organizationDetail) =>
+                    handleChangeCategory(
+                      'organizationDetail',
+                      organizationDetail,
+                    )
+                  }
+                  selectedValue={selectedCategory.organizationDetail}
+                  isError={isCategoryError}
+                />
+              ),
+          )}
+        </div>
       </div>
     </div>
   );
