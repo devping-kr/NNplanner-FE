@@ -6,11 +6,11 @@ export const buttonVariants = cva(
     variants: {
       variant: {
         primary:
-          'bg-green-400 text-white-100 hover:bg-green-500 active:bg-green-600',
+          'bg-green-400 text-white-100 hover:bg-green-500 active:bg-green-600 disabled:hover:bg-green-400',
         secondary:
-          'bg-gray-100 text-dark-100 hover:bg-gray-200 active:bg-gray-300',
+          'bg-gray-100 text-dark-100 hover:bg-gray-200 active:bg-gray-300 disabled:hover:bg-gray-100',
         outline:
-          'bg-white-100 text-green-700 border-[1px] border-solid border-green-700 hover:border-green-800 hover:text-green-800 active:border-green-900 active:text-green-900',
+          'bg-white-100 text-green-700 border-[1px] border-solid border-green-700 hover:border-green-800 hover:text-green-800 active:border-green-900 active:text-green-900 disabled:hover:text-green-700',
         pagination: '',
       },
       size: {
