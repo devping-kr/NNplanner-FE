@@ -16,8 +16,10 @@ const Navbar = () => {
   const selecedTab =
     NAV_LINKS.find((nav) => nav.href === pathname)?.name ?? defualtTab;
 
-  return (
-    <nav className='sticky top-0 flex h-screen w-60 flex-col place-content-between bg-white-100'>
+  const isSurveyPage = /^\/survey\/\d+$/.test(pathname);
+
+  return !isSurveyPage ? (
+    <nav className='sticky top-0 flex h-screen w-60 min-w-60 flex-col place-content-between bg-white-100'>
       <div className='flex flex-col gap-9 p-6'>
         <Link href='#' className='w-fit self-center'>
           <Image
@@ -57,7 +59,7 @@ const Navbar = () => {
         </button>
       </div>
     </nav>
-  );
+  ) : null;
 };
 
 export default Navbar;
