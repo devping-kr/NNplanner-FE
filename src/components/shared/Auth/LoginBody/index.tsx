@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { loginSchema } from '@/schema/authSchema';
@@ -13,7 +13,7 @@ import { usePostLogin } from '@/hooks/auth/usePostLogin';
 const LoginBody = () => {
   const router = useRouter();
   const [isShowPassword, setIsShowPassword] = useState(false);
-  const { mutate: loginMutate } = usePostLogin();
+  const { mutate: loginMutate, isSuccess: loginSuccess } = usePostLogin();
 
   const {
     register,
@@ -31,11 +31,16 @@ const LoginBody = () => {
   const onSubmit: SubmitHandler<LoginRequest> = (data) => {
     try {
       loginMutate(data);
-      return router.push('/');
     } catch (error) {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    if (loginSuccess) {
+      router.push('/viewPlan');
+    }
+  }, [loginSuccess, router]);
 
   return (
     <div className='flex w-full flex-col gap-3'>
