@@ -2,10 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-html {
-  font-family: 'Pretendard';
-}
-
 @layer utilities {
   .custom-scrollbar::-webkit-scrollbar,
   .scrollbar-gray-100::-webkit-scrollbar {

@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import localFont from 'next/font/local';
 import Providers from '@/contexts/Providers';
+import { cn } from '@/utils/core';
 import { ToastProvider } from '@/components/common/ToastProvider';
 
 const pretendard = localFont({
@@ -21,8 +22,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang='ko' className={`${pretendard.variable}`}>
-      <body className='bg-white-100'>
+    <html lang='ko'>
+      <body className={cn('bg-white-100', pretendard.className)}>
         <Providers>
           <div>{children}</div>
           <ToastProvider />
