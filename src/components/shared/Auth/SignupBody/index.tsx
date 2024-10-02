@@ -8,6 +8,7 @@ import { signUpSchema } from '@/schema/authSchema';
 import { SignupRequest } from '@/type/auth/authRequest';
 import Button from '@/components/common/Button/Button';
 import { Input } from '@/components/common/Input';
+import { AUTH_LINKS } from '@/constants/_auth';
 import { usePostSignup } from '@/hooks/auth/usePostSignup';
 import { usePostVerifyConfirm } from '@/hooks/auth/usePostVerifyConfirm';
 import { usePostVerifySend } from '@/hooks/auth/usePostVerifySend';
@@ -229,7 +230,7 @@ const SignupBody = () => {
       <span className='text-center'>
         이미 계정이 있다면{' '}
         <span
-          onClick={() => router.push('/login')}
+          onClick={() => router.push(AUTH_LINKS.login)}
           className='cursor-pointer font-semibold text-green-700 hover:text-green-800'
         >
           여기서

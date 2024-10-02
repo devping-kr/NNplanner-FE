@@ -1,13 +1,17 @@
 import axios, { AxiosResponse } from 'axios';
 import { parseCookies } from 'nookies';
 import { saveTokens } from '@/utils/saveTokens';
+import { AUTH_LINKS } from '@/constants/_auth';
 import { env } from './env';
 
 const TIME_OUT = 1000 * 10;
 
 const redirectToLogin = () => {
-  if (typeof window !== 'undefined' && window.location.pathname !== '/login') {
-    window.location.href = '/login';
+  if (
+    typeof window !== 'undefined' &&
+    window.location.pathname !== AUTH_LINKS.login
+  ) {
+    window.location.href = AUTH_LINKS.login;
   }
 };
 

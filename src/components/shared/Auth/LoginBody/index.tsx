@@ -8,6 +8,7 @@ import { loginSchema } from '@/schema/authSchema';
 import { LoginRequest } from '@/type/auth/authRequest';
 import Button from '@/components/common/Button/Button';
 import { Input } from '@/components/common/Input';
+import { AUTH_LINKS } from '@/constants/_auth';
 import { usePostLogin } from '@/hooks/auth/usePostLogin';
 import { useAuth } from '@/hooks/useAuth';
 
@@ -107,7 +108,7 @@ const LoginBody = () => {
       <span className='text-center'>
         아직 계정이 없다면{' '}
         <span
-          onClick={() => router.push('/signup')}
+          onClick={() => router.push(AUTH_LINKS.signup)}
           className='cursor-pointer font-semibold text-green-700'
         >
           여기서

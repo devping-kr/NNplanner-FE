@@ -4,6 +4,7 @@ import { AxiosError } from 'axios';
 import { auth } from '@/api/auth';
 import { SignupRequest } from '@/type/auth/authRequest';
 import { FailResponse, Result } from '@/type/response';
+import { AUTH_LINKS } from '@/constants/_auth';
 import { useToastStore } from '@/stores/useToastStore';
 
 export const usePostSignup = () => {
@@ -14,7 +15,7 @@ export const usePostSignup = () => {
     mutationFn: (request: SignupRequest) =>
       auth.signUp({ ...request, loginType: 'LOCAL' }),
     onSuccess: ({ message }: Result<null>) => {
-      router.push('/login');
+      router.push(AUTH_LINKS.login);
       showToast(message, 'success', 1000);
     },
     onError: (error: AxiosError<FailResponse>) => {
