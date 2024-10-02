@@ -10,14 +10,13 @@ import NavMenu from '@/components/common/NavMenu';
 import NavProfile from '@/components/common/NavProfile';
 import { NAV_LINKS } from '@/constants/_navbar';
 import { useAuth } from '@/hooks/useAuth';
-import router from 'next/router';
 
 const Navbar = () => {
   const pathname = usePathname();
   const { logout } = useAuth();
 
   const defaultTab = NAV_LINKS[0].name;
-  const selecedTab =
+  const selectedTab =
     NAV_LINKS.find((nav) => pathname?.startsWith(`${nav.href}`))?.name ??
     defaultTab;
 
@@ -27,11 +26,6 @@ const Navbar = () => {
   };
 
   const isSurveyPage = /^\/survey\/\d+$/.test(pathname);
-
-  const handleLogout = () => {
-    destroyTokens();
-    router.push('/login');
-  };
 
   return (
     !isSurveyPage && (
