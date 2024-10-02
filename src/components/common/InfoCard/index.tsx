@@ -9,11 +9,13 @@ const InfoCard = ({ message, className }: InfoCardProps) => {
   return (
     <div
       className={cn(
-        'w-88 flex h-fit items-center gap-2 rounded-md border-[1px] border-green-300 bg-white-100 p-4',
+        'whitespace-wrap flex h-fit w-full items-center gap-2 overflow-hidden break-all rounded-md border-[1px] border-green-300 bg-white-100 p-4',
         className,
       )}
     >
-      <Icon name='normal' />
+      <div className='w-fit'>
+        <Icon name='normal' />
+      </div>
       <span className='font-medium'>{message}</span>
     </div>
   );

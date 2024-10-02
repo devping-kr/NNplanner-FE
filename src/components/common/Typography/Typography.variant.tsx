@@ -25,7 +25,7 @@ export const typographyVariants = cva(
         mealHeaderTitle: 'text-[42px] leading-[150%]',
         authTitle: 'text-[50px] leading-[150%]',
         pageHeaderTitle: 'text-[28px] leading-[145%]',
-        mealCalendarTitle: 'text-[36px] leading-[155%]',
+        mealCalendarTitle: 'text-[24px] leading-[155%]',
       },
       weight: {
         bold: 'font-bold',

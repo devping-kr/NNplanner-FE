@@ -58,7 +58,7 @@ export const CardTitle = customTypography('h1', {
   weight: 'bold',
   color: 'dark',
 });
-export const MealCalenderTitle = customTypography('h1', {
+export const MealCalenderTitle = customTypography('span', {
   type: 'mealCalendarTitle',
   color: 'dark',
 });

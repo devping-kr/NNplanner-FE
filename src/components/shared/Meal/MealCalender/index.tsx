@@ -23,12 +23,11 @@ type MealCalendarProps = {
     menuName: string,
     updatedItem: NutritionData,
   ) => void;
+  handleResetMenu?: () => void;
 } & CalendarProps;
 
 const MealCalendar = ({
   type = 'default',
-  selectedCategory,
-  isValid,
   selectedDate,
   year,
   month,
@@ -36,41 +35,43 @@ const MealCalendar = ({
   readonly,
   onDateClick,
   handleChangeMenu,
+  handleResetMenu,
 }: MealCalendarProps) => {
-  const isCategoryEmpty =
-    !selectedCategory?.organization || !selectedCategory?.organizationDetail;
-
   return (
     <div className='flex gap-8'>
       <div className='flex w-fit flex-col gap-2'>
         <div className='flex w-full items-center justify-between'>
           <MealCalenderTitle>{month}월</MealCalenderTitle>
           {type === 'default' && (
-            <Button
-              className='h-10 w-fit'
-              size='large'
-              type='submit'
-              disabled={isCategoryEmpty || !isValid}
-            >
+            <Button className='h-10 w-fit' size='basic' type='submit'>
               생성
             </Button>
           )}
           {type === 'create' && (
             <div className='flex w-fit items-center gap-2'>
-              <Button className='h-10 w-fit' size='large' type='submit'>
+              <Button className='h-10 w-fit' size='basic' type='submit'>
                 저장
               </Button>
-              <Button className='h-10 w-fit' size='large' type='button'>
-                수정
+              <Button className='h-10 w-fit' size='basic' type='button'>
+                취소
               </Button>
             </div>
           )}
           {type === 'edit' && (
             <div className='flex w-fit items-center gap-2'>
-              <Button className='h-10 w-fit' size='large' type='submit'>
+              <Button
+                className='h-10 w-fit'
+                size='basic'
+                variant='outline'
+                type='button'
+                onClick={handleResetMenu}
+              >
+                메뉴초기화
+              </Button>
+              <Button className='h-10 w-fit' size='basic' type='submit'>
                 수정 완료
               </Button>
-              <Button className='h-10 w-fit' size='large' type='button'>
+              <Button className='h-10 w-fit' size='basic' type='button'>
                 취소
               </Button>
             </div>
@@ -84,18 +85,20 @@ const MealCalendar = ({
           onDateClick={onDateClick}
         />
       </div>
-      <div className='mt-[56px]'>
-        {type === 'create' && selectedDate && data && (
-          <NutritionInfo date={selectedDate} data={data[selectedDate]} />
-        )}
-        {type === 'edit' && selectedDate && data && (
-          <MealEdit
-            date={selectedDate}
-            data={data[selectedDate]}
-            handleChangeMenu={handleChangeMenu}
-          />
-        )}
-      </div>
+      {(type === 'create' || type === 'edit') && selectedDate && data && (
+        <div className='mt-[56px]'>
+          {type === 'create' && (
+            <NutritionInfo date={selectedDate} data={data[selectedDate]} />
+          )}
+          {type === 'edit' && (
+            <MealEdit
+              date={selectedDate}
+              data={data[selectedDate]}
+              handleChangeMenu={handleChangeMenu}
+            />
+          )}
+        </div>
+      )}
     </div>
   );
 };

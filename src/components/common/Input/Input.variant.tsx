@@ -27,6 +27,9 @@ export const inputContainerVariants = cva(
       disabled: {
         true: 'cursor-not-allowed opacity-80',
       },
+      isError: {
+        true: 'border-red-300',
+      },
     },
     defaultVariants: {
       borderRadius: 'basic',

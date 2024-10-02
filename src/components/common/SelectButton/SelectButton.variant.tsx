@@ -9,6 +9,9 @@ export const selectButtonVariants = cva(
         basic: 'min-w-24 px-5 py-3 text-basic rounded-lg pr-10',
         large: 'min-w-28 px-7 py-5 text-lg rounded-lg pr-12',
       },
+      isError: {
+        true: 'border-red-300',
+      },
     },
   },
 );
