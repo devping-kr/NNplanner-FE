@@ -12,15 +12,10 @@ import { useToastStore } from '@/stores/useToastStore';
 
 type MealCreateProps = {
   date: string;
-  handleChangeMenu?: (
-    date: string,
-    menuName: string,
-    updatedItem: NutritionData,
-    type: 'edit' | 'add',
-  ) => void;
+  handleSaveMenu?: (date: string, menuList: NutritionData[]) => void;
 };
 
-const MealCreate = ({ date, handleChangeMenu }: MealCreateProps) => {
+const MealCreate = ({ date, handleSaveMenu }: MealCreateProps) => {
   const [allMenuList, setAllMenuList] = useState<{
     [key: string]: NutritionData[];
   }>({});
@@ -66,7 +61,7 @@ const MealCreate = ({ date, handleChangeMenu }: MealCreateProps) => {
   const handleClickNewMenu = (menu: string) => {
     const result = searchResultList.find((item) => item.content === menu);
 
-    if (result && handleChangeMenu) {
+    if (result && handleSaveMenu) {
       const isDuplicate = menuList.some(
         (item) => item.content === result.content,
       );
@@ -102,11 +97,9 @@ const MealCreate = ({ date, handleChangeMenu }: MealCreateProps) => {
       [date]: menuList,
     }));
 
-    menuList.forEach((menu) => {
-      if (handleChangeMenu) {
-        handleChangeMenu(date, menu.content, menu, 'add');
-      }
-    });
+    if (handleSaveMenu) {
+      handleSaveMenu(date, menuList);
+    }
 
     showToast(`${date} ${MEAL_CREATE_MESSAGE.success.saveMeal}`, 'success');
   };

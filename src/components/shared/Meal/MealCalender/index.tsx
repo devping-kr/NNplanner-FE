@@ -26,6 +26,7 @@ type MealCalendarProps = {
     type: 'edit' | 'add',
   ) => void;
   handleResetMenu?: () => void;
+  handleSaveMenu?: (date: string, menuList: NutritionData[]) => void;
 } & CalendarProps;
 
 const MealCalendar = ({
@@ -38,6 +39,7 @@ const MealCalendar = ({
   onDateClick,
   handleChangeMenu,
   handleResetMenu,
+  handleSaveMenu,
 }: MealCalendarProps) => {
   return (
     <div className='flex gap-8'>
@@ -116,10 +118,7 @@ const MealCalendar = ({
             />
           )}
           {type === 'menualCreate' && (
-            <MealCreate
-              date={selectedDate}
-              handleChangeMenu={handleChangeMenu}
-            />
+            <MealCreate date={selectedDate} handleSaveMenu={handleSaveMenu} />
           )}
         </div>
       )}
