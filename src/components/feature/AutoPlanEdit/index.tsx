@@ -86,9 +86,7 @@ const AutoPlanEdit = () => {
   };
 
   const onError = () => {
-    const hasInputError = !!errors.name?.message;
-
-    if (hasInputError) {
+    if (errors.name) {
       showToast(MEAL_HEADER_ERROR.name.min, 'warning', 3000);
       return;
     }

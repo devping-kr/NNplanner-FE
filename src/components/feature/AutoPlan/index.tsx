@@ -64,9 +64,7 @@ const AutoPlan = () => {
 
   // 폼 스키마 충족하지 못한 상태로 submit할 경우
   const onError = () => {
-    const hasInputError = !!errors.name?.message;
-
-    if (hasInputError) {
+    if (errors.name) {
       showToast(MEAL_HEADER_ERROR.name.min, 'warning', 3000);
       return;
     }
