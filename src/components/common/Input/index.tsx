@@ -51,6 +51,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       onSubmit = () => {},
       height,
       buttonText = '검색',
+      isError,
       ...props
     }: InputProps,
     ref,
@@ -68,6 +69,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           variant,
           height,
           disabled,
+          isError,
         })}
       >
         {isLeftIcon && <Icon name='search' width={22} height={22} />}

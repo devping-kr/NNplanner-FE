@@ -28,6 +28,7 @@ const CalendarDay = ({
         calendarDayVariants({ isInvalid, isActive, readonly }),
         isHoliday ? 'text-red-500' : 'test-dark-100',
       )}
+      type='button'
       onClick={onClick}
     >
       <div className={`text-left font-bold`}>{date}</div>

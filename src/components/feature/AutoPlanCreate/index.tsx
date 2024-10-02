@@ -10,7 +10,10 @@ const AutoPlanCreate = () => {
 
   const now = new Date();
   const year = now.getFullYear();
-  const month = now.getMonth() + 1;
+  // const month = now.getMonth() + 1;
+
+  // 임시 데이터
+  const month = 9;
 
   const handleDateClick = (date: string) => {
     setSelectedDate(date);

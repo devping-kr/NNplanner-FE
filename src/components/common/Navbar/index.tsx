@@ -25,7 +25,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className='fixed left-0 top-0 z-50 flex h-screen w-60 flex-col place-content-between bg-white-100'>
+    <nav className='sticky top-0 flex h-screen w-60 flex-col place-content-between bg-white-100'>
       <div className='flex flex-col gap-9 p-6'>
         <Link href='#' className='w-fit self-center'>
           <Image
