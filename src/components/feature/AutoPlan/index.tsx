@@ -9,6 +9,7 @@ import MealCalendar from '@/components/shared/Meal/MealCalender';
 import MealHeader from '@/components/shared/Meal/MealHeader';
 import { MOCK_CATEGORY_LIST } from '@/constants/_category';
 import { INFOCARD_MESSAGE } from '@/constants/_infoCard';
+import { PAGE_TITLE } from '@/constants/_pageTitle';
 import { MEAL_HEADER_ERROR } from '@/constants/_schema';
 import { useToastStore } from '@/stores/useToastStore';
 
@@ -82,6 +83,7 @@ const AutoPlan = () => {
             selectedCategory={selectedCategory}
             handleChangeCategory={handleChangeCategory}
             isCategoryError={isCategoryError}
+            pageHeaderTitle={PAGE_TITLE.autoPlan.default}
           />
           <MealCalendar
             selectedCategory={selectedCategory}
