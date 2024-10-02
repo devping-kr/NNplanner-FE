@@ -9,11 +9,13 @@ import { LoginRequest } from '@/type/auth/authRequest';
 import Button from '@/components/common/Button/Button';
 import { Input } from '@/components/common/Input';
 import { usePostLogin } from '@/hooks/auth/usePostLogin';
+import { useAuth } from '@/hooks/useAuth';
 
 const LoginBody = () => {
   const router = useRouter();
   const [isShowPassword, setIsShowPassword] = useState(false);
   const { mutate: loginMutate, isSuccess: loginSuccess } = usePostLogin();
+  const { login } = useAuth();
 
   const {
     register,
@@ -38,9 +40,9 @@ const LoginBody = () => {
 
   useEffect(() => {
     if (loginSuccess) {
-      router.push('/viewPlan');
+      login();
     }
-  }, [loginSuccess, router]);
+  }, [loginSuccess]);
 
   return (
     <div className='flex w-full flex-col gap-3'>

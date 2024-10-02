@@ -2,17 +2,18 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { destroyTokens } from '@/utils/destroyTokens';
 import Divider from '@/components/common/Divider';
 import Icon from '@/components/common/Icon';
 import NavMenu from '@/components/common/NavMenu';
 import NavProfile from '@/components/common/NavProfile';
 import { NAV_LINKS } from '@/constants/_navbar';
+import { useAuth } from '@/hooks/useAuth';
 
 const Navbar = () => {
   const pathname = usePathname();
-  const router = useRouter();
+  const { logout } = useAuth();
 
   const defualtTab = NAV_LINKS[0].name;
   const selecedTab =
@@ -20,7 +21,7 @@ const Navbar = () => {
 
   const handleLogout = () => {
     destroyTokens();
-    router.push('/login');
+    logout();
   };
 
   return (
