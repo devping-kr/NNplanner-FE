@@ -1,59 +1,57 @@
-import { ComponentPropsWithoutRef } from 'react';
-import Button from '../Button/Button';
-import Icon from '../Icon';
-import { IconColor, IconType } from '../Icon/assets';
-import { BodyGray, HeadPrimary } from '../Typography';
+import { useRef, useEffect } from 'react';
+import { useModalStore } from '@/stores/modalStore';
 
-export type Props = {
-  title: string;
-  content: string;
-  acceptText: string;
-  onAccept: () => void;
-  color: IconColor;
-  icon: IconType;
-  isOpen: boolean;
-  onClose: () => void;
-  modalRef: React.Ref<HTMLDivElement>;
-} & ComponentPropsWithoutRef<'div'>;
+interface ModalProps {
+  children: React.ReactNode;
+}
 
-export const Modal = ({
-  title,
-  content,
-  acceptText,
-  onAccept,
-  color,
-  icon,
-  isOpen,
-  onClose,
-  modalRef,
-  ...modalProps
-}: Props) => {
+const Modal = ({ children }: ModalProps) => {
+  const { isOpen, closeModal } = useModalStore();
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
+        closeModal();
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [closeModal]);
+
+  useEffect(() => {
+    const scrollbarWidth =
+      window.innerWidth - document.documentElement.clientWidth;
+
+    if (isOpen) {
+      document.body.classList.add('overflow-hidden');
+      document.body.style.paddingRight = `${scrollbarWidth}px`;
+    } else {
+      document.body.classList.remove('overflow-hidden');
+      document.body.style.paddingRight = '0px';
+    }
+
+    return () => {
+      document.body.classList.remove('overflow-hidden');
+      document.body.style.paddingRight = '0px';
+    };
+  }, [isOpen]);
+
   if (!isOpen) return null;
+
   return (
-    <div
-      className='absolute left-0 top-0 z-50 flex size-full items-center justify-center bg-black bg-opacity-20'
-      {...modalProps}
-    >
-      <div className='w-96 rounded-lg bg-white-100 p-5' ref={modalRef}>
-        <div className='flex w-full flex-col items-center gap-4'>
-          <Icon name={icon} color={color} width={50} height={50} />
-          <div className='mb-4 flex w-full flex-col items-center gap-3 px-8'>
-            <HeadPrimary>{title}</HeadPrimary>
-            <BodyGray>{content}</BodyGray>
-          </div>
-          <div className='flex w-full gap-3 px-8'>
-            <Button onClick={onClose} variant={'secondary'}>
-              Cancel
-            </Button>
-            <Button
-              onClick={onAccept}
-              className='bg-warning-100 hover:bg-warning-200 active:bg-warning-300'
-            >
-              {acceptText}
-            </Button>
-          </div>
-        </div>
+    <div className='fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50'>
+      <div
+        ref={modalRef}
+        className='left-1/2 top-1/2 w-2/5 rounded-lg bg-white-100'
+      >
+        {children}
       </div>
     </div>
   );
 };
+
+export default Modal;

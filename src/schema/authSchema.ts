@@ -22,8 +22,22 @@ export const signUpSchema = baseAuthSchema
     if (password !== passwordConfirm) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
-        message: '비밀번호가 일치하지 않습니다.',
+        message: AUTH_ERROR.signup.passwordConfirm,
         path: ['passwordConfirm'],
       });
     }
+  });
+
+export const changePasswordSchema = z
+  .object({
+    newPassword: z
+      .string()
+      .min(8, { message: AUTH_ERROR.base.password })
+      .max(16, { message: AUTH_ERROR.base.password })
+      .regex(/^(?=.*[a-zA-Z])(?=.*\d).+$/, AUTH_ERROR.base.password),
+    confirmPassword: z.string(),
+  })
+  .refine((data) => data.newPassword === data.confirmPassword, {
+    path: ['confirmPassword'],
+    message: AUTH_ERROR.signup.passwordConfirm,
   });
