@@ -1,13 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import Button from '@/components/common/Button/Button';
 import ControlTab from '@/components/common/ControlTab';
 import DatePicker from '@/components/common/DatePicker';
 import Icon from '@/components/common/Icon';
 import { Input } from '@/components/common/Input';
-import { Modal } from '@/components/common/Modal';
-import { useModal } from '@/components/common/Modal/useModal';
 import NavMenu from '@/components/common/NavMenu';
 import Pagination from '@/components/common/Pagination';
 import Radio from '@/components/common/Radio';
@@ -22,7 +19,6 @@ const page = () => {
   const value = '추후 useInput를 통해 받아올 value';
   const tabList = ['최신순', '오래된순'];
   const [selectedTab, setSelectedTab] = useState('최신순'); // eslint-disable-line react-hooks/rules-of-hooks
-  const { isOpen, modalRef, openModal, closeModal } = useModal(); // eslint-disable-line react-hooks/rules-of-hooks
   const limit = 4;
   const [page, setPage] = useState(1); // eslint-disable-line react-hooks/rules-of-hooks
   // const [selection, setSelection] = useState(new Set()); // eslint-disable-line react-hooks/rules-of-hooks
@@ -79,22 +75,6 @@ const page = () => {
           <Radio color='secondary' name='test' />
           <Label>test2</Label>
         </div>
-      </div>
-      <div>
-        <Modal
-          title='제목입니다다다다다다다다다다다다다다'
-          content='내용입니다다다다다다다다다다다다다다다다다다다다다다다다다다'
-          isOpen={isOpen}
-          acceptText='Delete'
-          onAccept={() => console.log('done!')}
-          color='warning'
-          icon='warning'
-          onClose={closeModal}
-          modalRef={modalRef}
-        >
-          <BodyPrimary>내용내용</BodyPrimary>
-        </Modal>
-        <Button onClick={openModal}>모달 열기</Button>
       </div>
       <div>
         <Pagination
