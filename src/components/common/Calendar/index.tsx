@@ -52,7 +52,7 @@ const Calendar = ({
   );
 
   return (
-    <div className='w-164'>
+    <div className='w-fit'>
       <div className='mb-2 grid w-[calc(100%-20px)] grid-cols-7'>
         {SUN_TO_SAT.map((day) => (
           <span
