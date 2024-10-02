@@ -30,6 +30,7 @@ export type InputProps = ComponentPropsWithoutRef<'input'> &
   InputIconProps & {
     rightIconAction?: VoidFunction;
     includeButton?: boolean;
+    buttonText?: string;
     onSubmit?: VoidFunction;
   };
 
@@ -49,6 +50,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       rightIconAction = () => {},
       onSubmit = () => {},
       height,
+      buttonText = '검색',
       ...props
     }: InputProps,
     ref,
@@ -90,13 +92,14 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         )}
         {includeButton && (
           <Button
+            type='button'
             onClick={onSubmit}
             className='w-14 cursor-pointer items-center justify-center rounded px-0 py-1'
             size='small'
             width='fit'
             disabled={disabled || !value}
           >
-            검색
+            {buttonText}
           </Button>
         )}
       </div>
