@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { cn } from '@/utils/core';
 import Button from '@/components/common/Button/Button';
 import { MAXIUM_MENU_PER_DAY } from '@/components/common/CalendarDay';
 import KcalInfo from '@/components/shared/Meal/KcalInfo';
@@ -92,6 +93,11 @@ const MealCreate = ({ date, handleSaveMenu }: MealCreateProps) => {
   };
 
   const handleSaveMeal = () => {
+    if (menuList.length === 0) {
+      showToast('저장할 메뉴를 검색창에서 선택해주세요.', 'warning');
+      return;
+    }
+
     setAllMenuList((prevAllMenuList) => ({
       ...prevAllMenuList,
       [date]: menuList,
@@ -143,29 +149,36 @@ const MealCreate = ({ date, handleSaveMenu }: MealCreateProps) => {
             </Button>
           </div>
         )}
-        <div className='flex w-full flex-col gap-1'>
-          {menuList.map((item) => (
-            <NutritionMenuButton
-              key={item.id}
-              menuName={item.content}
-              className={
-                clickedMenu === item.content
-                  ? 'bg-green-200 hover:bg-green-200'
-                  : ''
-              }
-              onFocus={() => setIsSearchShow(true)}
-              onClick={() => handleClickMenu(item.content)}
-            />
-          ))}
-          {menuList.length < 1 && !isSearchShow && (
-            <Button
-              type='button'
-              variant='primary'
-              onClick={handleClickAddMenu}
-            >
-              메뉴 등록하기
-            </Button>
-          )}
+        <div className='flex w-full flex-col gap-2'>
+          <div
+            className={cn(
+              'flex w-full flex-col gap-1',
+              isSearchShow ? 'h-[302px]' : '',
+            )}
+          >
+            {menuList.map((item) => (
+              <NutritionMenuButton
+                key={item.id}
+                menuName={item.content}
+                className={
+                  clickedMenu === item.content
+                    ? 'bg-green-200 hover:bg-green-200'
+                    : ''
+                }
+                onFocus={() => setIsSearchShow(true)}
+                onClick={() => handleClickMenu(item.content)}
+              />
+            ))}
+            {menuList.length < 1 && !isSearchShow && (
+              <Button
+                type='button'
+                variant='primary'
+                onClick={handleClickAddMenu}
+              >
+                메뉴 등록하기
+              </Button>
+            )}
+          </div>
           <KcalInfo data={menuList} />
         </div>
         {isSearchShow && keyword.length >= 0 && (
