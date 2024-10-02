@@ -2,7 +2,8 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
+import { destroyTokens } from '@/utils/destroyTokens';
 import Divider from '@/components/common/Divider';
 import Icon from '@/components/common/Icon';
 import NavMenu from '@/components/common/NavMenu';
@@ -11,10 +12,16 @@ import { NAV_LINKS } from '@/constants/_navbar';
 
 const Navbar = () => {
   const pathname = usePathname();
+  const router = useRouter();
 
   const defualtTab = NAV_LINKS[0].name;
   const selecedTab =
     NAV_LINKS.find((nav) => nav.href === pathname)?.name ?? defualtTab;
+
+  const handleLogout = () => {
+    destroyTokens();
+    router.push('/login');
+  };
 
   return (
     <nav className='fixed left-0 top-0 z-50 flex h-screen w-60 flex-col place-content-between bg-white-100'>
@@ -44,7 +51,10 @@ const Navbar = () => {
       </div>
       <div>
         <Divider />
-        <button className='flex h-[90px] w-full items-center gap-3 px-10 py-6 text-sm'>
+        <button
+          className='flex h-[90px] w-full items-center gap-3 px-10 py-6 text-sm'
+          onClick={handleLogout}
+        >
           <Icon
             name='logout'
             className='stroke-gray-600 hover:stroke-green-800'

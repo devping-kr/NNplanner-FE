@@ -12,4 +12,9 @@ export const saveTokens = (response: ReissueResponse) => {
     path: '/',
     secure: true,
   });
+  setCookie(null, 'isLogin', 'logined', {
+    maxAge: 60 * 60 * 24 * 4,
+    path: '/',
+    secure: true,
+  });
 };
