@@ -5,11 +5,7 @@ interface Props {
 }
 
 const MyPageHeader = ({ title }: Props) => {
-  return (
-    <>
-      <PageHeaderTitle>{title}</PageHeaderTitle>
-    </>
-  );
+  return <PageHeaderTitle>{title}</PageHeaderTitle>;
 };
 
 export default MyPageHeader;
