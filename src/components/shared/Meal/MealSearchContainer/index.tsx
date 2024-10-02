@@ -30,7 +30,7 @@ const MealSearchContainer = ({
         onSubmit={onSubmit}
         value={keyword || ''}
       />
-      <div className='custom-scrollbar max-h-[470px] w-full overflow-y-auto rounded-md bg-white-200 p-2'>
+      <div className='scrollbar-gray-100 max-h-[380px] w-full overflow-y-auto rounded-md bg-white-200 p-2'>
         {searchResultList.length === 0 ? (
           <NutritionMenu>메뉴가 존재하지 않습니다</NutritionMenu>
         ) : (
