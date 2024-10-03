@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { cn } from '@/utils/core';
 import Button from '@/components/common/Button/Button';
 import { MAXIUM_MENU_PER_DAY } from '@/components/common/CalendarDay';
+import Tooltip from '@/components/common/Tooltip';
 import KcalInfo from '@/components/shared/Meal/KcalInfo';
 import MealInfoContainer from '@/components/shared/Meal/MealInfoContainer';
 import MealSearchContainer from '@/components/shared/Meal/MealSearchContainer';
@@ -131,14 +132,19 @@ const MealCreate = ({ date, handleSaveMenu }: MealCreateProps) => {
             >
               식단 저장
             </Button>
-            <Button
-              type='button'
-              variant='secondary'
-              className='y-2 h-fit w-fit p-2'
-              onClick={handleDeleteMenu}
+            <Tooltip
+              content='삭제하고 싶은 메뉴를 클릭 후 메뉴 삭제 버튼을 눌러주세요.'
+              position='bottom'
             >
-              메뉴 삭제
-            </Button>
+              <Button
+                type='button'
+                variant='secondary'
+                className='y-2 h-fit w-fit p-2'
+                onClick={handleDeleteMenu}
+              >
+                메뉴 삭제
+              </Button>
+            </Tooltip>
             <Button
               type='button'
               variant='secondary'
