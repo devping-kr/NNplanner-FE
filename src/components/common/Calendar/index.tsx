@@ -67,7 +67,7 @@ const Calendar = ({
           </span>
         ))}
       </div>
-      <div className='scrollbar-gray-100 h-[690px] w-full overflow-x-hidden overflow-y-scroll'>
+      <div className='scrollbar-gray-100 h-[690px] w-full overflow-x-hidden overflow-y-scroll md:w-[700px] lg:w-[1244px]'>
         <div className='grid grid-cols-7 border-[0.5px] border-gray-200'>
           {allDays.map((date, index) => {
             const formattedDate = date.format('YYYY-MM-DD');
