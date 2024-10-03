@@ -7,19 +7,30 @@ type TableHeaderProps = {
 
 const TableHeader = ({ headerData, className }: TableHeaderProps) => {
   return (
-    <thead>
-      <tr>
-        {headerData.map((header) => (
-          <th
-            key={header}
-            className={cn(
-              'border-thead border-[1px] border-green-400 bg-green-100 p-3 font-semibold',
-              className,
-            )}
-          >
-            {header}
-          </th>
-        ))}
+    <thead className='bg-green-100'>
+      <tr className='border-separate border-spacing-0'>
+        {headerData.map((header, index) => {
+          const isFirst = index === 0;
+          const isLast = index === headerData.length - 1;
+
+          const additionalClasses = cn({
+            'rounded-tl-lg border-l': isFirst,
+            'rounded-tr-lg border-r': isLast,
+          });
+
+          return (
+            <th
+              key={header}
+              className={cn(
+                'border-b border-t border-green-400 p-3 font-semibold',
+                additionalClasses,
+                className,
+              )}
+            >
+              {header}
+            </th>
+          );
+        })}
       </tr>
     </thead>
   );
