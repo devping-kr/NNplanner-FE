@@ -63,33 +63,34 @@ const MealCreate = ({ date, handleSaveMenu }: MealCreateProps) => {
   const handleClickNewMenu = (menu: string) => {
     const result = searchResultList.find((item) => item.content === menu);
 
-    if (result && handleSaveMenu) {
-      const isDuplicate = menuList.some(
-        (item) => item.content === result.content,
-      );
+    if (!result || !handleSaveMenu) {
+      return;
+    }
 
-      if (isDuplicate) {
-        showToast(MEAL_CREATE_MESSAGE.error.duplicate, 'warning');
-        return;
+    const isDuplicate = menuList.some(
+      (item) => item.content === result.content,
+    );
+
+    if (isDuplicate) {
+      showToast(MEAL_CREATE_MESSAGE.error.duplicate, 'warning');
+      return;
+    }
+
+    setMenuList((prevList) => {
+      if (prevList.length >= MAXIUM_MENU_PER_DAY) {
+        showToast(MEAL_CREATE_MESSAGE.error.exceed, 'warning');
+        return prevList;
       }
 
-      setMenuList((prevList) => {
-        if (prevList.length < MAXIUM_MENU_PER_DAY) {
-          if (clickedMenu) {
-            const updatedMenuList = prevList.map((item) =>
-              item.content === clickedMenu ? result : item,
-            );
-            return updatedMenuList;
-          } else {
-            const addedMenuList = [...prevList, result];
-            return addedMenuList;
-          }
-        } else {
-          showToast(MEAL_CREATE_MESSAGE.error.exceed, 'warning');
-          return prevList;
-        }
-      });
-    }
+      if (clickedMenu) {
+        return prevList.map((item) =>
+          item.content === clickedMenu ? result : item,
+        );
+      }
+
+      return [...prevList, result];
+    });
+
     setKeyword(menu);
   };
 
