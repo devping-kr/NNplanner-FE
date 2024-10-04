@@ -43,10 +43,11 @@ const SurveyControls = ({
           value={surveyName}
           onChange={handleSurveyNameChange}
           disabled={!isChangeable}
-          placeholder='설문 이름을 입력하세요.'
+          placeholder='설문 이름을 입력하세요. (최대 30자)'
           className='font-semibold'
           bgcolor='meal'
           height='basic'
+          maxLength={29}
         />
       </div>
       <div className='relative flex w-56 items-center gap-2'>

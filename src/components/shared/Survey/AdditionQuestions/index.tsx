@@ -4,6 +4,7 @@ import Button from '@/components/common/Button/Button';
 import Icon from '@/components/common/Icon';
 import { Input } from '@/components/common/Input';
 import { CardTitle } from '@/components/common/Typography';
+import { useToastStore } from '@/stores/useToastStore';
 
 interface Props {
   inputs: string[];
@@ -14,6 +15,7 @@ interface Props {
 const AdditionQuestions = ({ inputs, setInputs, successSubmit }: Props) => {
   const [prevInputCount, setPrevInputCount] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
+  const showToast = useToastStore((state) => state.showToast);
 
   useEffect(() => {
     if (inputs.length > prevInputCount && inputRef.current) {
@@ -23,7 +25,11 @@ const AdditionQuestions = ({ inputs, setInputs, successSubmit }: Props) => {
   }, [inputs]);
 
   const handleAddInput = () => {
-    !successSubmit && setInputs((prevInputs) => [...prevInputs, '']);
+    if (inputs.length > 6)
+      showToast('추가 질문은 최대 7개까지 생성 가능합니다.', 'warning', 2000);
+    if (!successSubmit && inputs.length <= 6) {
+      setInputs((prevInputs) => [...prevInputs, '']);
+    }
   };
 
   const handleChangeInput = (
@@ -65,6 +71,7 @@ const AdditionQuestions = ({ inputs, setInputs, successSubmit }: Props) => {
               <Input
                 type='text'
                 ref={idx === inputs.length - 1 ? inputRef : null}
+                bgcolor='meal'
                 value={input}
                 onChange={(e) => handleChangeInput(e, idx)}
                 readOnly={successSubmit}
