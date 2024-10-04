@@ -47,6 +47,7 @@ const SurveyControls = ({
           className='font-semibold'
           bgcolor='meal'
           height='basic'
+          maxLength={29}
         />
       </div>
       <div className='relative flex w-56 items-center gap-2'>
