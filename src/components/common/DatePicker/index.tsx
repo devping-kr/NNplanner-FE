@@ -30,7 +30,7 @@ const DatePicker = ({
   return (
     <div className='flex w-full items-center gap-2'>
       <div className='flex flex-col gap-1'>
-        <label className='text-xs'>년도</label>
+        <span>년도</span>
         <Selectbox
           options={years}
           onChange={onYearChange}
@@ -38,7 +38,7 @@ const DatePicker = ({
         />
       </div>
       <div className='flex flex-col gap-1'>
-        <label className='text-xs'>월</label>
+        <span>월</span>
         <Selectbox
           options={months}
           onChange={onMonthChange}

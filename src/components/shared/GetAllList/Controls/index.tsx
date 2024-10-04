@@ -97,7 +97,9 @@ const GetAllListControls = ({
               selectedTab={selectedFilter!}
               setSelectedTab={setSelectedFilter!}
             />
-            <span className='mx-1 cursor-default text-gray-500'>|</span>
+            <span className='mx-1 h-4 cursor-default text-xs text-gray-500'>
+              |
+            </span>
           </>
         )}
         <ControlTab
