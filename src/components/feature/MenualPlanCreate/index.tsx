@@ -1,6 +1,7 @@
+'use client';
+
 import { useState } from 'react';
 import { getCurrentYearMonthNow } from '@/utils/calendar';
-import MealForm from '@/components/common/MealForm';
 import MealCalendar from '@/components/shared/Meal/MealCalender';
 import MealCreateHeader from '@/components/shared/Meal/MealCreateHeader';
 import { MOCK_CALENDAR_NUTRITION } from '@/constants/_calendarData';
@@ -30,24 +31,24 @@ const MenualPlanCreate = () => {
 
   //   TODO : form fieldset legend 컴포넌트로 분리, date 유틸로 분리
   return (
-    <MealForm
-      handleSubmit={handleSubmit}
-      legend={MEAL_FORM_LEGEND.menual.create}
-    >
-      <MealCreateHeader
-        pageHeaderTitle={PAGE_TITLE.menualPlan.create}
-        inputValue={mealName}
-        seletedCategory={seletedCategory}
-      />
-      <MealCalendar
-        type='create'
-        data={MOCK_CALENDAR_NUTRITION}
-        year={year}
-        month={month}
-        onDateClick={handleDateClick}
-        selectedDate={selectedDate}
-      />
-    </MealForm>
+    <form onSubmit={handleSubmit}>
+      <fieldset className='flex w-fit flex-col gap-4'>
+        <legend className='sr-only'>{MEAL_FORM_LEGEND.menual.create}</legend>
+        <MealCreateHeader
+          pageHeaderTitle={PAGE_TITLE.autoPlan.create}
+          inputValue={mealName}
+          seletedCategory={seletedCategory}
+        />
+        <MealCalendar
+          type='create'
+          data={MOCK_CALENDAR_NUTRITION}
+          year={year}
+          month={month}
+          onDateClick={handleDateClick}
+          selectedDate={selectedDate}
+        />
+      </fieldset>
+    </form>
   );
 };
 
