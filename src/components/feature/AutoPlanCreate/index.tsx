@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { getCurrentYearMonthNow } from '@/utils/calendar';
 import MealCalendar from '@/components/shared/Meal/MealCalender';
 import MealCreateHeader from '@/components/shared/Meal/MealCreateHeader';
 import { MOCK_CALENDAR_NUTRITION } from '@/constants/_calendarData';
@@ -9,9 +10,7 @@ import { PAGE_TITLE } from '@/constants/_pageTitle';
 const AutoPlanCreate = () => {
   const [selectedDate, setSelectedDate] = useState<string>('');
 
-  const now = new Date();
-  const year = now.getFullYear();
-  // const month = now.getMonth() + 1;
+  const { year } = getCurrentYearMonthNow();
 
   // 임시 데이터
   const month = 9;
