@@ -71,21 +71,19 @@ const MealEdit = ({ date, data, handleChangeMenu }: MealEditProps) => {
   return (
     <MealInfoContainer date={date}>
       <div className='flex w-full flex-col gap-1'>
-        {data.map((item) => {
-          return (
-            <NutritionMenuButton
-              key={item.id}
-              menuName={item.content}
-              className={
-                clickedMenu === item.content
-                  ? 'bg-green-200 hover:bg-green-200'
-                  : ''
-              }
-              onFocus={() => setIsSearchShow(true)}
-              onClick={() => handleClickMenu(item.content)}
-            />
-          );
-        })}
+        {data.map((item) => (
+          <NutritionMenuButton
+            key={item.id}
+            menuName={item.content}
+            className={
+              clickedMenu === item.content
+                ? 'bg-green-200 hover:bg-green-200'
+                : ''
+            }
+            onFocus={() => setIsSearchShow(true)}
+            onClick={() => handleClickMenu(item.content)}
+          />
+        ))}
         <KcalInfo data={data} />
       </div>
       {isSearchShow && keyword!.length >= 0 && (
