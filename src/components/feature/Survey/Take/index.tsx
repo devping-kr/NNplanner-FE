@@ -110,12 +110,13 @@ const SurveyTake = ({ id }: Props) => {
       />
       <ul className='mt-10 flex w-full flex-col gap-3 rounded-sm bg-white-100 p-6'>
         <CardTitle>질문</CardTitle>
-        {MOCK_SURVEY_DATA.map((question) => (
+        {MOCK_SURVEY_DATA.map((question, idx) => (
           <div
             key={question.questionId}
             className='flex w-full flex-col gap-1 border-b border-gray-300 pb-3'
           >
             <li className='flex items-center gap-1'>
+              <span>{`${idx + 1}. `}</span>
               <span>{question.question}</span>
               <span
                 className={question.isMandatory ? 'text-red-200' : 'hidden'}
@@ -126,6 +127,7 @@ const SurveyTake = ({ id }: Props) => {
             {question.type === 'text' ? (
               <Input
                 value={answers[question.questionId] || ''}
+                bgcolor='meal'
                 onChange={(e) =>
                   handleChange(question.questionId, e.target.value)
                 }
