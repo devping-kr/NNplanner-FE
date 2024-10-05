@@ -27,8 +27,8 @@ const Table = ({
   );
 
   return (
-    <div className='w-full overflow-hidden rounded-md'>
-      <table className='w-full border-collapse text-center'>
+    <div className='w-full'>
+      <table className='w-full border-separate border-spacing-0 overflow-hidden rounded-lg text-center'>
         <TableHeader headerData={tableHeaders} className={headerClassName} />
         <TableBody
           headerData={tableHeaders}

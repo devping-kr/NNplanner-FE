@@ -1,4 +1,3 @@
-import { memo } from 'react';
 import Table from '@/components/common/Table';
 import { NutritionMenu } from '@/components/common/Typography';
 import { NutritionData } from '@/components/shared/Meal/NutritionInfo';
@@ -35,6 +34,7 @@ const MealTable = ({ data, isButton = false, onClick }: MealTableProps) => {
 
         return isButton ? (
           <button
+            type='button'
             key={item.id}
             className='flex w-full flex-col gap-0.5 rounded-md p-2 text-left transition duration-300 ease-in-out hover:bg-gray-100 active:bg-gray-200'
             onClick={() => onClick?.(item.content)}
@@ -55,4 +55,4 @@ const MealTable = ({ data, isButton = false, onClick }: MealTableProps) => {
   );
 };
 
-export default memo(MealTable);
+export default MealTable;

@@ -6,6 +6,7 @@ type TableBodyProps = {
   bodyData: TableRowData[];
   type: TableType;
   className?: string;
+  onClick?: () => void;
 };
 
 const TableBody = ({
@@ -13,22 +14,41 @@ const TableBody = ({
   bodyData,
   type,
   className,
+  onClick,
 }: TableBodyProps) => {
-  const handleTrClick = () => {};
-
   return (
-    <tbody>
-      {bodyData.map((item, index) => (
+    <tbody className='bg-white-100'>
+      {bodyData.map((item, rowIndex) => (
         <tr
-          key={index}
-          className='border-thead border-y'
-          onClick={type === 'list' ? handleTrClick : undefined}
+          key={rowIndex}
+          className='border-separate border-spacing-0 cursor-pointer'
+          onClick={type === 'list' ? onClick : undefined}
         >
-          {headerData.map((header) => (
-            <td key={header} className={cn('bg-white-100 p-3', className)}>
-              {item[header] !== undefined ? item[header] : '-'}
-            </td>
-          ))}
+          {headerData.map((header, colIndex) => {
+            const isFirst = colIndex === 0;
+            const isLast = colIndex === headerData.length - 1;
+            const isLastRow = rowIndex === bodyData.length - 1;
+
+            const additionalClasses = cn({
+              'border-l': isFirst,
+              'border-r': isLast,
+              'rounded-bl-lg border-l border-b': isFirst && isLastRow,
+              'rounded-br-lg border-r border-b': isLast && isLastRow,
+            });
+
+            return (
+              <td
+                key={header}
+                className={cn(
+                  'border-b border-gray-400 p-3',
+                  additionalClasses,
+                  className,
+                )}
+              >
+                {item[header] !== undefined ? item[header] : '-'}
+              </td>
+            );
+          })}
         </tr>
       ))}
     </tbody>
