@@ -4,6 +4,8 @@ import Button from '@/components/common/Button/Button';
 import Icon from '@/components/common/Icon';
 import { Input } from '@/components/common/Input';
 import { CardTitle } from '@/components/common/Typography';
+import { WARNING } from '@/constants/_toastMessage';
+import { useToastStore } from '@/stores/useToastStore';
 
 interface Props {
   inputs: string[];
@@ -11,9 +13,12 @@ interface Props {
   successSubmit: boolean;
 }
 
+const EXTRA_QUESTIONS_LIMIT = 7;
+
 const AdditionQuestions = ({ inputs, setInputs, successSubmit }: Props) => {
   const [prevInputCount, setPrevInputCount] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
+  const showToast = useToastStore((state) => state.showToast);
 
   useEffect(() => {
     if (inputs.length > prevInputCount && inputRef.current) {
@@ -23,7 +28,11 @@ const AdditionQuestions = ({ inputs, setInputs, successSubmit }: Props) => {
   }, [inputs]);
 
   const handleAddInput = () => {
-    !successSubmit && setInputs((prevInputs) => [...prevInputs, '']);
+    if (inputs.length >= EXTRA_QUESTIONS_LIMIT)
+      showToast(WARNING.maxAdditionQuestion, 'warning', 2000);
+    if (!successSubmit && inputs.length <= 6) {
+      setInputs((prevInputs) => [...prevInputs, '']);
+    }
   };
 
   const handleChangeInput = (
@@ -65,6 +74,7 @@ const AdditionQuestions = ({ inputs, setInputs, successSubmit }: Props) => {
               <Input
                 type='text'
                 ref={idx === inputs.length - 1 ? inputRef : null}
+                bgcolor='meal'
                 value={input}
                 onChange={(e) => handleChangeInput(e, idx)}
                 readOnly={successSubmit}
