@@ -4,25 +4,29 @@ import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { mealHeaderSchema } from '@/schema/mealSchema';
-import InfoCard from '@/components/common/InfoCard';
+import { CalendarNutritionData } from '@/type/mealType';
+import { isValidDateString } from '@/utils/calendar';
 import MealCalendar from '@/components/shared/Meal/MealCalender';
 import MealHeader from '@/components/shared/Meal/MealHeader';
+import { NutritionData } from '@/components/shared/Meal/NutritionInfo';
 import { MOCK_CATEGORY_LIST } from '@/constants/_category';
-import { INFOCARD_MESSAGE } from '@/constants/_infoCard';
 import { PAGE_TITLE } from '@/constants/_pageTitle';
 import { MEAL_HEADER_ERROR } from '@/constants/_schema';
 import { useToastStore } from '@/stores/useToastStore';
 
-const now = new Date();
-const year = now.getFullYear();
-const month = now.getMonth() + 1;
+const MenualPlan = () => {
+  // api로부터 전달받는 값
+  const currentYear = 2024;
+  const currentMonth = 9;
 
-const AutoPlan = () => {
+  const [totalMenuList, setTotalMenuList] = useState<CalendarNutritionData>({});
+  const [selectedDate, setSelectedDate] = useState<string>('');
   const [selectedCategory, setSelectedCategory] = useState({
     organization: '',
     organizationDetail: '',
   });
   const [isCategoryError, setIsCategoryError] = useState(false);
+
   const { showToast } = useToastStore();
 
   const {
@@ -37,6 +41,13 @@ const AutoPlan = () => {
     },
   });
 
+  const handleSaveMenu = (date: string, menuList: NutritionData[]) => {
+    setTotalMenuList((prevList) => ({
+      ...prevList,
+      [date]: [...menuList],
+    }));
+  };
+
   const handleChangeCategory = (
     type: 'organization' | 'organizationDetail',
     value: string,
@@ -48,13 +59,22 @@ const AutoPlan = () => {
     setIsCategoryError(false);
   };
 
+  const handleDateClick = (date: string) => {
+    if (isValidDateString(date)) setSelectedDate(date);
+  };
+
+  const handleResetMenu = () => {
+    setTotalMenuList({});
+    setSelectedDate('');
+  };
+
+  // TODO: 식단 이름, 카테고리, 전체 식단 제출 및 식단 조회로 이동
   const onSubmit = (data: { name: string }) => {
-    // if (isCategoryEmpty) return;
-    // 선택한 카테고리 + 식단이름 제출 + autoPlan/create로 이동
     console.log(data);
+    const { organization, organizationDetail } = selectedCategory;
+
     const isSelectedCategoryInvalid =
-      selectedCategory.organization === '' ||
-      selectedCategory.organizationDetail === '';
+      organization === '' || organizationDetail === '';
 
     if (isSelectedCategoryInvalid) {
       showToast(MEAL_HEADER_ERROR.category.min, 'warning', 3000);
@@ -63,7 +83,6 @@ const AutoPlan = () => {
     }
   };
 
-  // 폼 스키마 충족하지 못한 상태로 submit할 경우
   const onError = () => {
     if (errors.name) {
       showToast(MEAL_HEADER_ERROR.name.min, 'warning', 3000);
@@ -73,9 +92,9 @@ const AutoPlan = () => {
 
   return (
     <div className='flex gap-8'>
-      <form className='w-fit' onSubmit={handleSubmit(onSubmit, onError)}>
+      <form onSubmit={handleSubmit(onSubmit, onError)}>
         <fieldset className='flex w-fit flex-col gap-4'>
-          <legend className='sr-only'>자동 식단 이름 및 카테고리 등록</legend>
+          <legend className='sr-only'>수동 식단 작성</legend>
           <MealHeader
             categories={MOCK_CATEGORY_LIST}
             register={register}
@@ -83,23 +102,24 @@ const AutoPlan = () => {
             selectedCategory={selectedCategory}
             handleChangeCategory={handleChangeCategory}
             isCategoryError={isCategoryError}
-            pageHeaderTitle={PAGE_TITLE.autoPlan.default}
+            pageHeaderTitle={PAGE_TITLE.menualPlan.default}
           />
           <MealCalendar
+            type='menualCreate'
             selectedCategory={selectedCategory}
             isValid={isValid}
-            year={year}
-            month={month}
-            readonly={true}
+            year={currentYear}
+            month={currentMonth}
+            data={totalMenuList}
+            onDateClick={handleDateClick}
+            selectedDate={selectedDate}
+            handleSaveMenu={handleSaveMenu}
+            handleResetMenu={handleResetMenu}
           />
         </fieldset>
       </form>
-      <div className='flex w-fit max-w-[500px] flex-col gap-2 pt-[166px]'>
-        <InfoCard message={INFOCARD_MESSAGE.name} />
-        <InfoCard message={INFOCARD_MESSAGE.category} />
-      </div>
     </div>
   );
 };
 
-export default AutoPlan;
+export default MenualPlan;

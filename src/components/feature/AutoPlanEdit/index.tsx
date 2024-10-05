@@ -10,6 +10,7 @@ import MealHeader from '@/components/shared/Meal/MealHeader';
 import { NutritionData } from '@/components/shared/Meal/NutritionInfo';
 import { MOCK_CALENDAR_NUTRITION } from '@/constants/_calendarData';
 import { MOCK_CATEGORY_LIST } from '@/constants/_category';
+import { PAGE_TITLE } from '@/constants/_pageTitle';
 import { MEAL_HEADER_ERROR } from '@/constants/_schema';
 import { useToastStore } from '@/stores/useToastStore';
 
@@ -102,7 +103,7 @@ const AutoPlanEdit = () => {
           errors={errors}
           selectedCategory={selectedCategory}
           handleChangeCategory={handleChangeCategory}
-          isPageEdit
+          pageHeaderTitle={PAGE_TITLE.autoPlan.edit}
         />
         <MealCalendar
           type='edit'

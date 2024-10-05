@@ -4,6 +4,7 @@ import { useState } from 'react';
 import MealCalendar from '@/components/shared/Meal/MealCalender';
 import MealCreateHeader from '@/components/shared/Meal/MealCreateHeader';
 import { MOCK_CALENDAR_NUTRITION } from '@/constants/_calendarData';
+import { PAGE_TITLE } from '@/constants/_pageTitle';
 
 const AutoPlanCreate = () => {
   const [selectedDate, setSelectedDate] = useState<string>('');
@@ -33,6 +34,7 @@ const AutoPlanCreate = () => {
       <fieldset className='flex w-fit flex-col gap-4'>
         <legend className='sr-only'>자동 식단 이름 및 카테고리 등록</legend>
         <MealCreateHeader
+          pageHeaderTitle={PAGE_TITLE.autoPlan.create}
           inputValue={mealName}
           seletedCategory={seletedCategory}
         />

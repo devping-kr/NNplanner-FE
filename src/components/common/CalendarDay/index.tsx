@@ -11,7 +11,7 @@ export type CalendarDayProps = {
   onClick: () => void;
 };
 
-const MAXIUM_MENU_PER_DAY = 7;
+export const MAXIUM_MENU_PER_DAY = 7;
 
 const CalendarDay = ({
   date,
