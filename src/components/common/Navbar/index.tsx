@@ -46,14 +46,14 @@ const Navbar = () => {
         <Divider />
         <NavProfile name={'유저 이름'} />
         <Divider />
-        <button className='flex h-[50px] w-full items-center justify-center gap-2 px-10 py-6 text-sm'>
+        <button className='flex h-[50px] w-full items-center gap-2 px-10 text-sm'>
           <Icon
             name='logout'
             className='stroke-gray-600 hover:stroke-green-800'
             width={12}
             height={12}
           />
-          <span className='text-sm text-gray-600'>로그아웃</span>
+          <span className='text-gray-600'>로그아웃</span>
         </button>
       </div>
     </nav>

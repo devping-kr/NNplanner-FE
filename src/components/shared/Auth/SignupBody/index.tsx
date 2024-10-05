@@ -7,6 +7,7 @@ import { useForm } from 'react-hook-form';
 import { signUpSchema } from '@/schema/authSchema';
 import Button from '@/components/common/Button/Button';
 import { Input } from '@/components/common/Input';
+import { SUCCESS } from '@/constants/_toastMessage';
 import { useToastStore } from '@/stores/useToastStore';
 
 const SignupBody = () => {
@@ -44,11 +45,7 @@ const SignupBody = () => {
   const handleEmailVerification = () => {
     if (!errors.email) {
       setShowVerificationInput(true);
-      showToast(
-        '인증번호가 이메일로 전송되었습니다. 이메일을 확인해주세요.',
-        'success',
-        1000,
-      );
+      showToast(SUCCESS.sendVerify, 'success', 1000);
     }
   };
 

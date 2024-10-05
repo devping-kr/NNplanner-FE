@@ -18,6 +18,7 @@ import GetAllListTable from '@/components/shared/GetAllList/ListTable';
 import { PLAN_DATA } from '@/constants/_getAllList/_planData';
 import { SURVEY_DATA } from '@/constants/_getAllList/_surveyData';
 import { NAV_LINKS } from '@/constants/_navbar';
+import { SUCCESS } from '@/constants/_toastMessage';
 import { useModalStore } from '@/stores/modalStore';
 import { useToastStore } from '@/stores/useToastStore';
 
@@ -68,7 +69,7 @@ const MyPage = () => {
   }) => {
     // 변경 버튼 클릭시 PATCH 메서드 성공시 실행할 함수
     console.log(data);
-    showToast('비밀번호 변경 성공', 'success', 3000);
+    showToast(SUCCESS.changePassword, 'success', 3000);
     closeModal();
   };
 

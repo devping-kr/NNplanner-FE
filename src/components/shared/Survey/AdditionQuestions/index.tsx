@@ -4,6 +4,7 @@ import Button from '@/components/common/Button/Button';
 import Icon from '@/components/common/Icon';
 import { Input } from '@/components/common/Input';
 import { CardTitle } from '@/components/common/Typography';
+import { WARNING } from '@/constants/_toastMessage';
 import { useToastStore } from '@/stores/useToastStore';
 
 interface Props {
@@ -11,6 +12,8 @@ interface Props {
   setInputs: React.Dispatch<React.SetStateAction<string[]>>;
   successSubmit: boolean;
 }
+
+const EXTRA_QUESTIONS_LIMIT = 7;
 
 const AdditionQuestions = ({ inputs, setInputs, successSubmit }: Props) => {
   const [prevInputCount, setPrevInputCount] = useState(0);
@@ -25,8 +28,8 @@ const AdditionQuestions = ({ inputs, setInputs, successSubmit }: Props) => {
   }, [inputs]);
 
   const handleAddInput = () => {
-    if (inputs.length > 6)
-      showToast('추가 질문은 최대 7개까지 생성 가능합니다.', 'warning', 2000);
+    if (inputs.length >= EXTRA_QUESTIONS_LIMIT)
+      showToast(WARNING.maxAdditionQuestion, 'warning', 2000);
     if (!successSubmit && inputs.length <= 6) {
       setInputs((prevInputs) => [...prevInputs, '']);
     }
