@@ -6,6 +6,8 @@ export const SUCCESS = {
 export const WARNING = {
   requiredSurveyName: '설문 이름 입력은 필수입니다',
   maxAdditionQuestion: '추가 질문은 최대 7개까지 생성 가능합니다',
+};
+
 export const MEAL_CREATE_MESSAGE = {
   error: {
     exceed: '메뉴는 최대 7개까지 등록할 수 있습니다.',
