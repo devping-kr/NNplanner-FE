@@ -9,7 +9,7 @@ export const PAGE_TITLE = {
     edit: '수동 식단 수정',
     create: '수동 식단 생성',
   },
-  created: {
+  mealPlan: {
     default: '생성한 식단 상세',
     edit: '생성한 식단 수정',
   },
