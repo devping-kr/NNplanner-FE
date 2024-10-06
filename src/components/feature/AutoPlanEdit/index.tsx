@@ -30,7 +30,7 @@ const AutoPlanEdit = () => {
     organization: category.organization,
     organizationDetail: category.organizationDetail,
   });
-  const { showToast } = useToastStore();
+  const showToast = useToastStore((state) => state.showToast);
 
   const {
     register,

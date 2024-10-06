@@ -10,6 +10,7 @@ import MealCalendar from '@/components/shared/Meal/MealCalender';
 import MealHeader from '@/components/shared/Meal/MealHeader';
 import { MOCK_CATEGORY_LIST } from '@/constants/_category';
 import { INFOCARD_MESSAGE } from '@/constants/_infoCard';
+import { MEAL_FORM_LEGEND } from '@/constants/_MealForm';
 import { PAGE_TITLE } from '@/constants/_pageTitle';
 import { MEAL_HEADER_ERROR } from '@/constants/_schema';
 import { useToastStore } from '@/stores/useToastStore';
@@ -22,7 +23,7 @@ const AutoPlan = () => {
     organizationDetail: '',
   });
   const [isCategoryError, setIsCategoryError] = useState(false);
-  const { showToast } = useToastStore();
+  const showToast = useToastStore((state) => state.showToast);
 
   const {
     register,
@@ -48,7 +49,6 @@ const AutoPlan = () => {
   };
 
   const onSubmit = (data: { name: string }) => {
-    // if (isCategoryEmpty) return;
     // 선택한 카테고리 + 식단이름 제출 + autoPlan/create로 이동
     console.log(data);
     const isSelectedCategoryInvalid =
@@ -74,7 +74,9 @@ const AutoPlan = () => {
     <div className='flex gap-8'>
       <form className='w-fit' onSubmit={handleSubmit(onSubmit, onError)}>
         <fieldset className='flex w-fit flex-col gap-4'>
-          <legend className='sr-only'>자동 식단 이름 및 카테고리 등록</legend>
+          <legend className='sr-only'>
+            {MEAL_FORM_LEGEND.autoPlan.create}
+          </legend>
           <MealHeader
             categories={MOCK_CATEGORY_LIST}
             register={register}
