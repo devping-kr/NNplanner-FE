@@ -95,7 +95,7 @@ const AutoPlan = () => {
           />
         </fieldset>
       </form>
-      <div className='flex w-fit max-w-[500px] flex-col gap-2 pt-[166px]'>
+      <div className='flex w-full flex-col gap-2 pt-[166px]'>
         <InfoCard message={INFOCARD_MESSAGE.name} />
         <InfoCard message={INFOCARD_MESSAGE.category} />
       </div>
