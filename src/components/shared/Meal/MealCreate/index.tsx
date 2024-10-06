@@ -9,7 +9,7 @@ import MealSearchContainer from '@/components/shared/Meal/MealSearchContainer';
 import { NutritionData } from '@/components/shared/Meal/NutritionInfo';
 import NutritionMenuButton from '@/components/shared/Meal/NutritionMenuButton';
 import { MOCK_ALL_MENU } from '@/constants/_calendarData';
-import { MEAL_CREATE_MESSAGE } from '@/constants/_toastMessage';
+import { MEAL_CREATE_MESSAGE, WARNING } from '@/constants/_toastMessage';
 import { useToastStore } from '@/stores/useToastStore';
 
 type MealCreateProps = {
@@ -91,12 +91,13 @@ const MealCreate = ({ date, handleSaveMenu }: MealCreateProps) => {
       return [...prevList, result];
     });
 
+    setClickedMenu(null);
     setKeyword(menu);
   };
 
   const handleSaveMeal = () => {
     if (menuList.length === 0) {
-      showToast('저장할 메뉴를 검색창에서 선택해주세요.', 'warning');
+      showToast(WARNING.noMenuToSave, 'warning');
       return;
     }
 
@@ -115,7 +116,7 @@ const MealCreate = ({ date, handleSaveMenu }: MealCreateProps) => {
   useEffect(() => {
     const savedMenu = allMenuList[date] || [];
     setMenuList(savedMenu);
-    setClickedMenu('');
+    setClickedMenu(null);
     setKeyword('');
     setIsSearchShow(false);
   }, [date, allMenuList]);
