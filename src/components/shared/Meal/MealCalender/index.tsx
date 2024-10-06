@@ -15,7 +15,7 @@ export type Category = {
 };
 
 type MealCalendarProps = {
-  type?: 'default' | 'create' | 'edit' | 'menualCreate';
+  type?: 'default' | 'create' | 'edit' | 'menualCreate' | 'mealPlan';
   selectedCategory?: Category;
   isValid?: boolean;
   selectedDate?: string;
@@ -96,6 +96,24 @@ const MealCalendar = ({
               </Button>
             </div>
           )}
+          {type === 'mealPlan' && (
+            <div className='flex w-fit items-center gap-2'>
+              <Button
+                className='h-10 w-fit'
+                size='basic'
+                variant='outline'
+                type='submit'
+              >
+                엑셀 저장
+              </Button>
+              <Button className='h-10 w-fit' size='basic' type='button'>
+                수정
+              </Button>
+              <Button className='h-10 w-fit' size='basic' type='button'>
+                삭제
+              </Button>
+            </div>
+          )}
         </div>
         <Calendar
           year={year}
@@ -105,7 +123,7 @@ const MealCalendar = ({
           onDateClick={onDateClick}
         />
       </div>
-      {selectedDate && type === 'create' && data && (
+      {selectedDate && (type === 'create' || type === 'mealPlan') && data && (
         <NutritionInfo date={selectedDate} data={data[selectedDate]} />
       )}
       {selectedDate && type === 'edit' && data && (
