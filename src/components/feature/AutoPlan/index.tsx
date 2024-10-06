@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { mealHeaderSchema } from '@/schema/mealSchema';
+import { getCurrentYearMonthNow } from '@/utils/calendar';
 import InfoCard from '@/components/common/InfoCard';
 import MealCalendar from '@/components/shared/Meal/MealCalender';
 import MealHeader from '@/components/shared/Meal/MealHeader';
@@ -13,9 +14,7 @@ import { PAGE_TITLE } from '@/constants/_pageTitle';
 import { MEAL_HEADER_ERROR } from '@/constants/_schema';
 import { useToastStore } from '@/stores/useToastStore';
 
-const now = new Date();
-const year = now.getFullYear();
-const month = now.getMonth() + 1;
+const { year, month } = getCurrentYearMonthNow();
 
 const AutoPlan = () => {
   const [selectedCategory, setSelectedCategory] = useState({
