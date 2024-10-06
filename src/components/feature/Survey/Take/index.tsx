@@ -100,7 +100,7 @@ const SurveyTake = ({ id }: Props) => {
   };
 
   return (
-    <div className='flex flex-col items-center gap-5 px-44'>
+    <div className='flex w-full flex-col items-start gap-5 px-44'>
       <HeadPrimary>8월 식단 설문</HeadPrimary>
       <Calendar
         data={MOCK_CALENDAR_NUTRITION}
@@ -108,7 +108,7 @@ const SurveyTake = ({ id }: Props) => {
         month={month}
         readonly
       />
-      <ul className='mt-10 flex w-full flex-col gap-3 rounded-sm bg-white-100 p-6'>
+      <ul className='mt-10 flex w-[calc(100%-20px)] flex-col gap-3 rounded-sm bg-white-100 p-6'>
         <CardTitle>질문</CardTitle>
         {MOCK_SURVEY_DATA.map((question, idx) => (
           <div
