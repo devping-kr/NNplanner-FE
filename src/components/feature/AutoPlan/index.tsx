@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import { mealHeaderSchema } from '@/schema/mealSchema';
 import { getCurrentYearMonthNow } from '@/utils/calendar';
 import InfoCard from '@/components/common/InfoCard';
+import MealForm from '@/components/common/MealForm';
 import MealCalendar from '@/components/shared/Meal/MealCalender';
 import MealHeader from '@/components/shared/Meal/MealHeader';
 import { MOCK_CATEGORY_LIST } from '@/constants/_category';
@@ -72,32 +73,32 @@ const AutoPlan = () => {
 
   return (
     <div className='flex gap-8'>
-      <form className='w-fit' onSubmit={handleSubmit(onSubmit, onError)}>
-        <fieldset className='flex w-fit flex-col gap-4'>
-          <legend className='sr-only'>
-            {MEAL_FORM_LEGEND.autoPlan.create}
-          </legend>
-          <MealHeader
-            categories={MOCK_CATEGORY_LIST}
-            register={register}
-            errors={errors}
-            selectedCategory={selectedCategory}
-            handleChangeCategory={handleChangeCategory}
-            isCategoryError={isCategoryError}
-            pageHeaderTitle={PAGE_TITLE.autoPlan.default}
-          />
-          <MealCalendar
-            selectedCategory={selectedCategory}
-            isValid={isValid}
-            year={year}
-            month={month}
-            readonly={true}
-          />
-        </fieldset>
-      </form>
+      <MealForm
+        legend={MEAL_FORM_LEGEND.autoPlan.create}
+        handleSubmit={handleSubmit}
+        onSubmit={onSubmit}
+        onError={onError}
+      >
+        <MealHeader
+          categories={MOCK_CATEGORY_LIST}
+          register={register}
+          errors={errors}
+          selectedCategory={selectedCategory}
+          handleChangeCategory={handleChangeCategory}
+          isCategoryError={isCategoryError}
+          pageHeaderTitle={PAGE_TITLE.autoPlan.default}
+        />
+        <MealCalendar
+          selectedCategory={selectedCategory}
+          isValid={isValid}
+          year={year}
+          month={month}
+          readonly={true}
+        />
+      </MealForm>
       <div className='flex w-full flex-col gap-2 pt-[166px]'>
-        <InfoCard message={INFOCARD_MESSAGE.name} />
-        <InfoCard message={INFOCARD_MESSAGE.category} />
+        <InfoCard message={INFOCARD_MESSAGE.autoPlan.name} />
+        <InfoCard message={INFOCARD_MESSAGE.autoPlan.category} />
       </div>
     </div>
   );

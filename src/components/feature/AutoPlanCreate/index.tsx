@@ -2,9 +2,11 @@
 
 import { useState } from 'react';
 import { getCurrentYearMonthNow } from '@/utils/calendar';
+import MealForm from '@/components/common/MealForm';
 import MealCalendar from '@/components/shared/Meal/MealCalender';
 import MealCreateHeader from '@/components/shared/Meal/MealCreateHeader';
 import { MOCK_CALENDAR_NUTRITION } from '@/constants/_calendarData';
+import { MEAL_FORM_LEGEND } from '@/constants/_MealForm';
 import { PAGE_TITLE } from '@/constants/_pageTitle';
 
 const AutoPlanCreate = () => {
@@ -29,24 +31,24 @@ const AutoPlanCreate = () => {
   const seletedCategory = ['카테고리1', '카테고리2'];
 
   return (
-    <form onSubmit={handleSubmit}>
-      <fieldset className='flex w-fit flex-col gap-4'>
-        <legend className='sr-only'>자동 식단 이름 및 카테고리 등록</legend>
-        <MealCreateHeader
-          pageHeaderTitle={PAGE_TITLE.autoPlan.create}
-          inputValue={mealName}
-          seletedCategory={seletedCategory}
-        />
-        <MealCalendar
-          type='create'
-          data={MOCK_CALENDAR_NUTRITION}
-          year={year}
-          month={month}
-          onDateClick={handleDateClick}
-          selectedDate={selectedDate}
-        />
-      </fieldset>
-    </form>
+    <MealForm
+      legend={MEAL_FORM_LEGEND.autoPlan.create}
+      handleSubmit={handleSubmit}
+    >
+      <MealCreateHeader
+        pageHeaderTitle={PAGE_TITLE.autoPlan.create}
+        inputValue={mealName}
+        seletedCategory={seletedCategory}
+      />
+      <MealCalendar
+        type='create'
+        data={MOCK_CALENDAR_NUTRITION}
+        year={year}
+        month={month}
+        onDateClick={handleDateClick}
+        selectedDate={selectedDate}
+      />
+    </MealForm>
   );
 };
 

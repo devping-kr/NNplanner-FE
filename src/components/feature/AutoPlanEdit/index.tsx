@@ -5,11 +5,13 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { mealHeaderSchema } from '@/schema/mealSchema';
 import { isValidDateString } from '@/utils/calendar';
+import MealForm from '@/components/common/MealForm';
 import MealCalendar from '@/components/shared/Meal/MealCalender';
 import MealHeader from '@/components/shared/Meal/MealHeader';
 import { NutritionData } from '@/components/shared/Meal/NutritionInfo';
 import { MOCK_CALENDAR_NUTRITION } from '@/constants/_calendarData';
 import { MOCK_CATEGORY_LIST } from '@/constants/_category';
+import { MEAL_FORM_LEGEND } from '@/constants/_MealForm';
 import { PAGE_TITLE } from '@/constants/_pageTitle';
 import { MEAL_HEADER_ERROR } from '@/constants/_schema';
 import { useToastStore } from '@/stores/useToastStore';
@@ -94,29 +96,31 @@ const AutoPlanEdit = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit, onError)}>
-      <fieldset className='flex w-fit flex-col gap-4'>
-        <legend className='sr-only'>자동 식단 이름 및 카테고리 수정</legend>
-        <MealHeader
-          categories={MOCK_CATEGORY_LIST}
-          register={register}
-          errors={errors}
-          selectedCategory={selectedCategory}
-          handleChangeCategory={handleChangeCategory}
-          pageHeaderTitle={PAGE_TITLE.autoPlan.edit}
-        />
-        <MealCalendar
-          type='edit'
-          year={currentYear}
-          month={currentMonth}
-          data={totalMenuList}
-          onDateClick={handleDateClick}
-          selectedDate={selectedDate}
-          handleChangeMenu={handleChangeMenu}
-          handleResetMenu={handleResetMenu}
-        />
-      </fieldset>
-    </form>
+    <MealForm
+      legend={MEAL_FORM_LEGEND.autoPlan.edit}
+      handleSubmit={handleSubmit}
+      onSubmit={onSubmit}
+      onError={onError}
+    >
+      <MealHeader
+        categories={MOCK_CATEGORY_LIST}
+        register={register}
+        errors={errors}
+        selectedCategory={selectedCategory}
+        handleChangeCategory={handleChangeCategory}
+        pageHeaderTitle={PAGE_TITLE.autoPlan.edit}
+      />
+      <MealCalendar
+        type='edit'
+        year={currentYear}
+        month={currentMonth}
+        data={totalMenuList}
+        onDateClick={handleDateClick}
+        selectedDate={selectedDate}
+        handleChangeMenu={handleChangeMenu}
+        handleResetMenu={handleResetMenu}
+      />
+    </MealForm>
   );
 };
 
