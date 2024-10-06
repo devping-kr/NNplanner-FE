@@ -70,7 +70,7 @@ const MealCalendar = ({
                 type='button'
                 onClick={handleResetMenu}
               >
-                메뉴초기화
+                메뉴 초기화
               </Button>
               <Button className='h-10 w-fit' size='basic' type='submit'>
                 수정 완료
@@ -89,7 +89,7 @@ const MealCalendar = ({
                 type='button'
                 onClick={handleResetMenu}
               >
-                메뉴초기화
+                메뉴 초기화
               </Button>
               <Button className='h-10 w-fit' size='basic' type='submit'>
                 생성
