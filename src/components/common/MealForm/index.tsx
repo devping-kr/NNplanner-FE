@@ -9,30 +9,28 @@ import {
 type MealFormProps<T extends FieldValues> = {
   legend: string;
   children: ReactNode;
-  handleSubmit: UseFormHandleSubmit<T>;
+  handleSubmit: UseFormHandleSubmit<T> | FormEventHandler<HTMLFormElement>;
   onSubmit?: SubmitHandler<T>;
   onError?: SubmitErrorHandler<T>;
 };
 
 const MealForm = <T extends FieldValues>({
-  children,
   legend,
+  children,
   handleSubmit,
   onSubmit,
   onError,
 }: MealFormProps<T>) => {
-  const submitHandler = () => {
-    if (onSubmit && onError) {
-      return handleSubmit(onSubmit, onError);
-    } else if (onSubmit) {
-      return handleSubmit(onSubmit);
-    } else {
-      return handleSubmit;
-    }
+  const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    onSubmit
+      ? (handleSubmit as UseFormHandleSubmit<T>)(onSubmit, onError)(event)
+      : (handleSubmit as FormEventHandler<HTMLFormElement>)(event);
   };
 
   return (
-    <form onSubmit={submitHandler() as FormEventHandler<HTMLFormElement>}>
+    <form onSubmit={submitHandler}>
       <fieldset className='flex w-fit flex-col gap-4'>
         <legend className='sr-only'>{legend}</legend>
         {children}
