@@ -20,11 +20,11 @@ type MealEditProps = {
 };
 
 const MealEdit = ({ date, data, handleChangeMenu }: MealEditProps) => {
-  const [clickedMenu, setClickedMenu] = useState('');
+  const [clickedMenu, setClickedMenu] = useState<string | null>(null);
   const [keyword, setKeyword] = useState('');
   const [isSearchShow, setIsSearchShow] = useState(false);
   const [searchResultList] = useState<NutritionData[]>(MOCK_ALL_MENU);
-  const { showToast } = useToastStore();
+  const showToast = useToastStore((state) => state.showToast);
 
   // 기존 메뉴 클릭 했을 때
   const handleClickMenu = (menu: string) => {
@@ -54,14 +54,14 @@ const MealEdit = ({ date, data, handleChangeMenu }: MealEditProps) => {
         data.find((item) => item.content === clickedMenu)?.content || '';
       handleChangeMenu(date, menuName, result, 'edit');
 
-      setClickedMenu(menu);
+      setClickedMenu(null);
       setKeyword(menu);
       setIsSearchShow(false);
     }
   };
 
   useEffect(() => {
-    setClickedMenu('');
+    setClickedMenu(null);
     setKeyword('');
     setIsSearchShow(false);
   }, [date]);
