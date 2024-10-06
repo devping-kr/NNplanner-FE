@@ -42,7 +42,7 @@ const MealCalendar = ({
   handleSaveMenu,
 }: MealCalendarProps) => {
   return (
-    <div className='flex gap-8'>
+    <div className='flex'>
       <div className='flex w-fit flex-col gap-2'>
         <div className='flex w-full items-center justify-between'>
           <MealCalenderTitle>{month}월</MealCalenderTitle>
@@ -105,22 +105,18 @@ const MealCalendar = ({
           onDateClick={onDateClick}
         />
       </div>
-      {selectedDate && (
-        <div className='mt-[56px]'>
-          {type === 'create' && data && (
-            <NutritionInfo date={selectedDate} data={data[selectedDate]} />
-          )}
-          {type === 'edit' && data && (
-            <MealEdit
-              date={selectedDate}
-              data={data[selectedDate]}
-              handleChangeMenu={handleChangeMenu}
-            />
-          )}
-          {type === 'menualCreate' && (
-            <MealCreate date={selectedDate} handleSaveMenu={handleSaveMenu} />
-          )}
-        </div>
+      {selectedDate && type === 'create' && data && (
+        <NutritionInfo date={selectedDate} data={data[selectedDate]} />
+      )}
+      {selectedDate && type === 'edit' && data && (
+        <MealEdit
+          date={selectedDate}
+          data={data[selectedDate]}
+          handleChangeMenu={handleChangeMenu}
+        />
+      )}
+      {selectedDate && type === 'menualCreate' && (
+        <MealCreate date={selectedDate} handleSaveMenu={handleSaveMenu} />
       )}
     </div>
   );
