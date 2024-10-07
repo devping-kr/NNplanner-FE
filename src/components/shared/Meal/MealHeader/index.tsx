@@ -7,7 +7,7 @@ import { Option, Selectbox } from '@/components/common/Selectbox';
 import { PageHeaderTitle } from '@/components/common/Typography';
 import { ORGANIZATION_LIST } from '@/constants/_category';
 
-type MealHeaderFormData = {
+export type MealHeaderFormData = {
   name: string;
 };
 

@@ -52,3 +52,11 @@ export const isValidDateString = (date: string): boolean => {
 export const sumCalrories = (data: NutritionData[]): number => {
   return data.reduce((total, item) => total + item.kcal, 0);
 };
+
+export const getCurrentYearMonthNow = () => {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = now.getMonth() + 1;
+
+  return { year, month, now };
+};
