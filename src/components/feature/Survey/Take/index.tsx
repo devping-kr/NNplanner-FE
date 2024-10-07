@@ -116,14 +116,19 @@ const SurveyTake = ({ id }: Props) => {
         readonly
       />
       <ul className='mt-10 flex w-[calc(100%-20px)] max-w-[1224px] flex-col gap-3 rounded-sm bg-white-100 p-6'>
-        <CardTitle>질문</CardTitle>
+        <div className='flex items-center justify-between'>
+          <CardTitle>질문</CardTitle>
+          <span className='text-sm text-gray-600'>
+            1(매우 아니다) - 10(매우 그렇다)
+          </span>
+        </div>
         {MOCK_SURVEY_DATA.map((question, idx) => (
           <div
             key={question.questionId}
             className='flex w-full flex-col gap-1 border-b border-gray-300 pb-3'
           >
             <li className='flex items-center gap-1'>
-              <span>{`${idx + 1}. `}</span>
+              <span>{idx + 1}. </span>
               <span>{question.question}</span>
               <span
                 className={question.isMandatory ? 'text-red-200' : 'hidden'}
@@ -131,7 +136,7 @@ const SurveyTake = ({ id }: Props) => {
                 *
               </span>
             </li>
-            {question.type === 'text' ? (
+            {question.type === 'text' && (
               <Input
                 value={answers[question.questionId] || ''}
                 bgcolor='meal'
@@ -139,7 +144,8 @@ const SurveyTake = ({ id }: Props) => {
                   handleChange(question.questionId, e.target.value)
                 }
               />
-            ) : (
+            )}
+            {question.type === 'radio' && (
               <div className='flex justify-around'>
                 {RADIO_OPTIONS.map((option) => (
                   <div key={option} className='flex gap-2'>
