@@ -1,32 +1,39 @@
-import { FormEventHandler, ReactNode } from 'react';
+import { FormEvent, FormEventHandler, ReactNode } from 'react';
 import {
   SubmitErrorHandler,
   SubmitHandler,
-  UseFormHandleSubmit,
   FieldValues,
 } from 'react-hook-form';
 
 type MealFormProps<T extends FieldValues> = {
   legend: string;
   children: ReactNode;
-  handleSubmit: UseFormHandleSubmit<T> | FormEventHandler<HTMLFormElement>;
-  onSubmit?: SubmitHandler<T>;
-  onError?: SubmitErrorHandler<T>;
+  handleSubmit:
+    | ((
+        onSubmit?: SubmitHandler<T>,
+        onError?: SubmitErrorHandler<T>,
+      ) => FormEventHandler<HTMLFormElement>)
+    | FormEventHandler<HTMLFormElement>;
 };
 
 const MealForm = <T extends FieldValues>({
   legend,
   children,
   handleSubmit,
-  onSubmit,
-  onError,
 }: MealFormProps<T>) => {
-  const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
+  const submitHandler = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    onSubmit
-      ? (handleSubmit as UseFormHandleSubmit<T>)(onSubmit, onError)(event)
-      : (handleSubmit as FormEventHandler<HTMLFormElement>)(event);
+    if (handleSubmit.length === 2) {
+      return (
+        handleSubmit as (
+          onSubmit?: SubmitHandler<T>,
+          onError?: SubmitErrorHandler<T>,
+        ) => FormEventHandler<HTMLFormElement>
+      )()(event);
+    } else {
+      return (handleSubmit as FormEventHandler<HTMLFormElement>)(event);
+    }
   };
 
   return (
