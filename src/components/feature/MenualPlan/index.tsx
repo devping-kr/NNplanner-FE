@@ -6,10 +6,14 @@ import { useForm } from 'react-hook-form';
 import { mealHeaderSchema } from '@/schema/mealSchema';
 import { CalendarNutritionData } from '@/type/mealType';
 import { isValidDateString } from '@/utils/calendar';
+import InfoCard from '@/components/common/InfoCard';
+import MealForm from '@/components/common/MealForm';
 import MealCalendar from '@/components/shared/Meal/MealCalender';
 import MealHeader from '@/components/shared/Meal/MealHeader';
 import { NutritionData } from '@/components/shared/Meal/NutritionInfo';
 import { MOCK_CATEGORY_LIST } from '@/constants/_category';
+import { INFOCARD_MESSAGE } from '@/constants/_infoCard';
+import { MEAL_FORM_LEGEND } from '@/constants/_MealForm';
 import { PAGE_TITLE } from '@/constants/_pageTitle';
 import { MEAL_HEADER_ERROR } from '@/constants/_schema';
 import { useToastStore } from '@/stores/useToastStore';
@@ -26,8 +30,7 @@ const MenualPlan = () => {
     organizationDetail: '',
   });
   const [isCategoryError, setIsCategoryError] = useState(false);
-
-  const { showToast } = useToastStore();
+  const showToast = useToastStore((state) => state.showToast);
 
   const {
     register,
@@ -92,32 +95,36 @@ const MenualPlan = () => {
 
   return (
     <div className='flex gap-8'>
-      <form onSubmit={handleSubmit(onSubmit, onError)}>
-        <fieldset className='flex w-fit flex-col gap-4'>
-          <legend className='sr-only'>수동 식단 작성</legend>
-          <MealHeader
-            categories={MOCK_CATEGORY_LIST}
-            register={register}
-            errors={errors}
-            selectedCategory={selectedCategory}
-            handleChangeCategory={handleChangeCategory}
-            isCategoryError={isCategoryError}
-            pageHeaderTitle={PAGE_TITLE.menualPlan.default}
-          />
-          <MealCalendar
-            type='menualCreate'
-            selectedCategory={selectedCategory}
-            isValid={isValid}
-            year={currentYear}
-            month={currentMonth}
-            data={totalMenuList}
-            onDateClick={handleDateClick}
-            selectedDate={selectedDate}
-            handleSaveMenu={handleSaveMenu}
-            handleResetMenu={handleResetMenu}
-          />
-        </fieldset>
-      </form>
+      <MealForm
+        legend={MEAL_FORM_LEGEND.menual.create}
+        handleSubmit={handleSubmit(onSubmit, onError)}
+      >
+        <MealHeader
+          categories={MOCK_CATEGORY_LIST}
+          register={register}
+          errors={errors}
+          selectedCategory={selectedCategory}
+          handleChangeCategory={handleChangeCategory}
+          isCategoryError={isCategoryError}
+          pageHeaderTitle={PAGE_TITLE.menualPlan.default}
+        />
+        <MealCalendar
+          type='menualCreate'
+          selectedCategory={selectedCategory}
+          isValid={isValid}
+          year={currentYear}
+          month={currentMonth}
+          data={totalMenuList}
+          onDateClick={handleDateClick}
+          selectedDate={selectedDate}
+          handleSaveMenu={handleSaveMenu}
+          handleResetMenu={handleResetMenu}
+        />
+      </MealForm>
+      <div className='flex w-fit flex-col gap-2 pt-[166px]'>
+        <InfoCard message={INFOCARD_MESSAGE.autoPlan.name} />
+        <InfoCard message={INFOCARD_MESSAGE.autoPlan.category} />
+      </div>
     </div>
   );
 };

@@ -16,7 +16,7 @@ import { PAGE_TITLE } from '@/constants/_pageTitle';
 import { MEAL_HEADER_ERROR } from '@/constants/_schema';
 import { useToastStore } from '@/stores/useToastStore';
 
-const AutoPlanEdit = () => {
+const MenualPlanEdit = () => {
   // api로부터 전달 받는 값
   const mealName = '맛있는 9월 식단 야호';
   const category = {
@@ -99,7 +99,7 @@ const AutoPlanEdit = () => {
 
   return (
     <MealForm
-      legend={MEAL_FORM_LEGEND.autoPlan.edit}
+      legend={MEAL_FORM_LEGEND.menual.edit}
       handleSubmit={handleSubmit(onSubmit, onError)}
     >
       <MealHeader
@@ -124,4 +124,4 @@ const AutoPlanEdit = () => {
   );
 };
 
-export default AutoPlanEdit;
+export default MenualPlanEdit;
