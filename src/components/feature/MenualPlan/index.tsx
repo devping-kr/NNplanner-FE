@@ -97,9 +97,7 @@ const MenualPlan = () => {
     <div className='flex gap-8'>
       <MealForm
         legend={MEAL_FORM_LEGEND.menual.create}
-        handleSubmit={handleSubmit}
-        onSubmit={onSubmit}
-        onError={onError}
+        handleSubmit={handleSubmit(onSubmit, onError)}
       >
         <MealHeader
           categories={MOCK_CATEGORY_LIST}

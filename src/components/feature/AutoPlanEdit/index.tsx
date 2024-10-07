@@ -52,14 +52,16 @@ const AutoPlanEdit = () => {
     updatedItem: NutritionData,
   ) => {
     setTotalMenuList((prevList) => {
-      const updatedList = { ...prevList };
-
-      if (updatedList[date]) {
-        updatedList[date] = updatedList[date].map((item) =>
-          item.content === menuName ? { ...item, ...updatedItem } : item,
-        );
+      if (!prevList[date]) {
+        return prevList;
       }
-      return updatedList;
+
+      return {
+        ...prevList,
+        [date]: prevList[date].map((item) =>
+          item.content === menuName ? { ...item, ...updatedItem } : item,
+        ),
+      };
     });
   };
 
@@ -98,9 +100,7 @@ const AutoPlanEdit = () => {
   return (
     <MealForm
       legend={MEAL_FORM_LEGEND.autoPlan.edit}
-      handleSubmit={handleSubmit}
-      onSubmit={onSubmit}
-      onError={onError}
+      handleSubmit={handleSubmit(onSubmit, onError)}
     >
       <MealHeader
         categories={MOCK_CATEGORY_LIST}
