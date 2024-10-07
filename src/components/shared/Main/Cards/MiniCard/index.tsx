@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { cn } from '@/utils/core';
 import Icon from '@/components/common/Icon';
 import { NAV_LINKS } from '@/constants/_navbar';
 
@@ -15,9 +16,17 @@ interface Props {
     | undefined;
   count: number;
   upDownPercent: number;
+  type: 'plan' | 'survey';
 }
 
-const MiniCard = ({ title, icon, color, count, upDownPercent }: Props) => {
+const MiniCard = ({
+  title,
+  icon,
+  color,
+  count,
+  upDownPercent,
+  type,
+}: Props) => {
   const isIncrease = upDownPercent >= 0 ? true : false;
 
   return (
@@ -26,7 +35,7 @@ const MiniCard = ({ title, icon, color, count, upDownPercent }: Props) => {
         <div className='flex flex-col gap-3'>
           <span className='text-xl font-semibold'>{title}</span>
           <Link
-            href={NAV_LINKS[3].href}
+            href={type === 'plan' ? NAV_LINKS[3].href : NAV_LINKS[4].href}
             className='w-fit text-3xl font-semibold underline'
           >
             {count}
@@ -45,7 +54,14 @@ const MiniCard = ({ title, icon, color, count, upDownPercent }: Props) => {
         />
         <span className='font-semibold'>
           {`지난 달보다 `}
-          <span className='text-green-700'>{upDownPercent}%</span>
+          <span
+            className={cn(
+              'text-lg',
+              isIncrease ? 'text-blue-200' : 'text-red-100',
+            )}
+          >
+            {upDownPercent}%
+          </span>
           {` ${isIncrease ? '증가' : '감소'}`}
         </span>
       </div>

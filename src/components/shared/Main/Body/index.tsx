@@ -39,6 +39,7 @@ const MainPageBody = () => {
           color='active'
           count={PLAN_DATA.length}
           upDownPercent={upDownPlanPercent}
+          type='plan'
         />
         <MiniCard
           title='진행중인 설문'
@@ -46,6 +47,7 @@ const MainPageBody = () => {
           color='active'
           count={SURVEY_DATA.length}
           upDownPercent={upDownSurveyPercent}
+          type='survey'
         />
         <MainTopCard title={surveyName} top3Data={likedMenusTop3} />
       </div>
