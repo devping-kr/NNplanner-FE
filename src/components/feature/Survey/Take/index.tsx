@@ -99,9 +99,14 @@ const SurveyTake = ({ id }: Props) => {
     }));
   };
 
+  const submitSurvey = () => {
+    // 설문응답 데이터 제출함수
+    console.log(answers);
+  };
+
   return (
     <div className='flex w-full flex-col items-start gap-5 px-44'>
-      <div className='mb-9 flex w-full justify-center'>
+      <div className='mb-9 flex w-[calc(100%-20px)] justify-center'>
         <HeadPrimary>8월 식단 설문</HeadPrimary>
       </div>
       <Calendar
@@ -156,7 +161,9 @@ const SurveyTake = ({ id }: Props) => {
           </div>
         ))}
         <div className='my-4 w-full'>
-          <Button disabled={!isFormComplete}>제출</Button>
+          <Button onClick={submitSurvey} disabled={!isFormComplete}>
+            제출
+          </Button>
         </div>
       </ul>
     </div>
