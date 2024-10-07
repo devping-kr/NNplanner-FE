@@ -1,6 +1,8 @@
 import ArrowDown from '@/components/common/Icon/assets/ArrowDown';
 import ArrowNext from '@/components/common/Icon/assets/ArrowNext';
+import ArrowNextBlock from '@/components/common/Icon/assets/ArrowNextBlock';
 import ArrowPrev from '@/components/common/Icon/assets/ArrowPrev';
+import ArrowPrevBlock from '@/components/common/Icon/assets/ArrowPrevBlock';
 import Arrowup from '@/components/common/Icon/assets/ArrowUp';
 import Auto from '@/components/common/Icon/assets/Auto';
 import Calendar from '@/components/common/Icon/assets/Calendar';
@@ -8,6 +10,7 @@ import Chart from '@/components/common/Icon/assets/Chart';
 import Danger from '@/components/common/Icon/assets/Danger';
 import Dashboard from '@/components/common/Icon/assets/Dashboard';
 import Edit from '@/components/common/Icon/assets/Edit';
+import Group from '@/components/common/Icon/assets/Group';
 import Hide from '@/components/common/Icon/assets/Hide';
 import Normal from '@/components/common/Icon/assets/Info';
 import Logout from '@/components/common/Icon/assets/Logout';
@@ -15,11 +18,12 @@ import Plus from '@/components/common/Icon/assets/Plus';
 import Search from '@/components/common/Icon/assets/Search';
 import Show from '@/components/common/Icon/assets/Show';
 import Success from '@/components/common/Icon/assets/Success';
+import Time from '@/components/common/Icon/assets/Time';
+import TrendDown from '@/components/common/Icon/assets/TrendDown';
+import TrendUp from '@/components/common/Icon/assets/TrendUp';
 import Warning from '@/components/common/Icon/assets/Warning';
 import Xmark from '@/components/common/Icon/assets/Xmark';
 import { colors } from '@/styles/colors';
-import ArrowNextBlock from './ArrowNextBlock';
-import ArrowPrevBlock from './ArrowPrevBlock';
 
 type IconMapEntry = {
   type: 'fill' | 'stroke';
@@ -47,6 +51,10 @@ export const iconMap: Record<string, IconMapEntry> = {
     type: 'stroke',
     file: Dashboard,
   },
+  time: { type: 'fill', file: Time },
+  group: { type: 'fill', file: Group },
+  trendUp: { type: 'fill', file: TrendUp },
+  trendDown: { type: 'fill', file: TrendDown },
   auto: { type: 'stroke', file: Auto },
   chart: { type: 'stroke', file: Chart },
   logout: {
