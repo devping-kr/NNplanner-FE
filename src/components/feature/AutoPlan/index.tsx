@@ -4,17 +4,19 @@ import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { mealHeaderSchema } from '@/schema/mealSchema';
+import { getCurrentYearMonthNow } from '@/utils/calendar';
 import InfoCard from '@/components/common/InfoCard';
+import MealForm from '@/components/common/MealForm';
 import MealCalendar from '@/components/shared/Meal/MealCalender';
 import MealHeader from '@/components/shared/Meal/MealHeader';
 import { MOCK_CATEGORY_LIST } from '@/constants/_category';
 import { INFOCARD_MESSAGE } from '@/constants/_infoCard';
+import { MEAL_FORM_LEGEND } from '@/constants/_MealForm';
+import { PAGE_TITLE } from '@/constants/_pageTitle';
 import { MEAL_HEADER_ERROR } from '@/constants/_schema';
 import { useToastStore } from '@/stores/useToastStore';
 
-const now = new Date();
-const year = now.getFullYear();
-const month = now.getMonth() + 1;
+const { year, month } = getCurrentYearMonthNow();
 
 const AutoPlan = () => {
   const [selectedCategory, setSelectedCategory] = useState({
@@ -22,7 +24,7 @@ const AutoPlan = () => {
     organizationDetail: '',
   });
   const [isCategoryError, setIsCategoryError] = useState(false);
-  const { showToast } = useToastStore();
+  const showToast = useToastStore((state) => state.showToast);
 
   const {
     register,
@@ -48,7 +50,6 @@ const AutoPlan = () => {
   };
 
   const onSubmit = (data: { name: string }) => {
-    // if (isCategoryEmpty) return;
     // 선택한 카테고리 + 식단이름 제출 + autoPlan/create로 이동
     console.log(data);
     const isSelectedCategoryInvalid =
@@ -72,29 +73,30 @@ const AutoPlan = () => {
 
   return (
     <div className='flex gap-8'>
-      <form className='w-fit' onSubmit={handleSubmit(onSubmit, onError)}>
-        <fieldset className='flex w-fit flex-col gap-4'>
-          <legend className='sr-only'>자동 식단 이름 및 카테고리 등록</legend>
-          <MealHeader
-            categories={MOCK_CATEGORY_LIST}
-            register={register}
-            errors={errors}
-            selectedCategory={selectedCategory}
-            handleChangeCategory={handleChangeCategory}
-            isCategoryError={isCategoryError}
-          />
-          <MealCalendar
-            selectedCategory={selectedCategory}
-            isValid={isValid}
-            year={year}
-            month={month}
-            readonly={true}
-          />
-        </fieldset>
-      </form>
-      <div className='flex w-fit max-w-[500px] flex-col gap-2 pt-[166px]'>
-        <InfoCard message={INFOCARD_MESSAGE.name} />
-        <InfoCard message={INFOCARD_MESSAGE.category} />
+      <MealForm
+        legend={MEAL_FORM_LEGEND.autoPlan.create}
+        handleSubmit={handleSubmit(onSubmit, onError)}
+      >
+        <MealHeader
+          categories={MOCK_CATEGORY_LIST}
+          register={register}
+          errors={errors}
+          selectedCategory={selectedCategory}
+          handleChangeCategory={handleChangeCategory}
+          isCategoryError={isCategoryError}
+          pageHeaderTitle={PAGE_TITLE.autoPlan.default}
+        />
+        <MealCalendar
+          selectedCategory={selectedCategory}
+          isValid={isValid}
+          year={year}
+          month={month}
+          readonly={true}
+        />
+      </MealForm>
+      <div className='flex w-full flex-col gap-2 pt-[166px]'>
+        <InfoCard message={INFOCARD_MESSAGE.autoPlan.name} />
+        <InfoCard message={INFOCARD_MESSAGE.autoPlan.category} />
       </div>
     </div>
   );

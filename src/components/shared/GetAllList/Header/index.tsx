@@ -7,11 +7,7 @@ interface Props {
 }
 
 const ViewPlanHeader = ({ title }: Props) => {
-  return (
-    <>
-      <PageHeaderTitle>{title}</PageHeaderTitle>
-    </>
-  );
+  return <PageHeaderTitle>{title}</PageHeaderTitle>;
 };
 
 export default ViewPlanHeader;

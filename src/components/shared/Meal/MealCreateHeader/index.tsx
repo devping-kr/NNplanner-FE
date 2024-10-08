@@ -1,20 +1,21 @@
 import { Input } from '@/components/common/Input';
 import { Selectbox } from '@/components/common/Selectbox';
 import { PageHeaderTitle } from '@/components/common/Typography';
-import { PAGE_TITLE } from '@/constants/_pageTitle';
 
 type MealCreateHeaderProps = {
   inputValue: string;
   seletedCategory: string[];
+  pageHeaderTitle: string;
 };
 
 const MealCreateHeader = ({
   inputValue,
   seletedCategory,
+  pageHeaderTitle,
 }: MealCreateHeaderProps) => {
   return (
     <div className='flex flex-col gap-5'>
-      <PageHeaderTitle>{PAGE_TITLE.autoPlan.create}</PageHeaderTitle>
+      <PageHeaderTitle>{pageHeaderTitle}</PageHeaderTitle>
       <div className='flex w-fit items-center gap-4'>
         <Input
           className='text-lg font-semibold focus:border-green-400'

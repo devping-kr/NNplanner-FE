@@ -24,48 +24,54 @@ const Navbar = () => {
     logout();
   };
 
+  const isSurveyPage = /^\/survey\/\d+$/.test(pathname);
+
   return (
-    <nav className='sticky top-0 flex h-screen w-60 flex-col place-content-between bg-white-100'>
-      <div className='flex flex-col gap-9 p-6'>
-        <Link href='#' className='w-fit self-center'>
-          <Image
-            src='/imgs/navbar-logo.png'
-            width={180}
-            height={42}
-            alt='logo'
-          />
-        </Link>
-        <div className='flex h-full flex-col'>
-          <div className='flex flex-col gap-2'>
-            {NAV_LINKS.map(({ name, href, icon }) => (
-              <NavMenu key={name} href={href} isActive={selecedTab === name}>
-                <Icon
-                  name={icon}
-                  className='hover:stroke-green-800'
-                  color={selecedTab === name ? 'active' : 'normal'}
-                />
-                <span>{name}</span>
-              </NavMenu>
-            ))}
+    !isSurveyPage && (
+      <nav className='sticky top-0 flex h-screen w-60 flex-col place-content-between bg-white-100'>
+        <div className='flex flex-col gap-9 p-6'>
+          <Link href='#' className='w-fit self-center'>
+            <Image
+              src='/imgs/navbar-logo.png'
+              width={180}
+              height={42}
+              alt='logo'
+            />
+          </Link>
+          <div className='flex h-full flex-col'>
+            <div className='flex flex-col gap-2'>
+              {NAV_LINKS.map(({ name, href, icon }) => (
+                <NavMenu key={name} href={href} isActive={selecedTab === name}>
+                  <Icon
+                    name={icon}
+                    className='hover:stroke-green-800'
+                    color={selecedTab === name ? 'active' : 'normal'}
+                  />
+                  <span>{name}</span>
+                </NavMenu>
+              ))}
+            </div>
           </div>
         </div>
-      </div>
-      <div>
-        <Divider />
-        <button
-          className='flex h-[90px] w-full items-center gap-3 px-10 py-6 text-sm'
-          onClick={handleLogout}
-        >
-          <Icon
-            name='logout'
-            className='stroke-gray-600 hover:stroke-green-800'
-          />
-          <span>로그아웃</span>
-        </button>
-        <Divider />
-        <NavProfile name={'유저 이름'} />
-      </div>
-    </nav>
+        <div>
+          <Divider />
+          <NavProfile name={'유저 이름'} />
+          <Divider />
+          <button
+            className='flex h-[50px] w-full items-center gap-2 px-10 text-sm'
+            onClick={handleLogout}
+          >
+            <Icon
+              name='logout'
+              className='stroke-gray-600 hover:stroke-green-800'
+              width={12}
+              height={12}
+            />
+            <span className='text-gray-600'>로그아웃</span>
+          </button>
+        </div>
+      </nav>
+    )
   );
 };
 
