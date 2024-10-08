@@ -19,8 +19,8 @@ const SeasonCard = ({ data }: Props) => {
           <Image
             src={season.img}
             alt={season.name}
-            width={200}
-            height={200}
+            width={180}
+            height={180}
             className='rounded'
           />
           <span className='font-semibold'>{season.name}</span>

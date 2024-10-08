@@ -15,8 +15,7 @@ import { SEASON_DATA } from '@/constants/_SeasonData';
 const PREV_PLAN_DATA_LENGTH = 6;
 const PREV_SURVEY_DATA_LENGTH = 10;
 const PLAN_LENGTH = 4;
-const { surveyName, likedMenusTop3, satisfactionDistribution } =
-  DETAIL_SURVEY_DATA;
+const { likedMenusTop3, satisfactionDistribution } = DETAIL_SURVEY_DATA;
 
 const today = new Date();
 const month = today.getMonth();
@@ -49,7 +48,10 @@ const MainPageBody = () => {
           upDownPercent={upDownSurveyPercent}
           type='survey'
         />
-        <MainTopCard title={surveyName} top3Data={likedMenusTop3} />
+        <MainTopCard
+          title='최근 마감한 설문 좋아요 Top3 메뉴'
+          top3Data={likedMenusTop3}
+        />
       </div>
       <div className='flex gap-3'>
         <div className='flex w-1/2 flex-col gap-3 rounded border border-gray-300 bg-white-100 p-5'>

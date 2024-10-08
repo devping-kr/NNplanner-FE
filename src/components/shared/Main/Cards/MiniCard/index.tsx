@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { cn } from '@/utils/core';
 import Icon from '@/components/common/Icon';
+import { CardTitle } from '@/components/common/Typography';
 import { NAV_LINKS } from '@/constants/_navbar';
 
 interface Props {
@@ -30,10 +31,10 @@ const MiniCard = ({
   const isIncrease = upDownPercent >= 0 ? true : false;
 
   return (
-    <div className='flex w-1/4 flex-col gap-6 rounded-md border border-gray-300 bg-white-100 p-4'>
+    <div className='flex w-1/4 flex-col justify-around rounded-md border border-gray-300 bg-white-100 p-4'>
       <div className='flex items-center justify-between'>
         <div className='flex flex-col gap-3'>
-          <span className='text-xl font-semibold'>{title}</span>
+          <CardTitle>{title}</CardTitle>
           <Link
             href={type === 'plan' ? NAV_LINKS[3].href : NAV_LINKS[4].href}
             className='w-fit text-3xl font-semibold underline'
@@ -41,11 +42,11 @@ const MiniCard = ({
             {count}
           </Link>
         </div>
-        <div className='flex items-center justify-center rounded-2xl bg-green-400 bg-opacity-50 p-3'>
-          <Icon name={icon} color={color} width={20} height={20} />
+        <div className='flex items-center justify-center rounded-2xl bg-green-400 bg-opacity-50 p-4'>
+          <Icon name={icon} color={color} width={24} height={24} />
         </div>
       </div>
-      <div className='flex items-center gap-2'>
+      <div className='flex items-center justify-center gap-1'>
         <Icon
           name={isIncrease ? 'trendUp' : 'trendDown'}
           color={isIncrease ? 'success' : 'warning'}
