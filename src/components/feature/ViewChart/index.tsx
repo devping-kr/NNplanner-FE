@@ -31,6 +31,14 @@ const ViewChart = () => {
     console.log('검색 버튼 클릭');
   };
 
+  // const { data, isLoading } = useQuery({
+  //   queryKey: ['surveyList'],
+  //   queryFn: () => survey.getSurveyList(),
+  // });
+  // if (data) {
+  //   console.log(data.data.surveys);
+  // }
+
   // 추후 react-query queryKey에 filter된 데이터 캐싱예정
   const filterSurveys = (filterTab: string) => {
     if (filterTab === '전체') {
@@ -38,6 +46,8 @@ const ViewChart = () => {
     }
     return SURVEY_DATA.filter((survey) => survey.state === filterTab);
   };
+
+  // if (isLoading) return <div>Loading...</div>;
 
   return (
     <div className='flex flex-col gap-4'>
