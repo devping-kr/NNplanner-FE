@@ -24,4 +24,14 @@ export const SEASON_DATA = [
     name: '복숭아',
     img: '/imgs/pi-gon-ping.jpg',
   },
+  {
+    id: 5,
+    name: '바나나',
+    img: '/imgs/pi-gon-ping.jpg',
+  },
+  {
+    id: 6,
+    name: '수박',
+    img: '/imgs/pi-gon-ping.jpg',
+  },
 ];
