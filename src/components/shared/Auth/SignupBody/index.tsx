@@ -3,18 +3,22 @@
 import { useRouter } from 'next/navigation';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { AxiosError } from 'axios';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { signUpSchema } from '@/schema/authSchema';
 import { SignupRequest } from '@/type/auth/authRequest';
+import { FailResponse, Result } from '@/type/response';
 import Button from '@/components/common/Button/Button';
 import { Input } from '@/components/common/Input';
 import { AUTH_LINKS } from '@/constants/_auth';
 import { usePostSignup } from '@/hooks/auth/usePostSignup';
 import { usePostVerifyConfirm } from '@/hooks/auth/usePostVerifyConfirm';
 import { usePostVerifySend } from '@/hooks/auth/usePostVerifySend';
+import { useToastStore } from '@/stores/useToastStore';
 
 const SignupBody = () => {
   const router = useRouter();
+  const showToast = useToastStore((state) => state.showToast);
   const { mutate: signupMutate } = usePostSignup();
   const { mutate: verifySendMutate, isSuccess: sendSuccess } =
     usePostVerifySend();
@@ -51,17 +55,49 @@ const SignupBody = () => {
 
   const handleEmailVerification = () => {
     if (!errors.email) {
-      verifySendMutate({ email: email });
+      verifySendMutate(
+        { email: email },
+        {
+          onSuccess: ({ message }: Result<null>) => {
+            showToast(message, 'success', 1000);
+          },
+          onError: (error: AxiosError<FailResponse>) => {
+            const errorMessage =
+              error.response?.data?.message || '인증 요청 실패';
+            showToast(errorMessage, 'warning', 1000);
+          },
+        },
+      );
     }
   };
 
   const handleEmailVerifyConfirm = () => {
-    verifyConfirmMutate({ email: email, verifyCode: verification });
+    verifyConfirmMutate(
+      { email: email, verifyCode: verification },
+      {
+        onSuccess: ({ message }: Result<null>) => {
+          showToast(message, 'success', 1000);
+        },
+        onError: (error: AxiosError<FailResponse>) => {
+          const errorMessage =
+            error.response?.data?.message || '이메일 인증 실패';
+          showToast(errorMessage, 'warning', 1000);
+        },
+      },
+    );
   };
 
   const onSubmit: SubmitHandler<SignupRequest> = (data) => {
-    signupMutate(data);
-    console.log('회원가입 성공');
+    signupMutate(data, {
+      onSuccess: ({ message }: Result<null>) => {
+        router.push(AUTH_LINKS.login);
+        showToast(message, 'success', 1000);
+      },
+      onError: (error: AxiosError<FailResponse>) => {
+        const errorMessage = error.response?.data?.message || '회원가입 실패';
+        showToast(errorMessage, 'warning', 1000);
+      },
+    });
   };
 
   useEffect(() => {

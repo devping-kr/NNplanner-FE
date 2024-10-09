@@ -1,21 +1,22 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, UseMutationOptions } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { auth } from '@/api/auth';
-import { FailResponse, Result } from '@/type/response';
-import { useToastStore } from '@/stores/useToastStore';
+import { Result } from '@/type/response';
 
-export const usePostVerifyConfirm = () => {
-  const showToast = useToastStore((state) => state.showToast);
+interface requestType {
+  email: string;
+  verifyCode: string;
+}
 
-  return useMutation({
-    mutationFn: (request: { email: string; verifyCode: string }) =>
-      auth.verifyConfirm(request),
-    onSuccess: ({ message }: Result<null>) => {
-      showToast(message, 'success', 1000);
-    },
-    onError: (error: AxiosError<FailResponse>) => {
-      const errorMessage = error.response?.data?.message || '이메일 인증 실패';
-      showToast(errorMessage, 'warning', 1000);
-    },
+export const usePostVerifyConfirm = (
+  options?: UseMutationOptions<
+    Result<null>,
+    AxiosError<Result<null>>,
+    requestType
+  >,
+) => {
+  return useMutation<Result<null>, AxiosError<Result<null>>, requestType>({
+    mutationFn: (request: requestType) => auth.verifyConfirm(request),
+    ...options,
   });
 };
