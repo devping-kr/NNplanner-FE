@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import { ko } from 'date-fns/locale';
 import DatePicker from 'react-datepicker';
+import { getCurrentYearMonthNow } from '@/utils/calendar';
 import Icon from '@/components/common/Icon';
 import { Input } from '@/components/common/Input';
 import { Label } from '@/components/common/Typography';
@@ -14,8 +15,6 @@ interface Props {
   setDeadLine?: React.Dispatch<React.SetStateAction<Date | null>>;
 }
 
-const today = new Date();
-
 const SurveyControls = ({
   type,
   surveyName,
@@ -23,6 +22,7 @@ const SurveyControls = ({
   deadLine,
   setDeadLine,
 }: Props) => {
+  const { now } = getCurrentYearMonthNow();
   const deadLineDatePickerRef = useRef<DatePicker | null>(null);
   const isChangeable = type === 'create';
 
@@ -59,7 +59,7 @@ const SurveyControls = ({
           disabled={!isChangeable}
           selected={deadLine}
           locale={ko}
-          minDate={today}
+          minDate={now}
           onChange={handleChangeDate}
           calendarClassName='custom-calendar'
           dayClassName={() => 'custom-day'}

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { getCurrentYearMonthNow } from '@/utils/calendar';
 import Button from '@/components/common/Button/Button';
 import Calendar from '@/components/common/Calendar';
 import { Input } from '@/components/common/Input';
@@ -77,6 +78,7 @@ const SurveyTake = ({ id }: Props) => {
   const [answers, setAnswers] = useState<{ [key: number]: number | string }>(
     {},
   );
+  const { month, year } = getCurrentYearMonthNow();
 
   const isFormComplete = MOCK_SURVEY_DATA.every((question) => {
     if (question.isMandatory) {
@@ -87,10 +89,6 @@ const SurveyTake = ({ id }: Props) => {
     }
     return true;
   });
-
-  const now = new Date();
-  const year = now.getFullYear();
-  const month = now.getMonth() + 1;
 
   const handleChange = (questionId: number, value: number | string) => {
     setAnswers((prev) => ({

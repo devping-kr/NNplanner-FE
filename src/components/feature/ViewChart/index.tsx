@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { survey } from '@/api/survey';
+import { getCurrentYearMonthNow } from '@/utils/calendar';
 import Pagination from '@/components/common/Pagination';
 import GetAllListControls from '@/components/shared/GetAllList/Controls';
 import GetAllListHeader from '@/components/shared/GetAllList/Header';
@@ -11,12 +12,9 @@ import { SURVEY_FILTER_OPTIONS, TAB_OPTIONS } from '@/constants/_controlTab';
 import { SURVEY_DATA } from '@/constants/_getAllList/_surveyData';
 
 const ViewChart = () => {
-  const [selectedYear, setSelectedYear] = useState<string>(
-    new Date().getFullYear().toString(),
-  );
-  const [selectedMonth, setSelectedMonth] = useState<string>(
-    (new Date().getMonth() + 1).toString(),
-  );
+  const { month, year } = getCurrentYearMonthNow();
+  const [selectedYear, setSelectedYear] = useState<string>(year.toString());
+  const [selectedMonth, setSelectedMonth] = useState<string>(month.toString());
   const [searchValue, setSearchValue] = useState('');
   const [selectedFilter, setSelectedFilter] = useState<string>(
     SURVEY_FILTER_OPTIONS[0],
