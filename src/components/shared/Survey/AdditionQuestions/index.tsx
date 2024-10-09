@@ -3,17 +3,24 @@ import { cn } from '@/utils/core';
 import Button from '@/components/common/Button/Button';
 import Icon from '@/components/common/Icon';
 import { Input } from '@/components/common/Input';
+import { Selectbox } from '@/components/common/Selectbox';
 import { CardTitle } from '@/components/common/Typography';
+import { inputsType } from '@/components/feature/Survey/Create';
 import { WARNING } from '@/constants/_toastMessage';
 import { useToastStore } from '@/stores/useToastStore';
 
 interface Props {
-  inputs: string[];
-  setInputs: React.Dispatch<React.SetStateAction<string[]>>;
+  inputs: inputsType[];
+  setInputs: React.Dispatch<React.SetStateAction<inputsType[]>>;
   successSubmit: boolean;
 }
 
 const EXTRA_QUESTIONS_LIMIT = 7;
+
+const ANSWER_TYPE = [
+  { label: '선택형', value: 'radio' },
+  { label: '서술형', value: 'text' },
+];
 
 const AdditionQuestions = ({ inputs, setInputs, successSubmit }: Props) => {
   const [prevInputCount, setPrevInputCount] = useState(0);
@@ -30,8 +37,11 @@ const AdditionQuestions = ({ inputs, setInputs, successSubmit }: Props) => {
   const handleAddInput = () => {
     if (inputs.length >= EXTRA_QUESTIONS_LIMIT)
       showToast(WARNING.maxAdditionQuestion, 'warning', 2000);
-    if (!successSubmit && inputs.length <= 6) {
-      setInputs((prevInputs) => [...prevInputs, '']);
+    if (!successSubmit && inputs.length < EXTRA_QUESTIONS_LIMIT) {
+      setInputs((prevInputs) => [
+        ...prevInputs,
+        { question: '', answerType: 'text' },
+      ]);
     }
   };
 
@@ -40,7 +50,13 @@ const AdditionQuestions = ({ inputs, setInputs, successSubmit }: Props) => {
     idx: number,
   ) => {
     const newInputs = [...inputs];
-    newInputs[idx] = e.target.value;
+    newInputs[idx].question = e.target.value;
+    setInputs(newInputs);
+  };
+
+  const handleChangeAnswerType = (type: string, idx: number) => {
+    const newInputs = [...inputs];
+    newInputs[idx].answerType = type;
     setInputs(newInputs);
   };
 
@@ -75,10 +91,16 @@ const AdditionQuestions = ({ inputs, setInputs, successSubmit }: Props) => {
                 type='text'
                 ref={idx === inputs.length - 1 ? inputRef : null}
                 bgcolor='meal'
-                value={input}
+                value={input.question}
                 onChange={(e) => handleChangeInput(e, idx)}
                 readOnly={successSubmit}
                 placeholder='추가 질문을 입력해주세요.'
+              />
+              <Selectbox
+                size='small'
+                options={ANSWER_TYPE}
+                placeholder='서술형'
+                onChange={(type) => handleChangeAnswerType(type, idx)}
               />
               <div className='flex w-24'>
                 <Button
