@@ -10,19 +10,18 @@ type BadgeProps = {
 
 const Badge = ({
   imageSrc,
-  size = 40,
+  size = 36,
   alt = 'Profile Image',
   className,
 }: BadgeProps) => {
   return (
-    <div className={cn(`h-fit w-fit overflow-hidden rounded-full`, className)}>
-      <Image
-        src={imageSrc}
-        width={size}
-        height={size}
-        alt={alt}
-        objectFit='cover'
-      />
+    <div
+      className={cn(
+        `h-fit w-fit min-w-9 overflow-hidden rounded-full`,
+        className,
+      )}
+    >
+      <Image src={imageSrc} width={size} height={size} alt={alt} />
     </div>
   );
 };
