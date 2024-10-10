@@ -2,6 +2,7 @@ import { HospitalMinorCategory, MajorCategory } from '@/type/menu/menuRequest';
 
 /**
  * @description 음식 하나의 정보
+ * 음식 검색 response body
  */
 export interface FoodInfo {
   foodId: string;
@@ -14,6 +15,7 @@ export interface FoodInfo {
 
 /**
  * @description 병원 하루치 식단
+ * 자동 식단 생성, 식단 개수 조회 response body
  */
 export interface HospitalMenu {
   hospitalMenuId: string;
@@ -22,21 +24,8 @@ export interface HospitalMenu {
 }
 
 /**
- * @description 자동 식단 생성 response body
+ * @description 식단 상세 조회, 수정 response body
  */
-export interface MonthMenusAutoResponse {
-  message: string;
-  data: HospitalMenu[];
-}
-
-/**
- * @description 식단 저장, 삭제 response body
- */
-export interface MonthMenusSaveResponse {
-  message: string;
-  data: null;
-}
-
 export interface MenuResponseDTO {
   userId: number;
   monthMenuId: string;
@@ -49,7 +38,10 @@ export interface MenuResponseDTO {
   monthMenuList: string[] | HospitalMonthMenu[];
 }
 
-export interface MonthMenusResponseData {
+/**
+ * @description 식단 전체 조회 response body
+ */
+export interface MonthMenusResponse {
   currentPage: number;
   totalPages: number;
   totalElements: number;
@@ -57,40 +49,8 @@ export interface MonthMenusResponseData {
   menuResponseDTOList: MenuResponseDTO[];
 }
 
-/**
- * @description 식단 전체 조회 response body
- */
-export interface MonthMenusResponse {
-  message: string;
-  data: MonthMenusResponseData;
-}
-
 export interface HospitalMonthMenu {
   menuDate: string;
   hospitalMenuId: string;
   foodList: FoodInfo[];
-}
-
-/**
- * @description 식단 상세 조회, 수정 response body
- */
-export interface MonthMenusDetailResponse {
-  message: string;
-  data: MenuResponseDTO;
-}
-
-/**
- * @description 음식 검색 response body
- */
-export interface MonthMenusSearchResponse {
-  message: string;
-  data: FoodInfo[];
-}
-
-/**
- * @description 식단 개수 조회 response body
- */
-export interface MonthMenusCountResponse {
-  message: string;
-  data: FoodInfo[];
 }
