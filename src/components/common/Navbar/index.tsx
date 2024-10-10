@@ -12,15 +12,16 @@ import { NAV_LINKS } from '@/constants/_navbar';
 const Navbar = () => {
   const pathname = usePathname();
 
-  const defualtTab = NAV_LINKS[0].name;
-  const selecedTab =
-    NAV_LINKS.find((nav) => nav.href === pathname)?.name ?? defualtTab;
+  const defaultTab = NAV_LINKS[0].name;
+  const selectedTab =
+    NAV_LINKS.find((nav) => pathname?.startsWith(`${nav.href}`))?.name ??
+    defaultTab;
 
   const isSurveyPage = /^\/survey\/\d+$/.test(pathname);
 
   return (
     !isSurveyPage && (
-      <nav className='sticky top-0 flex h-screen w-60 flex-col place-content-between bg-white-100'>
+      <nav className='sticky top-0 flex h-screen w-60 min-w-60 flex-col place-content-between bg-white-100'>
         <div className='flex flex-col gap-9 p-6'>
           <Link href='#' className='w-fit self-center'>
             <Image
@@ -33,11 +34,11 @@ const Navbar = () => {
           <div className='flex h-full flex-col'>
             <div className='flex flex-col gap-2'>
               {NAV_LINKS.map(({ name, href, icon }) => (
-                <NavMenu key={name} href={href} isActive={selecedTab === name}>
+                <NavMenu key={name} href={href} isActive={selectedTab === name}>
                   <Icon
                     name={icon}
                     className='hover:stroke-green-800'
-                    color={selecedTab === name ? 'active' : 'normal'}
+                    color={selectedTab === name ? 'active' : 'normal'}
                   />
                   <span>{name}</span>
                 </NavMenu>
