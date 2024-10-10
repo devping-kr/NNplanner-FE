@@ -1,4 +1,5 @@
 'use client';
+import { getCurrentYearMonthNow } from '@/utils/calendar';
 import { Selectbox } from '@/components/common/Selectbox';
 
 interface Props {
@@ -8,21 +9,23 @@ interface Props {
   onMonthChange: (month: string) => void;
 }
 
+const TOTAL_YEAR_OPTIONS = 15;
+const TOTAL_MONTH_OPTIONS = 12;
+
 const DatePicker = ({
   selectedYear,
   selectedMonth,
   onYearChange,
   onMonthChange,
 }: Props) => {
-  const totalYearsOption = 15;
-  const totalMonthsOption = 12;
-  const currentYear = new Date().getFullYear();
+  const { year: currentYear } = getCurrentYearMonthNow();
 
-  const years = Array.from({ length: totalYearsOption }, (_, i) => ({
+  const years = Array.from({ length: TOTAL_YEAR_OPTIONS }, (_, i) => ({
     value: (currentYear - i).toString(),
     label: (currentYear - i).toString(),
   }));
-  const months = Array.from({ length: totalMonthsOption }, (_, i) => ({
+
+  const months = Array.from({ length: TOTAL_MONTH_OPTIONS }, (_, i) => ({
     value: (i + 1).toString(),
     label: (i + 1).toString(),
   }));

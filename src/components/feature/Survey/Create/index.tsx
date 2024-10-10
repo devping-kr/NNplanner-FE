@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { getCurrentYearMonthNow } from '@/utils/calendar';
 import AdditionQuestions from '@/components/shared/Survey/AdditionQuestions';
 import SurveyControls from '@/components/shared/Survey/Controls';
 import DefaultQuestions from '@/components/shared/Survey/DefaultQuestions';
@@ -14,12 +15,17 @@ import '@/styles/datepicker-custom.css';
 
 const EXTRA_SURVEYNAME_LIMIT = 30;
 const TWO_WEEK_DAYS = 14;
-const twoWeeksLater = new Date();
+const { now: twoWeeksLater } = getCurrentYearMonthNow();
 twoWeeksLater.setDate(twoWeeksLater.getDate() + TWO_WEEK_DAYS);
+
+export interface inputsType {
+  question: string;
+  answerType: string;
+}
 
 const SurveyCreate = () => {
   const router = useRouter();
-  const [inputs, setInputs] = useState<string[]>([]);
+  const [inputs, setInputs] = useState<inputsType[]>([]);
   const [surveyName, setSurveyName] = useState('');
   const [deadLine, setDeadLine] = useState<Date | null>(twoWeeksLater);
   const showToast = useToastStore((state) => state.showToast);

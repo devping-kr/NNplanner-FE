@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { getCurrentYearMonthNow } from '@/utils/calendar';
 import Pagination from '@/components/common/Pagination';
 import GetAllListControls from '@/components/shared/GetAllList/Controls';
 import GetAllListHeader from '@/components/shared/GetAllList/Header';
@@ -9,12 +10,9 @@ import { TAB_OPTIONS } from '@/constants/_controlTab';
 import { PLAN_DATA } from '@/constants/_getAllList/_planData';
 
 const ViewPlan = () => {
-  const [selectedYear, setSelectedYear] = useState<string>(
-    new Date().getFullYear().toString(),
-  );
-  const [selectedMonth, setSelectedMonth] = useState<string>(
-    (new Date().getMonth() + 1).toString(),
-  );
+  const { month, year } = getCurrentYearMonthNow();
+  const [selectedYear, setSelectedYear] = useState<string>(year.toString());
+  const [selectedMonth, setSelectedMonth] = useState<string>(month.toString());
   const [searchValue, setSearchValue] = useState('');
   const [organization, setOrganization] = useState<null | string>(null);
   const [selectedTab, setSelectedTab] = useState<string>(TAB_OPTIONS[0]);

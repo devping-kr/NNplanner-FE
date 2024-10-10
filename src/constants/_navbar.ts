@@ -1,7 +1,7 @@
 export const NAV_LINKS = [
   {
     name: '홈 대시보드',
-    href: '#',
+    href: '/',
     icon: 'dashboard',
   },
   {

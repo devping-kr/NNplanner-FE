@@ -3,19 +3,27 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { destroyTokens } from '@/utils/destroyTokens';
 import Divider from '@/components/common/Divider';
 import Icon from '@/components/common/Icon';
 import NavMenu from '@/components/common/NavMenu';
 import NavProfile from '@/components/common/NavProfile';
 import { NAV_LINKS } from '@/constants/_navbar';
+import { useAuth } from '@/hooks/useAuth';
 
 const Navbar = () => {
   const pathname = usePathname();
+  const { logout } = useAuth();
 
   const defaultTab = NAV_LINKS[0].name;
   const selectedTab =
     NAV_LINKS.find((nav) => pathname?.startsWith(`${nav.href}`))?.name ??
     defaultTab;
+
+  const handleLogout = () => {
+    destroyTokens();
+    logout();
+  };
 
   const isSurveyPage = /^\/survey\/\d+$/.test(pathname);
 
@@ -50,7 +58,10 @@ const Navbar = () => {
           <Divider />
           <NavProfile name={'유저 이름'} />
           <Divider />
-          <button className='flex h-[50px] w-full items-center gap-2 px-10 text-sm'>
+          <button
+            className='flex h-[50px] w-full items-center gap-2 px-10 text-sm'
+            onClick={handleLogout}
+          >
             <Icon
               name='logout'
               className='stroke-gray-600 hover:stroke-green-800'

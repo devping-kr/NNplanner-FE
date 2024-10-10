@@ -1,17 +1,30 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
+import { AxiosError } from 'axios';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { signUpSchema } from '@/schema/authSchema';
+import { SignupRequest } from '@/type/auth/authRequest';
+import { FailResponse, Result } from '@/type/response';
 import Button from '@/components/common/Button/Button';
 import { Input } from '@/components/common/Input';
-import { SUCCESS } from '@/constants/_toastMessage';
+import { AUTH_LINKS } from '@/constants/_auth';
+import { usePostSignup } from '@/hooks/auth/usePostSignup';
+import { usePostVerifyConfirm } from '@/hooks/auth/usePostVerifyConfirm';
+import { usePostVerifySend } from '@/hooks/auth/usePostVerifySend';
 import { useToastStore } from '@/stores/useToastStore';
 
 const SignupBody = () => {
   const router = useRouter();
+  const showToast = useToastStore((state) => state.showToast);
+  const { mutate: signupMutate } = usePostSignup();
+  const { mutate: verifySendMutate, isSuccess: sendSuccess } =
+    usePostVerifySend();
+  const { mutate: verifyConfirmMutate, isSuccess: confirmSuccess } =
+    usePostVerifyConfirm();
+
   const [isShowPassword, setIsShowPassword] = useState(false);
   const [isShowPasswordConfirm, setIsShowPasswordConfirm] = useState(false);
   const [verification, setVerification] = useState('');
@@ -22,14 +35,15 @@ const SignupBody = () => {
     handleSubmit,
     formState: { errors },
     watch,
-  } = useForm({
+  } = useForm<SignupRequest>({
     resolver: zodResolver(signUpSchema),
     mode: 'onChange',
     defaultValues: {
       email: '',
-      name: '',
+      username: '',
       password: '',
       passwordConfirm: '',
+      loginType: 'LOCAL',
     },
   });
 
@@ -39,24 +53,58 @@ const SignupBody = () => {
     setVerification(e.target.value);
   };
 
-  const showToast = useToastStore((state) => state.showToast);
-
-  // TODO: 인증번호 요청 api 성공시 해당 함수 실행하도록 바꿔줘야함
   const handleEmailVerification = () => {
     if (!errors.email) {
-      setShowVerificationInput(true);
-      showToast(SUCCESS.sendVerify, 'success', 1000);
+      verifySendMutate(
+        { email: email },
+        {
+          onSuccess: ({ message }: Result<null>) => {
+            showToast(message, 'success', 1000);
+          },
+          onError: (error: AxiosError<FailResponse>) => {
+            const errorMessage =
+              error.response?.data?.message || '인증 요청 실패';
+            showToast(errorMessage, 'warning', 1000);
+          },
+        },
+      );
     }
   };
 
-  const onSubmit = (data: {
-    email: string;
-    password: string;
-    passwordConfirm: string;
-    name: string;
-  }) => {
-    console.log(data);
+  const handleEmailVerifyConfirm = () => {
+    verifyConfirmMutate(
+      { email: email, verifyCode: verification },
+      {
+        onSuccess: ({ message }: Result<null>) => {
+          showToast(message, 'success', 1000);
+        },
+        onError: (error: AxiosError<FailResponse>) => {
+          const errorMessage =
+            error.response?.data?.message || '이메일 인증 실패';
+          showToast(errorMessage, 'warning', 1000);
+        },
+      },
+    );
   };
+
+  const onSubmit: SubmitHandler<SignupRequest> = (data) => {
+    signupMutate(data, {
+      onSuccess: ({ message }: Result<null>) => {
+        router.push(AUTH_LINKS.login);
+        showToast(message, 'success', 1000);
+      },
+      onError: (error: AxiosError<FailResponse>) => {
+        const errorMessage = error.response?.data?.message || '회원가입 실패';
+        showToast(errorMessage, 'warning', 1000);
+      },
+    });
+  };
+
+  useEffect(() => {
+    if (sendSuccess) {
+      setShowVerificationInput(true);
+    }
+  }, [sendSuccess]);
 
   return (
     <div className='flex w-full flex-col gap-3'>
@@ -67,38 +115,43 @@ const SignupBody = () => {
             <div className='relative w-full'>
               <label
                 htmlFor='email'
-                className='absolute left-0 top-[-24px] font-semibold text-green-800'
+                className='absolute left-0 top-[-24px] text-sm font-semibold text-green-800'
               >
                 이메일
               </label>
-              <Input
-                type='text'
-                placeholder='이메일을 입력해주세요'
-                id='email'
-                height='large'
-                className='text-green-500 placeholder:text-green-400'
-                {...register('email')}
-              />
+              <div className='flex gap-3'>
+                <Input
+                  type='text'
+                  placeholder='이메일을 입력해주세요'
+                  disabled={sendSuccess}
+                  id='email'
+                  height='basic'
+                  className='text-green-500 placeholder:text-green-400'
+                  {...register('email')}
+                />
+                <Button
+                  size='small'
+                  type='button'
+                  className='h-auto w-1/3'
+                  onClick={handleEmailVerification}
+                  disabled={!email || !!errors.email || confirmSuccess}
+                >
+                  인증번호 받기
+                </Button>
+              </div>
               {errors.email && (
-                <span className='text-red-300'>{errors.email.message}</span>
+                <span className='text-xs text-red-300'>
+                  {errors.email.message}
+                </span>
               )}
             </div>
-            <Button
-              size='small'
-              type='button'
-              className='h-auto w-1/3'
-              onClick={handleEmailVerification}
-              disabled={!email || !!errors.email}
-            >
-              인증번호 받기
-            </Button>
           </div>
           {showVerificationInput && (
             <div className='flex gap-3'>
               <div className='relative w-full'>
                 <label
                   htmlFor='verification'
-                  className='absolute left-0 top-[-24px] font-semibold text-green-800'
+                  className='absolute left-0 top-[-24px] text-sm font-semibold text-green-800'
                 >
                   인증번호
                 </label>
@@ -109,10 +162,17 @@ const SignupBody = () => {
                   height='basic'
                   value={verification}
                   onChange={handleVerification}
+                  disabled={confirmSuccess}
                   className='text-green-500 placeholder:text-xs placeholder:text-green-400'
                 />
               </div>
-              <Button size='small' type='button' className='flex w-1/3'>
+              <Button
+                size='small'
+                type='button'
+                className='flex w-1/3'
+                onClick={handleEmailVerifyConfirm}
+                disabled={confirmSuccess}
+              >
                 인증
               </Button>
             </div>
@@ -120,7 +180,7 @@ const SignupBody = () => {
           <div className='relative'>
             <label
               htmlFor='name'
-              className='absolute left-0 top-[-24px] font-semibold text-green-800'
+              className='absolute left-0 top-[-24px] text-sm font-semibold text-green-800'
             >
               이름
             </label>
@@ -128,18 +188,20 @@ const SignupBody = () => {
               type='text'
               id='name'
               placeholder='이름을 입력해주세요'
-              height='large'
+              height='basic'
               className='text-green-500 placeholder:text-green-400'
-              {...register('name')}
+              {...register('username')}
             />
-            {errors.name && (
-              <span className='text-red-300'>{errors.name.message}</span>
+            {errors.username && (
+              <span className='text-xs text-red-300'>
+                {errors.username.message}
+              </span>
             )}
           </div>
           <div className='relative'>
             <label
               htmlFor='password'
-              className='absolute left-0 top-[-24px] font-semibold text-green-800'
+              className='absolute left-0 top-[-24px] text-sm font-semibold text-green-800'
             >
               비밀번호
             </label>
@@ -147,7 +209,7 @@ const SignupBody = () => {
               type={isShowPassword ? 'text' : 'password'}
               id='password'
               placeholder='비밀번호를 입력해주세요'
-              height='large'
+              height='basic'
               className='text-green-500 placeholder:text-green-400'
               isRightIcon={true}
               rightIcon={isShowPassword ? 'show' : 'hide'}
@@ -155,13 +217,15 @@ const SignupBody = () => {
               {...register('password')}
             />
             {errors.password && (
-              <span className='text-red-300'>{errors.password.message}</span>
+              <span className='text-xs text-red-300'>
+                {errors.password.message}
+              </span>
             )}
           </div>
           <div className='relative'>
             <label
               htmlFor='passwordConfirm'
-              className='absolute left-0 top-[-24px] font-semibold text-green-800'
+              className='absolute left-0 top-[-24px] text-sm font-semibold text-green-800'
             >
               비밀번호 확인
             </label>
@@ -169,7 +233,7 @@ const SignupBody = () => {
               type={isShowPasswordConfirm ? 'text' : 'password'}
               id='passwordConfirm'
               placeholder='비밀번호를 다시 입력해주세요'
-              height='large'
+              height='basic'
               className='text-green-500 placeholder:text-green-400'
               isRightIcon={true}
               rightIcon={isShowPasswordConfirm ? 'show' : 'hide'}
@@ -179,13 +243,18 @@ const SignupBody = () => {
               {...register('passwordConfirm')}
             />
             {errors.passwordConfirm && (
-              <span className='text-red-300'>
+              <span className='text-xs text-red-300'>
                 {errors.passwordConfirm.message}
               </span>
             )}
           </div>
           <div className='flex w-full flex-col gap-2'>
-            <Button type='submit' size='basic' className='shadow-lg'>
+            <Button
+              type='submit'
+              size='basic'
+              className='shadow-lg'
+              disabled={!confirmSuccess}
+            >
               회원가입
             </Button>
             <Button type='submit' size='basic' className='shadow-lg'>
@@ -197,8 +266,8 @@ const SignupBody = () => {
       <span className='text-center'>
         이미 계정이 있다면{' '}
         <span
-          onClick={() => router.push('/login')}
-          className='cursor-pointer font-semibold text-green-700'
+          onClick={() => router.push(AUTH_LINKS.login)}
+          className='cursor-pointer font-semibold text-green-700 hover:text-green-800'
         >
           여기서
         </span>{' '}
