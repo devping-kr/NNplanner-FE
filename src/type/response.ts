@@ -1,5 +1,4 @@
 type Response = {
-  code: string;
   message: string;
 };
 
