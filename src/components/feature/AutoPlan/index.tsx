@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { env } from '@/lib/env';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { mealHeaderSchema } from '@/schema/mealSchema';
@@ -9,6 +10,7 @@ import InfoCard from '@/components/common/InfoCard';
 import MealForm from '@/components/common/MealForm';
 import MealCalendar from '@/components/shared/Meal/MealCalender';
 import MealHeader from '@/components/shared/Meal/MealHeader';
+import { MENUS_API } from '@/constants/_apiPath';
 import { MOCK_CATEGORY_LIST } from '@/constants/_category';
 import { INFOCARD_MESSAGE } from '@/constants/_infoCard';
 import { MEAL_FORM_LEGEND } from '@/constants/_MealForm';
@@ -49,7 +51,7 @@ const AutoPlan = () => {
     setIsCategoryError(false);
   };
 
-  const onSubmit = (data: { name: string }) => {
+  const onSubmit = async (data: { name: string }) => {
     // 선택한 카테고리 + 식단이름 제출 + autoPlan/create로 이동
     console.log(data);
     const isSelectedCategoryInvalid =
@@ -60,6 +62,27 @@ const AutoPlan = () => {
       showToast(MEAL_HEADER_ERROR.category.min, 'warning', 3000);
       setIsCategoryError(true);
       return;
+    }
+
+    const accessToken = localStorage.getItem('accessToken');
+    // 가지고 있는 식단 데이터 전송
+    try {
+      const res = await fetch(`${env.BASE_API_URL}/api${MENUS_API.AUTO}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+          majorCategory: '병원',
+          minorCategory: '일반상식',
+          dayCount: '28',
+        }),
+      });
+      console.log(res);
+    } catch (e) {
+      console.error(e);
     }
   };
 
