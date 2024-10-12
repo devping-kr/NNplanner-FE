@@ -1,8 +1,8 @@
+import { env } from '@/lib/env';
 import axios, { AxiosResponse } from 'axios';
 import { parseCookies } from 'nookies';
 import { saveTokens } from '@/utils/saveTokens';
 import { AUTH_LINKS } from '@/constants/_auth';
-import { env } from './env';
 
 const TIME_OUT = 1000 * 10;
 
@@ -50,35 +50,44 @@ instance.interceptors.response.use(
     const originalRequest = error.config;
 
     if (
-      error.response?.status === 401 &&
-      originalRequest &&
-      !originalRequest._retry
+      !originalRequest ||
+      error.response?.status !== 401 ||
+      originalRequest._retry
     ) {
-      originalRequest._retry = true;
-
-      if (typeof window !== 'undefined') {
-        const refreshToken = parseCookies().refreshToken;
-        if (refreshToken) {
-          try {
-            const response = await instance.get('/api/auths/reissue', {
-              withCredentials: true,
-            });
-
-            if (response.status === 200) {
-              const { accessToken, refreshToken } = response.data.data;
-
-              saveTokens({ accessToken, refreshToken });
-              originalRequest.headers.Authorization = `Bearer ${accessToken}`;
-              return await instance(originalRequest);
-            }
-          } catch (refreshError) {
-            alert('로그인이 필요합니다.');
-          }
-        }
-      }
-      redirectToLogin();
+      return Promise.reject(error);
     }
-    return Promise.reject(error);
+
+    originalRequest._retry = true;
+
+    if (typeof window === 'undefined') {
+      return Promise.reject(error);
+    }
+
+    const refreshToken = parseCookies().refreshToken;
+    if (!refreshToken) {
+      redirectToLogin();
+      return Promise.reject(error);
+    }
+
+    try {
+      const response = await instance.get('/api/auths/reissue', {
+        withCredentials: true,
+      });
+
+      if (response.status !== 200) {
+        throw new Error('Failed to reissue tokens');
+      }
+
+      const { accessToken, refreshToken } = response.data.data;
+      saveTokens({ accessToken, refreshToken });
+      originalRequest.headers.Authorization = `Bearer ${accessToken}`;
+
+      return await instance(originalRequest);
+    } catch (refreshError) {
+      alert('로그인이 필요합니다.');
+      redirectToLogin();
+      return Promise.reject(refreshError);
+    }
   },
 );
 

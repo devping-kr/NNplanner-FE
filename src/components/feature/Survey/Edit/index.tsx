@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { getCurrentYearMonthNow } from '@/utils/calendar';
-import { inputsType } from '../Create';
+import { inputsType } from '@/components/feature/Survey/Create';
 import AdditionQuestions from '@/components/shared/Survey/AdditionQuestions';
 import SurveyControls from '@/components/shared/Survey/Controls';
 import DefaultQuestions from '@/components/shared/Survey/DefaultQuestions';

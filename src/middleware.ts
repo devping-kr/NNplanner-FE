@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { AUTH_LINKS } from './constants/_auth';
-import { NAV_LINKS } from './constants/_navbar';
+import { AUTH_LINKS } from '@/constants/_auth';
+import { NAV_LINKS } from '@/constants/_navbar';
 
 export const config = {
   matcher: [

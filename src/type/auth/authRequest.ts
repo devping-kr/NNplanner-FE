@@ -11,3 +11,12 @@ export interface LoginRequest {
   password: string;
   loginType: 'LOCAL';
 }
+
+export interface SendRequest {
+  email: string;
+}
+
+export interface VerifyRequest {
+  email: string;
+  verifyCode: string;
+}
