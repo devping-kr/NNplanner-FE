@@ -2,6 +2,7 @@ import { env } from '@/lib/env';
 import axios, { AxiosResponse } from 'axios';
 import { parseCookies } from 'nookies';
 import { saveTokens } from '@/utils/saveTokens';
+import { AUTH_API } from '@/constants/_apiPath';
 import { AUTH_LINKS } from '@/constants/_auth';
 
 const TIME_OUT = 1000 * 10;
@@ -70,7 +71,7 @@ instance.interceptors.response.use(
     }
 
     try {
-      const response = await instance.get('/api/auths/reissue', {
+      const response = await instance.get(AUTH_API.REISSUE, {
         withCredentials: true,
       });
 
