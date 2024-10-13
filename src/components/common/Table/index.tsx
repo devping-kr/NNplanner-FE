@@ -14,6 +14,7 @@ type TableProps = {
   type?: TableType;
   headerClassName?: string;
   bodyClassName?: string;
+  onRowClick?: (id: number) => void;
 };
 
 const Table = ({
@@ -21,6 +22,7 @@ const Table = ({
   type = 'table',
   headerClassName,
   bodyClassName,
+  onRowClick,
 }: TableProps) => {
   const tableHeaders = Array.from(
     new Set(data.flatMap((item) => Object.keys(item))),
@@ -35,6 +37,7 @@ const Table = ({
           bodyData={data}
           type={type}
           className={bodyClassName}
+          onRowClick={onRowClick}
         />
       </table>
     </div>

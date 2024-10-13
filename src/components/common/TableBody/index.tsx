@@ -6,7 +6,7 @@ type TableBodyProps = {
   bodyData: TableRowData[];
   type: TableType;
   className?: string;
-  onClick?: () => void;
+  onRowClick?: (id: number) => void;
 };
 
 const TableBody = ({
@@ -14,7 +14,7 @@ const TableBody = ({
   bodyData,
   type,
   className,
-  onClick,
+  onRowClick,
 }: TableBodyProps) => {
   return (
     <tbody className='bg-white-100'>
@@ -22,7 +22,11 @@ const TableBody = ({
         <tr
           key={rowIndex}
           className='border-separate border-spacing-0 cursor-pointer'
-          onClick={type === 'list' ? onClick : undefined}
+          onClick={
+            onRowClick && type === 'list' && typeof item.surveyId === 'number'
+              ? () => onRowClick(item.surveyId as number)
+              : undefined
+          }
         >
           {headerData.map((header, colIndex) => {
             const isFirst = colIndex === 0;

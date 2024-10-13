@@ -1,6 +1,6 @@
 'use client';
 
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import dayjs from 'dayjs';
 import { surveyType } from '@/type/survey/surveyResponse';
@@ -13,6 +13,7 @@ import { SURVEY_FILTER_OPTIONS, TAB_OPTIONS } from '@/constants/_controlTab';
 import { useGetSurveyList } from '@/hooks/survey/useGetSurveyList';
 
 const ViewChart = () => {
+  const router = useRouter();
   const searchParam = useSearchParams();
   const sort = searchParam.get('sort') as string;
   const currentTab = sort ?? ('최신순' as string);
@@ -78,7 +79,10 @@ const ViewChart = () => {
             inputPlaceholder='설문 이름을 입력해주세요.'
             handleSearchSubmit={handleSearchSubmit}
           />
-          <GetAllListTable data={formatSurveyList(surveyList.surveys)} />
+          <GetAllListTable
+            data={formatSurveyList(surveyList.surveys)}
+            onRowClick={(id: number) => router.push(`/viewChart/${id}`)}
+          />
           <Pagination
             limit={8}
             page={page}
