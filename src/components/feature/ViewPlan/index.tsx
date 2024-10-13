@@ -40,10 +40,10 @@ const ViewPlan = () => {
         setOrganization={setOrganization}
         searchValue={searchValue}
         handlechangeSearchValue={handlechangeSearchValue}
-        submitSearchValue={submitSearchValue}
         selectedTab={selectedTab}
         setSelectedTab={setSelectedTab}
         inputPlaceholder='식단 이름을 입력해주세요.'
+        handleSearchSubmit={submitSearchValue}
       />
       <GetAllListTable data={PLAN_DATA} />
       <Pagination
