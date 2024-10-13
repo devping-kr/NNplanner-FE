@@ -103,6 +103,7 @@ const GetAllListControls = ({
           </>
         )}
         <ControlTab
+          type='sort'
           controlTabItems={TAB_OPTIONS}
           selectedTab={selectedTab}
           setSelectedTab={setSelectedTab}
