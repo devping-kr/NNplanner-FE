@@ -43,9 +43,7 @@ const ControlTab = <T extends string>({
           )}
           replace
           onClick={() => {
-            type === 'sort'
-              ? setSelectedTab(tab)
-              : setSelectedFilter(currentTab);
+            type === 'sort' ? setSelectedTab(tab) : setSelectedFilter('전체');
           }}
         >
           {tab}
