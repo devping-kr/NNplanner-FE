@@ -1,14 +1,29 @@
 import { get, post } from '@/lib/axios';
 import { Result } from '@/type/response';
-import { PostSurveyRequest } from '@/type/survey/surveyRequest';
+import {
+  GetSearchSurveyRequest,
+  PostSurveyRequest,
+} from '@/type/survey/surveyRequest';
 import {
   SurveyListResponse,
   SurveyPostResponse,
 } from '@/type/survey/surveyResponse';
 import { SURVEY_API } from '@/constants/_apiPath';
 
-const getSurveyList = async () => {
-  const response = await get<Result<SurveyListResponse>>(SURVEY_API.SURVEYS);
+const getSurveyList = async ({
+  search,
+  sort = 'createdAt,desc',
+  page,
+  pageSize = 8,
+  startDate,
+  endDate,
+}: GetSearchSurveyRequest) => {
+  const response = await get<Result<SurveyListResponse>>(
+    `${SURVEY_API.SURVEYS}`,
+    {
+      params: { search, sort, page, pageSize, startDate, endDate },
+    },
+  );
   return response.data;
 };
 

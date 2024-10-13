@@ -6,3 +6,12 @@ export interface PostSurveyRequest {
   deadlineAt: Date | null;
   additionalQuestions: inputsType[];
 }
+
+export interface GetSearchSurveyRequest {
+  search?: string;
+  page?: number;
+  pageSize?: number;
+  sort?: string;
+  startDate?: Date | null;
+  endDate?: Date | null;
+}
