@@ -94,8 +94,10 @@ const GetAllListControls = ({
           <>
             <ControlTab
               controlTabItems={SURVEY_FILTER_OPTIONS}
-              selectedTab={selectedFilter!}
-              setSelectedTab={setSelectedFilter!}
+              selectedFilter={selectedFilter!}
+              setSelectedFilter={setSelectedFilter!}
+              selectedTab={selectedTab}
+              setSelectedTab={setSelectedTab}
             />
             <span className='mx-1 h-4 cursor-default text-xs text-gray-500'>
               |
@@ -105,6 +107,8 @@ const GetAllListControls = ({
         <ControlTab
           type='sort'
           controlTabItems={TAB_OPTIONS}
+          selectedFilter={selectedFilter!}
+          setSelectedFilter={setSelectedFilter!}
           selectedTab={selectedTab}
           setSelectedTab={setSelectedTab}
         />
