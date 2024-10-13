@@ -4,10 +4,10 @@ import MealInfoContainer from '@/components/shared/Meal/MealInfoContainer';
 import MealTable from '@/components/shared/Meal/MealTable';
 
 export type NutritionData = {
-  id: string;
-  content: string;
+  foodId: string;
+  foodName: string;
   kcal: number;
-  carbs: number;
+  carbohydrate: number;
   protein: number;
   fat: number;
 };
