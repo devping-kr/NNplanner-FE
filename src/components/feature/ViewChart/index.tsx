@@ -18,7 +18,10 @@ const ViewChart = () => {
   const currentTab = sort ?? ('최신순' as string);
 
   const { month, year } = getCurrentYearMonthNow();
+
   const [searchValue, setSearchValue] = useState('');
+  const [actualSearchValue, setActualSearchValue] = useState('');
+
   const [selectedYear, setSelectedYear] = useState<string>(year.toString());
   const [selectedMonth, setSelectedMonth] = useState<string>(month.toString());
   const [selectedFilter, setSelectedFilter] = useState<string>(
@@ -26,19 +29,25 @@ const ViewChart = () => {
   );
   const [selectedTab, setSelectedTab] = useState<string>(TAB_OPTIONS[0]);
   const [page, setPage] = useState(1);
+
+  const handleChangeSearchValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setSearchValue(value);
+
+    if (value === '') {
+      setActualSearchValue('');
+    }
+  };
+
+  const handleSearchSubmit = () => {
+    setActualSearchValue(searchValue);
+  };
+
   const { data: surveyList } = useGetSurveyList({
     page,
     sort: currentTab === '최신순' ? 'createdAt,desc' : 'createdAt,asc',
+    search: actualSearchValue,
   });
-
-  const handlechangeSearchValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchValue(e.target.value);
-  };
-
-  const submitSearchValue = () => {
-    // TODO: api request body로 보내줄 설문이름 제출함수
-    console.log('검색 버튼 클릭');
-  };
 
   const formatSurveyList = (surveys: surveyType[]) => {
     return surveys.map((survey) => ({
@@ -61,13 +70,13 @@ const ViewChart = () => {
             onMonthChange={setSelectedMonth}
             onYearChange={setSelectedYear}
             searchValue={searchValue}
-            handlechangeSearchValue={handlechangeSearchValue}
-            submitSearchValue={submitSearchValue}
+            handlechangeSearchValue={handleChangeSearchValue}
             selectedFilter={selectedFilter}
             setSelectedFilter={setSelectedFilter}
             selectedTab={selectedTab}
             setSelectedTab={setSelectedTab}
             inputPlaceholder='설문 이름을 입력해주세요.'
+            handleSearchSubmit={handleSearchSubmit}
           />
           <GetAllListTable data={formatSurveyList(surveyList.surveys)} />
           <Pagination
