@@ -6,7 +6,7 @@ export type CalendarDayProps = {
   isHoliday: boolean;
   isInvalid: boolean;
   isActive: boolean;
-  data: Array<{ id: string; content: string }>;
+  data: { foodId: string; foodName: string }[];
   readonly?: boolean;
   onClick: () => void;
 };
@@ -33,9 +33,12 @@ const CalendarDay = ({
     >
       <div className={`text-left font-bold`}>{date}</div>
       <div className='mt-[0.5] w-full text-dark-100'>
-        {data.slice(0, MAXIUM_MENU_PER_DAY).map((item) => (
-          <span key={item.id} className='block w-full text-sm'>
-            {item.content}
+        {data.slice(0, MAXIUM_MENU_PER_DAY).map((item, index) => (
+          <span
+            key={`${item.foodId}-${index}`}
+            className='block w-full truncate text-sm'
+          >
+            {item.foodName}
           </span>
         ))}
       </div>
