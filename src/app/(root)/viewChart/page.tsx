@@ -1,7 +1,12 @@
+import { Suspense } from 'react';
 import ViewChart from '@/components/feature/ViewChart';
 
 const page = () => {
-  return <ViewChart />;
+  return (
+    <Suspense fallback={<div>loading...</div>}>
+      <ViewChart />
+    </Suspense>
+  );
 };
 
 export default page;
