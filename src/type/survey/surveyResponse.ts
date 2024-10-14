@@ -21,3 +21,33 @@ export interface SurveyPostResponse {
   deadlineAt: Date | null;
   questions: inputsType[];
 }
+
+export interface SatisfactionDistribution {
+  question: string;
+  distribution: {
+    [key: number]: number;
+  };
+}
+
+export interface AverageScores {
+  totalSatisfaction: number;
+  portionSatisfaction: number;
+  hygieneSatisfaction: number;
+  tasteSatisfaction: number;
+}
+
+export interface MenuResponse {
+  responseDate: string;
+  menu: string;
+}
+
+export interface SurveyDetailResponse {
+  surveyName: string;
+  likedMenusTop3: MenuResponse[];
+  dislikedMenusTop3: MenuResponse[];
+  desiredMenus: string[];
+  messagesToDietitian: string[];
+  satisfactionDistributions: SatisfactionDistribution[];
+  averageScores: AverageScores;
+  originalSurveyUrl: string | null;
+}
