@@ -36,7 +36,7 @@ const AutoPlan = () => {
   const { navigate } = useNavigate();
 
   const queryClient = useQueryClient();
-  const { mutate: postAutoMutatate } = usePostMonthMenusAuto();
+  const { mutate: postAutoMutate } = usePostMonthMenusAuto();
   const { prefetchMinorCategories, hasCategories } =
     usePrefetchMinorCategories();
 
@@ -63,7 +63,7 @@ const AutoPlan = () => {
       return;
     }
 
-    postAutoMutatate(
+    postAutoMutate(
       {
         majorCategory: selectedCategory.majorCategory,
         minorCategory: selectedCategory.minorCategory,
