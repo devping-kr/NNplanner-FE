@@ -1,4 +1,4 @@
-import { HospitalMinorCategory, MajorCategory } from '@/type/menu/menuRequest';
+import { MajorCategory } from '@/type/menu/menuRequest';
 
 /**
  * @description 음식 하나의 정보
@@ -7,19 +7,33 @@ import { HospitalMinorCategory, MajorCategory } from '@/type/menu/menuRequest';
 export interface FoodInfo {
   foodId: string;
   foodName: string;
-  carbohydrate: string;
-  protein: string;
-  fat: string;
-  kcal: string;
+  carbohydrate: number;
+  protein: number;
+  fat: number;
+  kcal: number;
+}
+
+export type MenuIdType = 'hospitalMenuId' | 'schoolMenuId';
+export type MenuKindType = 'hospitalMenuKind' | 'schoolMenuKind';
+
+/**
+ * @description 하루치 식단
+ * 자동 식단 생성, 식단 개수 조회 response body
+ */
+// TODO: menuId, menuKind -> [key in MenuIdType]: string; 로 변경
+export interface HospitalMenu {
+  hospitalMenuId: string;
+  hospitalMenuKind: string;
+  foods: FoodInfo[];
 }
 
 /**
- * @description 병원 하루치 식단
+ * @description 학교 하루치 식단
  * 자동 식단 생성, 식단 개수 조회 response body
  */
-export interface HospitalMenu {
-  hospitalMenuId: string;
-  hospitalMenuKind: HospitalMinorCategory;
+export interface SchoolMenu {
+  schoolMenuId: string;
+  schoolMenuKind: string;
   foods: FoodInfo[];
 }
 
@@ -30,8 +44,7 @@ export interface MenuResponseDTO {
   userId: number;
   monthMenuId: string;
   majorCategory: MajorCategory;
-  //   TODO: 학교 minorCategory도 유니온으로 추가 필요
-  minorCategory: HospitalMinorCategory;
+  minorCategory: string;
   monthMenuName: string;
   createAt: string;
   //   TODO: 정확한 값으로 수정 필요. postman에서 빈 배열로 확인됨
