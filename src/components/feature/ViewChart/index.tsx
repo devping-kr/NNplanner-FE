@@ -24,7 +24,9 @@ const ViewChart = () => {
   const [actualSearchValue, setActualSearchValue] = useState('');
 
   const [selectedYear, setSelectedYear] = useState<string>(year.toString());
-  const [selectedMonth, setSelectedMonth] = useState<string>(month.toString());
+  const [selectedMonth, setSelectedMonth] = useState<string>(
+    month.toString().padStart(2, '0'),
+  );
   const [selectedFilter, setSelectedFilter] = useState<string>(
     SURVEY_FILTER_OPTIONS[0],
   );
@@ -54,9 +56,8 @@ const ViewChart = () => {
         : selectedFilter === '진행중'
           ? 'IN_PROGRESS'
           : 'CLOSED',
-    //TODO: 날짜 param
-    startDate: `${selectedYear}-${selectedMonth}-01`,
-    endDate: `${selectedYear}-${selectedMonth}-31`,
+    startDate: `${selectedYear}-${selectedMonth.toString().padStart(2, '0')}-01T00:00:00`,
+    endDate: `${selectedYear}-${selectedMonth.toString().padStart(2, '0')}-31T23:59:59`,
   });
 
   useEffect(() => {
