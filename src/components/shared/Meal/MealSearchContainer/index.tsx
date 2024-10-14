@@ -24,7 +24,7 @@ const MealSearchContainer = ({
       <Input
         className='text-md placeholder:text-md font-semibold'
         placeholder='메뉴 이름을 입력해주세요'
-        bgcolor='search'
+        bgcolor='meal'
         includeButton
         onChange={(e) => onChange(e)}
         onSubmit={onSubmit}
@@ -32,7 +32,7 @@ const MealSearchContainer = ({
       />
       <div className='scrollbar-gray-100 max-h-[380px] w-full overflow-y-auto rounded-md bg-white-200 p-2'>
         {searchResultList.length === 0 ? (
-          <NutritionMenu>메뉴가 존재하지 않습니다</NutritionMenu>
+          <NutritionMenu>메뉴를 검색해주세요</NutritionMenu>
         ) : (
           <MealTable
             data={searchResultList}
