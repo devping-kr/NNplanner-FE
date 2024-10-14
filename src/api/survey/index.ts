@@ -5,6 +5,7 @@ import {
   PostSurveyRequest,
 } from '@/type/survey/surveyRequest';
 import {
+  SurveyDetailResponse,
   SurveyListResponse,
   SurveyPostResponse,
 } from '@/type/survey/surveyResponse';
@@ -41,8 +42,16 @@ const deleteSurvey = async (surveyId: number) => {
   return response.data;
 };
 
+const getSurveyDetail = async (surveyId: number) => {
+  const response = await get<Result<SurveyDetailResponse>>(
+    `${SURVEY_API.SURVEYS}/${surveyId}`,
+  );
+  return response.data;
+};
+
 export const survey = {
   getSurveyList,
   postSurvey,
   deleteSurvey,
+  getSurveyDetail,
 };

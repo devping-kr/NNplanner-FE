@@ -15,6 +15,7 @@ import { DETAIL_SURVEY_DATA } from '@/constants/_detailSurvey';
 import { NAV_LINKS } from '@/constants/_navbar';
 import { surveyKeys } from '@/hooks/survey/queryKey';
 import { useDeleteSurvey } from '@/hooks/survey/useDeleteSurvey';
+import { useGetSurveyDetail } from '@/hooks/survey/useGetSurveyDetail';
 import { useToastStore } from '@/stores/useToastStore';
 
 interface Props {
@@ -41,6 +42,7 @@ const ChartDetail = ({ id }: Props) => {
       showToast(errorMessage, 'warning', 1000);
     },
   });
+  const { data: detailData } = useGetSurveyDetail(id);
   const {
     surveyName,
     averageScores,
@@ -54,6 +56,8 @@ const ChartDetail = ({ id }: Props) => {
   const deleteHandler = () => {
     deleteSurveyMutate(id);
   };
+
+  console.log(detailData);
 
   return (
     <div className='flex flex-col gap-10'>
