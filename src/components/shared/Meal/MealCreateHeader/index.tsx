@@ -1,17 +1,24 @@
+import { FieldErrors, UseFormRegister } from 'react-hook-form';
 import { Input } from '@/components/common/Input';
 import { Selectbox } from '@/components/common/Selectbox';
 import { PageHeaderTitle } from '@/components/common/Typography';
+import { MealHeaderFormData } from '@/components/shared/Meal/MealHeader';
+import { PAGE_TITLE } from '@/constants/_pageTitle';
 
 type MealCreateHeaderProps = {
-  inputValue: string;
-  seletedCategory: string[];
+  inputValue?: string;
+  selectedCategory: string[];
   pageHeaderTitle: string;
+  register?: UseFormRegister<MealHeaderFormData>;
+  errors?: FieldErrors<MealHeaderFormData>;
 };
 
 const MealCreateHeader = ({
   inputValue,
-  seletedCategory,
+  selectedCategory,
   pageHeaderTitle,
+  register,
+  errors,
 }: MealCreateHeaderProps) => {
   return (
     <div className='flex flex-col gap-5'>
@@ -21,19 +28,21 @@ const MealCreateHeader = ({
           className='text-lg font-semibold focus:border-green-400'
           bgcolor='meal'
           height='basic'
-          value={inputValue}
-          disabled
+          defaultValue={inputValue || ''}
+          disabled={pageHeaderTitle === PAGE_TITLE.menualPlan.create}
+          isError={!!errors?.monthMenuName?.message}
+          {...(register ? register('monthMenuName') : {})}
         />
         <div className='flex gap-2'>
           <Selectbox
             size='small'
-            selectedValue={seletedCategory[0]}
+            selectedValue={selectedCategory[0]}
             className='cursor-not-allowed focus:border-gray-300'
             readonly={true}
           />
           <Selectbox
             size='small'
-            selectedValue={seletedCategory[1]}
+            selectedValue={selectedCategory[1]}
             className='cursor-not-allowed focus:border-gray-300'
             readonly={true}
           />
