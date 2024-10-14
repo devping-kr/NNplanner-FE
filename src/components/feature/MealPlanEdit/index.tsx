@@ -4,13 +4,17 @@ import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { mealHeaderSchema } from '@/schema/mealSchema';
+import { FoodInfo } from '@/type/menu/menuResponse';
+import {
+  HandleChangeCategoryParam,
+  SelectedCategory,
+} from '@/type/menuCategory/category';
 import { isValidDateString } from '@/utils/calendar';
 import MealForm from '@/components/common/MealForm';
 import MealCalendar from '@/components/shared/Meal/MealCalender';
 import MealHeader from '@/components/shared/Meal/MealHeader';
-import { NutritionData } from '@/components/shared/Meal/NutritionInfo';
-import { MOCK_CALENDAR_NUTRITION } from '@/constants/_calendarData';
-import { MOCK_CATEGORY_LIST } from '@/constants/_category';
+import { MOCK_NEW_CALENDAR_NUTRITION } from '@/constants/_calendarData';
+import { ORGANIZATION_LIST } from '@/constants/_category';
 import { MEAL_FORM_LEGEND } from '@/constants/_MealForm';
 import { PAGE_TITLE } from '@/constants/_pageTitle';
 import { MEAL_HEADER_ERROR } from '@/constants/_schema';
@@ -19,18 +23,16 @@ import { useToastStore } from '@/stores/useToastStore';
 const MealPlanEdit = () => {
   // api로부터 전달 받는 값
   const mealName = '맛있는 9월 식단 야호';
-  const category = {
-    organization: '학교명',
-    organizationDetail: '냠냠초등학교',
-  };
   const currentYear = 2024;
   const currentMonth = 9;
 
-  const [totalMenuList, setTotalMenuList] = useState(MOCK_CALENDAR_NUTRITION);
+  const [totalMenuList, setTotalMenuList] = useState(
+    MOCK_NEW_CALENDAR_NUTRITION,
+  );
   const [selectedDate, setSelectedDate] = useState<string>('');
-  const [selectedCategory, setSelectedCategory] = useState({
-    organization: category.organization,
-    organizationDetail: category.organizationDetail,
+  const [selectedCategory, setSelectedCategory] = useState<SelectedCategory>({
+    majorCategory: '',
+    minorCategory: '',
   });
   const showToast = useToastStore((state) => state.showToast);
 
@@ -42,14 +44,14 @@ const MealPlanEdit = () => {
     resolver: zodResolver(mealHeaderSchema),
     mode: 'onChange',
     defaultValues: {
-      name: mealName,
+      monthMenuName: mealName,
     },
   });
 
   const handleChangeMenu = (
     date: string,
     menuName: string,
-    updatedItem: NutritionData,
+    updatedItem: FoodInfo,
   ) => {
     setTotalMenuList((prevList) => {
       if (!prevList[date]) {
@@ -58,15 +60,18 @@ const MealPlanEdit = () => {
 
       return {
         ...prevList,
-        [date]: prevList[date].map((item) =>
-          item.content === menuName ? { ...item, ...updatedItem } : item,
-        ),
+        [date]: {
+          ...prevList[date],
+          foods: prevList[date].foods.map((item) =>
+            item.foodName === menuName ? { ...item, ...updatedItem } : item,
+          ),
+        },
       };
     });
   };
 
   const handleChangeCategory = (
-    type: 'organization' | 'organizationDetail',
+    type: HandleChangeCategoryParam,
     value: string,
   ) => {
     setSelectedCategory((prev) => ({
@@ -81,17 +86,17 @@ const MealPlanEdit = () => {
 
   const handleResetMenu = () => {
     // 메뉴 초기화 클릭 시 실행
-    setTotalMenuList(MOCK_CALENDAR_NUTRITION);
+    setTotalMenuList(MOCK_NEW_CALENDAR_NUTRITION);
     setSelectedDate('');
   };
 
-  const onSubmit = (data: { name: string }) => {
+  const onSubmit = (data: { monthMenuName: string }) => {
     // 선택한 카테고리 + 식단이름 제출 + 식단 리스트로 이동
     console.log(data);
   };
 
   const onError = () => {
-    if (errors.name) {
+    if (errors.monthMenuName) {
       showToast(MEAL_HEADER_ERROR.name.min, 'warning', 3000);
       return;
     }
@@ -103,7 +108,8 @@ const MealPlanEdit = () => {
       handleSubmit={handleSubmit(onSubmit, onError)}
     >
       <MealHeader
-        categories={MOCK_CATEGORY_LIST}
+        // TODO: 실 카테고리로 변경
+        categories={ORGANIZATION_LIST}
         register={register}
         errors={errors}
         selectedCategory={selectedCategory}

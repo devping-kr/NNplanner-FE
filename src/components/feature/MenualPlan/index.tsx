@@ -4,14 +4,18 @@ import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { mealHeaderSchema } from '@/schema/mealSchema';
-import { CalendarNutritionData } from '@/type/mealType';
+import { CalendarInfo } from '@/type/mealType';
+import { FoodInfo } from '@/type/menu/menuResponse';
+import {
+  HandleChangeCategoryParam,
+  SelectedCategory,
+} from '@/type/menuCategory/category';
 import { isValidDateString } from '@/utils/calendar';
 import InfoCard from '@/components/common/InfoCard';
 import MealForm from '@/components/common/MealForm';
 import MealCalendar from '@/components/shared/Meal/MealCalender';
 import MealHeader from '@/components/shared/Meal/MealHeader';
-import { NutritionData } from '@/components/shared/Meal/NutritionInfo';
-import { MOCK_CATEGORY_LIST } from '@/constants/_category';
+import { ORGANIZATIONS } from '@/constants/_getAllList/_categories';
 import { INFOCARD_MESSAGE } from '@/constants/_infoCard';
 import { MEAL_FORM_LEGEND } from '@/constants/_MealForm';
 import { PAGE_TITLE } from '@/constants/_pageTitle';
@@ -23,11 +27,11 @@ const MenualPlan = () => {
   const currentYear = 2024;
   const currentMonth = 9;
 
-  const [totalMenuList, setTotalMenuList] = useState<CalendarNutritionData>({});
+  const [totalMenuList, setTotalMenuList] = useState<CalendarInfo>({});
   const [selectedDate, setSelectedDate] = useState<string>('');
-  const [selectedCategory, setSelectedCategory] = useState({
-    organization: '',
-    organizationDetail: '',
+  const [selectedCategory, setSelectedCategory] = useState<SelectedCategory>({
+    majorCategory: '',
+    minorCategory: '',
   });
   const [isCategoryError, setIsCategoryError] = useState(false);
   const showToast = useToastStore((state) => state.showToast);
@@ -35,24 +39,27 @@ const MenualPlan = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useForm({
     resolver: zodResolver(mealHeaderSchema),
     mode: 'onChange',
     defaultValues: {
-      name: '',
+      monthMenuName: '',
     },
   });
 
-  const handleSaveMenu = (date: string, menuList: NutritionData[]) => {
+  const handleSaveMenu = (date: string, menuList: FoodInfo[]) => {
     setTotalMenuList((prevList) => ({
       ...prevList,
-      [date]: [...menuList],
+      [date]: {
+        ...prevList[date],
+        foods: [...menuList],
+      },
     }));
   };
 
   const handleChangeCategory = (
-    type: 'organization' | 'organizationDetail',
+    type: HandleChangeCategoryParam,
     value: string,
   ) => {
     setSelectedCategory((prev) => ({
@@ -72,12 +79,12 @@ const MenualPlan = () => {
   };
 
   // TODO: 식단 이름, 카테고리, 전체 식단 제출 및 식단 조회로 이동
-  const onSubmit = (data: { name: string }) => {
+  const onSubmit = (data: { monthMenuName: string }) => {
     console.log(data);
-    const { organization, organizationDetail } = selectedCategory;
+    const { majorCategory, minorCategory } = selectedCategory;
 
     const isSelectedCategoryInvalid =
-      organization === '' || organizationDetail === '';
+      majorCategory === '' || minorCategory === '';
 
     if (isSelectedCategoryInvalid) {
       showToast(MEAL_HEADER_ERROR.category.min, 'warning', 3000);
@@ -87,7 +94,7 @@ const MenualPlan = () => {
   };
 
   const onError = () => {
-    if (errors.name) {
+    if (errors.monthMenuName) {
       showToast(MEAL_HEADER_ERROR.name.min, 'warning', 3000);
       return;
     }
@@ -100,7 +107,7 @@ const MenualPlan = () => {
         handleSubmit={handleSubmit(onSubmit, onError)}
       >
         <MealHeader
-          categories={MOCK_CATEGORY_LIST}
+          categories={ORGANIZATIONS}
           register={register}
           errors={errors}
           selectedCategory={selectedCategory}
@@ -111,7 +118,6 @@ const MenualPlan = () => {
         <MealCalendar
           type='menualCreate'
           selectedCategory={selectedCategory}
-          isValid={isValid}
           year={currentYear}
           month={currentMonth}
           data={totalMenuList}
