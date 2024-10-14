@@ -1,5 +1,6 @@
 import { get, post, put } from '@/lib/axios';
 import {
+  GetFoodsRequest,
   MonthMenusAutoRequest,
   MonthMenusSaveRequest,
 } from '@/type/menu/menuRequest';
@@ -30,10 +31,10 @@ const putMonthMenus = async (
   return response.data;
 };
 
-const getFoods = async (param: string) => {
+const getFoods = async ({ foodName }: GetFoodsRequest) => {
   const response = await get<Result<FoodInfo[]>>(FOODS, {
     params: {
-      foodName: param,
+      foodName,
     },
   });
   return response.data;
