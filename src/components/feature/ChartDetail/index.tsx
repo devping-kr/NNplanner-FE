@@ -1,6 +1,10 @@
 'use client';
 
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { useQueryClient } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
+import { FailResponse } from '@/type/response';
 import Button from '@/components/common/Button/Button';
 import { CardTitle, PageHeaderTitle } from '@/components/common/Typography';
 import AverageGraph from '@/components/shared/ChartDetail/AverageGraph';
@@ -8,6 +12,10 @@ import BarGraph from '@/components/shared/ChartDetail/BarGraph';
 import TextList from '@/components/shared/ChartDetail/TextList';
 import TopCard from '@/components/shared/ChartDetail/TopCard';
 import { DETAIL_SURVEY_DATA } from '@/constants/_detailSurvey';
+import { NAV_LINKS } from '@/constants/_navbar';
+import { surveyKeys } from '@/hooks/survey/queryKey';
+import { useDeleteSurvey } from '@/hooks/survey/useDeleteSurvey';
+import { useToastStore } from '@/stores/useToastStore';
 
 interface Props {
   id: number;
@@ -19,6 +27,10 @@ const imageInfo = {
 };
 
 const ChartDetail = ({ id }: Props) => {
+  const router = useRouter();
+  const queryClient = useQueryClient();
+  const showToast = useToastStore((state) => state.showToast);
+  const { mutate: deleteSurveyMutate } = useDeleteSurvey();
   const {
     surveyName,
     averageScores,
@@ -29,8 +41,19 @@ const ChartDetail = ({ id }: Props) => {
     satisfactionDistribution,
   } = DETAIL_SURVEY_DATA;
 
-  // TODO: id는 api요청시에 param으로 사용예정
-  console.log(id);
+  const deleteHandler = () => {
+    deleteSurveyMutate(id, {
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: surveyKeys.lists() });
+        router.push(NAV_LINKS[4].href);
+        showToast('설문 삭제 성공', 'success', 1000);
+      },
+      onError: (error: AxiosError<FailResponse>) => {
+        const errorMessage = error.response?.data.message || '설문 삭제 실패';
+        showToast(errorMessage, 'warning', 1000);
+      },
+    });
+  };
 
   return (
     <div className='flex flex-col gap-10'>
@@ -39,6 +62,9 @@ const ChartDetail = ({ id }: Props) => {
         <div className='flex h-8 gap-3'>
           <Button size='small'>설문 종료</Button>
           <Button size='small'>질문 수정</Button>
+          <Button size='small' onClick={deleteHandler}>
+            설문 삭제
+          </Button>
         </div>
       </div>
       <div className='flex w-full gap-5'>

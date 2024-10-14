@@ -1,4 +1,4 @@
-import { get, post } from '@/lib/axios';
+import { get, post, del } from '@/lib/axios';
 import { Result } from '@/type/response';
 import {
   GetSearchSurveyRequest,
@@ -36,7 +36,13 @@ const postSurvey = async (request: PostSurveyRequest) => {
   return response.data;
 };
 
+const deleteSurvey = async (surveyId: number) => {
+  const response = await del<Result<null>>(`${SURVEY_API.SURVEYS}/${surveyId}`);
+  return response.data;
+};
+
 export const survey = {
   getSurveyList,
   postSurvey,
+  deleteSurvey,
 };
