@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
+import { AxiosError } from 'axios';
 import { FoodInfo } from '@/type/menu/menuResponse';
+import { FailResponse, Result } from '@/type/response';
 import { cn } from '@/utils/core';
 import Button from '@/components/common/Button/Button';
 import { MAXIUM_MENU_PER_DAY } from '@/components/common/CalendarDay';
@@ -8,8 +10,8 @@ import KcalInfo from '@/components/shared/Meal/KcalInfo';
 import MealInfoContainer from '@/components/shared/Meal/MealInfoContainer';
 import MealSearchContainer from '@/components/shared/Meal/MealSearchContainer';
 import NutritionMenuButton from '@/components/shared/Meal/NutritionMenuButton';
-import { MOCK_ALL_MENU } from '@/constants/_calendarData';
 import { MEAL_CREATE_MESSAGE, WARNING } from '@/constants/_toastMessage';
+import { useGetFoods } from '@/hooks/menu/useGetFoods';
 import { useToastStore } from '@/stores/useToastStore';
 
 type MealCreateProps = {
@@ -25,8 +27,10 @@ const MealCreate = ({ date, handleSaveMenu }: MealCreateProps) => {
   const [clickedMenu, setClickedMenu] = useState<string | null>(null);
   const [keyword, setKeyword] = useState('');
   const [isSearchShow, setIsSearchShow] = useState(false);
-  const [searchResultList] = useState<FoodInfo[]>(MOCK_ALL_MENU);
+  const [searchResultList, setSearchResultList] = useState<FoodInfo[]>([]);
   const { showToast } = useToastStore();
+
+  const { mutate: getFoodMutate } = useGetFoods();
 
   const handleClickAddMenu = () => {
     setIsSearchShow(true);
@@ -39,7 +43,20 @@ const MealCreate = ({ date, handleSaveMenu }: MealCreateProps) => {
   };
 
   const handleSearchClick = () => {
-    // api 요청
+    getFoodMutate(
+      { foodName: keyword },
+      {
+        onSuccess: ({ message, data }: Result<FoodInfo[]>) => {
+          showToast(message, 'success', 1000);
+          setSearchResultList(data);
+        },
+        onError: (error: AxiosError<FailResponse>) => {
+          const errorMessage =
+            error?.response?.data?.message || '메뉴 검색 실패';
+          showToast(errorMessage, 'warning', 1000);
+        },
+      },
+    );
   };
 
   const handleDeleteMenu = () => {

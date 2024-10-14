@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
+import { AxiosError } from 'axios';
 import { FoodInfo } from '@/type/menu/menuResponse';
+import { FailResponse, Result } from '@/type/response';
 import KcalInfo from '@/components/shared/Meal/KcalInfo';
 import MealInfoContainer from '@/components/shared/Meal/MealInfoContainer';
 import MealSearchContainer from '@/components/shared/Meal/MealSearchContainer';
 import NutritionMenuButton from '@/components/shared/Meal/NutritionMenuButton';
-import { MOCK_ALL_MENU } from '@/constants/_calendarData';
 import { MEAL_CREATE_MESSAGE } from '@/constants/_toastMessage';
+import { useGetFoods } from '@/hooks/menu/useGetFoods';
 import { useToastStore } from '@/stores/useToastStore';
 
 type MealEditProps = {
@@ -23,19 +25,34 @@ const MealEdit = ({ date, data, handleChangeMenu }: MealEditProps) => {
   const [clickedMenu, setClickedMenu] = useState<string | null>(null);
   const [keyword, setKeyword] = useState('');
   const [isSearchShow, setIsSearchShow] = useState(false);
-  const [searchResultList] = useState<FoodInfo[]>(MOCK_ALL_MENU);
+  const [searchResultList, setSearchResultList] = useState<FoodInfo[]>([]);
   const showToast = useToastStore((state) => state.showToast);
+
+  const { mutate: getFoodMutate } = useGetFoods();
 
   // 기존 메뉴 클릭 했을 때
   const handleClickMenu = (menu: string) => {
     setKeyword(menu);
     setClickedMenu(menu);
+    setSearchResultList([]);
   };
 
   // 검색창에 keyword 입력 후 검색 버튼 눌렀을 때
   const handleSearchClick = () => {
-    // api 요청
-    // 받은 데이터로 setSearchResultList 업데이트
+    getFoodMutate(
+      { foodName: keyword },
+      {
+        onSuccess: ({ message, data }: Result<FoodInfo[]>) => {
+          showToast(message, 'success', 1000);
+          setSearchResultList(data);
+        },
+        onError: (error: AxiosError<FailResponse>) => {
+          const errorMessage =
+            error?.response?.data?.message || '메뉴 검색 실패';
+          showToast(errorMessage, 'warning', 1000);
+        },
+      },
+    );
   };
 
   // 검색한 메뉴 목록에서 새로운 메뉴 선택
