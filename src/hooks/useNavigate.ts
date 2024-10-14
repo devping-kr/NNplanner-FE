@@ -1,4 +1,5 @@
 import { useRouter } from 'next/navigation';
+import { ROUTES } from '@/constants/_navbar';
 
 const useNavigate = () => {
   const router = useRouter();
@@ -7,7 +8,15 @@ const useNavigate = () => {
     router.push(path);
   };
 
-  return { navigate };
+  const handleBack = () => {
+    if (window.history.length > 1) {
+      router.back();
+    } else {
+      router.push(ROUTES.AUTO_PLAN);
+    }
+  };
+
+  return { navigate, handleBack };
 };
 
 export default useNavigate;
