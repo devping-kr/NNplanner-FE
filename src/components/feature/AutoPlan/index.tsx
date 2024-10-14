@@ -53,9 +53,10 @@ const AutoPlan = () => {
 
   // TODO: 파람 type 파일로 분리
   const handleSubmit = () => {
+    const { majorCategory, minorCategory } = selectedCategory;
+
     const isSelectedCategoryInvalid =
-      selectedCategory.majorCategory === '' ||
-      selectedCategory.minorCategory === '';
+      majorCategory === '' || minorCategory === '';
 
     if (isSelectedCategoryInvalid) {
       showToast(MEAL_HEADER_ERROR.category.min, 'warning', 3000);
@@ -65,8 +66,8 @@ const AutoPlan = () => {
 
     postAutoMutate(
       {
-        majorCategory: selectedCategory.majorCategory,
-        minorCategory: selectedCategory.minorCategory,
+        majorCategory: majorCategory,
+        minorCategory: minorCategory,
         dayCount: getLastDateOfMonth(year, month),
       },
       {

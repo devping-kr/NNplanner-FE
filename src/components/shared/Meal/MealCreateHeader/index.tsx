@@ -1,4 +1,5 @@
 import { FieldErrors, UseFormRegister } from 'react-hook-form';
+import { SelectedCategory } from '@/type/menuCategory/category';
 import { Input } from '@/components/common/Input';
 import { Selectbox } from '@/components/common/Selectbox';
 import { PageHeaderTitle } from '@/components/common/Typography';
@@ -7,7 +8,7 @@ import { PAGE_TITLE } from '@/constants/_pageTitle';
 
 type MealCreateHeaderProps = {
   inputValue?: string;
-  selectedCategory: string[];
+  selectedCategory: SelectedCategory;
   pageHeaderTitle: string;
   register?: UseFormRegister<MealHeaderFormData>;
   errors?: FieldErrors<MealHeaderFormData>;
@@ -36,13 +37,13 @@ const MealCreateHeader = ({
         <div className='flex gap-2'>
           <Selectbox
             size='small'
-            selectedValue={selectedCategory[0]}
+            selectedValue={selectedCategory.majorCategory}
             className='cursor-not-allowed focus:border-gray-300'
             readonly={true}
           />
           <Selectbox
             size='small'
-            selectedValue={selectedCategory[1]}
+            selectedValue={selectedCategory.minorCategory}
             className='cursor-not-allowed focus:border-gray-300'
             readonly={true}
           />
