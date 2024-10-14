@@ -6,6 +6,7 @@ import dayjs from 'dayjs';
 import { surveyType } from '@/type/survey/surveyResponse';
 import { getCurrentYearMonthNow } from '@/utils/calendar';
 import Pagination from '@/components/common/Pagination';
+import { HeadPrimary } from '@/components/common/Typography';
 import GetAllListControls from '@/components/shared/GetAllList/Controls';
 import GetAllListHeader from '@/components/shared/GetAllList/Header';
 import GetAllListTable from '@/components/shared/GetAllList/ListTable';
@@ -93,16 +94,22 @@ const ViewChart = () => {
             inputPlaceholder='설문 이름을 입력해주세요.'
             handleSearchSubmit={handleSearchSubmit}
           />
-          <GetAllListTable
-            data={formatSurveyList(surveyList.data.surveys)}
-            onRowClick={(id: number) => router.push(`/viewChart/${id}`)}
-          />
-          <Pagination
-            limit={8}
-            page={page}
-            setPage={setPage}
-            totalPosts={surveyList.data.totalItems}
-          />
+          {surveyList?.data.totalItems === 0 ? (
+            <HeadPrimary>메뉴가 존재하지 않습니다</HeadPrimary>
+          ) : (
+            <>
+              <GetAllListTable
+                data={formatSurveyList(surveyList.data.surveys)}
+                onRowClick={(id: number) => router.push(`/viewChart/${id}`)}
+              />
+              <Pagination
+                limit={8}
+                page={page}
+                setPage={setPage}
+                totalPosts={surveyList.data.totalItems}
+              />
+            </>
+          )}
         </>
       )}
     </div>
