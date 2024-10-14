@@ -52,7 +52,7 @@ instance.interceptors.response.use(
 
     if (
       !originalRequest ||
-      error.response?.status !== 401 ||
+      error.response?.status !== 403 ||
       originalRequest._retry
     ) {
       return Promise.reject(error);
