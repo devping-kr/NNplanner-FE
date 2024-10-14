@@ -17,11 +17,12 @@ const getSurveyList = async ({
   pageSize = 8,
   startDate,
   endDate,
+  state,
 }: GetSearchSurveyRequest) => {
   const response = await get<Result<SurveyListResponse>>(
     `${SURVEY_API.SURVEYS}`,
     {
-      params: { search, sort, page, pageSize, startDate, endDate },
+      params: { search, sort, page, pageSize, startDate, endDate, state },
     },
   );
   return response.data;

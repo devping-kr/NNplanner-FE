@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import { surveyType } from '@/type/survey/surveyResponse';
 import { getCurrentYearMonthNow } from '@/utils/calendar';
@@ -44,11 +44,24 @@ const ViewChart = () => {
     setActualSearchValue(searchValue);
   };
 
-  const { data: surveyList } = useGetSurveyList({
+  const { data: surveyList, refetch } = useGetSurveyList({
     page,
     sort: currentTab === '최신순' ? 'createdAt,desc' : 'createdAt,asc',
     search: actualSearchValue,
+    state:
+      selectedFilter === '전체'
+        ? ''
+        : selectedFilter === '진행중'
+          ? 'IN_PROGRESS'
+          : 'CLOSED',
+    //TODO: 날짜 param
+    startDate: `${selectedYear}-${selectedMonth}-01`,
+    endDate: `${selectedYear}-${selectedMonth}-31`,
   });
+
+  useEffect(() => {
+    refetch();
+  }, [selectedFilter, refetch]);
 
   const formatSurveyList = (surveys: surveyType[]) => {
     return surveys.map((survey) => ({
@@ -80,16 +93,14 @@ const ViewChart = () => {
             handleSearchSubmit={handleSearchSubmit}
           />
           <GetAllListTable
-            data={formatSurveyList(surveyList.surveys)}
+            data={formatSurveyList(surveyList.data.surveys)}
             onRowClick={(id: number) => router.push(`/viewChart/${id}`)}
           />
           <Pagination
             limit={8}
             page={page}
             setPage={setPage}
-            totalPosts={
-              surveyList.surveys.length === 0 ? 0 : surveyList.totalItems
-            }
+            totalPosts={surveyList.data.totalItems}
           />
         </>
       )}

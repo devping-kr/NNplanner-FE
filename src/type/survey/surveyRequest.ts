@@ -12,6 +12,7 @@ export interface GetSearchSurveyRequest {
   page?: number;
   pageSize?: number;
   sort?: string;
-  startDate?: Date | null;
-  endDate?: Date | null;
+  startDate?: string;
+  endDate?: string;
+  state?: string;
 }
