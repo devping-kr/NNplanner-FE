@@ -30,7 +30,17 @@ const ChartDetail = ({ id }: Props) => {
   const router = useRouter();
   const queryClient = useQueryClient();
   const showToast = useToastStore((state) => state.showToast);
-  const { mutate: deleteSurveyMutate } = useDeleteSurvey();
+  const { mutate: deleteSurveyMutate } = useDeleteSurvey({
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: surveyKeys.lists() });
+      router.push(NAV_LINKS[4].href);
+      showToast('설문 삭제 성공', 'success', 1000);
+    },
+    onError: (error: AxiosError<FailResponse>) => {
+      const errorMessage = error.response?.data.message || '설문 삭제 실패';
+      showToast(errorMessage, 'warning', 1000);
+    },
+  });
   const {
     surveyName,
     averageScores,
@@ -42,17 +52,7 @@ const ChartDetail = ({ id }: Props) => {
   } = DETAIL_SURVEY_DATA;
 
   const deleteHandler = () => {
-    deleteSurveyMutate(id, {
-      onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: surveyKeys.lists() });
-        router.push(NAV_LINKS[4].href);
-        showToast('설문 삭제 성공', 'success', 1000);
-      },
-      onError: (error: AxiosError<FailResponse>) => {
-        const errorMessage = error.response?.data.message || '설문 삭제 실패';
-        showToast(errorMessage, 'warning', 1000);
-      },
-    });
+    deleteSurveyMutate(id);
   };
 
   return (
