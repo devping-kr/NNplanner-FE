@@ -1,32 +1,28 @@
 'use client';
 
+import { FoodInfo } from '@/type/menu/menuResponse';
+import { SelectedCategory } from '@/type/menuCategory/category';
 import Button from '@/components/common/Button/Button';
 import Calendar, { CalendarProps } from '@/components/common/Calendar';
 import { MealCalenderTitle } from '@/components/common/Typography';
 import MealCreate from '@/components/shared/Meal/MealCreate';
 import MealEdit from '@/components/shared/Meal/MealEdit';
-import NutritionInfo, {
-  NutritionData,
-} from '@/components/shared/Meal/NutritionInfo';
-
-export type Category = {
-  organization: string;
-  organizationDetail: string;
-};
+import NutritionInfo from '@/components/shared/Meal/NutritionInfo';
+import useNavigate from '@/hooks/useNavigate';
 
 type MealCalendarProps = {
   type?: 'default' | 'create' | 'edit' | 'menualCreate' | 'mealPlan';
-  selectedCategory?: Category;
-  isValid?: boolean;
+  selectedCategory?: SelectedCategory;
   selectedDate?: string;
   handleChangeMenu?: (
     date: string,
     menuName: string,
-    updatedItem: NutritionData,
+    updatedItem: FoodInfo,
     type: 'edit' | 'add',
   ) => void;
   handleResetMenu?: () => void;
-  handleSaveMenu?: (date: string, menuList: NutritionData[]) => void;
+  handleSaveMenu?: (date: string, menuList: FoodInfo[]) => void;
+  handleEditMenu?: () => void;
 } & CalendarProps;
 
 const MealCalendar = ({
@@ -40,7 +36,9 @@ const MealCalendar = ({
   handleChangeMenu,
   handleResetMenu,
   handleSaveMenu,
+  handleEditMenu,
 }: MealCalendarProps) => {
+  const { handleBack } = useNavigate();
   return (
     <div className='flex'>
       <div className='flex w-fit flex-col gap-2'>
@@ -56,8 +54,13 @@ const MealCalendar = ({
               <Button className='h-10 w-fit' size='basic' type='submit'>
                 저장
               </Button>
-              <Button className='h-10 w-fit' size='basic' type='button'>
-                취소
+              <Button
+                className='h-10 w-fit'
+                size='basic'
+                type='button'
+                onClick={handleEditMenu}
+              >
+                메뉴 수정
               </Button>
             </div>
           )}
@@ -75,7 +78,12 @@ const MealCalendar = ({
               <Button className='h-10 w-fit' size='basic' type='submit'>
                 수정 완료
               </Button>
-              <Button className='h-10 w-fit' size='basic' type='button'>
+              <Button
+                className='h-10 w-fit'
+                size='basic'
+                type='button'
+                onClick={handleBack}
+              >
                 취소
               </Button>
             </div>
@@ -124,12 +132,12 @@ const MealCalendar = ({
         />
       </div>
       {selectedDate && (type === 'create' || type === 'mealPlan') && data && (
-        <NutritionInfo date={selectedDate} data={data[selectedDate]} />
+        <NutritionInfo date={selectedDate} data={data[selectedDate].foods} />
       )}
       {selectedDate && type === 'edit' && data && (
         <MealEdit
           date={selectedDate}
-          data={data[selectedDate]}
+          data={data[selectedDate].foods}
           handleChangeMenu={handleChangeMenu}
         />
       )}

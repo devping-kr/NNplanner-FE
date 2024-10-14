@@ -2,7 +2,7 @@
 
 import { useCallback, useMemo, useState } from 'react';
 import dayjs from 'dayjs';
-import { CalendarNutritionData } from '@/type/mealType';
+import { CalendarInfo } from '@/type/mealType';
 import { getDaysInMonth, isHoliday, isInvalidDate } from '@/utils/calendar';
 import { cn } from '@/utils/core';
 import CalendarDay from '@/components/common/CalendarDay';
@@ -11,7 +11,7 @@ import { SUN_TO_SAT } from '@/constants/_calendarData';
 export type CalendarProps = {
   year: number;
   month: number;
-  data?: CalendarNutritionData;
+  data?: CalendarInfo;
   readonly?: boolean;
   onDateClick?: (date: string) => void;
 };
@@ -79,9 +79,7 @@ const Calendar = ({
                 date={date.format('D')}
                 isHoliday={isHoliday(date)}
                 isInvalid={isInvalidDate(date, year, month)}
-                data={
-                  data?.[formattedDate as keyof CalendarNutritionData] || []
-                }
+                data={data?.[formattedDate as keyof CalendarInfo]?.foods || []}
                 isActive={isActive}
                 readonly={readonly}
                 onClick={() =>

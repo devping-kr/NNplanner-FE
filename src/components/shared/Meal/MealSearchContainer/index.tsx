@@ -1,12 +1,12 @@
 import { ChangeEvent } from 'react';
+import { FoodInfo } from '@/type/menu/menuResponse';
 import { Input } from '@/components/common/Input';
 import { NutritionMenu } from '@/components/common/Typography';
 import MealTable from '@/components/shared/Meal/MealTable';
-import { NutritionData } from '@/components/shared/Meal/NutritionInfo';
 
 type MealSearchContainerProps = {
   keyword: string;
-  searchResultList: NutritionData[];
+  searchResultList: FoodInfo[];
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   onSubmit: () => void;
   onClickNewMenu: (menu: string) => void;

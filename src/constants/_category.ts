@@ -22,3 +22,9 @@ export const MOCK_CATEGORY_LIST = [
     { value: '6', label: '병원' },
   ],
 ];
+
+export const CATEGORY_MAPPINGS = [
+  { category: '학교', queryKey: 'getSchoolMinorCategories' },
+  { category: '학교명', queryKey: 'getSchoolNameMinorCategories' },
+  { category: '병원', queryKey: 'getHospitalMinorCategories' },
+] as const;

@@ -1,6 +1,10 @@
 'use client';
 
 import { FieldErrors, UseFormRegister } from 'react-hook-form';
+import {
+  HandleChangeCategoryParam,
+  SelectedCategory,
+} from '@/type/menuCategory/category';
 import { cn } from '@/utils/core';
 import { Input } from '@/components/common/Input';
 import { Option, Selectbox } from '@/components/common/Selectbox';
@@ -8,19 +12,16 @@ import { PageHeaderTitle } from '@/components/common/Typography';
 import { ORGANIZATION_LIST } from '@/constants/_category';
 
 export type MealHeaderFormData = {
-  name: string;
+  monthMenuName: string;
 };
 
 type MealHeaderProps = {
-  categories: Option[][];
-  register: UseFormRegister<MealHeaderFormData>;
-  errors: FieldErrors<MealHeaderFormData>;
-  selectedCategory: {
-    organization: string;
-    organizationDetail: string;
-  };
+  categories: Option[];
+  register?: UseFormRegister<MealHeaderFormData>;
+  errors?: FieldErrors<MealHeaderFormData>;
+  selectedCategory: SelectedCategory;
   handleChangeCategory: (
-    type: 'organization' | 'organizationDetail',
+    type: HandleChangeCategoryParam,
     value: string,
   ) => void;
   isCategoryError?: boolean;
@@ -40,41 +41,40 @@ const MealHeader = ({
     <div className='flex flex-col gap-5'>
       <PageHeaderTitle>{pageHeaderTitle}</PageHeaderTitle>
       <div className='flex w-full items-center gap-4'>
-        <div className='relative flex h-fit flex-col'>
-          <Input
-            bgcolor='meal'
-            height='basic'
-            placeholder='식단 이름을 입력하세요'
-            className={cn('text-lg')}
-            isError={!!errors.name?.message}
-            autoComplete='off'
-            {...register('name')}
-          />
-        </div>
+        {register && errors && (
+          <div className='relative flex h-fit flex-col'>
+            <Input
+              bgcolor='meal'
+              height='basic'
+              placeholder='식단 이름을 입력하세요'
+              className={cn('text-lg')}
+              isError={!!errors.monthMenuName?.message}
+              autoComplete='off'
+              {...register('monthMenuName')}
+            />
+          </div>
+        )}
         <div className='relative flex gap-2'>
           <Selectbox
             options={ORGANIZATION_LIST}
             size='small'
-            onChange={(organization) => {
-              handleChangeCategory('organization', organization);
+            onChange={(majorCategory) => {
+              handleChangeCategory('majorCategory', majorCategory);
             }}
-            selectedValue={selectedCategory.organization}
+            selectedValue={selectedCategory.majorCategory}
             isError={isCategoryError}
           />
           {ORGANIZATION_LIST.map(
-            (item, index) =>
-              selectedCategory.organization === item.value && (
+            (item) =>
+              selectedCategory.majorCategory === item.value && (
                 <Selectbox
                   key={item.value}
-                  options={categories[index]}
+                  options={categories}
                   size='small'
-                  onChange={(organizationDetail) =>
-                    handleChangeCategory(
-                      'organizationDetail',
-                      organizationDetail,
-                    )
+                  onChange={(minorCategory) =>
+                    handleChangeCategory('minorCategory', minorCategory)
                   }
-                  selectedValue={selectedCategory.organizationDetail}
+                  selectedValue={selectedCategory.minorCategory}
                   isError={isCategoryError}
                 />
               ),

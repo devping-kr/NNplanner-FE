@@ -1,10 +1,8 @@
-export type CalendarNutritionData = {
-  [date: string]: {
-    id: string;
-    content: string;
-    kcal: number;
-    carbs: number;
-    protein: number;
-    fat: number;
-  }[];
+import { FoodInfo } from '@/type/menu/menuResponse';
+
+export type CalendarInfo = {
+  [menuDate: string]: {
+    hospitalMenuId: string | null;
+    foods: FoodInfo[];
+  };
 };

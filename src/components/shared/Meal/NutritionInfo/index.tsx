@@ -1,20 +1,12 @@
+import { FoodInfo } from '@/type/menu/menuResponse';
 import { NutritionEtc } from '@/components/common/Typography';
 import KcalInfo from '@/components/shared/Meal/KcalInfo';
 import MealInfoContainer from '@/components/shared/Meal/MealInfoContainer';
 import MealTable from '@/components/shared/Meal/MealTable';
 
-export type NutritionData = {
-  id: string;
-  content: string;
-  kcal: number;
-  carbs: number;
-  protein: number;
-  fat: number;
-};
-
 type NutritionInfoProps = {
   date: string;
-  data: NutritionData[];
+  data: FoodInfo[];
 };
 
 const NutritionInfo = ({ date, data }: NutritionInfoProps) => {

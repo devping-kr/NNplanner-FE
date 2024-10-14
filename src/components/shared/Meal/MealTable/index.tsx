@@ -1,9 +1,9 @@
+import { FoodInfo } from '@/type/menu/menuResponse';
 import Table from '@/components/common/Table';
 import { NutritionMenu } from '@/components/common/Typography';
-import { NutritionData } from '@/components/shared/Meal/NutritionInfo';
 
 type MealTableProps = {
-  data: NutritionData[];
+  data: FoodInfo[];
   isButton?: boolean;
   onClick?: (menu: string) => void;
 };
@@ -11,11 +11,11 @@ type MealTableProps = {
 const MealTable = ({ data, isButton = false, onClick }: MealTableProps) => {
   return (
     <div className='flex w-full flex-col'>
-      {data?.map((item) => {
+      {data?.map((item, index) => {
         const tableData = [
           {
             에너지: item.kcal,
-            탄수화물: item.carbs,
+            탄수화물: item.carbohydrate,
             단백질: item.protein,
             지방: item.fat,
           },
@@ -23,7 +23,7 @@ const MealTable = ({ data, isButton = false, onClick }: MealTableProps) => {
 
         const content = (
           <>
-            <NutritionMenu>{item.content}</NutritionMenu>
+            <NutritionMenu>{item.foodName}</NutritionMenu>
             <Table
               data={tableData}
               headerClassName='p-1'
@@ -35,17 +35,17 @@ const MealTable = ({ data, isButton = false, onClick }: MealTableProps) => {
         return isButton ? (
           <button
             type='button'
-            key={item.id}
+            key={`${item.foodId}-${index}`}
             className='flex w-full flex-col gap-0.5 rounded-md p-2 text-left transition duration-300 ease-in-out hover:bg-gray-100 active:bg-gray-200'
-            onClick={() => onClick?.(item.content)}
+            onClick={() => onClick?.(item.foodName)}
           >
             {content}
           </button>
         ) : (
           <div
-            key={item.id}
+            key={`${item.foodId}-${index}`}
             className='flex w-full flex-col gap-0.5 rounded-md p-2 text-left'
-            onClick={() => onClick?.(item.content)}
+            onClick={() => onClick?.(item.foodName)}
           >
             {content}
           </div>

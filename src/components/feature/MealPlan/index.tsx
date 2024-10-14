@@ -5,7 +5,7 @@ import { getCurrentYearMonthNow } from '@/utils/calendar';
 import MealForm from '@/components/common/MealForm';
 import MealCalendar from '@/components/shared/Meal/MealCalender';
 import MealPlanHeader from '@/components/shared/MealPlanHeader';
-import { MOCK_CALENDAR_NUTRITION } from '@/constants/_calendarData';
+import { MOCK_NEW_CALENDAR_NUTRITION } from '@/constants/_calendarData';
 import { MEAL_FORM_LEGEND } from '@/constants/_MealForm';
 
 const MealPlan = () => {
@@ -37,7 +37,7 @@ const MealPlan = () => {
       <MealPlanHeader mealName={mealName} selectedCategory={selectedCategory} />
       <MealCalendar
         type='mealPlan'
-        data={MOCK_CALENDAR_NUTRITION}
+        data={MOCK_NEW_CALENDAR_NUTRITION}
         year={year}
         month={month}
         onDateClick={handleDateClick}
