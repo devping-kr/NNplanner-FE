@@ -18,8 +18,10 @@ const ONE = 1;
 
 const Pagination = ({ limit, page, setPage, totalPosts }: Props) => {
   const [blockNum, setBlockNum] = useState(0);
-  const blockArea = Number(blockNum * PAGE_LIMIT);
+
   const totalPages = Math.ceil(totalPosts / limit);
+  const blockArea = blockNum * PAGE_LIMIT;
+
   const createArr = Array(totalPages)
     .fill(ZERO)
     .map((_, i) => (
@@ -37,7 +39,7 @@ const Pagination = ({ limit, page, setPage, totalPosts }: Props) => {
       </Button>
     ));
 
-  const sliceArr = createArr.slice(blockArea, Number(PAGE_LIMIT) + blockArea);
+  const sliceArr = createArr.slice(blockArea, PAGE_LIMIT + blockArea);
 
   const firstPage = () => {
     setPage(ONE);
@@ -50,23 +52,21 @@ const Pagination = ({ limit, page, setPage, totalPosts }: Props) => {
   };
 
   const prevBtnHandler = () => {
-    if (page <= ONE) {
-      return;
+    if (page > ONE) {
+      if (page - ONE <= PAGE_LIMIT * blockNum) {
+        setBlockNum((num) => Math.max(num - ONE, 0));
+      }
+      setPage((num) => num - ONE);
     }
-    if (page - ONE <= PAGE_LIMIT * blockNum) {
-      setBlockNum((num) => num - ONE);
-    }
-    setPage((num) => num - ONE);
   };
 
   const nextBtnHandler = () => {
-    if (page >= totalPages) {
-      return;
+    if (page < totalPages) {
+      if (page + ONE > PAGE_LIMIT * (blockNum + ONE)) {
+        setBlockNum((num) => num + ONE);
+      }
+      setPage((num) => num + ONE);
     }
-    if (PAGE_LIMIT * Number(blockNum + ONE) < Number(page + ONE)) {
-      setBlockNum((num) => num + ONE);
-    }
-    setPage((num) => num + ONE);
   };
 
   return (
@@ -74,14 +74,14 @@ const Pagination = ({ limit, page, setPage, totalPosts }: Props) => {
       <Button
         onClick={firstPage}
         disabled={blockNum === ZERO}
-        variant={'pagination'}
+        variant='pagination'
       >
         <Icon name='arrowPrevBlock' width={15} height={15} color='white' />
       </Button>
       <Button
         onClick={prevBtnHandler}
         disabled={page === ONE}
-        variant={'pagination'}
+        variant='pagination'
       >
         <Icon name='arrowPrev' width={15} height={15} color='white' />
       </Button>
@@ -89,14 +89,14 @@ const Pagination = ({ limit, page, setPage, totalPosts }: Props) => {
       <Button
         onClick={nextBtnHandler}
         disabled={page === totalPages}
-        variant={'pagination'}
+        variant='pagination'
       >
         <Icon name='arrowNext' width={15} height={15} color='white' />
       </Button>
       <Button
         onClick={lastPage}
         disabled={blockArea >= totalPages - PAGE_LIMIT}
-        variant={'pagination'}
+        variant='pagination'
       >
         <Icon name='arrowNextBlock' width={15} height={15} color='white' />
       </Button>

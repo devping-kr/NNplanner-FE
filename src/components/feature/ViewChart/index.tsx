@@ -1,96 +1,117 @@
 'use client';
 
-import { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { survey } from '@/api/survey';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import dayjs from 'dayjs';
+import { surveyType } from '@/type/survey/surveyResponse';
 import { getCurrentYearMonthNow } from '@/utils/calendar';
 import Pagination from '@/components/common/Pagination';
+import { HeadPrimary } from '@/components/common/Typography';
 import GetAllListControls from '@/components/shared/GetAllList/Controls';
 import GetAllListHeader from '@/components/shared/GetAllList/Header';
 import GetAllListTable from '@/components/shared/GetAllList/ListTable';
 import { SURVEY_FILTER_OPTIONS, TAB_OPTIONS } from '@/constants/_controlTab';
-import { SURVEY_DATA } from '@/constants/_getAllList/_surveyData';
+import { useGetSurveyList } from '@/hooks/survey/useGetSurveyList';
 
 const ViewChart = () => {
+  const router = useRouter();
+  const searchParam = useSearchParams();
+  const sort = searchParam.get('sort') as string;
+  const currentTab = sort ?? ('최신순' as string);
+
   const { month, year } = getCurrentYearMonthNow();
-  const [selectedYear, setSelectedYear] = useState<string>(year.toString());
-  const [selectedMonth, setSelectedMonth] = useState<string>(month.toString());
+
   const [searchValue, setSearchValue] = useState('');
+  const [actualSearchValue, setActualSearchValue] = useState('');
+
+  const [selectedYear, setSelectedYear] = useState<string>(year.toString());
+  const [selectedMonth, setSelectedMonth] = useState<string>(
+    month.toString().padStart(2, '0'),
+  );
   const [selectedFilter, setSelectedFilter] = useState<string>(
     SURVEY_FILTER_OPTIONS[0],
   );
   const [selectedTab, setSelectedTab] = useState<string>(TAB_OPTIONS[0]);
   const [page, setPage] = useState(1);
 
-  const handlechangeSearchValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchValue(e.target.value);
-  };
+  const handleChangeSearchValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setSearchValue(value);
 
-  const submitSearchValue = () => {
-    // TODO: api request body로 보내줄 설문이름 제출함수
-    console.log('검색 버튼 클릭');
-  };
-
-  const { data, isLoading } = useQuery({
-    queryKey: ['surveyList'],
-    queryFn: () => survey.getSurveyList(),
-  });
-  if (data) {
-    console.log(data.data.surveys);
-  }
-
-  // react-query문제 디버깅용
-  // useEffect(() => {
-  //   const fetchSurveys = async () => {
-  //     try {
-  //       setIsLoading(true); // 로딩 상태 활성화
-  //       const data = await survey.getSurveyList(); // 설문 목록 불러오기
-  //       setSurveyData(data.data.surveys); // 불러온 데이터 상태에 저장
-  //     } catch (err) {
-  //       setError('Failed to fetch survey list'); // 에러 발생 시 설정
-  //     } finally {
-  //       setIsLoading(false); // 로딩 상태 비활성화
-  //     }
-  //   };
-
-  //   fetchSurveys();
-  // }, []); // 컴포넌트가 마운트될 때만 실행
-
-  // 추후 react-query queryKey에 filter된 데이터 캐싱예정
-  const filterSurveys = (filterTab: string) => {
-    if (filterTab === '전체') {
-      return SURVEY_DATA;
+    if (value === '') {
+      setActualSearchValue('');
     }
-    return SURVEY_DATA.filter((survey) => survey.state === filterTab);
   };
 
-  if (isLoading) return <div>Loading...</div>;
+  const handleSearchSubmit = () => {
+    setActualSearchValue(searchValue);
+  };
+
+  const { data: surveyList, refetch } = useGetSurveyList({
+    page,
+    sort: currentTab === '최신순' ? 'createdAt,desc' : 'createdAt,asc',
+    search: actualSearchValue,
+    state:
+      selectedFilter === '전체'
+        ? ''
+        : selectedFilter === '진행중'
+          ? 'IN_PROGRESS'
+          : 'CLOSED',
+    startDate: `${selectedYear}-${selectedMonth.toString().padStart(2, '0')}-01T00:00:00`,
+    endDate: `${selectedYear}-${selectedMonth.toString().padStart(2, '0')}-31T23:59:59`,
+  });
+
+  useEffect(() => {
+    refetch();
+  }, [selectedFilter, refetch]);
+
+  const formatSurveyList = (surveys: surveyType[]) => {
+    return surveys.map((survey) => ({
+      ...survey,
+      createdAt: dayjs(survey.createdAt).format('YYYY-MM-DD'),
+      deadlineAt: dayjs(survey.deadlineAt).format('YYYY-MM-DD'),
+      state: survey.state === 'IN_PROGRESS' ? '진행중' : '마감',
+    }));
+  };
 
   return (
     <div className='flex flex-col gap-4'>
-      <GetAllListHeader title='설문 결과 리스트' />
-      <GetAllListControls
-        type='viewChart'
-        selectedMonth={selectedMonth}
-        selectedYear={selectedYear}
-        onMonthChange={setSelectedMonth}
-        onYearChange={setSelectedYear}
-        searchValue={searchValue}
-        handlechangeSearchValue={handlechangeSearchValue}
-        submitSearchValue={submitSearchValue}
-        selectedFilter={selectedFilter}
-        setSelectedFilter={setSelectedFilter}
-        selectedTab={selectedTab}
-        setSelectedTab={setSelectedTab}
-        inputPlaceholder='설문 이름을 입력해주세요.'
-      />
-      <GetAllListTable data={filterSurveys(selectedFilter)} />
-      <Pagination
-        limit={8}
-        page={page}
-        setPage={setPage}
-        totalPosts={SURVEY_DATA.length}
-      />
+      {surveyList && (
+        <>
+          <GetAllListHeader title='설문 결과 리스트' />
+          <GetAllListControls
+            type='viewChart'
+            selectedMonth={selectedMonth}
+            selectedYear={selectedYear}
+            onMonthChange={setSelectedMonth}
+            onYearChange={setSelectedYear}
+            searchValue={searchValue}
+            handlechangeSearchValue={handleChangeSearchValue}
+            selectedFilter={selectedFilter}
+            setSelectedFilter={setSelectedFilter}
+            selectedTab={selectedTab}
+            setSelectedTab={setSelectedTab}
+            inputPlaceholder='설문 이름을 입력해주세요.'
+            handleSearchSubmit={handleSearchSubmit}
+          />
+          {surveyList?.data.totalItems === 0 ? (
+            <HeadPrimary>메뉴가 존재하지 않습니다</HeadPrimary>
+          ) : (
+            <>
+              <GetAllListTable
+                data={formatSurveyList(surveyList.data.surveys)}
+                onRowClick={(id: number) => router.push(`/viewChart/${id}`)}
+              />
+              <Pagination
+                limit={8}
+                page={page}
+                setPage={setPage}
+                totalPosts={surveyList.data.totalItems}
+              />
+            </>
+          )}
+        </>
+      )}
     </div>
   );
 };

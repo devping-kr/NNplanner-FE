@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { FailResponse, Result } from '@/type/response';
 import { SurveyPostResponse } from '@/type/survey/surveyResponse';
@@ -12,6 +13,7 @@ import DefaultQuestions from '@/components/shared/Survey/DefaultQuestions';
 import SurveyHeader from '@/components/shared/Survey/Header';
 import { NAV_LINKS } from '@/constants/_navbar';
 import { WARNING } from '@/constants/_toastMessage';
+import { surveyKeys } from '@/hooks/survey/queryKey';
 import { usePostSurvey } from '@/hooks/survey/usePostSurvey';
 import { useToastStore } from '@/stores/useToastStore';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -28,6 +30,7 @@ export interface inputsType {
 }
 
 const SurveyCreate = () => {
+  const queryClient = useQueryClient();
   const router = useRouter();
   const { mutate: postSurveyMutate, isSuccess: postSurveySuccess } =
     usePostSurvey();
@@ -58,6 +61,7 @@ const SurveyCreate = () => {
     postSurveyMutate(requestData, {
       onSuccess: ({ message }: Result<SurveyPostResponse>) => {
         showToast(message, 'success', 1000);
+        queryClient.invalidateQueries({ queryKey: surveyKeys.lists() });
       },
       onError: (error: AxiosError<FailResponse>) => {
         const errorMessage = error.response?.data?.message || '설문 생성 실패';

@@ -18,12 +18,12 @@ interface Props {
   setOrganization?: React.Dispatch<React.SetStateAction<string | null>>;
   searchValue: string;
   handlechangeSearchValue: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  submitSearchValue: () => void;
   selectedFilter?: string;
   setSelectedFilter?: React.Dispatch<React.SetStateAction<string>>;
   selectedTab: string;
   setSelectedTab: React.Dispatch<React.SetStateAction<string>>;
   inputPlaceholder: string;
+  handleSearchSubmit: () => void;
 }
 
 const GetAllListControls = ({
@@ -36,12 +36,12 @@ const GetAllListControls = ({
   setOrganization,
   searchValue,
   handlechangeSearchValue,
-  submitSearchValue,
   selectedFilter,
   setSelectedFilter,
   selectedTab,
   setSelectedTab,
   inputPlaceholder,
+  handleSearchSubmit,
 }: Props) => {
   return (
     <>
@@ -66,7 +66,7 @@ const GetAllListControls = ({
             includeButton={true}
             value={searchValue}
             onChange={handlechangeSearchValue}
-            onSubmit={submitSearchValue}
+            onSubmit={handleSearchSubmit}
           />
           {type === 'viewPlan' && (
             <div className='flex gap-1 whitespace-pre'>
@@ -94,8 +94,10 @@ const GetAllListControls = ({
           <>
             <ControlTab
               controlTabItems={SURVEY_FILTER_OPTIONS}
-              selectedTab={selectedFilter!}
-              setSelectedTab={setSelectedFilter!}
+              selectedFilter={selectedFilter!}
+              setSelectedFilter={setSelectedFilter!}
+              selectedTab={selectedTab}
+              setSelectedTab={setSelectedTab}
             />
             <span className='mx-1 h-4 cursor-default text-xs text-gray-500'>
               |
@@ -103,7 +105,10 @@ const GetAllListControls = ({
           </>
         )}
         <ControlTab
+          type='sort'
           controlTabItems={TAB_OPTIONS}
+          selectedFilter={selectedFilter!}
+          setSelectedFilter={setSelectedFilter!}
           selectedTab={selectedTab}
           setSelectedTab={setSelectedTab}
         />
