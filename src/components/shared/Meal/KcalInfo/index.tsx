@@ -1,9 +1,9 @@
+import { FoodInfo } from '@/type/menu/menuResponse';
 import { sumCalrories } from '@/utils/calendar';
 import { NutritionMenu } from '@/components/common/Typography';
-import { NutritionData } from '@/components/shared/Meal/NutritionInfo';
 
 type KcalInfoProps = {
-  data: NutritionData[];
+  data: FoodInfo[];
 };
 const KcalInfo = ({ data }: KcalInfoProps) => {
   return (

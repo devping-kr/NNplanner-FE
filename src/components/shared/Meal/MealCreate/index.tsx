@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { FoodInfo } from '@/type/menu/menuResponse';
 import { cn } from '@/utils/core';
 import Button from '@/components/common/Button/Button';
 import { MAXIUM_MENU_PER_DAY } from '@/components/common/CalendarDay';
@@ -6,7 +7,6 @@ import Tooltip from '@/components/common/Tooltip';
 import KcalInfo from '@/components/shared/Meal/KcalInfo';
 import MealInfoContainer from '@/components/shared/Meal/MealInfoContainer';
 import MealSearchContainer from '@/components/shared/Meal/MealSearchContainer';
-import { NutritionData } from '@/components/shared/Meal/NutritionInfo';
 import NutritionMenuButton from '@/components/shared/Meal/NutritionMenuButton';
 import { MOCK_ALL_MENU } from '@/constants/_calendarData';
 import { MEAL_CREATE_MESSAGE, WARNING } from '@/constants/_toastMessage';
@@ -14,18 +14,18 @@ import { useToastStore } from '@/stores/useToastStore';
 
 type MealCreateProps = {
   date: string;
-  handleSaveMenu?: (date: string, menuList: NutritionData[]) => void;
+  handleSaveMenu?: (date: string, menuList: FoodInfo[]) => void;
 };
 
 const MealCreate = ({ date, handleSaveMenu }: MealCreateProps) => {
   const [allMenuList, setAllMenuList] = useState<{
-    [key: string]: NutritionData[];
+    [key: string]: FoodInfo[];
   }>({});
-  const [menuList, setMenuList] = useState<NutritionData[]>([]);
+  const [menuList, setMenuList] = useState<FoodInfo[]>([]);
   const [clickedMenu, setClickedMenu] = useState<string | null>(null);
   const [keyword, setKeyword] = useState('');
   const [isSearchShow, setIsSearchShow] = useState(false);
-  const [searchResultList] = useState<NutritionData[]>(MOCK_ALL_MENU);
+  const [searchResultList] = useState<FoodInfo[]>(MOCK_ALL_MENU);
   const { showToast } = useToastStore();
 
   const handleClickAddMenu = () => {
@@ -45,7 +45,7 @@ const MealCreate = ({ date, handleSaveMenu }: MealCreateProps) => {
   const handleDeleteMenu = () => {
     if (clickedMenu) {
       setMenuList((prevList) =>
-        prevList.filter((item) => item.content !== clickedMenu),
+        prevList.filter((item) => item.foodName !== clickedMenu),
       );
       setClickedMenu(null);
       setKeyword('');
@@ -61,14 +61,14 @@ const MealCreate = ({ date, handleSaveMenu }: MealCreateProps) => {
   };
 
   const handleClickNewMenu = (menu: string) => {
-    const result = searchResultList.find((item) => item.content === menu);
+    const result = searchResultList.find((item) => item.foodName === menu);
 
     if (!result || !handleSaveMenu) {
       return;
     }
 
     const isDuplicate = menuList.some(
-      (item) => item.content === result.content,
+      (item) => item.foodName === result.foodName,
     );
 
     if (isDuplicate) {
@@ -84,7 +84,7 @@ const MealCreate = ({ date, handleSaveMenu }: MealCreateProps) => {
 
       if (clickedMenu) {
         return prevList.map((item) =>
-          item.content === clickedMenu ? result : item,
+          item.foodName === clickedMenu ? result : item,
         );
       }
 
@@ -166,15 +166,15 @@ const MealCreate = ({ date, handleSaveMenu }: MealCreateProps) => {
           >
             {menuList.map((item) => (
               <NutritionMenuButton
-                key={item.id}
-                menuName={item.content}
+                key={item.foodId}
+                menuName={item.foodName}
                 className={
-                  clickedMenu === item.content
+                  clickedMenu === item.foodName
                     ? 'bg-green-200 hover:bg-green-200'
                     : ''
                 }
                 onFocus={() => setIsSearchShow(true)}
-                onClick={() => handleClickMenu(item.content)}
+                onClick={() => handleClickMenu(item.foodName)}
               />
             ))}
             {menuList.length < 1 && !isSearchShow && (

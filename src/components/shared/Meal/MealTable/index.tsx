@@ -1,9 +1,9 @@
+import { FoodInfo } from '@/type/menu/menuResponse';
 import Table from '@/components/common/Table';
 import { NutritionMenu } from '@/components/common/Typography';
-import { NutritionData } from '@/components/shared/Meal/NutritionInfo';
 
 type MealTableProps = {
-  data: NutritionData[];
+  data: FoodInfo[];
   isButton?: boolean;
   onClick?: (menu: string) => void;
 };
