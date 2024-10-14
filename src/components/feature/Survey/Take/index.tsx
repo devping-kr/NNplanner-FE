@@ -6,7 +6,7 @@ import Button from '@/components/common/Button/Button';
 import Calendar from '@/components/common/Calendar';
 import { Input } from '@/components/common/Input';
 import { CardTitle, HeadPrimary } from '@/components/common/Typography';
-import { MOCK_CALENDAR_NUTRITION } from '@/constants/_calendarData';
+import { MOCK_NEW_CALENDAR_NUTRITION } from '@/constants/_calendarData';
 
 interface Props {
   id: number;
@@ -108,7 +108,7 @@ const SurveyTake = ({ id }: Props) => {
         <HeadPrimary>8월 식단 설문</HeadPrimary>
       </div>
       <Calendar
-        data={MOCK_CALENDAR_NUTRITION}
+        data={MOCK_NEW_CALENDAR_NUTRITION}
         year={year}
         month={month}
         readonly
