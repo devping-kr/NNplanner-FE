@@ -2,6 +2,9 @@
 
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { AxiosError } from 'axios';
+import { FailResponse, Result } from '@/type/response';
+import { SurveyPostResponse } from '@/type/survey/surveyResponse';
 import { getCurrentYearMonthNow } from '@/utils/calendar';
 import AdditionQuestions from '@/components/shared/Survey/AdditionQuestions';
 import SurveyControls from '@/components/shared/Survey/Controls';
@@ -9,6 +12,7 @@ import DefaultQuestions from '@/components/shared/Survey/DefaultQuestions';
 import SurveyHeader from '@/components/shared/Survey/Header';
 import { NAV_LINKS } from '@/constants/_navbar';
 import { WARNING } from '@/constants/_toastMessage';
+import { usePostSurvey } from '@/hooks/survey/usePostSurvey';
 import { useToastStore } from '@/stores/useToastStore';
 import 'react-datepicker/dist/react-datepicker.css';
 import '@/styles/datepicker-custom.css';
@@ -25,13 +29,20 @@ export interface inputsType {
 
 const SurveyCreate = () => {
   const router = useRouter();
+  const { mutate: postSurveyMutate, isSuccess: postSurveySuccess } =
+    usePostSurvey();
   const [inputs, setInputs] = useState<inputsType[]>([]);
   const [surveyName, setSurveyName] = useState('');
   const [deadLine, setDeadLine] = useState<Date | null>(twoWeeksLater);
   const showToast = useToastStore((state) => state.showToast);
 
-  // api 로직 완성 후 mutation isSuccess함수로 대체 예정
-  const [successSubmit, setSuccessSubmit] = useState(false);
+  const requestData = {
+    // TODO: mmId searchParam으로 가져온 값으로 수정예정
+    mmId: 'a1418fb0-0b1b-4ae8-9781-0bdb18495542',
+    surveyName: surveyName,
+    deadlineAt: deadLine,
+    additionalQuestions: inputs,
+  };
 
   const handleSurveyNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length <= EXTRA_SURVEYNAME_LIMIT) {
@@ -44,7 +55,15 @@ const SurveyCreate = () => {
       showToast(WARNING.requiredSurveyName, 'warning', 2000);
       return;
     }
-    setSuccessSubmit(true);
+    postSurveyMutate(requestData, {
+      onSuccess: ({ message }: Result<SurveyPostResponse>) => {
+        showToast(message, 'success', 1000);
+      },
+      onError: (error: AxiosError<FailResponse>) => {
+        const errorMessage = error.response?.data?.message || '설문 생성 실패';
+        showToast(errorMessage, 'warning', 1000);
+      },
+    });
     router.push(NAV_LINKS[4].href);
   };
 
@@ -67,7 +86,7 @@ const SurveyCreate = () => {
         <AdditionQuestions
           inputs={inputs}
           setInputs={setInputs}
-          successSubmit={successSubmit}
+          successSubmit={postSurveySuccess}
         />
       </div>
     </div>
