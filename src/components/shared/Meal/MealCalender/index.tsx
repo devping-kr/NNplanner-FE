@@ -137,7 +137,7 @@ const MealCalendar = ({
       {selectedDate && type === 'edit' && data && (
         <MealEdit
           date={selectedDate}
-          data={data[selectedDate].foods}
+          data={data[selectedDate]?.foods}
           handleChangeMenu={handleChangeMenu}
         />
       )}
