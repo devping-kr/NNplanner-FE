@@ -1,4 +1,6 @@
-import { useEffect, useState } from 'react';
+'use client';
+
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { FoodInfo } from '@/type/menu/menuResponse';
 import { cn } from '@/utils/core';
 import Button from '@/components/common/Button/Button';
@@ -8,8 +10,9 @@ import KcalInfo from '@/components/shared/Meal/KcalInfo';
 import MealInfoContainer from '@/components/shared/Meal/MealInfoContainer';
 import MealSearchContainer from '@/components/shared/Meal/MealSearchContainer';
 import NutritionMenuButton from '@/components/shared/Meal/NutritionMenuButton';
-import { MOCK_ALL_MENU } from '@/constants/_calendarData';
+import { FOOD_SIZE_PER_SCROLL } from '@/constants/_foodPagination';
 import { MEAL_CREATE_MESSAGE, WARNING } from '@/constants/_toastMessage';
+import { useGetFoods } from '@/hooks/menu/useGetFoods';
 import { useToastStore } from '@/stores/useToastStore';
 
 type MealCreateProps = {
@@ -18,6 +21,7 @@ type MealCreateProps = {
 };
 
 const MealCreate = ({ date, handleSaveMenu }: MealCreateProps) => {
+  const searchContainerRef = useRef<HTMLDivElement>(null);
   const [allMenuList, setAllMenuList] = useState<{
     [key: string]: FoodInfo[];
   }>({});
@@ -25,23 +29,56 @@ const MealCreate = ({ date, handleSaveMenu }: MealCreateProps) => {
   const [clickedMenu, setClickedMenu] = useState<string | null>(null);
   const [keyword, setKeyword] = useState('');
   const [isSearchShow, setIsSearchShow] = useState(false);
-  const [searchResultList] = useState<FoodInfo[]>(MOCK_ALL_MENU);
+  const [searchResultList, setSearchResultList] = useState<FoodInfo[]>([]);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+
   const { showToast } = useToastStore();
 
+  const {
+    refetch,
+    isLoading,
+    isError,
+    data: searchFoodData,
+  } = useGetFoods(
+    {
+      foodName: keyword,
+      page,
+      size: FOOD_SIZE_PER_SCROLL,
+    },
+    {
+      enabled: false, // keyword 변경에 따른 자동 실행을 방지
+    },
+  );
+
+  // 페이지네이션 상태 리셋 함수
+  const resetPagination = () => {
+    setPage(1);
+    setHasMore(true);
+    setSearchResultList([]);
+  };
+
+  // 메뉴 추가 버튼 클릭
   const handleClickAddMenu = () => {
     setIsSearchShow(true);
   };
 
+  // 기존 메뉴 클릭(연필모양)
   const handleClickMenu = (menu: string) => {
     setKeyword(menu);
     setClickedMenu(menu);
     setIsSearchShow(true);
+    resetPagination();
   };
 
+  // 검색창에 keyword 입력 후 검색 버튼 눌렀을 때
   const handleSearchClick = () => {
-    // api 요청
+    if (keyword.length < 0) return;
+    resetPagination();
+    refetch();
   };
 
+  // 메뉴 삭제
   const handleDeleteMenu = () => {
     if (clickedMenu) {
       setMenuList((prevList) =>
@@ -54,12 +91,14 @@ const MealCreate = ({ date, handleSaveMenu }: MealCreateProps) => {
     }
   };
 
+  // 메뉴 초기화
   const handleResetMenu = () => {
     setMenuList([]);
     setClickedMenu(null);
     setKeyword('');
   };
 
+  // 검색한 메뉴 목록에서 새로운 메뉴 선택
   const handleClickNewMenu = (menu: string) => {
     const result = searchResultList.find((item) => item.foodName === menu);
 
@@ -95,6 +134,7 @@ const MealCreate = ({ date, handleSaveMenu }: MealCreateProps) => {
     setKeyword(menu);
   };
 
+  // 메뉴 저장
   const handleSaveMeal = () => {
     if (menuList.length === 0) {
       showToast(WARNING.noMenuToSave, 'warning');
@@ -120,6 +160,49 @@ const MealCreate = ({ date, handleSaveMenu }: MealCreateProps) => {
     setKeyword('');
     setIsSearchShow(false);
   }, [date, allMenuList]);
+
+  // 무한 스크롤을 위한 스크롤 이벤트 처리
+  const handleSearchContainerScroll = useCallback(() => {
+    if (searchContainerRef.current) {
+      const { scrollTop, scrollHeight, clientHeight } =
+        searchContainerRef.current;
+      if (
+        scrollHeight - scrollTop <= clientHeight + 1 &&
+        !isLoading &&
+        hasMore
+      ) {
+        setPage((prevPage) => prevPage + 1);
+      }
+    }
+  }, [isLoading, hasMore]);
+
+  useEffect(() => {
+    if (!searchFoodData) return;
+    if (page === 1) {
+      setSearchResultList(searchFoodData.data);
+    } else {
+      setSearchResultList((prevList) => [...prevList, ...searchFoodData.data]);
+    }
+    setHasMore(searchFoodData.data.length === FOOD_SIZE_PER_SCROLL);
+  }, [searchFoodData, page]);
+
+  useEffect(() => {
+    const container = searchContainerRef.current;
+    if (container) {
+      container.addEventListener('scroll', handleSearchContainerScroll);
+
+      return () => {
+        container.removeEventListener('scroll', handleSearchContainerScroll);
+      };
+    }
+  }, [handleSearchContainerScroll]);
+
+  // 페이지가 바뀔 때마다 데이터를 refetch (새로고침)
+  useEffect(() => {
+    if (page > 1) {
+      refetch();
+    }
+  }, [page, refetch]);
 
   return (
     <MealInfoContainer date={date}>
@@ -191,11 +274,16 @@ const MealCreate = ({ date, handleSaveMenu }: MealCreateProps) => {
         </div>
         {isSearchShow && keyword.length >= 0 && (
           <MealSearchContainer
+            ref={searchContainerRef}
             keyword={keyword}
             searchResultList={searchResultList}
             onChange={(e) => setKeyword(e.target.value)}
             onSubmit={handleSearchClick}
             onClickNewMenu={handleClickNewMenu}
+            isError={isError}
+            isLoading={isLoading}
+            hasMore={hasMore}
+            onScroll={handleSearchContainerScroll}
           />
         )}
       </div>

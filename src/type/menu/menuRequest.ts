@@ -36,3 +36,7 @@ export interface MonthMenusSaveRequest {
   minorCategory: string;
   monthMenusSaveList: HospitalAutoDayMenus[];
 }
+
+export interface GetFoodsRequest {
+  foodName: string;
+}
