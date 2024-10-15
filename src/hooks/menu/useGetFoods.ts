@@ -10,7 +10,7 @@ export const useGetFoods = (
 ) => {
   return useQuery({
     queryKey: ['foods', request?.foodName, request?.page, request?.size],
-    queryFn: () => menu.getFoods(request),
+    queryFn: () => menu.getFoodList(request),
     ...options,
   });
 };

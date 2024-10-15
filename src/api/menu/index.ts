@@ -31,7 +31,7 @@ const putMonthMenus = async (
   return response.data;
 };
 
-const getFoods = async ({ foodName, page, size }: GetFoodsRequest) => {
+const getFoodList = async ({ foodName, page, size }: GetFoodsRequest) => {
   const response = await get<Result<FoodInfo[]>>(FOODS, {
     params: {
       foodName,
@@ -46,5 +46,5 @@ export const menu = {
   postMonthMenusAuto,
   postMonthMenusSave,
   putMonthMenus,
-  getFoods,
+  getFoodList,
 };
