@@ -15,6 +15,7 @@ import { Option } from '@/components/common/Selectbox';
 import MealCalendar from '@/components/shared/Meal/MealCalender';
 import MealHeader from '@/components/shared/Meal/MealHeader';
 import { INFOCARD_MESSAGE } from '@/constants/_infoCard';
+import { MAJOR_CATEGORIES } from '@/constants/_meal';
 import { MEAL_FORM_LEGEND } from '@/constants/_MealForm';
 import { ROUTES } from '@/constants/_navbar';
 import { PAGE_TITLE } from '@/constants/_pageTitle';
@@ -51,7 +52,6 @@ const AutoPlan = () => {
     setIsCategoryError(false);
   };
 
-  // TODO: 파람 type 파일로 분리
   const handleSubmit = () => {
     const { majorCategory, minorCategory } = selectedCategory;
 
@@ -93,15 +93,15 @@ const AutoPlan = () => {
   useEffect(() => {
     const fetchCategories = () => {
       switch (selectedCategory.majorCategory) {
-        case '학교':
+        case MAJOR_CATEGORIES[0]:
           return queryClient.getQueryData<Result<string[]>>([
             'getSchoolMinorCategories',
           ]);
-        case '학교명':
+        case MAJOR_CATEGORIES[1]:
           return queryClient.getQueryData<Result<string[]>>([
             'getSchoolNameMinorCategories',
           ]);
-        case '병원':
+        case MAJOR_CATEGORIES[2]:
           return queryClient.getQueryData<Result<string[]>>([
             'getHospitalMinorCategories',
           ]);
@@ -128,7 +128,6 @@ const AutoPlan = () => {
         handleSubmit={handleSubmit}
       >
         <MealHeader
-          // TODO: 실 데이터로 바꾸기
           categories={minorCategories}
           selectedCategory={selectedCategory}
           handleChangeCategory={handleChangeCategory}

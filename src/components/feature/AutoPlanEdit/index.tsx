@@ -21,6 +21,7 @@ import MealForm from '@/components/common/MealForm';
 import MealCalendar from '@/components/shared/Meal/MealCalender';
 import MealCreateHeader from '@/components/shared/Meal/MealCreateHeader';
 import { MealHeaderFormData } from '@/components/shared/Meal/MealHeader';
+import { MAJOR_CATEGORIES } from '@/constants/_meal';
 import { MEAL_FORM_LEGEND } from '@/constants/_MealForm';
 import { ROUTES } from '@/constants/_navbar';
 import { PAGE_TITLE } from '@/constants/_pageTitle';
@@ -122,12 +123,12 @@ const AutoPlanEdit = () => {
     if (menus[0].hospitalMenuKind) {
       // TODO: 학교 menuKind도 받을 수 있게 수정
       setSelectedCategory({
-        majorCategory: '병원',
+        majorCategory: MAJOR_CATEGORIES[2],
         minorCategory: menus[0].hospitalMenuKind,
       });
     } else {
       setSelectedCategory({
-        majorCategory: '학교',
+        majorCategory: MAJOR_CATEGORIES[1],
         minorCategory: menus[0].hospitalMenuKind,
       });
     }
