@@ -4,6 +4,7 @@ import { HospitalAutoDayMenus, MajorCategory } from '@/type/menu/menuRequest';
 import { FoodInfo, HospitalMenu } from '@/type/menu/menuResponse';
 import { removeTrailingZeros } from '@/utils/meal';
 import { MAXIUM_MENU_PER_DAY } from '@/components/common/CalendarDay';
+import { EMPTY_FOOD_ID } from '@/constants/_meal';
 
 export const getDaysInMonth = (year: number, month: number) => {
   const startOfMonth = dayjs(new Date(year, month - 1)).startOf('month');
@@ -95,7 +96,7 @@ export const transformResponseToCalendar = (
     const formattedDate = currentDate.format('YYYY-MM-DD');
 
     const filteredFoods = menu.foods
-      .filter((food) => food.foodName !== '없음') // '없음'을 필터링
+      .filter((food) => food.foodName !== EMPTY_FOOD_ID)
       .map((food) => ({
         foodId: food.foodId,
         foodName: food.foodName,
@@ -132,15 +133,15 @@ export const transformCalendarToPostSave = (
         .map((food) => food.foodId)
         .slice(0, MAXIUM_MENU_PER_DAY);
 
-      // food1~food7 무조건 넣고, foodId 없으면 '없음' 설정
+      // food1~food7 무조건 넣고, foodId 없으면 EMPTY_FOOD_ID 설정
       const foodProperties: Record<string, string> = {
-        food1: foodIds[0] || '없음',
-        food2: foodIds[1] || '없음',
-        food3: foodIds[2] || '없음',
-        food4: foodIds[3] || '없음',
-        food5: foodIds[4] || '없음',
-        food6: foodIds[5] || '없음',
-        food7: foodIds[6] || '없음',
+        food1: foodIds[0] || EMPTY_FOOD_ID,
+        food2: foodIds[1] || EMPTY_FOOD_ID,
+        food3: foodIds[2] || EMPTY_FOOD_ID,
+        food4: foodIds[3] || EMPTY_FOOD_ID,
+        food5: foodIds[4] || EMPTY_FOOD_ID,
+        food6: foodIds[5] || EMPTY_FOOD_ID,
+        food7: foodIds[6] || EMPTY_FOOD_ID,
       };
 
       return {
@@ -157,4 +158,15 @@ export const transformCalendarToPostSave = (
     minorCategory,
     monthMenusSaveList,
   };
+};
+
+/**
+ * @description 캘린더에 메뉴가 하나라도 있는지 확인
+ * @param calendarInfo
+ * @returns
+ */
+export const hasNonEmptyFoods = (calendarInfo: CalendarInfo): boolean => {
+  return Object.keys(calendarInfo).some((menuDate) => {
+    return calendarInfo[menuDate].foods.length > 0;
+  });
 };
