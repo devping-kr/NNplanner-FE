@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
@@ -12,7 +13,7 @@ import BarGraph from '@/components/shared/ChartDetail/BarGraph';
 import TextList from '@/components/shared/ChartDetail/TextList';
 import TopCard from '@/components/shared/ChartDetail/TopCard';
 import { DETAIL_SURVEY_DATA } from '@/constants/_detailSurvey';
-import { NAV_LINKS } from '@/constants/_navbar';
+import { NAV_LINKS, ROUTES } from '@/constants/_navbar';
 import { surveyKeys } from '@/hooks/survey/queryKey';
 import { useDeleteSurvey } from '@/hooks/survey/useDeleteSurvey';
 import { useGetSurveyDetail } from '@/hooks/survey/useGetSurveyDetail';
@@ -65,7 +66,9 @@ const ChartDetail = ({ id }: Props) => {
         <PageHeaderTitle>{surveyName}</PageHeaderTitle>
         <div className='flex h-8 gap-3'>
           <Button size='small'>설문 종료</Button>
-          <Button size='small'>질문 수정</Button>
+          <Button size='small'>
+            <Link href={`${ROUTES.EDIT.SURVEY}/${id}`}>질문 수정</Link>
+          </Button>
           <Button size='small' onClick={deleteHandler}>
             설문 삭제
           </Button>
