@@ -39,7 +39,7 @@ const MealCreate = ({ date, handleSaveMenu }: MealCreateProps) => {
     refetch,
     isLoading,
     isError,
-    data: apiData,
+    data: searchFoodData,
   } = useGetFoods(
     {
       foodName: keyword,
@@ -177,14 +177,14 @@ const MealCreate = ({ date, handleSaveMenu }: MealCreateProps) => {
   }, [isLoading, hasMore]);
 
   useEffect(() => {
-    if (!apiData) return;
+    if (!searchFoodData) return;
     if (page === 1) {
-      setSearchResultList(apiData.data);
+      setSearchResultList(searchFoodData.data);
     } else {
-      setSearchResultList((prevList) => [...prevList, ...apiData.data]);
+      setSearchResultList((prevList) => [...prevList, ...searchFoodData.data]);
     }
-    setHasMore(apiData.data.length === FOOD_SIZE_PER_SCROLL);
-  }, [apiData, page]);
+    setHasMore(searchFoodData.data.length === FOOD_SIZE_PER_SCROLL);
+  }, [searchFoodData, page]);
 
   useEffect(() => {
     const container = searchContainerRef.current;
