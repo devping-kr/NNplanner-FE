@@ -8,6 +8,7 @@ import AdditionQuestions from '@/components/shared/Survey/AdditionQuestions';
 import SurveyControls from '@/components/shared/Survey/Controls';
 import DefaultQuestions from '@/components/shared/Survey/DefaultQuestions';
 import SurveyHeader from '@/components/shared/Survey/Header';
+import { BASE_ROUTES } from '@/constants/_navbar';
 
 // 아래 두개의 전역변수는 api완성 되면 데이터의 deadlineAt 날짜로 대체
 const TWO_WEEK_DAYS = 14;
@@ -28,14 +29,20 @@ const DefaultData = {
   ],
 };
 
-const SurveyEdit = () => {
+interface Props {
+  id: number;
+}
+
+const SurveyEdit = ({ id }: Props) => {
+  console.log(id);
+
   const router = useRouter();
   const [inputs, setInputs] = useState<inputsType[]>(
     DefaultData.additionalQuestions,
   );
 
   const submitSurvey = () => {
-    router.push('/viewChart');
+    router.push(BASE_ROUTES.VIEW_CHART);
   };
 
   return (
