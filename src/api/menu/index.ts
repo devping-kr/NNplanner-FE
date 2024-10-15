@@ -31,10 +31,12 @@ const putMonthMenus = async (
   return response.data;
 };
 
-const getFoods = async ({ foodName }: GetFoodsRequest) => {
+const getFoods = async ({ foodName, page, size }: GetFoodsRequest) => {
   const response = await get<Result<FoodInfo[]>>(FOODS, {
     params: {
       foodName,
+      page,
+      size,
     },
   });
   return response.data;

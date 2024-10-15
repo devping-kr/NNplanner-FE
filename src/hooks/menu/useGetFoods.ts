@@ -1,16 +1,16 @@
-import { useMutation } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
+import { useQuery } from '@tanstack/react-query';
 import { menu } from '@/api/menu';
 import { GetFoodsRequest } from '@/type/menu/menuRequest';
-import { FoodInfo } from '@/type/menu/menuResponse';
-import { Result } from '@/type/response';
 
-export const useGetFoods = () => {
-  return useMutation<
-    Result<FoodInfo[]>,
-    AxiosError<Result<null>>,
-    GetFoodsRequest
-  >({
-    mutationFn: (request: GetFoodsRequest) => menu.getFoods(request),
+export const useGetFoods = (
+  request: GetFoodsRequest,
+  options?: {
+    enabled?: boolean;
+  },
+) => {
+  return useQuery({
+    queryKey: ['foods', request?.foodName, request?.page, request?.size],
+    queryFn: () => menu.getFoods(request),
+    ...options,
   });
 };
