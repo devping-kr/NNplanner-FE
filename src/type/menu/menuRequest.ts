@@ -46,5 +46,6 @@ export interface GetFoodsRequest {
 
 export interface GetMealListReqeust {
   page: number;
+  size: number;
   sort: 'createdAt,desc' | 'createdAt,asc';
 }

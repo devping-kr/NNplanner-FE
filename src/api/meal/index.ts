@@ -5,12 +5,13 @@ import { Result } from '@/type/response';
 import { BASE_API } from '@/constants/_apiPath';
 
 const getMealList = async ({
+  size = 8,
   page,
   sort = 'createdAt,desc',
 }: GetMealListReqeust) => {
   const response = await get<Result<MonthMenusResponse>>(
     `${BASE_API.MONTH_MENUS}`,
-    { params: { page, sort } },
+    { params: { page, sort, size } },
   );
   return response.data;
 };

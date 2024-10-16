@@ -28,8 +28,10 @@ const ViewPlan = () => {
   const [page, setPage] = useState(1);
 
   const { data: mealList, refetch } = useGetMealList({
-    page,
+    //TODO: page기본값 1로 바뀌면 다시 page로 수정해야함
+    page: page - 1,
     sort: currentTab === '최신순' ? 'createdAt,desc' : 'createdAt,asc',
+    size: 8,
   });
 
   const handlechangeSearchValue = (e: React.ChangeEvent<HTMLInputElement>) => {
