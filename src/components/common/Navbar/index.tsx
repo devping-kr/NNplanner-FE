@@ -17,8 +17,8 @@ const Navbar = () => {
 
   const defaultTab = NAV_LINKS[0].name;
   const selectedTab =
-    NAV_LINKS.find((nav) => pathname?.startsWith(`${nav.href}`))?.name ??
-    defaultTab;
+    NAV_LINKS.find((nav) => nav.href !== '/' && pathname.startsWith(nav.href))
+      ?.name ?? defaultTab;
 
   const handleLogout = () => {
     destroyTokens();

@@ -1,7 +1,8 @@
 import dayjs from 'dayjs';
 import { CalendarInfo } from '@/type/mealType';
-import { MajorCategory } from '@/type/menu/menuRequest';
+import { HospitalAutoDayMenus, MajorCategory } from '@/type/menu/menuRequest';
 import { FoodInfo, HospitalMenu } from '@/type/menu/menuResponse';
+import { removeTrailingZeros } from '@/utils/meal';
 import { MAXIUM_MENU_PER_DAY } from '@/components/common/CalendarDay';
 
 export const getDaysInMonth = (year: number, month: number) => {
@@ -53,7 +54,10 @@ export const isValidDateString = (date: string): boolean => {
 };
 
 export const sumCalrories = (data: FoodInfo[]): number => {
-  return data.reduce((total, item) => total + item.kcal, 0);
+  return data.reduce(
+    (total, item) => total + removeTrailingZeros(item.kcal),
+    0,
+  );
 };
 
 export const getCurrentYearMonthNow = () => {
@@ -128,18 +132,22 @@ export const transformCalendarToPostSave = (
         .map((food) => food.foodId)
         .slice(0, MAXIUM_MENU_PER_DAY);
 
-      return {
-        // TODO: schoolMenuId로 들어올때도 고려
-        hospitalMenuId: menuData.hospitalMenuId,
-        menuDate,
-        food1: foodIds[0] || null,
-        food2: foodIds[1] || null,
-        food3: foodIds[2] || null,
-        food4: foodIds[3] || null,
-        food5: foodIds[4] || null,
-        food6: foodIds[5] || null,
-        food7: foodIds[6] || null,
+      // food1~food7 무조건 넣고, foodId 없으면 '없음' 설정
+      const foodProperties: Record<string, string> = {
+        food1: foodIds[0] || '없음',
+        food2: foodIds[1] || '없음',
+        food3: foodIds[2] || '없음',
+        food4: foodIds[3] || '없음',
+        food5: foodIds[4] || '없음',
+        food6: foodIds[5] || '없음',
+        food7: foodIds[6] || '없음',
       };
+
+      return {
+        hospitalMenuId: menuData.hospitalMenuId || null,
+        menuDate,
+        ...foodProperties, // food1~food7 무조건 포함
+      } as HospitalAutoDayMenus;
     },
   );
 

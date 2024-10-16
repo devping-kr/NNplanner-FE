@@ -9,6 +9,7 @@ import { mealHeaderSchema } from '@/schema/mealSchema';
 import { CalendarInfo } from '@/type/mealType';
 import { MajorCategory } from '@/type/menu/menuRequest';
 import { HospitalMenu } from '@/type/menu/menuResponse';
+import { SelectedCategory } from '@/type/menuCategory/category';
 import { FailResponse, Result } from '@/type/response';
 import {
   getCurrentYearMonthNow,
@@ -31,9 +32,10 @@ import { useToastStore } from '@/stores/useToastStore';
 const AutoPlanCreate = () => {
   const [calendarData, setCalendarData] = useState<CalendarInfo>({});
   const [selectedDate, setSelectedDate] = useState<string>('');
-  const [selectedCategory, setSelectedCategory] = useState<
-    [MajorCategory | string, string]
-  >(['', '']);
+  const [selectedCategory, setSelectedCategory] = useState<SelectedCategory>({
+    majorCategory: '',
+    minorCategory: '',
+  });
   const { year, month } = getCurrentYearMonthNow();
   const showToast = useToastStore((state) => state.showToast);
   const { navigate } = useNavigate();
@@ -66,8 +68,8 @@ const AutoPlanCreate = () => {
     const formattedData = transformCalendarToPostSave(
       calendarData,
       data.monthMenuName,
-      selectedCategory[0] as MajorCategory,
-      selectedCategory[1],
+      selectedCategory.majorCategory as MajorCategory,
+      selectedCategory.minorCategory,
     );
     postSaveMutate(formattedData, {
       onSuccess: ({ message }: Result<null>) => {
@@ -94,9 +96,16 @@ const AutoPlanCreate = () => {
     if (!menus) return;
     const calendarData = transformResponseToCalendar(year, month, menus);
     if (menus[0].hospitalMenuKind) {
-      setSelectedCategory(['병원', menus[0].hospitalMenuKind]);
+      // TODO: 추후 학교 타입 수정
+      setSelectedCategory({
+        majorCategory: '병원',
+        minorCategory: menus[0].hospitalMenuKind,
+      });
     } else {
-      setSelectedCategory(['학교', menus[0].hospitalMenuKind]);
+      setSelectedCategory({
+        majorCategory: '학교',
+        minorCategory: menus[0].hospitalMenuKind,
+      });
     }
     setCalendarData(calendarData);
   }, [year, month, queryClient]);

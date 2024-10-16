@@ -132,7 +132,7 @@ const MealCalendar = ({
         />
       </div>
       {selectedDate && (type === 'create' || type === 'mealPlan') && data && (
-        <NutritionInfo date={selectedDate} data={data[selectedDate].foods} />
+        <NutritionInfo date={selectedDate} data={data[selectedDate]?.foods} />
       )}
       {selectedDate && type === 'edit' && data && (
         <MealEdit

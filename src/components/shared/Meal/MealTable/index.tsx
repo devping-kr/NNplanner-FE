@@ -1,4 +1,5 @@
 import { FoodInfo } from '@/type/menu/menuResponse';
+import { removeTrailingZeros } from '@/utils/meal';
 import Table from '@/components/common/Table';
 import { NutritionMenu } from '@/components/common/Typography';
 
@@ -14,10 +15,10 @@ const MealTable = ({ data, isButton = false, onClick }: MealTableProps) => {
       {data?.map((item, index) => {
         const tableData = [
           {
-            에너지: item.kcal,
-            탄수화물: item.carbohydrate,
-            단백질: item.protein,
-            지방: item.fat,
+            에너지: removeTrailingZeros(item.kcal),
+            탄수화물: removeTrailingZeros(item.carbohydrate),
+            단백질: removeTrailingZeros(item.protein),
+            지방: removeTrailingZeros(item.fat),
           },
         ];
 
@@ -26,7 +27,7 @@ const MealTable = ({ data, isButton = false, onClick }: MealTableProps) => {
             <NutritionMenu>{item.foodName}</NutritionMenu>
             <Table
               data={tableData}
-              headerClassName='p-1'
+              headerClassName='p-1 whitespace-nowrap'
               bodyClassName='p-1 bg-white-200'
             />
           </>
