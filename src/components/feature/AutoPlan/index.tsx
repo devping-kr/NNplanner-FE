@@ -11,16 +11,15 @@ import { FailResponse, Result } from '@/type/response';
 import { getCurrentYearMonthNow, getLastDateOfMonth } from '@/utils/calendar';
 import InfoCard from '@/components/common/InfoCard';
 import MealForm from '@/components/common/MealForm';
-import { Option } from '@/components/common/Selectbox';
 import MealCalendar from '@/components/shared/Meal/MealCalender';
 import MealHeader from '@/components/shared/Meal/MealHeader';
 import { INFOCARD_MESSAGE } from '@/constants/_infoCard';
-import { MAJOR_CATEGORIES } from '@/constants/_meal';
 import { MEAL_FORM_LEGEND } from '@/constants/_MealForm';
 import { ROUTES } from '@/constants/_navbar';
 import { PAGE_TITLE } from '@/constants/_pageTitle';
 import { MEAL_HEADER_ERROR } from '@/constants/_schema';
 import { usePostMonthMenusAuto } from '@/hooks/menu/usePostMonthMenusAuto';
+import { useFetchMinorCategories } from '@/hooks/menuCategory/useFetchMinorCategories';
 import { usePrefetchMinorCategories } from '@/hooks/menuCategory/usePrefetchMinorCategories';
 import useNavigate from '@/hooks/useNavigate';
 import { useToastStore } from '@/stores/useToastStore';
@@ -31,12 +30,14 @@ const AutoPlan = () => {
     minorCategory: '',
   });
   const [isCategoryError, setIsCategoryError] = useState(false);
-  const [minorCategories, setMinorCategories] = useState<Option[]>([]);
   const { year, month } = getCurrentYearMonthNow();
   const showToast = useToastStore((state) => state.showToast);
   const { navigate } = useNavigate();
 
   const queryClient = useQueryClient();
+  const { minorCategories } = useFetchMinorCategories(
+    selectedCategory.majorCategory,
+  );
   const { mutate: postAutoMutate } = usePostMonthMenusAuto();
   const { prefetchMinorCategories, hasCategories } =
     usePrefetchMinorCategories();
@@ -85,41 +86,9 @@ const AutoPlan = () => {
     );
   };
   useEffect(() => {
-    if (!hasCategories) {
-      prefetchMinorCategories();
-    }
+    if (hasCategories) return;
+    prefetchMinorCategories();
   }, [hasCategories, prefetchMinorCategories]);
-
-  useEffect(() => {
-    const fetchCategories = () => {
-      switch (selectedCategory.majorCategory) {
-        case MAJOR_CATEGORIES[0]:
-          return queryClient.getQueryData<Result<string[]>>([
-            'getSchoolMinorCategories',
-          ]);
-        case MAJOR_CATEGORIES[1]:
-          return queryClient.getQueryData<Result<string[]>>([
-            'getSchoolNameMinorCategories',
-          ]);
-        case MAJOR_CATEGORIES[2]:
-          return queryClient.getQueryData<Result<string[]>>([
-            'getHospitalMinorCategories',
-          ]);
-        default:
-          return null;
-      }
-    };
-
-    const categories = fetchCategories();
-    if (!categories) return;
-    const { data } = categories;
-    if (!data) return;
-    const formattedData = data.map((category) => ({
-      value: category,
-      label: category,
-    }));
-    setMinorCategories(formattedData);
-  }, [selectedCategory.majorCategory]);
 
   return (
     <div className='flex gap-8'>
