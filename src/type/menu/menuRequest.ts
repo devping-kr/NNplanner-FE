@@ -40,3 +40,8 @@ export interface MonthMenusSaveRequest {
 export interface GetFoodsRequest {
   foodName: string;
 }
+
+export interface GetMealListReqeust {
+  page: number;
+  sort: 'createdAt,desc' | 'createdAt,asc';
+}
