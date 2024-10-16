@@ -149,8 +149,6 @@ const MealCreate = ({ date, handleSaveMenu }: MealCreateProps) => {
     if (handleSaveMenu) {
       handleSaveMenu(date, menuList);
     }
-
-    showToast(`${date} ${MEAL_CREATE_MESSAGE.success.saveMeal}`, 'success');
   };
 
   useEffect(() => {
