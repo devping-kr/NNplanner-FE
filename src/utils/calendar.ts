@@ -165,7 +165,7 @@ export const transformCalendarToPostSave = (
  * @param calendarInfo
  * @returns
  */
-export const hasNonEmptyFoods = (calendarInfo: CalendarInfo): boolean => {
+export const hasFoods = (calendarInfo: CalendarInfo): boolean => {
   return Object.keys(calendarInfo).some((menuDate) => {
     return calendarInfo[menuDate].foods.length > 0;
   });
