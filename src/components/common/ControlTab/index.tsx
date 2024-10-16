@@ -33,7 +33,7 @@ const ControlTab = <T extends string>({
           href={
             type === 'sort'
               ? `?tab=${selectedFilter}&sort=${tab}`
-              : `?tab=${tab}`
+              : `?tab=${tab}&sort=${selectedTab}`
           }
           key={tab}
           className={cn(
