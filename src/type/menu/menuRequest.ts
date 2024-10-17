@@ -54,3 +54,7 @@ export interface GetSearchMealListRequest extends GetMealListReqeust {
   majorCategory: string;
   minorCategory: string;
 }
+
+export interface GetMonthMenuDetailRequest {
+  monthMenuId: string;
+}
