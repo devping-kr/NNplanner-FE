@@ -46,7 +46,7 @@ const getSurveyDetail = async (surveyId: number) => {
   const response = await get<Result<SurveyDetailResponse>>(
     `${SURVEY_API.SURVEYS}/${surveyId}`,
   );
-  return response.data;
+  return response.data.data;
 };
 
 export const survey = {
