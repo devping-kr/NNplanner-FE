@@ -4,6 +4,7 @@ export const BASE_ROUTES = {
   MENUAL: '/menualPlan',
   VIEW_PLAN: '/viewPlan',
   VIEW_CHART: '/viewChart',
+  SURVEY: '/survey',
   CREATE: '/create',
   EDIT: '/edit',
   SURVEY: '/survey',
@@ -48,11 +49,14 @@ const createRoutes = (baseRoutes: typeof BASE_ROUTES) => ({
   EDIT: {
     AUTO: `${baseRoutes.AUTO}${baseRoutes.EDIT}`,
     MENUAL: `${baseRoutes.MENUAL}${baseRoutes.EDIT}`,
-    SURVEY: `${baseRoutes.SURVEY}${baseRoutes.EDIT}`,
+    EDIT: baseRoutes.EDIT,
   },
   VIEW: {
     PLAN: baseRoutes.VIEW_PLAN,
     CHART: baseRoutes.VIEW_CHART,
+  },
+  SURVEY: {
+    CREATE: `${baseRoutes.SURVEY}/${baseRoutes.CREATE}`,
   },
   AUTO_PLAN: baseRoutes.AUTO,
   MENUAL_PLAN: baseRoutes.MENUAL,
