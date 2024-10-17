@@ -5,16 +5,7 @@ const ApexCharts = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 interface SatisfactionDistribution {
   data: {
-    '1점': number;
-    '2점': number;
-    '3점': number;
-    '4점': number;
-    '5점': number;
-    '6점': number;
-    '7점': number;
-    '8점': number;
-    '9점': number;
-    '10점': number;
+    [key: string]: number;
   };
 }
 
