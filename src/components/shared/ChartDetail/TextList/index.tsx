@@ -1,5 +1,5 @@
 import { cn } from '@/utils/core';
-import { CardTitle } from '@/components/common/Typography';
+import { CardTitle, HeadPrimary } from '@/components/common/Typography';
 
 interface Props {
   list: string[];
@@ -18,9 +18,11 @@ const TextList = ({ list, title, type }: Props) => {
           type === 'desireMenu' ? 'max-h-[310px]' : 'max-h-[600px]',
         )}
       >
-        {list.map((text, idx) => (
-          <li key={idx}>{text}</li>
-        ))}
+        {list.length !== 0 &&
+          list.map((text, idx) => <li key={idx}>{text}</li>)}
+        {list.length === 0 && (
+          <HeadPrimary>제출된 설문이 없습니다.</HeadPrimary>
+        )}
       </ul>
     </div>
   );
