@@ -25,7 +25,7 @@ export interface SurveyPostResponse {
 export interface SatisfactionDistribution {
   question: string;
   distribution: {
-    [key: number]: number;
+    [key: string]: number;
   };
 }
 
