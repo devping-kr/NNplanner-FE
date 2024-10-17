@@ -20,7 +20,9 @@ import {
 } from '@/utils/calendar';
 import MealForm from '@/components/common/MealForm';
 import MealCalendar from '@/components/shared/Meal/MealCalender';
-import MealHeader from '@/components/shared/Meal/MealHeader';
+import MealHeader, {
+  MealHeaderFormData,
+} from '@/components/shared/Meal/MealHeader';
 import { MEAL_FORM_LEGEND } from '@/constants/_MealForm';
 import { ROUTES } from '@/constants/_navbar';
 import { PAGE_TITLE } from '@/constants/_pageTitle';
@@ -106,7 +108,7 @@ const MenualPlanEdit = () => {
     setSelectedDate('');
   };
 
-  const onSubmit = (data: { monthMenuName: string }) => {
+  const onSubmit = (data: MealHeaderFormData) => {
     const { majorCategory, minorCategory } = selectedCategory;
 
     const isSelectedCategoryInvalid =
