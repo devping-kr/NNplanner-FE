@@ -23,10 +23,15 @@ export interface SurveyPostResponse {
 }
 
 export interface SatisfactionDistribution {
-  question: string;
-  distribution: {
-    [key: string]: number;
-  };
+  [key: string]: number;
+}
+
+export interface SatisfactionDistributionItem {
+  questionId: number;
+  questionText: string;
+  satisfactionDistribution: SatisfactionDistribution;
+  textResponses: string[];
+  answerType: 'radio' | 'text';
 }
 
 export interface AverageScores {
@@ -36,18 +41,8 @@ export interface AverageScores {
   tasteSatisfaction: number;
 }
 
-export interface MenuResponse {
-  responseDate: string;
-  menu: string;
-}
-
 export interface SurveyDetailResponse {
   surveyName: string;
-  likedMenusTop3: MenuResponse[];
-  dislikedMenusTop3: MenuResponse[];
-  desiredMenus: string[];
-  messagesToDietitian: string[];
-  satisfactionDistributions: SatisfactionDistribution[];
+  satisfactionDistributions: SatisfactionDistributionItem[];
   averageScores: AverageScores;
-  originalSurveyUrl: string | null;
 }
