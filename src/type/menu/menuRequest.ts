@@ -49,3 +49,8 @@ export interface GetMealListReqeust {
   size: number;
   sort: 'createdAt,desc' | 'createdAt,asc';
 }
+
+export interface GetSearchMealListRequest extends GetMealListReqeust {
+  majorCategory: string;
+  minorCategory: string;
+}
