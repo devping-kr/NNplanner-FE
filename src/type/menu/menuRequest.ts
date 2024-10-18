@@ -1,9 +1,10 @@
 import { SelectedCategory } from '@/type/menuCategory/category';
+import { MAJOR_CATEGORIES } from '@/constants/_meal';
 
 /**
  * @description 식단 대분류 카테고리
  */
-export type MajorCategory = '학교' | '학교명' | '병원';
+export type MajorCategory = (typeof MAJOR_CATEGORIES)[number];
 
 /**
  * @description 자동 식단 생성 request body
@@ -17,14 +18,14 @@ export interface MonthMenusAutoRequest extends SelectedCategory {
  */
 export interface HospitalAutoDayMenus {
   hospitalMenuId: string | null;
-  menuDate: string; // '2024-09-25'
-  food1: string | null;
-  food2: string | null;
-  food3: string | null;
-  food4: string | null;
-  food5: string | null;
-  food6: string | null;
-  food7: string | null;
+  menuDate: string;
+  food1: string;
+  food2: string;
+  food3: string;
+  food4: string;
+  food5: string;
+  food6: string;
+  food7: string;
 }
 
 /**
@@ -39,6 +40,8 @@ export interface MonthMenusSaveRequest {
 
 export interface GetFoodsRequest {
   foodName: string;
+  page: number;
+  size: number;
 }
 
 export interface GetMealListReqeust {

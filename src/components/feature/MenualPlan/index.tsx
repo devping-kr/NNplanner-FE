@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { mealHeaderSchema } from '@/schema/mealSchema';
@@ -10,46 +10,65 @@ import {
   HandleChangeCategoryParam,
   SelectedCategory,
 } from '@/type/menuCategory/category';
-import { isValidDateString } from '@/utils/calendar';
+import {
+  getCurrentYearMonthNow,
+  hasFoods,
+  isValidDateString,
+} from '@/utils/calendar';
 import InfoCard from '@/components/common/InfoCard';
 import MealForm from '@/components/common/MealForm';
 import MealCalendar from '@/components/shared/Meal/MealCalender';
-import MealHeader from '@/components/shared/Meal/MealHeader';
-import { ORGANIZATIONS } from '@/constants/_getAllList/_categories';
+import MealHeader, {
+  MealHeaderFormData,
+} from '@/components/shared/Meal/MealHeader';
 import { INFOCARD_MESSAGE } from '@/constants/_infoCard';
 import { MEAL_FORM_LEGEND } from '@/constants/_MealForm';
+import { ROUTES } from '@/constants/_navbar';
 import { PAGE_TITLE } from '@/constants/_pageTitle';
 import { MEAL_HEADER_ERROR } from '@/constants/_schema';
+import { MEAL_CREATE_MESSAGE } from '@/constants/_toastMessage';
+import { useFetchMinorCategories } from '@/hooks/menuCategory/useFetchMinorCategories';
+import { usePrefetchMinorCategories } from '@/hooks/menuCategory/usePrefetchMinorCategories';
+import useNavigate from '@/hooks/useNavigate';
+import { useMenualPlanStore } from '@/stores/useMenualPlanStore';
 import { useToastStore } from '@/stores/useToastStore';
 
 const MenualPlan = () => {
-  // api로부터 전달받는 값
-  const currentYear = 2024;
-  const currentMonth = 9;
-
-  const [totalMenuList, setTotalMenuList] = useState<CalendarInfo>({});
+  const [calendarData, setCalendarData] = useState<CalendarInfo>({});
   const [selectedDate, setSelectedDate] = useState<string>('');
   const [selectedCategory, setSelectedCategory] = useState<SelectedCategory>({
     majorCategory: '',
     minorCategory: '',
   });
+  const { year, month } = getCurrentYearMonthNow();
   const [isCategoryError, setIsCategoryError] = useState(false);
   const showToast = useToastStore((state) => state.showToast);
+  const { setMonthMenuName, setCategory, setCalendar } = useMenualPlanStore(
+    (state) => ({
+      setMonthMenuName: state.setMonthMenuName,
+      setCategory: state.setCategory,
+      setCalendar: state.setCalendar,
+    }),
+  );
+  const { navigate } = useNavigate();
+
+  const { minorCategories } = useFetchMinorCategories(
+    selectedCategory.majorCategory,
+  );
+  const { prefetchMinorCategories, hasCategories } =
+    usePrefetchMinorCategories();
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({
+  } = useForm<MealHeaderFormData>({
     resolver: zodResolver(mealHeaderSchema),
     mode: 'onChange',
-    defaultValues: {
-      monthMenuName: '',
-    },
   });
 
   const handleSaveMenu = (date: string, menuList: FoodInfo[]) => {
-    setTotalMenuList((prevList) => ({
+    setCalendarData((prevList) => ({
       ...prevList,
       [date]: {
         ...prevList[date],
@@ -74,13 +93,11 @@ const MenualPlan = () => {
   };
 
   const handleResetMenu = () => {
-    setTotalMenuList({});
+    setCalendarData({});
     setSelectedDate('');
   };
 
-  // TODO: 식단 이름, 카테고리, 전체 식단 제출 및 식단 조회로 이동
-  const onSubmit = (data: { monthMenuName: string }) => {
-    console.log(data);
+  const onSubmit = (data: MealHeaderFormData) => {
     const { majorCategory, minorCategory } = selectedCategory;
 
     const isSelectedCategoryInvalid =
@@ -91,6 +108,15 @@ const MenualPlan = () => {
       setIsCategoryError(true);
       return;
     }
+
+    if (!hasFoods(calendarData)) {
+      showToast(MEAL_CREATE_MESSAGE.error.emptyFood, 'warning', 3000);
+    } else {
+      setMonthMenuName(data.monthMenuName);
+      setCalendar(calendarData);
+      setCategory(selectedCategory);
+      navigate(ROUTES.CREATE.MENUAL);
+    }
   };
 
   const onError = () => {
@@ -100,6 +126,42 @@ const MenualPlan = () => {
     }
   };
 
+  useEffect(() => {
+    if (hasCategories) return;
+    prefetchMinorCategories();
+  }, [hasCategories, prefetchMinorCategories]);
+
+  // useEffect(() => {
+  //   const fetchCategories = () => {
+  //     switch (selectedCategory.majorCategory) {
+  //       case MAJOR_CATEGORIES[0]:
+  //         return queryClient.getQueryData<Result<string[]>>([
+  //           'getSchoolMinorCategories',
+  //         ]);
+  //       case MAJOR_CATEGORIES[1]:
+  //         return queryClient.getQueryData<Result<string[]>>([
+  //           'getSchoolNameMinorCategories',
+  //         ]);
+  //       case MAJOR_CATEGORIES[2]:
+  //         return queryClient.getQueryData<Result<string[]>>([
+  //           'getHospitalMinorCategories',
+  //         ]);
+  //       default:
+  //         return null;
+  //     }
+  //   };
+
+  //   const categories = fetchCategories();
+  //   if (!categories) return;
+  //   const { data } = categories;
+  //   if (!data) return;
+  //   const formattedData = data.map((category) => ({
+  //     value: category,
+  //     label: category,
+  //   }));
+  //   setMinorCategories(formattedData);
+  // }, [selectedCategory.majorCategory]);
+
   return (
     <div className='flex gap-8'>
       <MealForm
@@ -107,7 +169,7 @@ const MenualPlan = () => {
         handleSubmit={handleSubmit(onSubmit, onError)}
       >
         <MealHeader
-          categories={ORGANIZATIONS}
+          categories={minorCategories}
           register={register}
           errors={errors}
           selectedCategory={selectedCategory}
@@ -118,9 +180,9 @@ const MenualPlan = () => {
         <MealCalendar
           type='menualCreate'
           selectedCategory={selectedCategory}
-          year={currentYear}
-          month={currentMonth}
-          data={totalMenuList}
+          year={year}
+          month={month}
+          data={calendarData}
           onDateClick={handleDateClick}
           selectedDate={selectedDate}
           handleSaveMenu={handleSaveMenu}
