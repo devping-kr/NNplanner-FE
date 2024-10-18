@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { FailResponse } from '@/type/response';
+import { getTextResponsesByQuestionText } from '@/utils/getTextResponseByQuestionText';
 import Button from '@/components/common/Button/Button';
 import {
   CardTitle,
@@ -25,6 +26,7 @@ interface Props {
   id: number;
 }
 
+// TODO: qr코드 api완성 후 삭제예정
 const imageInfo = {
   size: 180,
   src: '/imgs/pi-gon-ping.jpg',
@@ -49,17 +51,8 @@ const ChartDetail = ({ id }: Props) => {
 
   const { data: detailData } = useGetSurveyDetail(id);
 
-  const {
-    surveyName,
-    averageScores,
-    desiredMenus,
-    dislikedMenusTop3,
-    likedMenusTop3,
-    messagesToDietitian,
-    satisfactionDistributions,
-    // TODO: QR코드 백엔드 작업 완료되면 작업 예정
-    // originalSurveyUrl,
-  } = detailData || {};
+  const { surveyName, averageScores, satisfactionDistributions } =
+    detailData || {};
 
   const deleteHandler = () => {
     deleteSurveyMutate(id);
@@ -67,7 +60,7 @@ const ChartDetail = ({ id }: Props) => {
 
   return (
     <div className='flex flex-col gap-10'>
-      {detailData && (
+      {detailData && satisfactionDistributions && averageScores && (
         <>
           <div className='flex items-center justify-between'>
             <PageHeaderTitle>{surveyName}</PageHeaderTitle>
@@ -87,21 +80,22 @@ const ChartDetail = ({ id }: Props) => {
           <div className='flex w-full gap-5'>
             <div className='flex w-full flex-col gap-3 rounded border border-gray-300 bg-white-100 p-5'>
               <CardTitle>월별 총 만족도 점수 분포도</CardTitle>
-              {satisfactionDistributions &&
-              !satisfactionDistributions?.every((satisfaction) =>
-                Object.values(satisfaction.distribution).every(
-                  (value) => value === 0,
-                ),
-              ) ? (
-                <BarGraph data={satisfactionDistributions[0].distribution} />
-              ) : (
+              {satisfactionDistributions.every((satisfaction) => {
+                const distributionValues = Object.values(
+                  satisfaction.satisfactionDistribution,
+                );
+                return distributionValues.every((value) => value === 0);
+              }) ? (
                 <HeadPrimary>제출된 설문이 없습니다.</HeadPrimary>
+              ) : (
+                <BarGraph
+                  data={satisfactionDistributions![0].satisfactionDistribution}
+                />
               )}
             </div>
             <div className='flex w-1/2 flex-col gap-3 rounded border border-gray-300 bg-white-100 p-5'>
               <CardTitle>만족도 평균</CardTitle>
-              {averageScores &&
-              !Object.values(averageScores).every((score) => score === 0) ? (
+              {!Object.values(averageScores).every((score) => score === 0) ? (
                 <AverageGraph averageScores={averageScores} />
               ) : (
                 <HeadPrimary>제출된 설문이 없습니다.</HeadPrimary>
@@ -110,15 +104,20 @@ const ChartDetail = ({ id }: Props) => {
           </div>
           <div className='flex w-full gap-8'>
             <div className='flex w-full flex-col gap-3 rounded border border-gray-300 bg-white-100 p-5'>
-              {likedMenusTop3 && (
-                <TopCard title='식단 좋아요 Top3' top3Data={likedMenusTop3} />
-              )}
-              {dislikedMenusTop3 && (
-                <TopCard
-                  title='식단 싫어요 Top3'
-                  top3Data={dislikedMenusTop3}
-                />
-              )}
+              <TopCard
+                title='식단 좋아요 Top3'
+                top3Data={getTextResponsesByQuestionText(
+                  satisfactionDistributions,
+                  '가장 좋아하는 상위 3개 식단',
+                )}
+              />
+              <TopCard
+                title='식단 싫어요 Top3'
+                top3Data={getTextResponsesByQuestionText(
+                  satisfactionDistributions,
+                  '가장 싫어하는 상위 3개 식단',
+                )}
+              />
             </div>
             <div className='flex w-1/3 flex-col gap-3'>
               <div className='mb-3 flex flex-1 flex-col gap-3 rounded border border-gray-300 bg-white-100 p-5'>
@@ -132,22 +131,28 @@ const ChartDetail = ({ id }: Props) => {
                   />
                 </div>
               </div>
-              {desiredMenus && (
-                <TextList
-                  type='desireMenu'
-                  list={desiredMenus}
-                  title='먹고 싶은 메뉴 목록'
-                />
-              )}
+              <TextList
+                type='desireMenu'
+                list={
+                  getTextResponsesByQuestionText(
+                    satisfactionDistributions,
+                    '먹고 싶은 메뉴',
+                  )!
+                }
+                title='먹고 싶은 메뉴 목록'
+              />
             </div>
             <div className='flex w-2/3 flex-col gap-3'>
-              {messagesToDietitian && (
-                <TextList
-                  type='message'
-                  list={messagesToDietitian}
-                  title='영양사에게 한마디'
-                />
-              )}
+              <TextList
+                type='message'
+                list={
+                  getTextResponsesByQuestionText(
+                    satisfactionDistributions,
+                    '영양사에게 한마디',
+                  )!
+                }
+                title='영양사에게 한마디'
+              />
             </div>
           </div>
         </>
