@@ -1,29 +1,45 @@
 'use client';
 
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { MenuResponseDTO } from '@/type/menu/menuResponse';
+import { Result } from '@/type/response';
 import { getCurrentYearMonthNow } from '@/utils/calendar';
 import Pagination from '@/components/common/Pagination';
+import { Option } from '@/components/common/Selectbox';
 import { TableRowData } from '@/components/common/Table';
 import { HeadPrimary } from '@/components/common/Typography';
 import GetAllListControls from '@/components/shared/GetAllList/Controls';
 import GetAllListHeader from '@/components/shared/GetAllList/Header';
 import GetAllListTable from '@/components/shared/GetAllList/ListTable';
+import { CATEGORY_MAPPINGS } from '@/constants/_category';
 import { TAB_OPTIONS } from '@/constants/_controlTab';
+import { ROUTES } from '@/constants/_navbar';
 import { useGetMealList } from '@/hooks/meal/useGetMealList';
+import { useGetSearchMealList } from '@/hooks/meal/useGetSearchMealList';
+import { usePrefetchMinorCategories } from '@/hooks/menuCategory/usePrefetchMinorCategories';
+import { useToastStore } from '@/stores/useToastStore';
 
 const ViewPlan = () => {
   const searchParam = useSearchParams();
+  const router = useRouter();
   const sort = searchParam.get('sort') as string;
   const currentTab = sort ?? ('최신순' as string);
+  const showToast = useToastStore((state) => state.showToast);
+
+  const queryClient = useQueryClient();
+  const { prefetchMinorCategories, hasCategories } =
+    usePrefetchMinorCategories();
+  const [minorCategories, setMinorCategories] = useState<Option[]>([]);
 
   const { month, year } = getCurrentYearMonthNow();
   const [selectedYear, setSelectedYear] = useState<string>(year.toString());
   const [selectedMonth, setSelectedMonth] = useState<string>(month.toString());
   const [searchValue, setSearchValue] = useState('');
-  const [organization, setOrganization] = useState<null | string>(null);
+  const [selectedOrganization, setSelectedOrganization] = useState<string>('');
+  const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [selectedTab, setSelectedTab] = useState<string>(TAB_OPTIONS[0]);
   const [page, setPage] = useState(1);
 
@@ -32,6 +48,14 @@ const ViewPlan = () => {
     page: page - 1,
     sort: currentTab === '최신순' ? 'createdAt,desc' : 'createdAt,asc',
     size: 8,
+  });
+
+  const { data: searchMealList } = useGetSearchMealList({
+    page: page - 1,
+    sort: currentTab === '최신순' ? 'createdAt,desc' : 'createdAt,asc',
+    size: 8,
+    majorCategory: selectedOrganization ?? '',
+    minorCategory: selectedCategory ?? '',
   });
 
   const handlechangeSearchValue = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -45,7 +69,7 @@ const ViewPlan = () => {
 
   const convertToTableRowData = (menus: MenuResponseDTO[]): TableRowData[] => {
     return menus.map((menu) => ({
-      식단ID: menu.monthMenuId.split('-')[0],
+      식단ID: menu.monthMenuId,
       식단이름: menu.monthMenuName,
       대분류: menu.majorCategory,
       소분류: menu.minorCategory,
@@ -55,7 +79,40 @@ const ViewPlan = () => {
 
   useEffect(() => {
     refetch();
-  }, [selectedTab, refetch]);
+  }, [selectedTab]);
+
+  useEffect(() => {
+    if (!selectedOrganization) return;
+
+    const selectedMapping = CATEGORY_MAPPINGS.find(
+      (organization) => organization.category === selectedOrganization,
+    );
+
+    if (selectedMapping) {
+      const queryKey = [selectedMapping.queryKey];
+      const cachedMinorCategories =
+        queryClient.getQueryData<Result<string[]>>(queryKey);
+
+      if (!cachedMinorCategories) return;
+
+      if (cachedMinorCategories) {
+        const formattedData = cachedMinorCategories.data?.map((category) => ({
+          value: category,
+          label: category,
+        }));
+        setMinorCategories(formattedData);
+      }
+      if (!hasCategories) {
+        showToast('소분류가 없습니다.', 'warning', 1000);
+      }
+    }
+  }, [selectedOrganization, queryClient, hasCategories]);
+
+  useEffect(() => {
+    if (!hasCategories) {
+      prefetchMinorCategories();
+    }
+  }, [hasCategories, prefetchMinorCategories]);
 
   return (
     <div className='flex flex-col gap-4'>
@@ -68,27 +125,42 @@ const ViewPlan = () => {
             selectedYear={selectedYear}
             onMonthChange={setSelectedMonth}
             onYearChange={setSelectedYear}
-            organization={organization}
-            setOrganization={setOrganization}
+            organization={selectedOrganization}
+            setOrganization={setSelectedOrganization}
             searchValue={searchValue}
             handlechangeSearchValue={handlechangeSearchValue}
             selectedTab={selectedTab}
             setSelectedTab={setSelectedTab}
             inputPlaceholder='식단 이름을 입력해주세요.'
             handleSearchSubmit={submitSearchValue}
+            minorCategories={minorCategories}
+            selectedCategory={selectedCategory}
+            setSelectedCategory={setSelectedCategory}
           />
-          {mealList.data.menuResponseDTOList.length === 0 ? (
+          {mealList.data.menuResponseDTOList.length === 0 ||
+          searchMealList?.data.menuResponseDTOList.length === 0 ? (
             <HeadPrimary>식단이 존재하지 않습니다</HeadPrimary>
           ) : (
             <>
               <GetAllListTable
-                data={convertToTableRowData(mealList.data.menuResponseDTOList)}
+                data={convertToTableRowData(
+                  selectedCategory === ''
+                    ? mealList.data.menuResponseDTOList
+                    : searchMealList?.data?.menuResponseDTOList || [],
+                )}
+                onRowClick={(id) => {
+                  router.push(`${ROUTES.VIEW.PLAN}/${id}`);
+                }}
               />
               <Pagination
                 limit={8}
                 page={page}
                 setPage={setPage}
-                totalPosts={mealList.data.totalElements}
+                totalPosts={
+                  selectedCategory === ''
+                    ? mealList.data.totalElements
+                    : searchMealList?.data?.totalElements || 0
+                }
               />
             </>
           )}
