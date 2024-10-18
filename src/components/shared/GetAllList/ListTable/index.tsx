@@ -2,7 +2,7 @@ import Table, { TableRowData } from '@/components/common/Table';
 
 interface Props {
   data: TableRowData[];
-  onRowClick?: (id: number) => void;
+  onRowClick?: (id: number | string) => void;
 }
 
 const GetAllListTable = ({ data, onRowClick }: Props) => {

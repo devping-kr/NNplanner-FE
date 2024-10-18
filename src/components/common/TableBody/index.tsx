@@ -6,7 +6,7 @@ type TableBodyProps = {
   bodyData: TableRowData[];
   type: TableType;
   className?: string;
-  onRowClick?: (id: number) => void;
+  onRowClick?: (id: number | string) => void;
 };
 
 const TableBody = ({
@@ -25,7 +25,9 @@ const TableBody = ({
           onClick={
             onRowClick && type === 'list' && typeof item.surveyId === 'number'
               ? () => onRowClick(item.surveyId as number)
-              : undefined
+              : onRowClick && type === 'list' && typeof item.식단ID === 'string'
+                ? () => onRowClick(item.식단ID as string)
+                : undefined
           }
         >
           {headerData.map((header, colIndex) => {
