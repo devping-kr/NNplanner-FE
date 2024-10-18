@@ -23,6 +23,9 @@ type MealCalendarProps = {
   handleResetMenu?: () => void;
   handleSaveMenu?: (date: string, menuList: FoodInfo[]) => void;
   handleEditMenu?: () => void;
+  handleCreateSurvey?: () => void;
+  handleSaveExcel?: () => void;
+  handleDeleteMenu?: () => void;
 } & CalendarProps;
 
 const MealCalendar = ({
@@ -37,6 +40,9 @@ const MealCalendar = ({
   handleResetMenu,
   handleSaveMenu,
   handleEditMenu,
+  handleCreateSurvey,
+  handleSaveExcel,
+  handleDeleteMenu,
 }: MealCalendarProps) => {
   const { handleBack } = useNavigate();
   return (
@@ -110,14 +116,34 @@ const MealCalendar = ({
                 className='h-10 w-fit'
                 size='basic'
                 variant='outline'
-                type='submit'
+                type='button'
+                onClick={handleCreateSurvey}
+              >
+                설문 생성
+              </Button>
+              <Button
+                className='h-10 w-fit'
+                size='basic'
+                variant='outline'
+                type='button'
+                onClick={handleSaveExcel}
               >
                 엑셀 저장
               </Button>
-              <Button className='h-10 w-fit' size='basic' type='button'>
+              <Button
+                className='h-10 w-fit'
+                size='basic'
+                type='button'
+                onClick={handleEditMenu}
+              >
                 수정
               </Button>
-              <Button className='h-10 w-fit' size='basic' type='button'>
+              <Button
+                className='h-10 w-fit'
+                size='basic'
+                type='button'
+                onClick={handleDeleteMenu}
+              >
                 삭제
               </Button>
             </div>

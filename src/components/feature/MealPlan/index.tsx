@@ -1,21 +1,54 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { AxiosError } from 'axios';
 import { SelectedCategory } from '@/type/menuCategory/category';
-import { getCurrentYearMonthNow } from '@/utils/calendar';
+import { FailResponse, Result } from '@/type/response';
+import { getYearAndMonth, transformResponseToCalendar } from '@/utils/calendar';
+import { exportMenuToExcel } from '@/utils/xslx';
 import MealForm from '@/components/common/MealForm';
 import MealCalendar from '@/components/shared/Meal/MealCalender';
 import MealPlanHeader from '@/components/shared/MealPlanHeader';
-import { MOCK_NEW_CALENDAR_NUTRITION } from '@/constants/_calendarData';
 import { MEAL_FORM_LEGEND } from '@/constants/_MealForm';
+import { ROUTES } from '@/constants/_navbar';
+import { useDeleteMonthMenu } from '@/hooks/menu/useDeleteMonthMenu';
+import { useGetMonthMenuDetails } from '@/hooks/menu/useGetMonthMenuDetail';
+import useNavigate from '@/hooks/useNavigate';
+import { useMealPlanStore } from '@/stores/useMealPlanStore';
+import { useToastStore } from '@/stores/useToastStore';
 
-const MealPlan = () => {
+type MealPlanProps = {
+  id: string;
+};
+
+const MealPlan = ({ id }: MealPlanProps) => {
   const [selectedDate, setSelectedDate] = useState<string>('');
+  const { navigate } = useNavigate();
+  const showToast = useToastStore((set) => set.showToast);
+  const { data, refetch, isLoading } = useGetMonthMenuDetails({
+    monthMenuId: id,
+  });
+  const { mutate: deleteMenuMutate } = useDeleteMonthMenu();
+  const { setMonthMenuName, setCategory, setCalendar, setYear, setMonth } =
+    useMealPlanStore((state) => ({
+      setMonthMenuName: state.setMonthMenuName,
+      setCategory: state.setCategory,
+      setCalendar: state.setCalendar,
+      setYear: state.setYear,
+      setMonth: state.setMonth,
+    }));
 
-  const { year } = getCurrentYearMonthNow();
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
 
-  // 임시 데이터
-  const month = 9;
+  const monthMenuDetail = data?.data;
+
+  if (isLoading || !monthMenuDetail) {
+    return <div>Loading...</div>; // 로딩 상태 처리
+  }
+
+  const { year, month } = getYearAndMonth(monthMenuDetail.createAt);
 
   const handleDateClick = (date: string) => {
     setSelectedDate(date);
@@ -23,29 +56,84 @@ const MealPlan = () => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // 엑셀 저장
   };
 
-  // api로부터 전달받은 식단 이름, 카테고리
-  const mealName = '맛있는 9월 식단';
+  const handleCreateSurvey = () => {
+    navigate(`${ROUTES.SURVEY.CREATE}/${id}`);
+  };
+
+  const handleSaveExcel = () => {
+    exportMenuToExcel(monthMenuDetail);
+  };
+
+  const handleEditMenu = () => {
+    setMonthMenuName(monthMenuDetail.monthMenuName);
+    setCategory({
+      majorCategory: monthMenuDetail.majorCategory,
+      minorCategory: monthMenuDetail.minorCategory,
+    });
+    setCalendar(
+      transformResponseToCalendar(
+        year,
+        month,
+        monthMenuDetail.monthMenuList,
+        'detail',
+      ),
+    );
+    setYear(year);
+    setMonth(month);
+    navigate(`${ROUTES.VIEW.PLAN}/${id}${ROUTES.EDIT.EDIT}`);
+  };
+
+  const handleDeleteMenu = () => {
+    deleteMenuMutate(
+      { monthMenuId: id },
+      {
+        onSuccess: ({ message }: Result<null>) => {
+          showToast(message, 'success', 1000);
+          navigate(ROUTES.VIEW.PLAN);
+        },
+        onError: (error: AxiosError<FailResponse>) => {
+          const errorMessage =
+            error?.response?.data?.message || '식단 삭제 실패';
+          showToast(errorMessage, 'warning', 1000);
+        },
+      },
+    );
+  };
+
   const selectedCategory = {
-    majorCategory: '병원',
-    minorCategory: '저염식',
+    majorCategory: monthMenuDetail.majorCategory,
+    minorCategory: monthMenuDetail.minorCategory,
   } as SelectedCategory;
+
+  const calendarData = transformResponseToCalendar(
+    year,
+    month,
+    monthMenuDetail.monthMenuList,
+    'detail',
+  );
 
   return (
     <MealForm
       legend={MEAL_FORM_LEGEND.autoPlan.create}
       handleSubmit={handleSubmit}
     >
-      <MealPlanHeader mealName={mealName} selectedCategory={selectedCategory} />
+      <MealPlanHeader
+        mealName={monthMenuDetail.monthMenuName || ''}
+        selectedCategory={selectedCategory}
+      />
       <MealCalendar
         type='mealPlan'
-        data={MOCK_NEW_CALENDAR_NUTRITION}
+        data={calendarData}
         year={year}
         month={month}
         onDateClick={handleDateClick}
         selectedDate={selectedDate}
+        handleCreateSurvey={handleCreateSurvey}
+        handleSaveExcel={handleSaveExcel}
+        handleEditMenu={handleEditMenu}
+        handleDeleteMenu={handleDeleteMenu}
       />
     </MealForm>
   );
