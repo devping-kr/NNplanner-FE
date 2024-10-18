@@ -32,7 +32,7 @@ const ControlTab = <T extends string>({
         <Link
           href={
             type === 'sort'
-              ? `?tab=${selectedFilter}&sort=${tab}`
+              ? `${selectedFilter === undefined ? `?sort=${tab}` : `?tab=${selectedFilter}&sort=${tab}`}`
               : `?tab=${tab}&sort=${selectedTab}`
           }
           key={tab}
