@@ -4,9 +4,9 @@ import { cn } from '@/utils/core';
 import ControlTab from '@/components/common/ControlTab';
 import DatePicker from '@/components/common/DatePicker';
 import { Input } from '@/components/common/Input';
-import { Selectbox } from '@/components/common/Selectbox';
+import { Option, Selectbox } from '@/components/common/Selectbox';
+import { ORGANIZATION_LIST } from '@/constants/_category';
 import { SURVEY_FILTER_OPTIONS, TAB_OPTIONS } from '@/constants/_controlTab';
-import { CATEGORIES, ORGANIZATIONS } from '@/constants/_getAllList/_categories';
 
 interface Props {
   type: 'viewPlan' | 'viewChart';
@@ -14,8 +14,8 @@ interface Props {
   selectedMonth: string;
   onYearChange: (year: string) => void;
   onMonthChange: (month: string) => void;
-  organization?: string | null;
-  setOrganization?: React.Dispatch<React.SetStateAction<string | null>>;
+  organization?: string;
+  setOrganization?: React.Dispatch<React.SetStateAction<string>>;
   searchValue: string;
   handlechangeSearchValue: (e: React.ChangeEvent<HTMLInputElement>) => void;
   selectedFilter?: string;
@@ -24,6 +24,9 @@ interface Props {
   setSelectedTab: React.Dispatch<React.SetStateAction<string>>;
   inputPlaceholder: string;
   handleSearchSubmit: () => void;
+  minorCategories?: Option[];
+  selectedCategory?: string;
+  setSelectedCategory?: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const GetAllListControls = ({
@@ -42,7 +45,17 @@ const GetAllListControls = ({
   setSelectedTab,
   inputPlaceholder,
   handleSearchSubmit,
+  minorCategories,
+  selectedCategory,
+  setSelectedCategory,
 }: Props) => {
+  const handleOrganizationChange = (newOrganization: string) => {
+    if (newOrganization !== organization) {
+      setOrganization!(newOrganization);
+      setSelectedCategory!('');
+    }
+  };
+
   return (
     <>
       <div className='flex justify-between'>
@@ -68,20 +81,22 @@ const GetAllListControls = ({
             onChange={handlechangeSearchValue}
             onSubmit={handleSearchSubmit}
           />
-          {type === 'viewPlan' && (
+          {type === 'viewPlan' && setOrganization && setSelectedCategory && (
             <div className='flex gap-1 whitespace-pre'>
               <Selectbox
-                options={ORGANIZATIONS}
+                options={ORGANIZATION_LIST}
                 size='small'
-                onChange={(organization) => setOrganization!(organization)}
+                onChange={handleOrganizationChange}
               />
-              {ORGANIZATIONS.map(
-                (item, index) =>
+              {ORGANIZATION_LIST.map(
+                (item) =>
                   organization === item.value && (
                     <Selectbox
                       key={item.value}
-                      options={CATEGORIES[index]}
+                      options={minorCategories}
                       size='small'
+                      onChange={(category) => setSelectedCategory(category)}
+                      selectedValue={selectedCategory}
                     />
                   ),
               )}

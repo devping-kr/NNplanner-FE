@@ -14,7 +14,7 @@ type TableProps = {
   type?: TableType;
   headerClassName?: string;
   bodyClassName?: string;
-  onRowClick?: (id: number) => void;
+  onRowClick?: (id: number | string) => void;
 };
 
 const Table = ({

@@ -45,7 +45,7 @@ instance.interceptors.request.use(
 );
 
 instance.interceptors.response.use(
-  (response) => response,
+  (response: AxiosResponse) => response,
 
   async (error) => {
     const originalRequest = error.config;
@@ -53,12 +53,10 @@ instance.interceptors.response.use(
     if (
       !originalRequest ||
       error.response?.status !== 403 ||
-      originalRequest._retry
+      originalRequest.headers._retry !== '0'
     ) {
       return Promise.reject(error);
     }
-
-    originalRequest._retry = true;
 
     if (typeof window === 'undefined') {
       return Promise.reject(error);
@@ -71,17 +69,21 @@ instance.interceptors.response.use(
     }
 
     try {
-      const response = await instance.get(AUTH_API.REISSUE, {
-        withCredentials: true,
+      const response: AxiosResponse = await instance.get(AUTH_API.REISSUE, {
+        headers: {
+          Authorization: `Bearer ${refreshToken}`,
+        },
       });
 
       if (response.status !== 200) {
         throw new Error('Failed to reissue tokens');
       }
 
-      const { accessToken, refreshToken } = response.data.data;
-      saveTokens({ accessToken, refreshToken });
+      const { accessToken, refreshToken: newRefreshToken } = response.data.data;
+      saveTokens({ accessToken, refreshToken: newRefreshToken });
       originalRequest.headers.Authorization = `Bearer ${accessToken}`;
+      originalRequest.withCredentials = true;
+      originalRequest.headers._retry = '1';
 
       return await instance(originalRequest);
     } catch (refreshError) {
