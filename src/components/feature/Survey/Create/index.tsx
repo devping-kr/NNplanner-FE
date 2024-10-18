@@ -41,7 +41,7 @@ const SurveyCreate = () => {
 
   const requestData = {
     // TODO: mmId searchParam으로 가져온 값으로 수정예정
-    mmId: 'a1418fb0-0b1b-4ae8-9781-0bdb18495542',
+    mmId: '1931f7ae-4bd5-4bb1-9571-971a64ffd431',
     surveyName: surveyName,
     deadlineAt: deadLine,
     additionalQuestions: inputs,
@@ -61,14 +61,14 @@ const SurveyCreate = () => {
     postSurveyMutate(requestData, {
       onSuccess: ({ message }: Result<SurveyPostResponse>) => {
         showToast(message, 'success', 1000);
-        queryClient.invalidateQueries({ queryKey: surveyKeys.lists() });
+        queryClient.invalidateQueries({ queryKey: surveyKeys.search() });
+        router.replace(NAV_LINKS[4].href);
       },
       onError: (error: AxiosError<FailResponse>) => {
         const errorMessage = error.response?.data?.message || '설문 생성 실패';
         showToast(errorMessage, 'warning', 1000);
       },
     });
-    router.push(NAV_LINKS[4].href);
   };
 
   return (
