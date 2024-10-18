@@ -48,7 +48,7 @@ export interface MenuResponseDTO {
   monthMenuName: string;
   createAt: string;
   //   TODO: 정확한 값으로 수정 필요. postman에서 빈 배열로 확인됨
-  monthMenuList: string[] | HospitalMonthMenu[];
+  monthMenuList: HospitalMonthMenu[];
 }
 
 /**

@@ -43,3 +43,7 @@ export interface GetFoodsRequest {
   page: number;
   size: number;
 }
+
+export interface GetMonthMenuDetailRequest {
+  monthMenuId: string;
+}
