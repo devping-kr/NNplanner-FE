@@ -33,7 +33,7 @@ const MealCreate = ({ date, handleSaveMenu }: MealCreateProps) => {
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
 
-  const { showToast } = useToastStore();
+  const showToast = useToastStore((set) => set.showToast);
 
   const {
     refetch,
@@ -157,6 +157,7 @@ const MealCreate = ({ date, handleSaveMenu }: MealCreateProps) => {
     setClickedMenu(null);
     setKeyword('');
     setIsSearchShow(false);
+    setSearchResultList([]);
   }, [date, allMenuList]);
 
   // 무한 스크롤을 위한 스크롤 이벤트 처리

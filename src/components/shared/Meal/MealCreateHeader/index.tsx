@@ -32,6 +32,7 @@ const MealCreateHeader = ({
           defaultValue={inputValue || ''}
           disabled={pageHeaderTitle === PAGE_TITLE.menualPlan.create}
           isError={!!errors?.monthMenuName?.message}
+          autoComplete='off'
           {...(register ? register('monthMenuName') : {})}
         />
         <div className='flex gap-2'>
