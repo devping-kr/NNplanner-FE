@@ -14,7 +14,6 @@ import { ROUTES } from '@/constants/_navbar';
 import { useDeleteMonthMenu } from '@/hooks/menu/useDeleteMonthMenu';
 import { useGetMonthMenuDetails } from '@/hooks/menu/useGetMonthMenuDetail';
 import useNavigate from '@/hooks/useNavigate';
-import { useMealPlanStore } from '@/stores/useMealPlanStore';
 import { useToastStore } from '@/stores/useToastStore';
 
 type MealPlanProps = {
@@ -29,14 +28,6 @@ const MealPlan = ({ id }: MealPlanProps) => {
     monthMenuId: id,
   });
   const { mutate: deleteMenuMutate } = useDeleteMonthMenu();
-  const { setMonthMenuName, setCategory, setCalendar, setYear, setMonth } =
-    useMealPlanStore((state) => ({
-      setMonthMenuName: state.setMonthMenuName,
-      setCategory: state.setCategory,
-      setCalendar: state.setCalendar,
-      setYear: state.setYear,
-      setMonth: state.setMonth,
-    }));
 
   useEffect(() => {
     refetch();
@@ -67,21 +58,6 @@ const MealPlan = ({ id }: MealPlanProps) => {
   };
 
   const handleEditMenu = () => {
-    setMonthMenuName(monthMenuDetail.monthMenuName);
-    setCategory({
-      majorCategory: monthMenuDetail.majorCategory,
-      minorCategory: monthMenuDetail.minorCategory,
-    });
-    setCalendar(
-      transformResponseToCalendar(
-        year,
-        month,
-        monthMenuDetail.monthMenuList,
-        'detail',
-      ),
-    );
-    setYear(year);
-    setMonth(month);
     navigate(`${ROUTES.VIEW.PLAN}/${id}${ROUTES.EDIT.EDIT}`);
   };
 
