@@ -12,10 +12,9 @@ const getMealList = async ({
   page,
   sort = 'createdAt,desc',
 }: GetMealListReqeust) => {
-  const response = await get<Result<MonthMenusResponse>>(
-    `${BASE_API.MONTH_MENUS}`,
-    { params: { page, sort, size } },
-  );
+  const response = await get<Result<MonthMenusResponse>>(BASE_API.MONTH_MENUS, {
+    params: { page, sort, size },
+  });
   return response.data;
 };
 
