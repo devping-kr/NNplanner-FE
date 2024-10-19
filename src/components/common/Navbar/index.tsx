@@ -8,7 +8,7 @@ import Divider from '@/components/common/Divider';
 import Icon from '@/components/common/Icon';
 import NavMenu from '@/components/common/NavMenu';
 import NavProfile from '@/components/common/NavProfile';
-import { NAV_LINKS } from '@/constants/_navbar';
+import { BASE_ROUTES, NAV_LINKS } from '@/constants/_navbar';
 import { useAuth } from '@/hooks/useAuth';
 
 const Navbar = () => {
@@ -31,7 +31,7 @@ const Navbar = () => {
     !isSurveyPage && (
       <nav className='sticky top-0 flex h-screen w-60 min-w-60 flex-col place-content-between bg-white-100'>
         <div className='flex flex-col gap-9 p-6'>
-          <Link href='#' className='w-fit self-center'>
+          <Link href={BASE_ROUTES.MAIN} className='w-fit self-center'>
             <Image
               src='/imgs/navbar-logo.png'
               width={180}
