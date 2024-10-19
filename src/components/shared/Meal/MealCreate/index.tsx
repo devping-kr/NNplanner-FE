@@ -30,7 +30,7 @@ const MealCreate = ({ date, handleSaveMenu }: MealCreateProps) => {
   const [keyword, setKeyword] = useState('');
   const [isSearchShow, setIsSearchShow] = useState(false);
   const [searchResultList, setSearchResultList] = useState<FoodInfo[]>([]);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
 
   const showToast = useToastStore((set) => set.showToast);

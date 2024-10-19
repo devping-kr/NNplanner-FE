@@ -1,10 +1,14 @@
 import dayjs from 'dayjs';
 import { CalendarInfo } from '@/type/mealType';
 import { HospitalAutoDayMenus, MajorCategory } from '@/type/menu/menuRequest';
-import { FoodInfo, HospitalMenu } from '@/type/menu/menuResponse';
+import {
+  FoodInfo,
+  HospitalMenu,
+  HospitalMonthMenu,
+} from '@/type/menu/menuResponse';
 import { removeTrailingZeros } from '@/utils/meal';
 import { MAXIUM_MENU_PER_DAY } from '@/components/common/CalendarDay';
-import { EMPTY_FOOD_ID } from '@/constants/_meal';
+import { EMPTY_FOOD_ID, EMPTY_FOOD_NAME } from '@/constants/_meal';
 
 export const getDaysInMonth = (year: number, month: number) => {
   const startOfMonth = dayjs(new Date(year, month - 1)).startOf('month');
@@ -74,12 +78,14 @@ export const getLastDateOfMonth = (year: number, month: number): number => {
 };
 
 /**
- * @description CalendarInfo 타입의 식단 데이터를 식단 저장 api request body 타입으로 변환하는 함수
+ * @description 자동 식단 생성, 식단 상세 api response 데이터를 캘린더 데이터 타입으로 변환
+ * @param type : 자동 식단 생성 | 식단 상세
  */
 export const transformResponseToCalendar = (
   year: number,
   month: number,
-  apiData: HospitalMenu[],
+  apiData: HospitalMenu[] | HospitalMonthMenu[],
+  type: 'auto' | 'detail' = 'auto',
 ): CalendarInfo => {
   const calendarData: CalendarInfo = {};
 
@@ -88,15 +94,19 @@ export const transformResponseToCalendar = (
     .month(month - 1)
     .startOf('month');
 
-  apiData?.forEach((menu, index) => {
+  apiData.forEach((menu, index) => {
     const currentDate = startOfMonth.add(index, 'day');
 
     if (currentDate.month() !== month - 1) return;
 
     const formattedDate = currentDate.format('YYYY-MM-DD');
 
-    const filteredFoods = menu.foods
-      .filter((food) => food.foodName !== EMPTY_FOOD_ID)
+    const foodsField =
+      type === 'auto'
+        ? (menu as HospitalMenu).foods
+        : (menu as HospitalMonthMenu).foodList;
+    const filteredFoods = foodsField
+      .filter((food) => food.foodName !== EMPTY_FOOD_NAME)
       .map((food) => ({
         foodId: food.foodId,
         foodName: food.foodName,
@@ -108,8 +118,10 @@ export const transformResponseToCalendar = (
 
     if (filteredFoods.length > 0) {
       calendarData[formattedDate] = {
-        // TODO: schoolMenuId도 처리할 수 있게 수정
-        hospitalMenuId: menu.hospitalMenuId,
+        hospitalMenuId:
+          type === 'auto'
+            ? (menu as HospitalMenu).hospitalMenuId
+            : (menu as HospitalMonthMenu).hospitalMenuId,
         foods: filteredFoods,
       };
     }
@@ -126,10 +138,18 @@ export const transformCalendarToPostSave = (
   monthMenuName: string,
   majorCategory: MajorCategory,
   minorCategory: string,
+  newCalendarData?: CalendarInfo,
 ) => {
   const monthMenusSaveList = Object.entries(calendarData).map(
     ([menuDate, menuData]) => {
-      const foodIds = menuData.foods
+      const newMenuData = newCalendarData?.[menuDate]; // 'b' 데이터가 있으면 가져오기
+      const isFoodDifferent = newMenuData
+        ? menuData.foods.some(
+            (foodA, index) => foodA.foodId !== newMenuData.foods[index]?.foodId,
+          )
+        : false;
+
+      const foodIds = (newMenuData || menuData).foods
         .map((food) => food.foodId)
         .slice(0, MAXIUM_MENU_PER_DAY);
 
@@ -145,9 +165,9 @@ export const transformCalendarToPostSave = (
       };
 
       return {
-        hospitalMenuId: menuData.hospitalMenuId || null,
+        hospitalMenuId: isFoodDifferent ? null : menuData.hospitalMenuId,
         menuDate,
-        ...foodProperties, // food1~food7 무조건 포함
+        ...foodProperties,
       } as HospitalAutoDayMenus;
     },
   );
@@ -169,4 +189,18 @@ export const hasFoods = (calendarInfo: CalendarInfo): boolean => {
   return Object.keys(calendarInfo).some((menuDate) => {
     return calendarInfo[menuDate].foods.length > 0;
   });
+};
+
+/**
+ * @description 식단의 createdAt에서 연 월 추출
+ * @param createdAt
+ * @returns
+ */
+export const getYearAndMonth = (createdAt: string) => {
+  const date = new Date(createdAt);
+
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+
+  return { year, month };
 };
