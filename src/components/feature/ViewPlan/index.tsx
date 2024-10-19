@@ -22,6 +22,8 @@ import { useGetSearchMealList } from '@/hooks/meal/useGetSearchMealList';
 import { usePrefetchMinorCategories } from '@/hooks/menuCategory/usePrefetchMinorCategories';
 import { useToastStore } from '@/stores/useToastStore';
 
+const PAGE_LIMIT = 8;
+
 const ViewPlan = () => {
   const searchParam = useSearchParams();
   const router = useRouter();
@@ -153,7 +155,7 @@ const ViewPlan = () => {
                 }}
               />
               <Pagination
-                limit={8}
+                limit={PAGE_LIMIT}
                 page={page}
                 setPage={setPage}
                 totalPosts={

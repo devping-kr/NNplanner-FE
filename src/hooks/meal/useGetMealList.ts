@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { meal } from '@/api/meal';
 import { GetMealListReqeust } from '@/type/menu/menuRequest';
-import { mealKeys } from './queryKey';
+import { mealKeys } from '@/hooks/meal/queryKey';
 
 export const useGetMealList = (request: GetMealListReqeust) => {
   return useQuery({
