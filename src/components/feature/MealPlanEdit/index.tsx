@@ -1,11 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { useForm } from 'react-hook-form';
 import { mealHeaderSchema } from '@/schema/mealSchema';
+import { CalendarInfo } from '@/type/mealType';
 import { MajorCategory } from '@/type/menu/menuRequest';
 import { FoodInfo, MenuResponseDTO } from '@/type/menu/menuResponse';
 import {
@@ -14,8 +15,10 @@ import {
 } from '@/type/menuCategory/category';
 import { FailResponse, Result } from '@/type/response';
 import {
+  getYearAndMonth,
   isValidDateString,
   transformCalendarToPostSave,
+  transformResponseToCalendar,
 } from '@/utils/calendar';
 import MealForm from '@/components/common/MealForm';
 import MealCalendar from '@/components/shared/Meal/MealCalender';
@@ -29,45 +32,44 @@ import { MEAL_HEADER_ERROR } from '@/constants/_schema';
 import { usePutMonthMenus } from '@/hooks/menu/usePutMonthMenus';
 import { useFetchMinorCategories } from '@/hooks/menuCategory/useFetchMinorCategories';
 import useNavigate from '@/hooks/useNavigate';
-import { useMealPlanStore } from '@/stores/useMealPlanStore';
 import { useToastStore } from '@/stores/useToastStore';
 
 type MealPlanEditProps = {
   id: string;
 };
 
-// TODO: 식단 수정 API 연결
 const MealPlanEdit = ({ id: monthMenuId }: MealPlanEditProps) => {
-  const { monthMenuName, category, calendar, year, month } = useMealPlanStore(
-    (state) => ({
-      monthMenuName: state.monthMenuName,
-      category: state.category,
-      calendar: state.calendar,
-      year: state.year,
-      month: state.month,
-    }),
+  const [cachedCalendarData, setCachedCalendarData] = useState<CalendarInfo>(
+    {},
   );
-  const [calendarData, setCalendarData] = useState(calendar);
+  const [year, setYear] = useState(0);
+  const [month, setMonth] = useState(0);
+  const [calendarData, setCalendarData] = useState<CalendarInfo>({});
   const [selectedDate, setSelectedDate] = useState<string>('');
-  const [selectedCategory, setSelectedCategory] =
-    useState<SelectedCategory>(category);
+  const [selectedCategory, setSelectedCategory] = useState<SelectedCategory>({
+    majorCategory: '',
+    minorCategory: '',
+  });
   const [isCategoryError, setIsCategoryError] = useState(false);
   const showToast = useToastStore((state) => state.showToast);
   const { navigate } = useNavigate();
 
   const queryClient = useQueryClient();
-  const { minorCategories } = useFetchMinorCategories(category.majorCategory);
+  const { minorCategories } = useFetchMinorCategories(
+    selectedCategory.majorCategory,
+  );
   const { mutate: putMutate } = usePutMonthMenus();
 
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm({
     resolver: zodResolver(mealHeaderSchema),
     mode: 'onChange',
     defaultValues: {
-      monthMenuName,
+      monthMenuName: '',
     },
   });
 
@@ -109,7 +111,7 @@ const MealPlanEdit = ({ id: monthMenuId }: MealPlanEditProps) => {
 
   const handleResetMenu = () => {
     // 메뉴 초기화 클릭 시 실행
-    setCalendarData(calendar);
+    getOriginalCalendar();
     setSelectedDate('');
   };
 
@@ -126,7 +128,7 @@ const MealPlanEdit = ({ id: monthMenuId }: MealPlanEditProps) => {
     }
 
     const formattedData = transformCalendarToPostSave(
-      calendar,
+      cachedCalendarData,
       data.monthMenuName,
       selectedCategory.majorCategory as MajorCategory,
       selectedCategory.minorCategory,
@@ -160,6 +162,48 @@ const MealPlanEdit = ({ id: monthMenuId }: MealPlanEditProps) => {
       return;
     }
   };
+
+  // 쿼리키로 캐싱해둔 식단 상세 정보 가져옴
+  const getOriginalCalendar = () => {
+    const cachedMealPlanData = queryClient.getQueryData<
+      Result<MenuResponseDTO>
+    >(['monthMenuDetail', monthMenuId]);
+
+    if (!cachedMealPlanData) return;
+    const {
+      createAt,
+      majorCategory,
+      minorCategory,
+      monthMenuName,
+      monthMenuList,
+    } = cachedMealPlanData.data;
+    reset({
+      monthMenuName: monthMenuName,
+    });
+    const { year, month } = getYearAndMonth(createAt);
+    setYear(year);
+    setMonth(month);
+    const cachedCalendarData = transformResponseToCalendar(
+      year,
+      month,
+      monthMenuList,
+      'detail',
+    );
+    setCalendarData(cachedCalendarData);
+    setCachedCalendarData(cachedCalendarData);
+    setSelectedCategory({
+      majorCategory: majorCategory,
+      minorCategory: minorCategory,
+    });
+  };
+
+  useEffect(() => {
+    getOriginalCalendar();
+  }, []);
+
+  if (!Object.keys(calendarData).length) {
+    return <div>로딩 중...</div>;
+  }
 
   return (
     <MealForm
