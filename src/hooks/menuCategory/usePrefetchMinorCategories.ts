@@ -2,6 +2,8 @@ import { useQueryClient } from '@tanstack/react-query';
 import { menuCategories } from '@/api/menuCategory';
 import { CATEGORY_MAPPINGS } from '@/constants/_category';
 
+export const THIRTY_MINUTES = 1000 * 60 * 30;
+
 export const usePrefetchMinorCategories = () => {
   const queryClient = useQueryClient();
 
@@ -11,7 +13,7 @@ export const usePrefetchMinorCategories = () => {
         queryClient.prefetchQuery({
           queryKey: [queryKey],
           queryFn: () => menuCategories.getMinorCategories(category),
-          staleTime: 1000 * 60 * 30,
+          staleTime: THIRTY_MINUTES,
         }),
       ),
     );
