@@ -8,6 +8,7 @@ import Chart from '@/components/common/Icon/assets/Chart';
 import Danger from '@/components/common/Icon/assets/Danger';
 import Dashboard from '@/components/common/Icon/assets/Dashboard';
 import Edit from '@/components/common/Icon/assets/Edit';
+import Group from '@/components/common/Icon/assets/Group';
 import Hide from '@/components/common/Icon/assets/Hide';
 import Normal from '@/components/common/Icon/assets/Info';
 import Logout from '@/components/common/Icon/assets/Logout';
@@ -15,6 +16,9 @@ import Plus from '@/components/common/Icon/assets/Plus';
 import Search from '@/components/common/Icon/assets/Search';
 import Show from '@/components/common/Icon/assets/Show';
 import Success from '@/components/common/Icon/assets/Success';
+import Time from '@/components/common/Icon/assets/Time';
+import TrendDown from '@/components/common/Icon/assets/TrendDown';
+import TrendUp from '@/components/common/Icon/assets/TrendUp';
 import Warning from '@/components/common/Icon/assets/Warning';
 import Xmark from '@/components/common/Icon/assets/Xmark';
 import { colors } from '@/styles/colors';
@@ -80,6 +84,22 @@ export const iconMap: Record<string, IconMapEntry> = {
   danger: {
     type: 'stroke',
     file: Danger,
+  },
+  trendUp: {
+    type: 'fill',
+    file: TrendUp,
+  },
+  trendDown: {
+    type: 'fill',
+    file: TrendDown,
+  },
+  time: {
+    type: 'fill',
+    file: Time,
+  },
+  group: {
+    type: 'fill',
+    file: Group,
   },
 };
 
