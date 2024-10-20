@@ -1,10 +1,12 @@
-import { get, post, del } from '@/lib/axios';
+import { get, post, del, put } from '@/lib/axios';
 import { Result } from '@/type/response';
 import {
   GetSearchSurveyRequest,
   PostSurveyRequest,
+  PutSurveyRequest,
 } from '@/type/survey/surveyRequest';
 import {
+  PutSurveyResponse,
   SurveyDetailResponse,
   SurveyListResponse,
   SurveyPostResponse,
@@ -49,9 +51,18 @@ const getSurveyDetail = async (surveyId: number) => {
   return response.data.data;
 };
 
+const putSurvey = async (id: number, request: PutSurveyRequest) => {
+  const response = await put<Result<PutSurveyResponse>>(
+    `${SURVEY_API.SURVEYS}/${id}`,
+    request,
+  );
+  return response.data;
+};
+
 export const survey = {
   getSurveyList,
   postSurvey,
   deleteSurvey,
   getSurveyDetail,
+  putSurvey,
 };

@@ -25,6 +25,7 @@ const { now: twoWeeksLater } = getCurrentYearMonthNow();
 twoWeeksLater.setDate(twoWeeksLater.getDate() + TWO_WEEK_DAYS);
 
 export interface inputsType {
+  questionId?: number;
   question: string;
   answerType: string;
 }

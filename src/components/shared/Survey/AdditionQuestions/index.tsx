@@ -35,12 +35,14 @@ const AdditionQuestions = ({ inputs, setInputs, successSubmit }: Props) => {
   }, [inputs]);
 
   const handleAddInput = () => {
-    if (inputs.length >= EXTRA_QUESTIONS_LIMIT)
+    if (inputs.length >= EXTRA_QUESTIONS_LIMIT) {
       showToast(WARNING.maxAdditionQuestion, 'warning', 2000);
+      return;
+    }
     if (!successSubmit && inputs.length < EXTRA_QUESTIONS_LIMIT) {
       setInputs((prevInputs) => [
         ...prevInputs,
-        { question: '', answerType: 'text' },
+        { question: '', answerType: 'text', questionId: Math.random() },
       ]);
     }
   };
@@ -86,7 +88,7 @@ const AdditionQuestions = ({ inputs, setInputs, successSubmit }: Props) => {
       <ul className='flex flex-col gap-3'>
         {inputs.length !== 0 ? (
           inputs.map((input, idx) => (
-            <li key={`input${idx}-${idx}`} className='flex gap-2'>
+            <li key={input.questionId} className='flex gap-2'>
               <Input
                 type='text'
                 ref={idx === inputs.length - 1 ? inputRef : null}
@@ -99,6 +101,9 @@ const AdditionQuestions = ({ inputs, setInputs, successSubmit }: Props) => {
               <Selectbox
                 size='small'
                 options={ANSWER_TYPE}
+                selectedValue={
+                  input.answerType === 'text' ? '서술형' : '선택형'
+                }
                 placeholder='서술형'
                 onChange={(type) => handleChangeAnswerType(type, idx)}
               />
