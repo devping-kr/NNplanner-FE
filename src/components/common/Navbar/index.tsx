@@ -10,9 +10,11 @@ import NavMenu from '@/components/common/NavMenu';
 import NavProfile from '@/components/common/NavProfile';
 import { BASE_ROUTES, NAV_LINKS } from '@/constants/_navbar';
 import { useAuth } from '@/hooks/useAuth';
+import { useUserStore } from '@/stores/useUserStore';
 
 const Navbar = () => {
   const pathname = usePathname();
+  const username = useUserStore((state) => state.username);
   const { logout } = useAuth();
 
   const defaultTab = NAV_LINKS[0].name;
@@ -56,7 +58,7 @@ const Navbar = () => {
         </div>
         <div>
           <Divider />
-          <NavProfile name={'유저 이름'} />
+          <NavProfile name={`${username}님`} />
           <Divider />
           <button
             className='flex h-[50px] w-full items-center gap-2 px-10 text-sm'
