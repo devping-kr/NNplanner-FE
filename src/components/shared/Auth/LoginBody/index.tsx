@@ -1,22 +1,26 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { loginSchema } from '@/schema/authSchema';
 import { LoginRequest } from '@/type/auth/authRequest';
 import Button from '@/components/common/Button/Button';
 import { Input } from '@/components/common/Input';
-import { AUTH_LINKS } from '@/constants/_auth';
+import { BASE_ROUTES } from '@/constants/_navbar';
 import { usePostLogin } from '@/hooks/auth/usePostLogin';
 import { useAuth } from '@/hooks/useAuth';
+import useNavigate from '@/hooks/useNavigate';
+import { useToastStore } from '@/stores/useToastStore';
+import { useUserStore } from '@/stores/useUserStore';
 
 const LoginBody = () => {
-  const router = useRouter();
+  const { navigate } = useNavigate();
   const [isShowPassword, setIsShowPassword] = useState(false);
-  const { mutate: loginMutate, isSuccess: loginSuccess } = usePostLogin();
+  const { mutate: loginMutate } = usePostLogin();
   const { login } = useAuth();
+  const showToast = useToastStore((set) => set.showToast);
+  const setUserInfo = useUserStore((set) => set.setUserInfo);
 
   const {
     register,
@@ -32,18 +36,18 @@ const LoginBody = () => {
   });
 
   const onSubmit: SubmitHandler<LoginRequest> = (data) => {
-    try {
-      loginMutate(data);
-    } catch (error) {
-      console.log(error);
-    }
+    loginMutate(data, {
+      onSuccess: (data) => {
+        const { username, userId, email } = data.data;
+        setUserInfo(username, userId, email);
+        login();
+      },
+      onError: (error) => {
+        error.message;
+        showToast(`${error.message} 로그인 실패`, 'warning', 1000);
+      },
+    });
   };
-
-  useEffect(() => {
-    if (loginSuccess) {
-      login();
-    }
-  }, [loginSuccess]);
 
   return (
     <div className='flex w-full flex-col gap-3'>
@@ -108,7 +112,7 @@ const LoginBody = () => {
       <span className='text-center'>
         아직 계정이 없다면{' '}
         <span
-          onClick={() => router.push(AUTH_LINKS.signup)}
+          onClick={() => navigate(BASE_ROUTES.SIGNUP)}
           className='cursor-pointer font-semibold text-green-700'
         >
           여기서
