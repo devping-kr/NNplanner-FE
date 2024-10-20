@@ -7,7 +7,8 @@ export const BASE_ROUTES = {
   SURVEY: '/survey',
   CREATE: '/create',
   EDIT: '/edit',
-  SURVEY: '/survey',
+  SIGNUP: '/signup',
+  LOGIN: '/login',
 };
 
 /**
