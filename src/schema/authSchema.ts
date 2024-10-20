@@ -35,9 +35,9 @@ export const changePasswordSchema = z
       .min(8, { message: AUTH_ERROR.base.password })
       .max(16, { message: AUTH_ERROR.base.password })
       .regex(/^(?=.*[a-zA-Z])(?=.*\d).+$/, AUTH_ERROR.base.password),
-    confirmPassword: z.string(),
+    newPasswordConfirm: z.string(),
   })
-  .refine((data) => data.newPassword === data.confirmPassword, {
-    path: ['confirmPassword'],
+  .refine((data) => data.newPassword === data.newPasswordConfirm, {
+    path: ['newPasswordConfirm'],
     message: AUTH_ERROR.signup.passwordConfirm,
   });
