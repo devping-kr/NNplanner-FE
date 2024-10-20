@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { persist, PersistOptions } from 'zustand/middleware';
 
 interface UserState {
   username: string;
@@ -8,20 +9,19 @@ interface UserState {
   resetUserInfo: () => void;
 }
 
-export const useUserStore = create<UserState>((set) => ({
-  username: localStorage.getItem('username') || '',
-  userId: Number(localStorage.getItem('userId')) || 0,
-  email: localStorage.getItem('email') || '',
-  setUserInfo: (username, userId, email) => {
-    set({ username, userId, email });
-    localStorage.setItem('username', username);
-    localStorage.setItem('userId', String(userId));
-    localStorage.setItem('email', email);
-  },
-  resetUserInfo: () => {
-    set({ username: '', userId: 0, email: '' });
-    localStorage.removeItem('username');
-    localStorage.removeItem('userId');
-    localStorage.removeItem('email');
-  },
-}));
+export const useUserStore = create<UserState>()(
+  persist<UserState>(
+    (set) => ({
+      username: '',
+      userId: 0,
+      email: '',
+      setUserInfo: (username, userId, email) =>
+        set({ username, userId, email }),
+      resetUserInfo: () => set({ username: '', userId: 0, email: '' }),
+    }),
+    {
+      name: 'user-storage',
+      getStorage: () => localStorage,
+    } as PersistOptions<UserState>,
+  ),
+);
