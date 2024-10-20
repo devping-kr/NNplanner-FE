@@ -3,6 +3,7 @@
 import dayjs from 'dayjs';
 import { MenuResponseDTO } from '@/type/menu/menuResponse';
 import { getCurrentYearMonthNow } from '@/utils/calendar';
+import { calculateUpdownPercent, countSurveysByMonth } from '@/utils/survey';
 import { TableRowData } from '@/components/common/Table';
 import { CardTitle, NutritionDate } from '@/components/common/Typography';
 import BarGraph from '@/components/shared/ChartDetail/BarGraph';
@@ -12,28 +13,29 @@ import MiniCard from '@/components/shared/Main/Cards/MiniCard';
 import SeasonCard from '@/components/shared/Main/Cards/SeasonCard';
 import { DETAIL_SURVEY_DATA } from '@/constants/_detailSurvey';
 import { PLAN_DATA } from '@/constants/_getAllList/_planData';
-import { SURVEY_DATA } from '@/constants/_getAllList/_surveyData';
 import { ROUTES } from '@/constants/_navbar';
 import { SEASON_DATA } from '@/constants/_seasonData';
 import { useGetMealList } from '@/hooks/meal/useGetMealList';
+import { useGetSurveyList } from '@/hooks/survey/useGetSurveyList';
 import useNavigate from '@/hooks/useNavigate';
 
 const SURVEY_LIST_SIZE = 5;
 // api를 통해 받아올 데이터들
-// 이전 달 식단 개수
 const PREV_PLAN_DATA_LENGTH = 6;
-// 이전 달 설문 개수
-const PREV_SURVEY_DATA_LENGTH = 10;
 const { likedMenusTop3, satisfactionDistribution } = DETAIL_SURVEY_DATA;
 
 const MainPageBody = () => {
-  const upDownPlanPercent = Math.floor(
-    ((PLAN_DATA.length - PREV_PLAN_DATA_LENGTH) / PREV_PLAN_DATA_LENGTH) * 100,
+  const { data: surveyList, isSuccess } = useGetSurveyList({});
+
+  const surveyTotalItems = isSuccess ? surveyList!.data.totalItems : 0;
+  const { thisMonth, lastMonth } = isSuccess
+    ? countSurveysByMonth(surveyList!.data.surveys)
+    : { thisMonth: 0, lastMonth: 0 };
+  const upDownPlanPercent = calculateUpdownPercent(
+    PLAN_DATA.length,
+    PREV_PLAN_DATA_LENGTH,
   );
-  const upDownSurveyPercent = Math.floor(
-    ((SURVEY_DATA.length - PREV_SURVEY_DATA_LENGTH) / PREV_SURVEY_DATA_LENGTH) *
-      100,
-  );
+  const upDownSurveyPercent = calculateUpdownPercent(thisMonth, lastMonth);
 
   const { navigate } = useNavigate();
   const { month } = getCurrentYearMonthNow();
@@ -69,7 +71,7 @@ const MainPageBody = () => {
           title='진행 중인 설문'
           icon='group'
           color='success'
-          count={SURVEY_DATA.length}
+          count={surveyTotalItems}
           upDownPercent={upDownSurveyPercent}
           type='survey'
         />
