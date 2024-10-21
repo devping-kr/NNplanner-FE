@@ -81,7 +81,7 @@ const ChartDetail = ({ id }: Props) => {
               <Button size='small'>설문 종료</Button>
               <Button
                 size='small'
-                onClick={() => navigate(`${ROUTES.EDIT.SURVEY}/${id}`)}
+                onClick={() => navigate(`${ROUTES.SURVEY.EDIT}/${id}`)}
               >
                 질문 수정
               </Button>
