@@ -1,11 +1,7 @@
 import dayjs from 'dayjs';
 import { CalendarInfo } from '@/type/mealType';
-import { HospitalAutoDayMenus, MajorCategory } from '@/type/menu/menuRequest';
-import {
-  FoodInfo,
-  HospitalMenu,
-  HospitalMonthMenu,
-} from '@/type/menu/menuResponse';
+import { AutoDayMenus, MajorCategory } from '@/type/menu/menuRequest';
+import { FoodInfo, MenuResponse, MonthMenu } from '@/type/menu/menuResponse';
 import { removeTrailingZeros } from '@/utils/meal';
 import { MAXIUM_MENU_PER_DAY } from '@/components/common/CalendarDay';
 import { EMPTY_FOOD_ID, EMPTY_FOOD_NAME } from '@/constants/_meal';
@@ -84,7 +80,7 @@ export const getLastDateOfMonth = (year: number, month: number): number => {
 export const transformResponseToCalendar = (
   year: number,
   month: number,
-  apiData: HospitalMenu[] | HospitalMonthMenu[],
+  apiData: MenuResponse[] | MonthMenu[],
   type: 'auto' | 'detail' = 'auto',
 ): CalendarInfo => {
   const calendarData: CalendarInfo = {};
@@ -103,8 +99,8 @@ export const transformResponseToCalendar = (
 
     const foodsField =
       type === 'auto'
-        ? (menu as HospitalMenu).foods
-        : (menu as HospitalMonthMenu).foodList;
+        ? (menu as MenuResponse).foods
+        : (menu as MonthMenu).foodList;
     const filteredFoods = foodsField
       .filter((food) => food.foodName !== EMPTY_FOOD_NAME)
       .map((food) => ({
@@ -118,10 +114,10 @@ export const transformResponseToCalendar = (
 
     if (filteredFoods.length > 0) {
       calendarData[formattedDate] = {
-        hospitalMenuId:
+        menuId:
           type === 'auto'
-            ? (menu as HospitalMenu).hospitalMenuId
-            : (menu as HospitalMonthMenu).hospitalMenuId,
+            ? (menu as MenuResponse).menuId
+            : (menu as MonthMenu).menuId,
         foods: filteredFoods,
       };
     }
@@ -165,10 +161,10 @@ export const transformCalendarToPostSave = (
       };
 
       return {
-        hospitalMenuId: isFoodDifferent ? null : menuData.hospitalMenuId,
+        menuId: isFoodDifferent ? null : menuData.menuId,
         menuDate,
         ...foodProperties,
-      } as HospitalAutoDayMenus;
+      } as AutoDayMenus;
     },
   );
 

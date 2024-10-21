@@ -8,7 +8,7 @@ import { useForm } from 'react-hook-form';
 import { mealHeaderSchema } from '@/schema/mealSchema';
 import { CalendarInfo } from '@/type/mealType';
 import { MajorCategory } from '@/type/menu/menuRequest';
-import { HospitalMenu } from '@/type/menu/menuResponse';
+import { MenuResponse } from '@/type/menu/menuResponse';
 import { SelectedCategory } from '@/type/menuCategory/category';
 import { FailResponse, Result } from '@/type/response';
 import {
@@ -93,19 +93,19 @@ const AutoPlanCreate = () => {
   };
 
   useEffect(() => {
-    const menus = queryClient.getQueryData<HospitalMenu[]>(['monthMenusAuto']);
+    const menus = queryClient.getQueryData<MenuResponse[]>(['monthMenusAuto']);
     if (!menus) return;
     const calendarData = transformResponseToCalendar(year, month, menus);
-    if (menus[0].hospitalMenuKind) {
+    if (menus[0].menuKind) {
       // TODO: 추후 학교 타입 수정
       setSelectedCategory({
         majorCategory: MAJOR_CATEGORIES[2],
-        minorCategory: menus[0].hospitalMenuKind,
+        minorCategory: menus[0].menuKind,
       });
     } else {
       setSelectedCategory({
         majorCategory: MAJOR_CATEGORIES[0],
-        minorCategory: menus[0].hospitalMenuKind,
+        minorCategory: menus[0].menuKind,
       });
     }
     setCalendarData(calendarData);

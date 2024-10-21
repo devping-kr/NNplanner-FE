@@ -4,7 +4,7 @@ export const SUN_TO_SAT = ['일', '월', '화', '수', '목', '금', '토'];
 
 export const MOCK_NEW_CALENDAR_NUTRITION: CalendarInfo = {
   '2024-10-14': {
-    hospitalMenuId: 'hospital123',
+    menuId: 'hospital123',
     foods: [
       {
         foodId: '1',
@@ -33,7 +33,7 @@ export const MOCK_NEW_CALENDAR_NUTRITION: CalendarInfo = {
     ],
   },
   '2024-10-15': {
-    hospitalMenuId: null,
+    menuId: null,
     foods: [
       {
         foodId: '4',

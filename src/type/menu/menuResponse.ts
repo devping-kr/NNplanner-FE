@@ -13,27 +13,13 @@ export interface FoodInfo {
   kcal: number;
 }
 
-export type MenuIdType = 'hospitalMenuId' | 'schoolMenuId';
-export type MenuKindType = 'hospitalMenuKind' | 'schoolMenuKind';
-
 /**
  * @description 하루치 식단
  * 자동 식단 생성, 식단 개수 조회 response body
  */
-// TODO: menuId, menuKind -> [key in MenuIdType]: string; 로 변경
-export interface HospitalMenu {
-  hospitalMenuId: string;
-  hospitalMenuKind: string;
-  foods: FoodInfo[];
-}
-
-/**
- * @description 학교 하루치 식단
- * 자동 식단 생성, 식단 개수 조회 response body
- */
-export interface SchoolMenu {
-  schoolMenuId: string;
-  schoolMenuKind: string;
+export interface MenuResponse {
+  menuId: string;
+  menuKind: string;
   foods: FoodInfo[];
 }
 
@@ -48,7 +34,7 @@ export interface MenuResponseDTO {
   monthMenuName: string;
   createAt: string;
   //   TODO: 정확한 값으로 수정 필요. postman에서 빈 배열로 확인됨
-  monthMenuList: HospitalMonthMenu[];
+  monthMenuList: MonthMenu[];
 }
 
 /**
@@ -62,8 +48,8 @@ export interface MonthMenusResponse {
   menuResponseDTOList: MenuResponseDTO[];
 }
 
-export interface HospitalMonthMenu {
+export interface MonthMenu {
   menuDate: string;
-  hospitalMenuId: string;
+  menuId: string;
   foodList: FoodInfo[];
 }
