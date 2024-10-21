@@ -87,11 +87,7 @@ const MainPageBody = () => {
         </div>
         <div className='flex w-1/2 flex-col gap-3 rounded border border-gray-300 bg-white-100 p-5'>
           <CardTitle>최신 식단 목록</CardTitle>
-          {!mealList?.data.menuResponseDTOList ? (
-            <div className='mt-1 flex justify-center'>
-              <NutritionDate>최근 작성한 식단이 없습니다.</NutritionDate>
-            </div>
-          ) : (
+          {mealList?.data.menuResponseDTOList ? (
             <GetAllListTable
               data={convertToTableRowData(
                 mealList.data.menuResponseDTOList.slice(0, 5),
@@ -100,6 +96,10 @@ const MainPageBody = () => {
                 navigate(`${ROUTES.VIEW.PLAN}/${id}`);
               }}
             />
+          ) : (
+            <div className='mt-1 flex justify-center'>
+              <NutritionDate>최근 작성한 식단이 없습니다.</NutritionDate>
+            </div>
           )}
         </div>
       </div>
