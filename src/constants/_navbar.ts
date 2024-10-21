@@ -9,6 +9,7 @@ export const BASE_ROUTES = {
   EDIT: '/edit',
   SIGNUP: '/signup',
   LOGIN: '/login',
+  MY_PAGE: '/myPage',
 };
 
 /**
@@ -38,6 +39,11 @@ export const NAV_LINKS = [
   {
     name: '설문 결과 조회',
     href: BASE_ROUTES.VIEW_CHART,
+    icon: 'chart',
+  },
+  {
+    name: '마이 페이지',
+    href: BASE_ROUTES.MY_PAGE,
     icon: 'chart',
   },
 ];

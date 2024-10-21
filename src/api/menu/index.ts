@@ -57,6 +57,11 @@ const deleteMonthMenu = async (request: GetMonthMenuDetailRequest) => {
   return response.data;
 };
 
+const getAllCount = async () => {
+  const response = await get<Result<null>>(MENUS_API.ALL_COUNT);
+  return response.data;
+};
+
 export const menu = {
   postMonthMenusAuto,
   postMonthMenusSave,
@@ -64,4 +69,5 @@ export const menu = {
   getFoodList,
   getMonthMenuDetail,
   deleteMonthMenu,
+  getAllCount,
 };
