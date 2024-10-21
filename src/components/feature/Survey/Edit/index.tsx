@@ -1,6 +1,5 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { getCurrentYearMonthNow } from '@/utils/calendar';
 import { inputsType } from '@/components/feature/Survey/Create';
@@ -9,6 +8,7 @@ import SurveyControls from '@/components/shared/Survey/Controls';
 import DefaultQuestions from '@/components/shared/Survey/DefaultQuestions';
 import SurveyHeader from '@/components/shared/Survey/Header';
 import { BASE_ROUTES } from '@/constants/_navbar';
+import useNavigate from '@/hooks/useNavigate';
 
 // 아래 두개의 전역변수는 api완성 되면 데이터의 deadlineAt 날짜로 대체
 const TWO_WEEK_DAYS = 14;
@@ -36,13 +36,13 @@ interface Props {
 const SurveyEdit = ({ id }: Props) => {
   console.log(id);
 
-  const router = useRouter();
+  const { navigate } = useNavigate();
   const [inputs, setInputs] = useState<inputsType[]>(
     DefaultData.additionalQuestions,
   );
 
   const submitSurvey = () => {
-    router.push(BASE_ROUTES.VIEW_CHART);
+    navigate(BASE_ROUTES.VIEW_CHART);
   };
 
   return (
