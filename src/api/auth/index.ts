@@ -26,7 +26,7 @@ const verifyConfirm = async (request: VerifyRequest) => {
   return response.data;
 };
 
-const login = async (request: LoginRequest): Promise<LoginResponse> => {
+const login = async (request: LoginRequest): Promise<Result<LoginResponse>> => {
   const response = await fetch(`${env.BASE_API_URL}${AUTH_API.LOGIN}`, {
     method: 'POST',
     body: JSON.stringify({ ...request, loginType: 'LOCAL' }),

@@ -1,5 +1,5 @@
 export const BASE_ROUTES = {
-  ROOT: '/',
+  MAIN: '/main',
   AUTO: '/autoPlan',
   MENUAL: '/menualPlan',
   VIEW_PLAN: '/viewPlan',
@@ -7,6 +7,8 @@ export const BASE_ROUTES = {
   SURVEY: '/survey',
   CREATE: '/create',
   EDIT: '/edit',
+  SIGNUP: '/signup',
+  LOGIN: '/login',
 };
 
 /**
@@ -15,7 +17,7 @@ export const BASE_ROUTES = {
 export const NAV_LINKS = [
   {
     name: '홈 대시보드',
-    href: BASE_ROUTES.ROOT,
+    href: BASE_ROUTES.MAIN,
     icon: 'dashboard',
   },
   {

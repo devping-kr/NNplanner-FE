@@ -42,18 +42,18 @@ const MiniCard = ({
             {count}
           </Link>
         </div>
-        <div className='flex items-center justify-center rounded-2xl bg-green-400 bg-opacity-50 p-4'>
-          <Icon name={icon} color={color} width={24} height={24} />
+        <div className='flex h-full items-start justify-start'>
+          <Icon name={icon} color={color} width={60} height={60} />
         </div>
       </div>
       <div className='flex items-center justify-center gap-1'>
         <Icon
           name={isIncrease ? 'trendUp' : 'trendDown'}
           color={isIncrease ? 'success' : 'warning'}
-          width={15}
-          height={15}
+          width={20}
+          height={20}
         />
-        <span className='font-semibold'>
+        <span className='whitespace-nowrap align-middle font-semibold'>
           {`지난 달보다 `}
           <span
             className={cn(

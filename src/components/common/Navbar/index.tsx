@@ -8,11 +8,13 @@ import Divider from '@/components/common/Divider';
 import Icon from '@/components/common/Icon';
 import NavMenu from '@/components/common/NavMenu';
 import NavProfile from '@/components/common/NavProfile';
-import { NAV_LINKS } from '@/constants/_navbar';
+import { BASE_ROUTES, NAV_LINKS } from '@/constants/_navbar';
 import { useAuth } from '@/hooks/useAuth';
+import { useUserStore } from '@/stores/useUserStore';
 
 const Navbar = () => {
   const pathname = usePathname();
+  const username = useUserStore((state) => state.username);
   const { logout } = useAuth();
 
   const defaultTab = NAV_LINKS[0].name;
@@ -31,7 +33,7 @@ const Navbar = () => {
     !isSurveyPage && (
       <nav className='sticky top-0 flex h-screen w-60 min-w-60 flex-col place-content-between bg-white-100'>
         <div className='flex flex-col gap-9 p-6'>
-          <Link href='#' className='w-fit self-center'>
+          <Link href={BASE_ROUTES.MAIN} className='w-fit self-center'>
             <Image
               src='/imgs/navbar-logo.png'
               width={180}
@@ -56,7 +58,7 @@ const Navbar = () => {
         </div>
         <div>
           <Divider />
-          <NavProfile name={'유저 이름'} />
+          <NavProfile name={`${username}님`} />
           <Divider />
           <button
             className='flex h-[50px] w-full items-center gap-2 px-10 text-sm'
