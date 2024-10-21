@@ -293,14 +293,14 @@ const MyPage = () => {
                 더보기
               </Link>
             </div>
-            {!mealList?.data.menuResponseDTOList ? (
-              <div className='mt-1 flex justify-center'>
-                <NutritionDate>최근 작성한 식단이 없습니다.</NutritionDate>
-              </div>
-            ) : (
+            {mealList?.data.menuResponseDTOList ? (
               <GetAllListTable
                 data={convertToTableRowData(mealList!.data.menuResponseDTOList)}
               />
+            ) : (
+              <div className='mt-1 flex justify-center'>
+                <NutritionDate>최근 작성한 식단이 없습니다.</NutritionDate>
+              </div>
             )}
           </div>
           <div className='flex flex-col gap-2'>
@@ -314,14 +314,14 @@ const MyPage = () => {
                 더보기
               </Link>
             </div>
-            {!surveyList?.data.surveys ? (
-              <div className='mt-1 flex justify-center'>
-                <NutritionDate>최근 생성한 설문이 없습니다.</NutritionDate>
-              </div>
-            ) : (
+            {surveyList?.data.surveys ? (
               <GetAllListTable
                 data={surveyConvertToTableRowData(surveyList!.data.surveys)}
               />
+            ) : (
+              <div className='mt-1 flex justify-center'>
+                <NutritionDate>최근 생성한 설문이 없습니다.</NutritionDate>
+              </div>
             )}
           </div>
           <button className='flex justify-end text-xs text-gray-400 underline opacity-50'>
