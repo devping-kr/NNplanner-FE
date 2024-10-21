@@ -64,6 +64,7 @@ const createRoutes = (baseRoutes: typeof BASE_ROUTES) => ({
   },
   SURVEY: {
     CREATE: `${baseRoutes.SURVEY}/${baseRoutes.CREATE}`,
+    EDIT: `${baseRoutes.SURVEY}/${baseRoutes.EDIT}`,
   },
   AUTO_PLAN: baseRoutes.AUTO,
   MENUAL_PLAN: baseRoutes.MENUAL,

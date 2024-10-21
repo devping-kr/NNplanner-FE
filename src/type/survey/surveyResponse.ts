@@ -21,3 +21,28 @@ export interface SurveyPostResponse {
   deadlineAt: Date | null;
   questions: inputsType[];
 }
+
+export interface SatisfactionDistribution {
+  [key: string]: number;
+}
+
+export interface SatisfactionDistributionItem {
+  questionId: number;
+  questionText: string;
+  satisfactionDistribution: SatisfactionDistribution;
+  textResponses: string[];
+  answerType: 'radio' | 'text';
+}
+
+export interface AverageScores {
+  totalSatisfaction: number;
+  portionSatisfaction: number;
+  hygieneSatisfaction: number;
+  tasteSatisfaction: number;
+}
+
+export interface SurveyDetailResponse {
+  surveyName: string;
+  satisfactionDistributions: SatisfactionDistributionItem[];
+  averageScores: AverageScores;
+}
