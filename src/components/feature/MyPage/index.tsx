@@ -3,11 +3,17 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { AxiosError } from 'axios';
+import dayjs from 'dayjs';
 import { useForm } from 'react-hook-form';
 import { changePasswordSchema } from '@/schema/authSchema';
+import { MenuResponseDTO } from '@/type/menu/menuResponse';
+import { FailResponse, Result } from '@/type/response';
+import { surveyType } from '@/type/survey/surveyResponse';
 import Button from '@/components/common/Button/Button';
 import { Input } from '@/components/common/Input';
 import Modal from '@/components/common/Modal';
+import { TableRowData } from '@/components/common/Table';
 import {
   BodyGray,
   CardTitle,
@@ -15,37 +21,52 @@ import {
   NutritionEtc,
 } from '@/components/common/Typography';
 import GetAllListTable from '@/components/shared/GetAllList/ListTable';
-import { PLAN_DATA } from '@/constants/_getAllList/_planData';
-import { SURVEY_DATA } from '@/constants/_getAllList/_surveyData';
 import { NAV_LINKS } from '@/constants/_navbar';
-import { SUCCESS } from '@/constants/_toastMessage';
+import { useGetMealList } from '@/hooks/meal/useGetMealList';
+import { useGetAllCount } from '@/hooks/menu/useGetAllCount';
+import { useGetSurveyList } from '@/hooks/survey/useGetSurveyList';
+import { usePostCheckPw } from '@/hooks/user/usePostCheckPw';
+import { usePostEditPw } from '@/hooks/user/usePostEditPw';
 import { useModalStore } from '@/stores/modalStore';
 import { useToastStore } from '@/stores/useToastStore';
+import { useUserStore } from '@/stores/useUserStore';
 
 const imageInfo = {
   size: 110,
   src: '/imgs/pi-gon-ping.jpg',
 };
 
-const userData = {
-  name: '내 이름',
-  email: 'test123@naver.com',
-  mealPlan: 3,
-  survey: 3,
-};
+const LIST_SIZE = 3;
 
 const MyPage = () => {
   const { openModal, closeModal } = useModalStore();
   const showToast = useToastStore((state) => state.showToast);
+  const { username, email } = useUserStore((state) => ({
+    username: state.username,
+    email: state.email,
+  }));
 
-  // 아래 변수는 현재 비밀번호확인 api 동작시 success로 대체예정
-  const isSuccessConfirm = false;
+  const { mutate: checkPwMutate, isSuccess: isCheckPwSuccess } =
+    usePostCheckPw();
+  const { mutate: editPwMutate } = usePostEditPw();
+  const { data: surveyList, isSuccess } = useGetSurveyList({
+    pageSize: LIST_SIZE,
+  });
+  const surveyTotalItems = isSuccess ? surveyList!.data.totalItems : 0;
+  const { data: mealList } = useGetMealList({
+    page: 0,
+    sort: 'createdAt,desc',
+    size: LIST_SIZE,
+  });
+  const { data: mealListTotalItems } = useGetAllCount();
+  const mealTotalItems = isSuccess ? mealListTotalItems!.data : 0;
 
   const {
     register,
     handleSubmit,
     formState: { errors },
     watch,
+    setValue,
   } = useForm({
     resolver: zodResolver(changePasswordSchema),
     mode: 'onChange',
@@ -59,18 +80,68 @@ const MyPage = () => {
   const currentPassword = watch('currentPassword');
 
   const handleCheckPassword = () => {
-    // 현재 비밀번호 확인하는 POST 메서드 실행할 함수
-    console.log(currentPassword, '비밀번호 확인 요청');
+    checkPwMutate(
+      { password: currentPassword },
+      {
+        onSuccess: ({ message }: Result<null>) => {
+          showToast(message, 'success', 1000);
+        },
+        onError: (error: AxiosError<FailResponse>) => {
+          const errorMessage =
+            error?.response?.data?.message || '비밀번호 불일치';
+          showToast(errorMessage, 'warning', 1000);
+        },
+      },
+    );
+  };
+
+  const resetInputs = () => {
+    setValue('currentPassword', '');
+    setValue('newPassword', '');
+    setValue('newPasswordConfirm', '');
   };
 
   const submitChangePassword = (data: {
     newPassword: string;
     newPasswordConfirm: string;
   }) => {
-    // 변경 버튼 클릭시 PATCH 메서드 성공시 실행할 함수
-    console.log(data);
-    showToast(SUCCESS.changePassword, 'success', 3000);
-    closeModal();
+    editPwMutate(
+      { password: data.newPassword },
+      {
+        onSuccess: ({ message }: Result<null>) => {
+          showToast(message, 'success', 3000);
+          closeModal();
+          resetInputs();
+        },
+        onError: (error: AxiosError<FailResponse>) => {
+          const errorMessage =
+            error?.response?.data?.message || '비밀번호 변경 실패';
+          showToast(errorMessage, 'warning', 1000);
+          resetInputs();
+        },
+      },
+    );
+  };
+
+  const convertToTableRowData = (menus: MenuResponseDTO[]): TableRowData[] => {
+    return menus.map((menu) => ({
+      식단ID: menu.monthMenuId.substring(0, 4),
+      식단이름: menu.monthMenuName,
+      대분류: menu.majorCategory,
+      소분류: menu.minorCategory,
+      생성일: dayjs(menu.createAt).format('YYYY-MM-DD'),
+    }));
+  };
+
+  const surveyConvertToTableRowData = (
+    surveys: surveyType[],
+  ): TableRowData[] => {
+    return surveys.map((survey) => ({
+      설문ID: survey.surveyId,
+      설문이름: survey.surveyName,
+      생성일: survey.createdAt,
+      상태: survey.state,
+    }));
   };
 
   return (
@@ -110,7 +181,7 @@ const MyPage = () => {
                   id='newPassword'
                   height='basic'
                   className='text-green-500 placeholder:text-green-400'
-                  disabled={!isSuccessConfirm}
+                  disabled={!isCheckPwSuccess}
                   {...register('newPassword')}
                 />
                 {errors.newPassword && (
@@ -132,7 +203,7 @@ const MyPage = () => {
                   id='newPasswordConfirm'
                   height='basic'
                   className='text-green-500 placeholder:text-green-400'
-                  disabled={!isSuccessConfirm}
+                  disabled={!isCheckPwSuccess}
                   {...register('newPasswordConfirm')}
                 />
                 {errors.newPasswordConfirm && (
@@ -147,7 +218,7 @@ const MyPage = () => {
                   width='full'
                   type='submit'
                   disabled={
-                    !isSuccessConfirm ||
+                    !isCheckPwSuccess ||
                     !!errors.newPassword ||
                     !!errors.newPasswordConfirm
                   }
@@ -180,9 +251,9 @@ const MyPage = () => {
             />
             <div className='flex flex-col gap-1'>
               <div className='flex items-center gap-2'>
-                <CardTitle>{userData.name}</CardTitle> 님 안녕하세요.
+                <CardTitle>{username}</CardTitle> 님 안녕하세요.
               </div>
-              <BodyGray>{userData.email}</BodyGray>
+              <BodyGray>{email}</BodyGray>
             </div>
             <div className='flex flex-1 justify-end'>
               <Button onClick={openModal} width='fit' size='small'>
@@ -196,7 +267,8 @@ const MyPage = () => {
               href={NAV_LINKS[3].href}
               className='text-3xl font-semibold text-green-400 underline'
             >
-              {userData.mealPlan}
+              {/* TODO: 전체 식단 개수 API 연결 */}
+              {mealTotalItems}
             </Link>
           </div>
           <div className='flex w-1/3 flex-col items-center justify-center gap-2 px-6'>
@@ -205,7 +277,7 @@ const MyPage = () => {
               href={NAV_LINKS[4].href}
               className='text-3xl font-semibold text-green-400 underline'
             >
-              {userData.survey}
+              {surveyTotalItems}
             </Link>
           </div>
         </div>
@@ -215,18 +287,20 @@ const MyPage = () => {
               <CardTitle>최근 작성한 식단</CardTitle>
               <Link
                 href={NAV_LINKS[3].href}
-                hidden={userData.mealPlan === 0}
+                hidden={mealTotalItems === 0}
                 className='text-xs text-gray-500'
               >
                 더보기
               </Link>
             </div>
-            {userData.mealPlan === 0 ? (
+            {mealList?.data.menuResponseDTOList ? (
+              <GetAllListTable
+                data={convertToTableRowData(mealList!.data.menuResponseDTOList)}
+              />
+            ) : (
               <div className='mt-1 flex justify-center'>
                 <NutritionDate>최근 작성한 식단이 없습니다.</NutritionDate>
               </div>
-            ) : (
-              <GetAllListTable data={PLAN_DATA.slice(0, 3)} />
             )}
           </div>
           <div className='flex flex-col gap-2'>
@@ -234,18 +308,20 @@ const MyPage = () => {
               <CardTitle>최근 생성한 설문</CardTitle>
               <Link
                 href={NAV_LINKS[4].href}
-                hidden={userData.survey === 0}
+                hidden={surveyTotalItems === 0}
                 className='text-xs text-gray-500'
               >
                 더보기
               </Link>
             </div>
-            {userData.survey === 0 ? (
+            {surveyList?.data.surveys ? (
+              <GetAllListTable
+                data={surveyConvertToTableRowData(surveyList!.data.surveys)}
+              />
+            ) : (
               <div className='mt-1 flex justify-center'>
                 <NutritionDate>최근 생성한 설문이 없습니다.</NutritionDate>
               </div>
-            ) : (
-              <GetAllListTable data={SURVEY_DATA.slice(0, 3)} />
             )}
           </div>
           <button className='flex justify-end text-xs text-gray-400 underline opacity-50'>

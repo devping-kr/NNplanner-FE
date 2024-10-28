@@ -9,8 +9,7 @@ export const useAuth = () => {
 
   const handleLogin = () => {
     login();
-    // TODO: 대시보드 메인route로 변경 예정
-    router.push(NAV_LINKS[3].href);
+    router.push(NAV_LINKS[0].href);
   };
 
   const handleLogout = () => {

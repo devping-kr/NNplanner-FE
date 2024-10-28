@@ -1,6 +1,7 @@
-import { get, post, put } from '@/lib/axios';
+import { del, get, post, put } from '@/lib/axios';
 import {
   GetFoodsRequest,
+  GetMonthMenuDetailRequest,
   MonthMenusAutoRequest,
   MonthMenusSaveRequest,
 } from '@/type/menu/menuRequest';
@@ -42,9 +43,31 @@ const getFoodList = async ({ foodName, page, size }: GetFoodsRequest) => {
   return response.data;
 };
 
+const getMonthMenuDetail = async (request: GetMonthMenuDetailRequest) => {
+  const response = await get<Result<MenuResponseDTO>>(
+    `${MONTH_MENUS}/${request.monthMenuId}`,
+  );
+  return response.data;
+};
+
+const deleteMonthMenu = async (request: GetMonthMenuDetailRequest) => {
+  const response = await del<Result<null>>(
+    `${MONTH_MENUS}/${request.monthMenuId}`,
+  );
+  return response.data;
+};
+
+const getAllCount = async () => {
+  const response = await get<Result<null>>(MENUS_API.ALL_COUNT);
+  return response.data;
+};
+
 export const menu = {
   postMonthMenusAuto,
   postMonthMenusSave,
   putMonthMenus,
   getFoodList,
+  getMonthMenuDetail,
+  deleteMonthMenu,
+  getAllCount,
 };

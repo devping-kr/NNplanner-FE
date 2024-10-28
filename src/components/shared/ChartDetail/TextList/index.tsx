@@ -19,7 +19,7 @@ const TextList = ({ list, title, type }: Props) => {
         )}
       >
         {list.length !== 0 &&
-          list.map((text, idx) => <li key={idx}>{text}</li>)}
+          list.map((text, idx) => <li key={`${idx}-${text}`}>{text}</li>)}
         {list.length === 0 && (
           <HeadPrimary>제출된 설문이 없습니다.</HeadPrimary>
         )}

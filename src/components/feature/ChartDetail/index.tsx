@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { FailResponse } from '@/type/response';
+import { SatisfactionDistributionItem } from '@/type/survey/surveyResponse';
 import { getTextResponsesByQuestionText } from '@/utils/getTextResponseByQuestionText';
 import Button from '@/components/common/Button/Button';
 import {
@@ -20,6 +21,7 @@ import { NAV_LINKS, ROUTES } from '@/constants/_navbar';
 import { surveyKeys } from '@/hooks/survey/queryKey';
 import { useDeleteSurvey } from '@/hooks/survey/useDeleteSurvey';
 import { useGetSurveyDetail } from '@/hooks/survey/useGetSurveyDetail';
+import useNavigate from '@/hooks/useNavigate';
 import { useToastStore } from '@/stores/useToastStore';
 
 interface Props {
@@ -34,6 +36,7 @@ const imageInfo = {
 
 const ChartDetail = ({ id }: Props) => {
   const router = useRouter();
+  const { navigate } = useNavigate();
   const queryClient = useQueryClient();
   const showToast = useToastStore((state) => state.showToast);
 
@@ -58,6 +61,15 @@ const ChartDetail = ({ id }: Props) => {
     deleteSurveyMutate(id);
   };
 
+  const isAllDistributionZero = (
+    distribution: SatisfactionDistributionItem,
+  ) => {
+    const distributionValues = Object.values(
+      distribution.satisfactionDistribution,
+    );
+    return distributionValues.every((value) => value === 0);
+  };
+
   return (
     <div className='flex flex-col gap-10'>
       {detailData && satisfactionDistributions && averageScores && (
@@ -68,7 +80,7 @@ const ChartDetail = ({ id }: Props) => {
               <Button size='small'>설문 종료</Button>
               <Button
                 size='small'
-                onClick={() => router.push(`${ROUTES.EDIT.SURVEY}/${id}`)}
+                onClick={() => navigate(`${ROUTES.SURVEY.EDIT}/${id}`)}
               >
                 질문 수정
               </Button>
@@ -80,16 +92,11 @@ const ChartDetail = ({ id }: Props) => {
           <div className='flex w-full gap-5'>
             <div className='flex w-full flex-col gap-3 rounded border border-gray-300 bg-white-100 p-5'>
               <CardTitle>월별 총 만족도 점수 분포도</CardTitle>
-              {satisfactionDistributions.every((satisfaction) => {
-                const distributionValues = Object.values(
-                  satisfaction.satisfactionDistribution,
-                );
-                return distributionValues.every((value) => value === 0);
-              }) ? (
+              {satisfactionDistributions.every(isAllDistributionZero) ? (
                 <HeadPrimary>제출된 설문이 없습니다.</HeadPrimary>
               ) : (
                 <BarGraph
-                  data={satisfactionDistributions![0].satisfactionDistribution}
+                  data={satisfactionDistributions[0].satisfactionDistribution}
                 />
               )}
             </div>
