@@ -15,6 +15,9 @@ import { MEAL_CREATE_MESSAGE, WARNING } from '@/constants/_toastMessage';
 import { useGetFoods } from '@/hooks/menu/useGetFoods';
 import { useToastStore } from '@/stores/useToastStore';
 
+const MEAL_DEAULT_PAGE_NUMBER = 1;
+const ONE = 1;
+
 type MealCreateProps = {
   date: string;
   handleSaveMenu?: (date: string, menuList: FoodInfo[]) => void;
@@ -30,7 +33,7 @@ const MealCreate = ({ date, handleSaveMenu }: MealCreateProps) => {
   const [keyword, setKeyword] = useState('');
   const [isSearchShow, setIsSearchShow] = useState(false);
   const [searchResultList, setSearchResultList] = useState<FoodInfo[]>([]);
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(MEAL_DEAULT_PAGE_NUMBER);
   const [hasMore, setHasMore] = useState(true);
 
   const showToast = useToastStore((set) => set.showToast);
@@ -53,7 +56,7 @@ const MealCreate = ({ date, handleSaveMenu }: MealCreateProps) => {
 
   // 페이지네이션 상태 리셋 함수
   const resetPagination = () => {
-    setPage(1);
+    setPage(MEAL_DEAULT_PAGE_NUMBER);
     setHasMore(true);
     setSearchResultList([]);
   };
@@ -166,18 +169,18 @@ const MealCreate = ({ date, handleSaveMenu }: MealCreateProps) => {
       const { scrollTop, scrollHeight, clientHeight } =
         searchContainerRef.current;
       if (
-        scrollHeight - scrollTop <= clientHeight + 1 &&
+        scrollHeight - scrollTop <= clientHeight + ONE &&
         !isLoading &&
         hasMore
       ) {
-        setPage((prevPage) => prevPage + 1);
+        setPage((prevPage) => prevPage + ONE);
       }
     }
   }, [isLoading, hasMore]);
 
   useEffect(() => {
     if (!searchFoodData) return;
-    if (page === 1) {
+    if (page === MEAL_DEAULT_PAGE_NUMBER) {
       setSearchResultList(searchFoodData.data);
     } else {
       setSearchResultList((prevList) => [...prevList, ...searchFoodData.data]);
@@ -198,7 +201,7 @@ const MealCreate = ({ date, handleSaveMenu }: MealCreateProps) => {
 
   // 페이지가 바뀔 때마다 데이터를 refetch (새로고침)
   useEffect(() => {
-    if (page > 1) {
+    if (page > MEAL_DEAULT_PAGE_NUMBER) {
       refetch();
     }
   }, [page, refetch]);
@@ -259,7 +262,7 @@ const MealCreate = ({ date, handleSaveMenu }: MealCreateProps) => {
                 onClick={() => handleClickMenu(item.foodName)}
               />
             ))}
-            {menuList.length < 1 && !isSearchShow && (
+            {menuList.length < ONE && !isSearchShow && (
               <Button
                 type='button'
                 variant='primary'
