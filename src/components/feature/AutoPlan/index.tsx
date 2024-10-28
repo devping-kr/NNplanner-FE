@@ -22,6 +22,7 @@ import { usePostMonthMenusAuto } from '@/hooks/menu/usePostMonthMenusAuto';
 import { useFetchMinorCategories } from '@/hooks/menuCategory/useFetchMinorCategories';
 import { usePrefetchMinorCategories } from '@/hooks/menuCategory/usePrefetchMinorCategories';
 import useNavigate from '@/hooks/useNavigate';
+import { useAutoPlanStore } from '@/stores/useAutoPlanStore';
 import { useToastStore } from '@/stores/useToastStore';
 
 const AutoPlan = () => {
@@ -33,6 +34,7 @@ const AutoPlan = () => {
   const { year, month } = getCurrentYearMonthNow();
   const showToast = useToastStore((state) => state.showToast);
   const { navigate } = useNavigate();
+  const setCategory = useAutoPlanStore((state) => state.setCategory);
 
   const queryClient = useQueryClient();
   const { minorCategories } = useFetchMinorCategories(
@@ -75,6 +77,10 @@ const AutoPlan = () => {
         onSuccess: ({ message, data }: Result<null>) => {
           showToast(message, 'success', 1000);
           queryClient.setQueryData(['monthMenusAuto'], data);
+          setCategory({
+            majorCategory,
+            minorCategory,
+          });
           navigate(ROUTES.CREATE.AUTO);
         },
         onError: (error: AxiosError<FailResponse>) => {

@@ -8,7 +8,7 @@ import { useForm } from 'react-hook-form';
 import { mealHeaderSchema } from '@/schema/mealSchema';
 import { CalendarInfo } from '@/type/mealType';
 import { MajorCategory } from '@/type/menu/menuRequest';
-import { HospitalMenu } from '@/type/menu/menuResponse';
+import { MenuResponse } from '@/type/menu/menuResponse';
 import { SelectedCategory } from '@/type/menuCategory/category';
 import { FailResponse, Result } from '@/type/response';
 import {
@@ -20,7 +20,6 @@ import MealForm from '@/components/common/MealForm';
 import MealCalendar from '@/components/shared/Meal/MealCalender';
 import MealCreateHeader from '@/components/shared/Meal/MealCreateHeader';
 import { MealHeaderFormData } from '@/components/shared/Meal/MealHeader';
-import { MAJOR_CATEGORIES } from '@/constants/_meal';
 import { MEAL_FORM_LEGEND } from '@/constants/_MealForm';
 import { ROUTES } from '@/constants/_navbar';
 import { PAGE_TITLE } from '@/constants/_pageTitle';
@@ -40,7 +39,10 @@ const AutoPlanCreate = () => {
   const { year, month } = getCurrentYearMonthNow();
   const showToast = useToastStore((state) => state.showToast);
   const { navigate } = useNavigate();
-  const setMonthMenuName = useAutoPlanStore((state) => state.setMonthMenuName);
+  const { setMonthMenuName, category } = useAutoPlanStore((state) => ({
+    category: state.category,
+    setMonthMenuName: state.setMonthMenuName,
+  }));
 
   const queryClient = useQueryClient();
   const { mutate: postSaveMutate } = usePostMonthMenusSave();
@@ -93,21 +95,13 @@ const AutoPlanCreate = () => {
   };
 
   useEffect(() => {
-    const menus = queryClient.getQueryData<HospitalMenu[]>(['monthMenusAuto']);
+    const menus = queryClient.getQueryData<MenuResponse[]>(['monthMenusAuto']);
     if (!menus) return;
     const calendarData = transformResponseToCalendar(year, month, menus);
-    if (menus[0].hospitalMenuKind) {
-      // TODO: 추후 학교 타입 수정
-      setSelectedCategory({
-        majorCategory: MAJOR_CATEGORIES[2],
-        minorCategory: menus[0].hospitalMenuKind,
-      });
-    } else {
-      setSelectedCategory({
-        majorCategory: MAJOR_CATEGORIES[0],
-        minorCategory: menus[0].hospitalMenuKind,
-      });
-    }
+    setSelectedCategory({
+      majorCategory: category.majorCategory,
+      minorCategory: category.minorCategory,
+    });
     setCalendarData(calendarData);
   }, [year, month, queryClient]);
 
