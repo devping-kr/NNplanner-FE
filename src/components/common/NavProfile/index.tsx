@@ -9,7 +9,7 @@ const NavProfile = ({ name = '냠냠' }: { name: string }) => {
         <span className='text-nowrap text-xs text-gray-600'>
           다시 만나 기뻐요🐭
         </span>
-        <span className='text-sm text-dark-100'>{name}</span>
+        <span className='text-sm text-dark-100'>{name}님</span>
       </div>
       <Icon name='arrowNext' color='black' className='hover:stroke-dark-200' />
     </button>

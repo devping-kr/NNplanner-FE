@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AxiosError } from 'axios';
 import dayjs from 'dayjs';
@@ -39,6 +40,12 @@ const imageInfo = {
 const LIST_SIZE = 3;
 
 const MyPage = () => {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   const { openModal, closeModal } = useModalStore();
   const showToast = useToastStore((state) => state.showToast);
   const { username, email } = useUserStore((state) => ({
@@ -251,7 +258,8 @@ const MyPage = () => {
             />
             <div className='flex flex-col gap-1'>
               <div className='flex items-center gap-2'>
-                <CardTitle>{username}</CardTitle> 님 안녕하세요.
+                <CardTitle>{isMounted ? username : ''}</CardTitle> 님
+                안녕하세요.
               </div>
               <BodyGray>{email}</BodyGray>
             </div>
