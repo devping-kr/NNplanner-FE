@@ -16,3 +16,14 @@ export interface GetSearchSurveyRequest {
   endDate?: string;
   state?: string;
 }
+
+export interface PutSurveyRequest {
+  surveyName?: string;
+  deadlineAt?: string;
+  state?: string;
+  questions?: {
+    questionId: number;
+    question: string;
+    answerType: 'text' | 'radio';
+  }[];
+}

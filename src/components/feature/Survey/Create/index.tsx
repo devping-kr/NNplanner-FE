@@ -25,6 +25,7 @@ const { now: twoWeeksLater } = getCurrentYearMonthNow();
 twoWeeksLater.setDate(twoWeeksLater.getDate() + TWO_WEEK_DAYS);
 
 export interface inputsType {
+  questionId?: number;
   question: string;
   answerType: string;
 }
@@ -41,7 +42,7 @@ const SurveyCreate = () => {
 
   const requestData = {
     // TODO: mmId searchParam으로 가져온 값으로 수정예정
-    mmId: '1931f7ae-4bd5-4bb1-9571-971a64ffd431',
+    mmId: '8ebee81d-de92-4c40-bd42-52e95138e94d',
     surveyName: surveyName,
     deadlineAt: deadLine,
     additionalQuestions: inputs,

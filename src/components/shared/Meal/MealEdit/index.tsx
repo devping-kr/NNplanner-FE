@@ -11,6 +11,9 @@ import { MEAL_CREATE_MESSAGE } from '@/constants/_toastMessage';
 import { useGetFoods } from '@/hooks/menu/useGetFoods';
 import { useToastStore } from '@/stores/useToastStore';
 
+const MEAL_DEFAULT_PAGE_NUMBER = 1;
+const ONE = 1;
+
 type MealEditProps = {
   date: string;
   data: FoodInfo[];
@@ -28,7 +31,7 @@ const MealEdit = ({ date, data, handleChangeMenu }: MealEditProps) => {
   const [keyword, setKeyword] = useState('');
   const [isSearchShow, setIsSearchShow] = useState(false);
   const [searchResultList, setSearchResultList] = useState<FoodInfo[]>([]);
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(MEAL_DEFAULT_PAGE_NUMBER);
   const [hasMore, setHasMore] = useState(true);
   const showToast = useToastStore((state) => state.showToast);
 
@@ -50,7 +53,7 @@ const MealEdit = ({ date, data, handleChangeMenu }: MealEditProps) => {
 
   // 페이지네이션 상태 리셋 함수
   const resetPagination = () => {
-    setPage(1);
+    setPage(MEAL_DEFAULT_PAGE_NUMBER);
     setHasMore(true);
     setSearchResultList([]);
   };
@@ -99,18 +102,18 @@ const MealEdit = ({ date, data, handleChangeMenu }: MealEditProps) => {
       const { scrollTop, scrollHeight, clientHeight } =
         searchContainerRef.current;
       if (
-        scrollHeight - scrollTop <= clientHeight + 1 &&
+        scrollHeight - scrollTop <= clientHeight + ONE &&
         !isLoading &&
         hasMore
       ) {
-        setPage((prevPage) => prevPage + 1);
+        setPage((prevPage) => prevPage + ONE);
       }
     }
   }, [isLoading, hasMore]);
 
   useEffect(() => {
     if (!searchFoodData) return;
-    if (page === 1) {
+    if (page === MEAL_DEFAULT_PAGE_NUMBER) {
       setSearchResultList(searchFoodData.data);
     } else {
       setSearchResultList((prevList) => [...prevList, ...searchFoodData.data]);
@@ -131,7 +134,7 @@ const MealEdit = ({ date, data, handleChangeMenu }: MealEditProps) => {
 
   // 페이지가 바뀔 때마다 데이터를 refetch (새로고침)
   useEffect(() => {
-    if (page > 1) {
+    if (page > MEAL_DEFAULT_PAGE_NUMBER) {
       refetch();
     }
   }, [page, refetch]);
