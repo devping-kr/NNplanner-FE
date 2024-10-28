@@ -45,4 +45,16 @@ export interface SurveyDetailResponse {
   surveyName: string;
   satisfactionDistributions: SatisfactionDistributionItem[];
   averageScores: AverageScores;
+  deadline: Date | null;
+}
+
+export interface PutSurveyResponse {
+  surveyId: number;
+  surveyName: string;
+  deadlineAt: Date | null;
+  state: string;
+  updatedQuestions: {
+    questionId: number;
+    updatedAt: Date | null;
+  }[];
 }
