@@ -1,12 +1,15 @@
 export const BASE_ROUTES = {
-  ROOT: '/',
+  MAIN: '/main',
   AUTO: '/autoPlan',
   MENUAL: '/menualPlan',
   VIEW_PLAN: '/viewPlan',
   VIEW_CHART: '/viewChart',
+  SURVEY: '/survey',
   CREATE: '/create',
   EDIT: '/edit',
-  SURVEY: '/survey',
+  SIGNUP: '/signup',
+  LOGIN: '/login',
+  MY_PAGE: '/myPage',
 };
 
 /**
@@ -15,7 +18,7 @@ export const BASE_ROUTES = {
 export const NAV_LINKS = [
   {
     name: '홈 대시보드',
-    href: BASE_ROUTES.ROOT,
+    href: BASE_ROUTES.MAIN,
     icon: 'dashboard',
   },
   {
@@ -38,6 +41,11 @@ export const NAV_LINKS = [
     href: BASE_ROUTES.VIEW_CHART,
     icon: 'chart',
   },
+  {
+    name: '마이 페이지',
+    href: BASE_ROUTES.MY_PAGE,
+    icon: 'chart',
+  },
 ];
 
 const createRoutes = (baseRoutes: typeof BASE_ROUTES) => ({
@@ -48,11 +56,15 @@ const createRoutes = (baseRoutes: typeof BASE_ROUTES) => ({
   EDIT: {
     AUTO: `${baseRoutes.AUTO}${baseRoutes.EDIT}`,
     MENUAL: `${baseRoutes.MENUAL}${baseRoutes.EDIT}`,
-    SURVEY: `${baseRoutes.SURVEY}${baseRoutes.EDIT}`,
+    EDIT: baseRoutes.EDIT,
   },
   VIEW: {
     PLAN: baseRoutes.VIEW_PLAN,
     CHART: baseRoutes.VIEW_CHART,
+  },
+  SURVEY: {
+    CREATE: `${baseRoutes.SURVEY}/${baseRoutes.CREATE}`,
+    EDIT: `${baseRoutes.SURVEY}/${baseRoutes.EDIT}`,
   },
   AUTO_PLAN: baseRoutes.AUTO,
   MENUAL_PLAN: baseRoutes.MENUAL,

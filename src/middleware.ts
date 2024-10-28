@@ -8,7 +8,7 @@ export const config = {
   ],
 };
 
-const publicRoutes = [NAV_LINKS[0].href, AUTH_LINKS.signup, AUTH_LINKS.login];
+const publicRoutes = [AUTH_LINKS.signup, AUTH_LINKS.login];
 
 export function middleware(request: NextRequest) {
   const isLogin = request.cookies.get('isLogin');
@@ -22,8 +22,7 @@ export function middleware(request: NextRequest) {
 
   if (isLogin && publicRoutes.includes(currentPath)) {
     const url = request.nextUrl.clone();
-    // TODO: 리다이렉트 url 메인화면으로 변경예정
-    url.pathname = NAV_LINKS[3].href;
+    url.pathname = NAV_LINKS[0].href;
     return NextResponse.redirect(url);
   }
   return NextResponse.next();

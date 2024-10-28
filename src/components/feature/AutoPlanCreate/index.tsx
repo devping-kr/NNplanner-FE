@@ -65,7 +65,7 @@ const AutoPlanCreate = () => {
     navigate(ROUTES.EDIT.AUTO);
   };
 
-  const onSubmit = (data: { monthMenuName: string }) => {
+  const onSubmit = (data: MealHeaderFormData) => {
     const formattedData = transformCalendarToPostSave(
       calendarData,
       data.monthMenuName,
