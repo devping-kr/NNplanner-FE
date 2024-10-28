@@ -1,13 +1,19 @@
 'use client';
 
 import { useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 import { getCurrentYearMonthNow } from '@/utils/calendar';
 import Button from '@/components/common/Button/Button';
 import Calendar from '@/components/common/Calendar';
 import { Input } from '@/components/common/Input';
 import { CardTitle, HeadPrimary } from '@/components/common/Typography';
 import { MOCK_NEW_CALENDAR_NUTRITION } from '@/constants/_calendarData';
+import { BASE_ROUTES } from '@/constants/_navbar';
+import { surveyKeys } from '@/hooks/survey/queryKey';
 import { useGetSurveyDetail } from '@/hooks/survey/useGetSurveyDetail';
+import { usePostSurveyResponses } from '@/hooks/survey/usePostSurveyResponses';
+import useNavigate from '@/hooks/useNavigate';
+import { useToastStore } from '@/stores/useToastStore';
 
 interface Props {
   id: number;
@@ -16,7 +22,21 @@ interface Props {
 const RADIO_OPTIONS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 const SurveyTake = ({ id }: Props) => {
+  const queryClient = useQueryClient();
+  const { navigate } = useNavigate();
+  const showToast = useToastStore((state) => state.showToast);
   const { data: surveyData } = useGetSurveyDetail(id);
+
+  const { mutate } = usePostSurveyResponses(id, {
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: surveyKeys.detail(id) });
+      navigate(`${BASE_ROUTES.VIEW_CHART}/${id}`);
+      showToast('설문 응답 성공', 'success', 1000);
+    },
+    onError: () => {
+      showToast('설문 응답 실패', 'warning', 1000);
+    },
+  });
 
   console.log(surveyData);
   const [answers, setAnswers] = useState<{ [key: number]: number | string }>(
@@ -24,16 +44,6 @@ const SurveyTake = ({ id }: Props) => {
   );
   console.log(answers);
   const { month, year } = getCurrentYearMonthNow();
-
-  // const isFormComplete = MOCK_SURVEY_DATA.every((question) => {
-  //   if (question.isMandatory) {
-  //     return (
-  //       answers[question.questionId] !== undefined &&
-  //       answers[question.questionId] !== ''
-  //     );
-  //   }
-  //   return true;
-  // });
 
   const handleChange = (questionId: number, value: number | string) => {
     setAnswers((prev) => ({
@@ -43,8 +53,22 @@ const SurveyTake = ({ id }: Props) => {
   };
 
   const submitSurvey = () => {
-    // 설문응답 데이터 제출함수
-    console.log(answers);
+    mutate({
+      basicQuestions: [
+        { questionId: 10, answer: 8 },
+        { questionId: 11, answer: 2 },
+        { questionId: 12, answer: 3 },
+        { questionId: 13, answer: 6 },
+        { questionId: 14, answer: ['test', 'test', 'test'] },
+        { questionId: 15, answer: ['test2', 'test2', 'test2'] },
+        { questionId: 16, answer: 'test3' },
+        { questionId: 17, answer: 'test4' },
+      ],
+      additionalQuestions: [
+        { questionId: 18, answer: 'test5' },
+        { questionId: 19, answer: 4 },
+      ],
+    });
   };
 
   return (
@@ -110,7 +134,9 @@ const SurveyTake = ({ id }: Props) => {
           </div>
         ))}
         <div className='my-4 w-full'>
-          <Button onClick={submitSurvey}>제출</Button>
+          <Button onClick={submitSurvey} type='button'>
+            제출
+          </Button>
         </div>
       </ul>
     </div>

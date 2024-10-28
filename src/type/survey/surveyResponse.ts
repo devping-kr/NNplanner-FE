@@ -58,3 +58,8 @@ export interface PutSurveyResponse {
     updatedAt: Date | null;
   }[];
 }
+
+export interface PostSurveyResponsesResponse {
+  responseId: number;
+  surveyId: number;
+}

@@ -27,3 +27,12 @@ export interface PutSurveyRequest {
     answerType: 'text' | 'radio';
   }[];
 }
+
+interface questionsType {
+  questionId: number;
+  answer: number | string | string[];
+}
+export interface PostServeyResponsesRequest {
+  basicQuestions: questionsType[];
+  additionalQuestions: questionsType[];
+}

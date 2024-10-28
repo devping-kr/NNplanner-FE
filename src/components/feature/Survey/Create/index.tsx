@@ -30,7 +30,7 @@ export interface inputsType {
   answerType: string;
 }
 
-const SurveyCreate = () => {
+const SurveyCreate = ({ id }: { id: string }) => {
   const queryClient = useQueryClient();
   const router = useRouter();
   const { mutate: postSurveyMutate, isSuccess: postSurveySuccess } =
@@ -41,8 +41,7 @@ const SurveyCreate = () => {
   const showToast = useToastStore((state) => state.showToast);
 
   const requestData = {
-    // TODO: mmId searchParam으로 가져온 값으로 수정예정
-    mmId: '8ebee81d-de92-4c40-bd42-52e95138e94d',
+    mmId: id,
     surveyName: surveyName,
     deadlineAt: deadLine,
     additionalQuestions: inputs,
