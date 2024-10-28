@@ -1,9 +1,5 @@
 import * as XLSX from 'xlsx';
-import {
-  FoodInfo,
-  HospitalMonthMenu,
-  MenuResponseDTO,
-} from '@/type/menu/menuResponse';
+import { FoodInfo, MonthMenu, MenuResponseDTO } from '@/type/menu/menuResponse';
 import { removeTrailingZeros } from '@/utils/meal';
 import { EMPTY_FOOD_NAME } from '@/constants/_meal';
 
@@ -11,12 +7,12 @@ export const exportMenuToExcel = (menuData: MenuResponseDTO) => {
   const workbook = XLSX.utils.book_new();
   const sheetData: (string | number)[][] = [];
 
-  menuData.monthMenuList.forEach((menu: HospitalMonthMenu) => {
+  menuData.monthMenuList.forEach((menu: MonthMenu) => {
     menu.foodList.forEach((food: FoodInfo) => {
       if (food.foodName !== EMPTY_FOOD_NAME) {
         sheetData.push([
           menu.menuDate,
-          menu.hospitalMenuId,
+          menu.menuId,
           food.foodName,
           removeTrailingZeros(food.carbohydrate),
           removeTrailingZeros(food.protein),
