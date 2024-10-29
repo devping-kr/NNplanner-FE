@@ -24,7 +24,7 @@ import {
 import GetAllListTable from '@/components/shared/GetAllList/ListTable';
 import { NAV_LINKS } from '@/constants/_navbar';
 import { useGetMealList } from '@/hooks/meal/useGetMealList';
-import { useGetAllCount } from '@/hooks/menu/useGetAllCount';
+import { useGetMenuCount } from '@/hooks/menu/useGetMenuCount';
 import { useGetSurveyList } from '@/hooks/survey/useGetSurveyList';
 import { usePostCheckPw } from '@/hooks/user/usePostCheckPw';
 import { usePostEditPw } from '@/hooks/user/usePostEditPw';
@@ -65,8 +65,10 @@ const MyPage = () => {
     sort: 'createdAt,desc',
     size: LIST_SIZE,
   });
-  const { data: mealListTotalItems } = useGetAllCount();
-  const mealTotalItems = isSuccess ? mealListTotalItems!.data : 0;
+  const { data: mealListTotalItems } = useGetMenuCount();
+  const mealTotalItems = isSuccess
+    ? mealListTotalItems!.data.totalMenuCount
+    : 0;
 
   const {
     register,
@@ -275,7 +277,6 @@ const MyPage = () => {
               href={NAV_LINKS[3].href}
               className='text-3xl font-semibold text-green-400 underline'
             >
-              {/* TODO: 전체 식단 개수 API 연결 */}
               {mealTotalItems}
             </Link>
           </div>
