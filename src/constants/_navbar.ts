@@ -44,7 +44,7 @@ export const NAV_LINKS = [
   {
     name: '마이 페이지',
     href: BASE_ROUTES.MY_PAGE,
-    icon: 'chart',
+    icon: 'profile',
   },
 ];
 
