@@ -53,3 +53,9 @@ export interface MonthMenu {
   menuId: string;
   foodList: FoodInfo[];
 }
+
+export interface MenuCountResponse {
+  totalMenuCount: number;
+  currentMenuCount: number;
+  lastMenuCount: number;
+}
