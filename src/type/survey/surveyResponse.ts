@@ -60,3 +60,29 @@ export interface PostSurveyResponsesResponse {
   responseId: number;
   surveyId: number;
 }
+
+export interface PostSurveyQrCodeResponse {
+  header: {
+    resultCode: number;
+    resultMessage: string;
+    isSuccessful: boolean;
+  };
+  body: {
+    shortUrl: string;
+    originUrl: string;
+    status: string;
+    backHalfType: string;
+    description: null;
+    startDateTime: Date;
+    endDateTime: Date;
+  };
+}
+
+export interface GetSurveyQrCodeResponse {
+  header: {
+    resultCode: number;
+    resultMessage: string;
+    isSuccessful: boolean;
+  };
+  body: string;
+}

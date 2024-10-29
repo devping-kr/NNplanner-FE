@@ -36,3 +36,8 @@ export interface PostServeyResponsesRequest {
   basicQuestions: questionsType[];
   additionalQuestions: questionsType[];
 }
+
+export interface PostServeyQrCodeRequest {
+  url: string;
+  backHalf: number;
+}
