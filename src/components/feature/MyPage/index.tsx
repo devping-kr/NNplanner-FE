@@ -67,7 +67,7 @@ const MyPage = () => {
   });
   const { data: mealListTotalItems } = useGetMenuCount();
   const mealTotalItems = isSuccess
-    ? mealListTotalItems!.data.totalMenuCount
+    ? mealListTotalItems?.data.totalMenuCount
     : 0;
 
   const {
