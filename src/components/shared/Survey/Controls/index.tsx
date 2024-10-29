@@ -10,15 +10,15 @@ import CustomDatePickerHeader from '@/components/shared/Survey/CustomDatePickerH
 interface Props {
   type: 'create' | 'edit';
   surveyName: string;
-  handleSurveyNameChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  setEditSurveyName: React.Dispatch<React.SetStateAction<string>>;
   deadLine: Date | null;
-  setDeadLine?: React.Dispatch<React.SetStateAction<Date | null>>;
+  setDeadLine: React.Dispatch<React.SetStateAction<Date | null>>;
 }
 
 const SurveyControls = ({
   type,
   surveyName,
-  handleSurveyNameChange,
+  setEditSurveyName,
   deadLine,
   setDeadLine,
 }: Props) => {
@@ -32,6 +32,10 @@ const SurveyControls = ({
     }
   };
 
+  const handleChangeSurveyName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEditSurveyName(e.target.value);
+  };
+
   const handleOpenDatePicker = () => {
     deadLineDatePickerRef.current!.setFocus();
   };
@@ -41,8 +45,7 @@ const SurveyControls = ({
       <div className='w-1/3'>
         <Input
           value={surveyName}
-          onChange={handleSurveyNameChange}
-          disabled={!isChangeable}
+          onChange={handleChangeSurveyName}
           placeholder='설문 이름을 입력하세요. (최대 30자)'
           className='font-semibold'
           bgcolor='meal'
@@ -56,7 +59,6 @@ const SurveyControls = ({
           className='flex w-28 cursor-pointer border-b border-green-400 bg-transparent pl-1 focus:outline-none disabled:cursor-not-allowed disabled:opacity-80'
           shouldCloseOnSelect
           dateFormat='yyyy-MM-dd'
-          disabled={!isChangeable}
           selected={deadLine}
           locale={ko}
           minDate={now}
