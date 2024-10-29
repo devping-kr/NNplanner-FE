@@ -3,7 +3,6 @@
 import dayjs from 'dayjs';
 import { MenuResponseDTO } from '@/type/menu/menuResponse';
 import { MenuRecipeListResponse } from '@/type/openAPI/recipeResponse';
-import { getCurrentYearMonthNow } from '@/utils/calendar';
 import { calculateUpdownPercent, countSurveysByMonth } from '@/utils/survey';
 import { TableRowData } from '@/components/common/Table';
 import { CardTitle, NutritionDate } from '@/components/common/Typography';
@@ -67,7 +66,6 @@ const MainPageBody = () => {
       ];
 
   const { navigate } = useNavigate();
-  const { month } = getCurrentYearMonthNow();
 
   const convertToTableRowData = (menus: MenuResponseDTO[]): TableRowData[] => {
     return menus.map((menu) => ({
@@ -129,7 +127,7 @@ const MainPageBody = () => {
         </div>
       </div>
       <div className='flex w-full flex-col gap-3 rounded border border-gray-300 bg-white-100 p-5'>
-        <CardTitle>{`${month}월의 제철 메뉴 / 식재료`}</CardTitle>
+        <CardTitle>{`${recipeData[0].month}월의 제철 레시피`}</CardTitle>
         <SeasonCard data={recipeData} />
       </div>
     </div>
