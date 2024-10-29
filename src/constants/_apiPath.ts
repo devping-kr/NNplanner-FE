@@ -7,6 +7,7 @@ export const BASE_API = {
   MONTH_MENUS: '/month-menus',
   MENU_CATEGORIES: '/menu-categories',
   USERS: '/users',
+  OPEN_APIS: '/open-apis',
 };
 
 /**
@@ -58,4 +59,11 @@ export const USER_API = {
   USERS: BASE_API.USERS,
   CHECK_PW: `${BASE_API.USERS}/check-pw`,
   EDIT_PW: `${BASE_API.USERS}/edit-pw`,
+};
+
+/**
+ * @description user API endpoints
+ */
+export const OPEN_API = {
+  RECIPE: `${BASE_API.OPEN_APIS}/recipe`,
 };
