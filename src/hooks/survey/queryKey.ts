@@ -7,4 +7,5 @@ export const surveyKeys = {
   search: (request?: GetSearchSurveyRequest) =>
     [...surveyKeys.lists(), request] as const,
   detail: (surveyId: number) => [...surveyKeys.all, surveyId] as const,
+  qrCode: (id: number) => [...surveyKeys.all, id, 'qrCode'],
 };
