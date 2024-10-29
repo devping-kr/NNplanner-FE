@@ -19,7 +19,6 @@ import { useToastStore } from '@/stores/useToastStore';
 import 'react-datepicker/dist/react-datepicker.css';
 import '@/styles/datepicker-custom.css';
 
-const EXTRA_SURVEYNAME_LIMIT = 30;
 const TWO_WEEK_DAYS = 14;
 const { now: twoWeeksLater } = getCurrentYearMonthNow();
 twoWeeksLater.setDate(twoWeeksLater.getDate() + TWO_WEEK_DAYS);
@@ -45,12 +44,6 @@ const SurveyCreate = ({ id }: { id: string }) => {
     surveyName: surveyName,
     deadlineAt: deadLine,
     additionalQuestions: inputs,
-  };
-
-  const handleSurveyNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.value.length <= EXTRA_SURVEYNAME_LIMIT) {
-      setSurveyName(e.target.value);
-    }
   };
 
   const submitSurvey = () => {
@@ -81,7 +74,7 @@ const SurveyCreate = ({ id }: { id: string }) => {
       <SurveyControls
         type='create'
         surveyName={surveyName}
-        handleSurveyNameChange={handleSurveyNameChange}
+        setSurveyName={setSurveyName}
         deadLine={deadLine}
         setDeadLine={setDeadLine}
       />

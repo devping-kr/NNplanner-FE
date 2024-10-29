@@ -89,7 +89,7 @@ const SurveyEdit = ({ id }: Props) => {
           <AdditionQuestions
             inputs={inputs}
             setInputs={setInputs}
-            successSubmit={false}
+            successSubmit={true}
           />
         </div>
       </div>
