@@ -1,7 +1,7 @@
 import Icon from '@/components/common/Icon';
 
 interface Props {
-  date: Date;
+  date: Date | null;
   decreaseMonth: () => void;
   increaseMonth: () => void;
   prevMonthButtonDisabled: boolean;
@@ -24,9 +24,9 @@ const CustomDatePickerHeader = ({
       <Icon name='arrowPrev' width={20} color='active' />
     </button>
     <div className='text-base font-bold'>
-      {date.getFullYear()}
-      {'년 '}
-      {date.toLocaleString('default', { month: 'long' })}
+      {date instanceof Date && !isNaN(date.getTime())
+        ? `${date.getFullYear()}년 ${date.toLocaleString('default', { month: 'long' })}`
+        : '날짜 정보 없음'}
     </div>
     <button onClick={increaseMonth} disabled={nextMonthButtonDisabled}>
       <Icon name='arrowNext' width={20} color='active' />
