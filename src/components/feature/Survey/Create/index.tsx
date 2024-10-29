@@ -5,7 +5,10 @@ import { useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { FailResponse, Result } from '@/type/response';
-import { SurveyPostResponse } from '@/type/survey/surveyResponse';
+import {
+  PostSurveyQrCodeResponse,
+  SurveyPostResponse,
+} from '@/type/survey/surveyResponse';
 import { getCurrentYearMonthNow } from '@/utils/calendar';
 import AdditionQuestions from '@/components/shared/Survey/AdditionQuestions';
 import SurveyControls from '@/components/shared/Survey/Controls';
@@ -15,6 +18,7 @@ import { NAV_LINKS } from '@/constants/_navbar';
 import { WARNING } from '@/constants/_toastMessage';
 import { surveyKeys } from '@/hooks/survey/queryKey';
 import { usePostSurvey } from '@/hooks/survey/usePostSurvey';
+import { usePostSurveyQrCode } from '@/hooks/survey/usePostSurveyQrCode';
 import { useToastStore } from '@/stores/useToastStore';
 import 'react-datepicker/dist/react-datepicker.css';
 import '@/styles/datepicker-custom.css';
@@ -34,6 +38,8 @@ const SurveyCreate = ({ id }: { id: string }) => {
   const router = useRouter();
   const { mutate: postSurveyMutate, isSuccess: postSurveySuccess } =
     usePostSurvey();
+  const { mutate: postSurveyQrCodeMutate } = usePostSurveyQrCode();
+
   const [inputs, setInputs] = useState<inputsType[]>([]);
   const [surveyName, setSurveyName] = useState('');
   const [deadLine, setDeadLine] = useState<Date | null>(twoWeeksLater);
@@ -51,11 +57,30 @@ const SurveyCreate = ({ id }: { id: string }) => {
       showToast(WARNING.requiredSurveyName, 'warning', 2000);
       return;
     }
+
     postSurveyMutate(requestData, {
-      onSuccess: ({ message }: Result<SurveyPostResponse>) => {
+      onSuccess: ({ message, data }: Result<SurveyPostResponse>) => {
         showToast(message, 'success', 1000);
         queryClient.invalidateQueries({ queryKey: surveyKeys.search() });
         router.replace(NAV_LINKS[4].href);
+        postSurveyQrCodeMutate(
+          {
+            // TODO: 배포된 설문응답 url로 이동시켜야함.
+            // url: `http://localhost:3000/survey/take/${data.surveyId}`,
+            url: 'https://www.naver.com',
+            backHalf: data.surveyId,
+          },
+          {
+            onSuccess: ({ message }: Result<PostSurveyQrCodeResponse>) => {
+              showToast(message, 'success', 1000);
+            },
+            onError: (error: AxiosError<FailResponse>) => {
+              const errorMessage =
+                error.response?.data.message || 'QR코드 생성 실패';
+              showToast(errorMessage, 'warning', 1000);
+            },
+          },
+        );
       },
       onError: (error: AxiosError<FailResponse>) => {
         const errorMessage = error.response?.data?.message || '설문 생성 실패';

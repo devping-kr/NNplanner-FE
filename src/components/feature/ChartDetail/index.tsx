@@ -21,18 +21,13 @@ import { NAV_LINKS, ROUTES } from '@/constants/_navbar';
 import { surveyKeys } from '@/hooks/survey/queryKey';
 import { useDeleteSurvey } from '@/hooks/survey/useDeleteSurvey';
 import { useGetSurveyDetail } from '@/hooks/survey/useGetSurveyDetail';
+import { useGetSurveyQrCode } from '@/hooks/survey/useGetSurveyQrCode';
 import useNavigate from '@/hooks/useNavigate';
 import { useToastStore } from '@/stores/useToastStore';
 
 interface Props {
   id: number;
 }
-
-// TODO: qr코드 api완성 후 삭제예정
-const imageInfo = {
-  size: 180,
-  src: '/imgs/pi-gon-ping.jpg',
-};
 
 const ChartDetail = ({ id }: Props) => {
   const router = useRouter();
@@ -54,6 +49,10 @@ const ChartDetail = ({ id }: Props) => {
 
   const { data: detailData } = useGetSurveyDetail(id);
 
+  const { data: qrData } = useGetSurveyQrCode(id, {
+    enabled: !!detailData,
+  });
+
   const { surveyName, averageScores, additionalQuestions, mandatoryQuestions } =
     detailData || {};
 
@@ -71,7 +70,8 @@ const ChartDetail = ({ id }: Props) => {
       {detailData &&
         averageScores &&
         mandatoryQuestions &&
-        additionalQuestions && (
+        additionalQuestions &&
+        qrData && (
           <>
             <div className='flex items-center justify-between'>
               <PageHeaderTitle>{surveyName}</PageHeaderTitle>
@@ -128,9 +128,9 @@ const ChartDetail = ({ id }: Props) => {
                   <CardTitle>설문 조사 링크</CardTitle>
                   <div className='flex items-center justify-center'>
                     <Image
-                      src={imageInfo.src}
-                      width={imageInfo.size}
-                      height={imageInfo.size}
+                      width={180}
+                      height={180}
+                      src={`data:image/png;base64,${qrData.body}`}
                       alt='qr이미지'
                     />
                   </div>
