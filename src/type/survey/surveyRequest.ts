@@ -18,12 +18,26 @@ export interface GetSearchSurveyRequest {
 }
 
 export interface PutSurveyRequest {
-  surveyName?: string;
-  deadlineAt?: string;
+  surveyName: string;
+  deadlineAt: Date | null;
   state?: string;
-  questions?: {
+  questions: {
     questionId: number;
     question: string;
     answerType: 'text' | 'radio';
   }[];
+}
+
+interface questionsType {
+  questionId: number;
+  answer: number | string | string[];
+}
+export interface PostServeyResponsesRequest {
+  basicQuestions: questionsType[];
+  additionalQuestions: questionsType[];
+}
+
+export interface PostServeyQrCodeRequest {
+  url: string;
+  backHalf: number;
 }

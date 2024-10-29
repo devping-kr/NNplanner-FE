@@ -22,14 +22,18 @@ export interface SurveyPostResponse {
   questions: inputsType[];
 }
 
-export interface SatisfactionDistribution {
-  [key: string]: number;
+export interface SurveyDetailResponse {
+  surveyName: string;
+  deadline: Date | null;
+  mandatoryQuestions: Question[];
+  additionalQuestions: Question[];
+  averageScores: AverageScores;
 }
 
-export interface SatisfactionDistributionItem {
+export interface Question {
   questionId: number;
   questionText: string;
-  satisfactionDistribution: SatisfactionDistribution;
+  radioResponses: Record<string, number>;
   textResponses: string[];
   answerType: 'radio' | 'text';
 }
@@ -41,13 +45,6 @@ export interface AverageScores {
   tasteSatisfaction: number;
 }
 
-export interface SurveyDetailResponse {
-  surveyName: string;
-  satisfactionDistributions: SatisfactionDistributionItem[];
-  averageScores: AverageScores;
-  deadline: Date | null;
-}
-
 export interface PutSurveyResponse {
   surveyId: number;
   surveyName: string;
@@ -57,4 +54,35 @@ export interface PutSurveyResponse {
     questionId: number;
     updatedAt: Date | null;
   }[];
+}
+
+export interface PostSurveyResponsesResponse {
+  responseId: number;
+  surveyId: number;
+}
+
+export interface PostSurveyQrCodeResponse {
+  header: {
+    resultCode: number;
+    resultMessage: string;
+    isSuccessful: boolean;
+  };
+  body: {
+    shortUrl: string;
+    originUrl: string;
+    status: string;
+    backHalfType: string;
+    description: null;
+    startDateTime: Date;
+    endDateTime: Date;
+  };
+}
+
+export interface GetSurveyQrCodeResponse {
+  header: {
+    resultCode: number;
+    resultMessage: string;
+    isSuccessful: boolean;
+  };
+  body: string;
 }

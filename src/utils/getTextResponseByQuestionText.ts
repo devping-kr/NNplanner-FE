@@ -1,7 +1,7 @@
-import { SatisfactionDistributionItem } from '@/type/survey/surveyResponse';
+import { Question } from '@/type/survey/surveyResponse';
 
 export const getTextResponsesByQuestionText = (
-  satisfactionDistributions: SatisfactionDistributionItem[],
+  satisfactionDistributions: Question[],
   questionText: string,
 ): string[] | null => {
   const foundItem = satisfactionDistributions.find(

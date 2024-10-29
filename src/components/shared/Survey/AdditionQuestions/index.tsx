@@ -95,7 +95,6 @@ const AdditionQuestions = ({ inputs, setInputs, successSubmit }: Props) => {
                 bgcolor='meal'
                 value={input.question}
                 onChange={(e) => handleChangeInput(e, idx)}
-                readOnly={successSubmit}
                 placeholder='추가 질문을 입력해주세요.'
               />
               <Selectbox
