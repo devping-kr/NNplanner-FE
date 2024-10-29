@@ -5,11 +5,15 @@ import {
   MonthMenusAutoRequest,
   MonthMenusSaveRequest,
 } from '@/type/menu/menuRequest';
-import { FoodInfo, MenuResponseDTO } from '@/type/menu/menuResponse';
+import {
+  FoodInfo,
+  MenuCountResponse,
+  MenuResponseDTO,
+} from '@/type/menu/menuResponse';
 import { Result } from '@/type/response';
 import { MENUS_API } from '@/constants/_apiPath';
 
-const { AUTO, SAVE, FOODS, MONTH_MENUS } = MENUS_API;
+const { AUTO, SAVE, FOODS, MONTH_MENUS, COUNT } = MENUS_API;
 
 const postMonthMenusAuto = async (request: MonthMenusAutoRequest) => {
   const response = await post<Result<null>>(AUTO, request);
@@ -57,8 +61,8 @@ const deleteMonthMenu = async (request: GetMonthMenuDetailRequest) => {
   return response.data;
 };
 
-const getAllCount = async () => {
-  const response = await get<Result<null>>(MENUS_API.ALL_COUNT);
+const getMenuCount = async () => {
+  const response = await get<Result<MenuCountResponse>>(COUNT);
   return response.data;
 };
 
@@ -69,5 +73,5 @@ export const menu = {
   getFoodList,
   getMonthMenuDetail,
   deleteMonthMenu,
-  getAllCount,
+  getMenuCount,
 };
