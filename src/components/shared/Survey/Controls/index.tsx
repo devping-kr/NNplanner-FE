@@ -10,15 +10,19 @@ import CustomDatePickerHeader from '@/components/shared/Survey/CustomDatePickerH
 interface Props {
   type: 'create' | 'edit';
   surveyName: string;
-  setEditSurveyName: React.Dispatch<React.SetStateAction<string>>;
+  setEditSurveyName?: React.Dispatch<React.SetStateAction<string>>;
+  setSurveyName?: React.Dispatch<React.SetStateAction<string>>;
   deadLine: Date | null;
   setDeadLine: React.Dispatch<React.SetStateAction<Date | null>>;
 }
+
+const EXTRA_SURVEYNAME_LIMIT = 30;
 
 const SurveyControls = ({
   type,
   surveyName,
   setEditSurveyName,
+  setSurveyName,
   deadLine,
   setDeadLine,
 }: Props) => {
@@ -33,7 +37,12 @@ const SurveyControls = ({
   };
 
   const handleChangeSurveyName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEditSurveyName(e.target.value);
+    if (e.target.value.length <= EXTRA_SURVEYNAME_LIMIT && !isChangeable) {
+      setEditSurveyName!(e.target.value);
+    }
+    if (e.target.value.length <= EXTRA_SURVEYNAME_LIMIT && isChangeable) {
+      setSurveyName!(e.target.value);
+    }
   };
 
   const handleOpenDatePicker = () => {
