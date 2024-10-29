@@ -12,28 +12,35 @@ import MainTopCard from '@/components/shared/Main/Cards/MainTopCard';
 import MiniCard from '@/components/shared/Main/Cards/MiniCard';
 import SeasonCard from '@/components/shared/Main/Cards/SeasonCard';
 import { DETAIL_SURVEY_DATA } from '@/constants/_detailSurvey';
-import { PLAN_DATA } from '@/constants/_getAllList/_planData';
 import { ROUTES } from '@/constants/_navbar';
 import { SEASON_DATA } from '@/constants/_seasonData';
 import { useGetMealList } from '@/hooks/meal/useGetMealList';
+import { useGetMenuCount } from '@/hooks/menu/useGetMenuCount';
 import { useGetSurveyList } from '@/hooks/survey/useGetSurveyList';
 import useNavigate from '@/hooks/useNavigate';
 
 const SURVEY_LIST_SIZE = 5;
-// api를 통해 받아올 데이터들
-const PREV_PLAN_DATA_LENGTH = 6;
+// TODO: ** 설문 좋아요/싫어요 top3 메뉴 API 연결
 const { likedMenusTop3, satisfactionDistribution } = DETAIL_SURVEY_DATA;
 
+// TODO: ** 제철 메뉴 API 연결
 const MainPageBody = () => {
   const { data: surveyList, isSuccess } = useGetSurveyList({});
+  const { data: mealCounts, isSuccess: isMealCountSuccess } = useGetMenuCount();
 
   const surveyTotalItems = isSuccess ? surveyList!.data.totalItems : 0;
   const { thisMonth, lastMonth } = isSuccess
     ? countSurveysByMonth(surveyList!.data.surveys)
     : { thisMonth: 0, lastMonth: 0 };
+
+  const currentMenuCount = isMealCountSuccess
+    ? mealCounts!.data.currentMenuCount
+    : 0;
+  const lastMenuCount = isMealCountSuccess ? mealCounts!.data.lastMenuCount : 0;
+
   const upDownPlanPercent = calculateUpdownPercent(
-    PLAN_DATA.length,
-    PREV_PLAN_DATA_LENGTH,
+    currentMenuCount,
+    lastMenuCount,
   );
   const upDownSurveyPercent = calculateUpdownPercent(thisMonth, lastMonth);
 
@@ -63,7 +70,7 @@ const MainPageBody = () => {
           title='관리 중인 식단'
           icon='time'
           color='active'
-          count={PLAN_DATA.length}
+          count={currentMenuCount}
           upDownPercent={upDownPlanPercent}
           type='plan'
         />
