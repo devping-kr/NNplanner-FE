@@ -55,16 +55,18 @@ const SurveyTake = ({ id }: Props) => {
   const submitSurvey = () => {
     const formattedBasicAnswers = Object.entries(answers)
       .slice(0, 8)
-      .map(([questionId, answer]) => ({
+      .map(([questionId, answer], index) => ({
         questionId: Number(questionId),
-        answer,
+        answer: [4, 5, 6].includes(index) ? [String(answer)] : answer,
       }));
+
     const formattedAdditionalAnswers = Object.entries(answers)
       .slice(8)
       .map(([questionId, answer]) => ({
         questionId: Number(questionId),
         answer,
       }));
+
     mutate({
       basicQuestions: formattedBasicAnswers,
       additionalQuestions: formattedAdditionalAnswers,
@@ -74,7 +76,7 @@ const SurveyTake = ({ id }: Props) => {
   return (
     <div className='flex w-full flex-col items-start gap-5 px-44'>
       <div className='mb-9 flex w-[calc(100%-20px)] justify-center'>
-        <HeadPrimary>8월 식단 설문</HeadPrimary>
+        <HeadPrimary>{surveyData?.surveyName}</HeadPrimary>
       </div>
       <Calendar
         data={MOCK_NEW_CALENDAR_NUTRITION}
