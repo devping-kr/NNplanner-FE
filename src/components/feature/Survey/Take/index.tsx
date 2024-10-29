@@ -53,21 +53,21 @@ const SurveyTake = ({ id }: Props) => {
   };
 
   const submitSurvey = () => {
+    const formattedBasicAnswers = Object.entries(answers)
+      .slice(0, 8)
+      .map(([questionId, answer]) => ({
+        questionId: Number(questionId),
+        answer,
+      }));
+    const formattedAdditionalAnswers = Object.entries(answers)
+      .slice(8)
+      .map(([questionId, answer]) => ({
+        questionId: Number(questionId),
+        answer,
+      }));
     mutate({
-      basicQuestions: [
-        { questionId: 10, answer: 8 },
-        { questionId: 11, answer: 2 },
-        { questionId: 12, answer: 3 },
-        { questionId: 13, answer: 6 },
-        { questionId: 14, answer: ['test', 'test', 'test'] },
-        { questionId: 15, answer: ['test2', 'test2', 'test2'] },
-        { questionId: 16, answer: 'test3' },
-        { questionId: 17, answer: 'test4' },
-      ],
-      additionalQuestions: [
-        { questionId: 18, answer: 'test5' },
-        { questionId: 19, answer: 4 },
-      ],
+      basicQuestions: formattedBasicAnswers,
+      additionalQuestions: formattedAdditionalAnswers,
     });
   };
 
@@ -89,7 +89,7 @@ const SurveyTake = ({ id }: Props) => {
             1(매우 아니다) - 10(매우 그렇다)
           </span>
         </div>
-        {surveyData?.satisfactionDistributions.map((question, idx) => (
+        {surveyData?.mandatoryQuestions.map((question, idx) => (
           <div
             key={question.questionId}
             className='flex w-full flex-col gap-1 border-b border-gray-300 pb-3'
@@ -97,11 +97,45 @@ const SurveyTake = ({ id }: Props) => {
             <li className='flex items-center gap-1'>
               <span>{idx + 1}. </span>
               <span>{question.questionText}</span>
-              {/* <span
-                className={question.isMandatory ? 'text-red-200' : 'hidden'}
-              >
-                *
-              </span> */}
+            </li>
+            {question.answerType === 'text' && (
+              <Input
+                value={answers[question.questionId] || ''}
+                bgcolor='meal'
+                onChange={(e) =>
+                  handleChange(question.questionId, e.target.value)
+                }
+              />
+            )}
+            {question.answerType === 'radio' && (
+              <div className='flex justify-around'>
+                {RADIO_OPTIONS.map((option) => (
+                  <div key={option} className='flex gap-2'>
+                    <input
+                      type='radio'
+                      name={`question${question.questionId}`}
+                      id={`${question.questionId}_${option}`}
+                      value={option}
+                      checked={answers[question.questionId] === option}
+                      onChange={() => handleChange(question.questionId, option)}
+                    />
+                    <label htmlFor={`${question.questionId}_${option}`}>
+                      {option}
+                    </label>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        ))}
+        {surveyData?.additionalQuestions.map((question, idx) => (
+          <div
+            key={question.questionId}
+            className='flex w-full flex-col gap-1 border-b border-gray-300 pb-3'
+          >
+            <li className='flex items-center gap-1'>
+              <span>{idx + 1}. </span>
+              <span>{question.questionText}</span>
             </li>
             {question.answerType === 'text' && (
               <Input
