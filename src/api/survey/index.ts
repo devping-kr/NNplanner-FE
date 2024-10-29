@@ -1,12 +1,16 @@
 import { get, post, del, put } from '@/lib/axios';
+import { env } from '@/lib/env';
 import { Result } from '@/type/response';
 import {
   GetSearchSurveyRequest,
+  PostServeyQrCodeRequest,
   PostServeyResponsesRequest,
   PostSurveyRequest,
   PutSurveyRequest,
 } from '@/type/survey/surveyRequest';
 import {
+  GetSurveyQrCodeResponse,
+  PostSurveyQrCodeResponse,
   PostSurveyResponsesResponse,
   PutSurveyResponse,
   SurveyDetailResponse,
@@ -72,6 +76,21 @@ const postResponses = async (
   return response.data;
 };
 
+const postSurveyQrCode = async (reqeust: PostServeyQrCodeRequest) => {
+  const response = await post<Result<PostSurveyQrCodeResponse>>(
+    `${env.QR_API_URL}/${env.QR_APP_KEY}/urls`,
+    reqeust,
+  );
+  return response.data;
+};
+
+const getSurveyQrCode = async (id: number) => {
+  const response = await get<GetSurveyQrCodeResponse>(
+    `${env.QR_API_URL}/${env.QR_APP_KEY}/domains/nh.nu/urls/${id}/qrcode`,
+  );
+  return response.data;
+};
+
 export const survey = {
   getSurveyList,
   postSurvey,
@@ -79,4 +98,6 @@ export const survey = {
   getSurveyDetail,
   putSurvey,
   postResponses,
+  postSurveyQrCode,
+  getSurveyQrCode,
 };
