@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import { destroyTokens } from '@/utils/destroyTokens';
 import Divider from '@/components/common/Divider';
 import Icon from '@/components/common/Icon';
@@ -13,6 +14,12 @@ import { useAuth } from '@/hooks/useAuth';
 import { useUserStore } from '@/stores/useUserStore';
 
 const Navbar = () => {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   const pathname = usePathname();
   const username = useUserStore((state) => state.username);
   const { logout } = useAuth();
@@ -58,7 +65,7 @@ const Navbar = () => {
         </div>
         <div>
           <Divider />
-          <NavProfile name={`${username}님`} />
+          <NavProfile name={isMounted ? username : ''} />
           <Divider />
           <button
             className='flex h-[50px] w-full items-center gap-2 px-10 text-sm'

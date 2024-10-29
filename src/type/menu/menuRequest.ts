@@ -16,8 +16,8 @@ export interface MonthMenusAutoRequest extends SelectedCategory {
 /**
  * @description 병원 하루 식단
  */
-export interface HospitalAutoDayMenus {
-  hospitalMenuId: string | null;
+export interface AutoDayMenus {
+  menuId: string | null;
   menuDate: string;
   food1: string;
   food2: string;
@@ -35,7 +35,7 @@ export interface MonthMenusSaveRequest {
   monthMenuName: string;
   majorCategory: MajorCategory;
   minorCategory: string;
-  monthMenusSaveList: HospitalAutoDayMenus[];
+  monthMenusSaveList: AutoDayMenus[];
 }
 
 export interface GetFoodsRequest {
