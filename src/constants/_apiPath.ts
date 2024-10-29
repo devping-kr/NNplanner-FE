@@ -39,7 +39,7 @@ export const MENUS_API = {
   SAVE: `${BASE_API.MONTH_MENUS}/save`,
   FOODS: `${BASE_API.MONTH_MENUS}/foods`,
   FOOD_NAME: 'foodName',
-  ALL_COUNT: `${BASE_API.MONTH_MENUS}/count`,
+  COUNT: `${BASE_API.MONTH_MENUS}/count`,
 };
 
 /**
