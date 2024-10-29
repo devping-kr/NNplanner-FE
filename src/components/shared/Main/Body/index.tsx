@@ -2,7 +2,7 @@
 
 import dayjs from 'dayjs';
 import { MenuResponseDTO } from '@/type/menu/menuResponse';
-import { getCurrentYearMonthNow } from '@/utils/calendar';
+import { MenuRecipeListResponse } from '@/type/openAPI/recipeResponse';
 import { calculateUpdownPercent, countSurveysByMonth } from '@/utils/survey';
 import { TableRowData } from '@/components/common/Table';
 import { CardTitle, NutritionDate } from '@/components/common/Typography';
@@ -13,9 +13,9 @@ import MiniCard from '@/components/shared/Main/Cards/MiniCard';
 import SeasonCard from '@/components/shared/Main/Cards/SeasonCard';
 import { DETAIL_SURVEY_DATA } from '@/constants/_detailSurvey';
 import { ROUTES } from '@/constants/_navbar';
-import { SEASON_DATA } from '@/constants/_seasonData';
 import { useGetMealList } from '@/hooks/meal/useGetMealList';
 import { useGetMenuCount } from '@/hooks/menu/useGetMenuCount';
+import { useGetMenuRecipeList } from '@/hooks/openAPI/useGetMenuRecipeList';
 import { useGetSurveyList } from '@/hooks/survey/useGetSurveyList';
 import useNavigate from '@/hooks/useNavigate';
 
@@ -23,10 +23,16 @@ const SURVEY_LIST_SIZE = 5;
 // TODO: ** 설문 좋아요/싫어요 top3 메뉴 API 연결
 const { likedMenusTop3, satisfactionDistribution } = DETAIL_SURVEY_DATA;
 
-// TODO: ** 제철 메뉴 API 연결
 const MainPageBody = () => {
   const { data: surveyList, isSuccess } = useGetSurveyList({});
   const { data: mealCounts, isSuccess: isMealCountSuccess } = useGetMenuCount();
+  const { data: recipeList, isSuccess: isRecipeSuccess } =
+    useGetMenuRecipeList();
+  const { data: mealList } = useGetMealList({
+    page: 0,
+    sort: 'createdAt,desc',
+    size: SURVEY_LIST_SIZE,
+  });
 
   const surveyTotalItems = isSuccess ? surveyList!.data.totalItems : 0;
   const { thisMonth, lastMonth } = isSuccess
@@ -44,23 +50,35 @@ const MainPageBody = () => {
   );
   const upDownSurveyPercent = calculateUpdownPercent(thisMonth, lastMonth);
 
-  const { navigate } = useNavigate();
-  const { month } = getCurrentYearMonthNow();
+  const recipeData = isRecipeSuccess
+    ? recipeList!.data
+    : [
+        {
+          recipeId: '',
+          month: 0,
+          recipeName: '',
+          mainIngredient: '',
+          subIngredient: '',
+          instructions: '',
+          forGroup: '',
+          imageUrl: '',
+        } as MenuRecipeListResponse,
+      ];
 
-  const { data: mealList } = useGetMealList({
-    page: 0,
-    sort: 'createdAt,desc',
-    size: SURVEY_LIST_SIZE,
-  });
+  const { navigate } = useNavigate();
 
   const convertToTableRowData = (menus: MenuResponseDTO[]): TableRowData[] => {
     return menus.map((menu) => ({
-      식단ID: menu.monthMenuId.substring(0, 4),
+      식단ID: menu.monthMenuId,
       식단이름: menu.monthMenuName,
       대분류: menu.majorCategory,
       소분류: menu.minorCategory,
       생성일: dayjs(menu.createAt).format('YYYY-MM-DD'),
     }));
+  };
+
+  const handleRowClick = (id: string | number) => {
+    navigate(`${ROUTES.VIEW.PLAN}/${id}`);
   };
 
   return (
@@ -99,9 +117,7 @@ const MainPageBody = () => {
               data={convertToTableRowData(
                 mealList.data.menuResponseDTOList.slice(0, 5),
               )}
-              onRowClick={(id) => {
-                navigate(`${ROUTES.VIEW.PLAN}/${id}`);
-              }}
+              onRowClick={(id) => handleRowClick(id)}
             />
           ) : (
             <div className='mt-1 flex justify-center'>
@@ -111,8 +127,8 @@ const MainPageBody = () => {
         </div>
       </div>
       <div className='flex w-full flex-col gap-3 rounded border border-gray-300 bg-white-100 p-5'>
-        <CardTitle>{`${month}월의 제철 메뉴 / 식재료`}</CardTitle>
-        <SeasonCard data={SEASON_DATA} />
+        <CardTitle>{`${recipeData[0].month}월의 제철 레시피`}</CardTitle>
+        <SeasonCard data={recipeData} />
       </div>
     </div>
   );
