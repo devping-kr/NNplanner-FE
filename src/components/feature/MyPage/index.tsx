@@ -263,7 +263,7 @@ const MyPage = () => {
                 <CardTitle>{isMounted ? username : ''}</CardTitle> 님
                 안녕하세요.
               </div>
-              <BodyGray>{email}</BodyGray>
+              <BodyGray>{isMounted ? email : ''}</BodyGray>
             </div>
             <div className='flex flex-1 justify-end'>
               <Button onClick={openModal} width='fit' size='small'>
