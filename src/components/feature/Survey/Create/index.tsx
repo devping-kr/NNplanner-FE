@@ -63,11 +63,10 @@ const SurveyCreate = ({ id }: { id: string }) => {
         showToast(message, 'success', 1000);
         queryClient.invalidateQueries({ queryKey: surveyKeys.search() });
         router.replace(NAV_LINKS[4].href);
+
         postSurveyQrCodeMutate(
           {
-            // TODO: 배포된 설문응답 url로 이동시켜야함.
-            // url: `http://localhost:3000/survey/take/${data.surveyId}`,
-            url: 'https://www.naver.com',
+            url: `https://nnplanner.com/survey/take/${data.surveyId}/`,
             backHalf: data.surveyId,
           },
           {
