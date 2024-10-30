@@ -71,7 +71,7 @@ const ViewPlan = () => {
 
   const convertToTableRowData = (menus: MenuResponseDTO[]): TableRowData[] => {
     return menus.map((menu) => ({
-      식단ID: menu.monthMenuId,
+      식단ID: menu.monthMenuId.slice(0, 4),
       식단이름: menu.monthMenuName,
       대분류: menu.majorCategory,
       소분류: menu.minorCategory,
@@ -116,6 +116,22 @@ const ViewPlan = () => {
     }
   }, [hasCategories, prefetchMinorCategories]);
 
+  const findOriginalId = (id: string | number) => {
+    const selectedMenuList =
+      selectedCategory === ''
+        ? mealList!.data.menuResponseDTOList
+        : searchMealList?.data?.menuResponseDTOList || [];
+
+    const selectedMenu = selectedMenuList.find(
+      (menu) => menu.monthMenuId.slice(0, 4) === id,
+    );
+
+    const originalId = selectedMenu?.monthMenuId;
+    if (originalId) {
+      router.push(`${ROUTES.VIEW.PLAN}/${originalId}`);
+    }
+  };
+
   return (
     <div className='flex flex-col gap-4'>
       {mealList && (
@@ -150,9 +166,7 @@ const ViewPlan = () => {
                     ? mealList.data.menuResponseDTOList
                     : searchMealList?.data?.menuResponseDTOList || [],
                 )}
-                onRowClick={(id) => {
-                  router.push(`${ROUTES.VIEW.PLAN}/${id}`);
-                }}
+                onRowClick={(id) => findOriginalId(id)}
               />
               <Pagination
                 limit={PAGE_LIMIT}
