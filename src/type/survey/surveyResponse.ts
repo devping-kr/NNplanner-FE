@@ -28,6 +28,7 @@ export interface SurveyDetailResponse {
   mandatoryQuestions: Question[];
   additionalQuestions: Question[];
   averageScores: AverageScores;
+  mmId: string;
 }
 
 export interface Question {
