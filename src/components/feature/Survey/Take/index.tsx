@@ -2,13 +2,13 @@
 
 import { useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
-import { getCurrentYearMonthNow } from '@/utils/calendar';
+import { getYearAndMonth, transformResponseToCalendar } from '@/utils/calendar';
 import Button from '@/components/common/Button/Button';
 import Calendar from '@/components/common/Calendar';
 import { Input } from '@/components/common/Input';
 import { CardTitle, HeadPrimary } from '@/components/common/Typography';
-import { MOCK_NEW_CALENDAR_NUTRITION } from '@/constants/_calendarData';
 import { BASE_ROUTES } from '@/constants/_navbar';
+import { useGetMonthMenuDetails } from '@/hooks/menu/useGetMonthMenuDetail';
 import { surveyKeys } from '@/hooks/survey/queryKey';
 import { useGetSurveyDetail } from '@/hooks/survey/useGetSurveyDetail';
 import { usePostSurveyResponses } from '@/hooks/survey/usePostSurveyResponses';
@@ -26,6 +26,16 @@ const SurveyTake = ({ id }: Props) => {
   const { navigate } = useNavigate();
   const showToast = useToastStore((state) => state.showToast);
   const { data: surveyData } = useGetSurveyDetail(id);
+  const [answers, setAnswers] = useState<{ [key: number]: number | string }>(
+    {},
+  );
+
+  const { data: monthMenuData, isLoading } = useGetMonthMenuDetails(
+    { monthMenuId: surveyData?.mmId as string },
+    {
+      enabled: !!surveyData?.mmId,
+    },
+  );
 
   const { mutate } = usePostSurveyResponses(id, {
     onSuccess: () => {
@@ -38,12 +48,15 @@ const SurveyTake = ({ id }: Props) => {
     },
   });
 
-  console.log(surveyData);
-  const [answers, setAnswers] = useState<{ [key: number]: number | string }>(
-    {},
+  const monthMenuDetail = monthMenuData?.data;
+
+  if (isLoading || !monthMenuDetail) {
+    return <div>Loading...</div>;
+  }
+
+  const { year: createdYear, month: createdMonth } = getYearAndMonth(
+    monthMenuDetail.createAt,
   );
-  console.log(answers);
-  const { month, year } = getCurrentYearMonthNow();
 
   const handleChange = (questionId: number, value: number | string) => {
     setAnswers((prev) => ({
@@ -73,15 +86,22 @@ const SurveyTake = ({ id }: Props) => {
     });
   };
 
+  const calendarData = transformResponseToCalendar(
+    createdYear,
+    createdMonth,
+    monthMenuDetail.monthMenuList,
+    'detail',
+  );
+
   return (
     <div className='flex w-full flex-col items-start gap-5 px-44'>
       <div className='mb-9 flex w-[calc(100%-20px)] justify-center'>
         <HeadPrimary>{surveyData?.surveyName}</HeadPrimary>
       </div>
       <Calendar
-        data={MOCK_NEW_CALENDAR_NUTRITION}
-        year={year}
-        month={month}
+        data={calendarData}
+        year={createdYear}
+        month={createdMonth}
         readonly
       />
       <ul className='mt-10 flex w-[calc(100%-20px)] max-w-[1224px] flex-col gap-3 rounded-sm bg-white-100 p-6'>
