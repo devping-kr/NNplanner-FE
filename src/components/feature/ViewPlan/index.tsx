@@ -1,12 +1,13 @@
 'use client';
 
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { MenuResponseDTO } from '@/type/menu/menuResponse';
 import { Result } from '@/type/response';
 import { getCurrentYearMonthNow } from '@/utils/calendar';
+import { findOriginalId } from '@/utils/findOriginalId';
 import Pagination from '@/components/common/Pagination';
 import { Option } from '@/components/common/Selectbox';
 import { TableRowData } from '@/components/common/Table';
@@ -20,13 +21,14 @@ import { ROUTES } from '@/constants/_navbar';
 import { useGetMealList } from '@/hooks/meal/useGetMealList';
 import { useGetSearchMealList } from '@/hooks/meal/useGetSearchMealList';
 import { usePrefetchMinorCategories } from '@/hooks/menuCategory/usePrefetchMinorCategories';
+import useNavigate from '@/hooks/useNavigate';
 import { useToastStore } from '@/stores/useToastStore';
 
 const PAGE_LIMIT = 8;
 
 const ViewPlan = () => {
   const searchParam = useSearchParams();
-  const router = useRouter();
+  const { navigate } = useNavigate();
   const sort = searchParam.get('sort') as string;
   const currentTab = sort ?? ('최신순' as string);
   const showToast = useToastStore((state) => state.showToast);
@@ -116,20 +118,21 @@ const ViewPlan = () => {
     }
   }, [hasCategories, prefetchMinorCategories]);
 
-  const findOriginalId = (id: string | number) => {
+  const handleClickRow = (id: string) => {
+    if (!mealList?.data && !searchMealList?.data) return;
     const selectedMenuList =
       selectedCategory === ''
         ? mealList!.data.menuResponseDTOList
         : searchMealList?.data?.menuResponseDTOList || [];
 
-    const selectedMenu = selectedMenuList.find(
-      (menu) => menu.monthMenuId.slice(0, 4) === id,
-    );
-
-    const originalId = selectedMenu?.monthMenuId;
-    if (originalId) {
-      router.push(`${ROUTES.VIEW.PLAN}/${originalId}`);
-    }
+    findOriginalId({
+      list: selectedMenuList,
+      matchField: 'monthMenuId',
+      matchValue: id,
+      navigateTo: ROUTES.VIEW.PLAN,
+      getId: (menu) => menu.monthMenuId,
+      navigate,
+    });
   };
 
   return (
@@ -166,7 +169,7 @@ const ViewPlan = () => {
                     ? mealList.data.menuResponseDTOList
                     : searchMealList?.data?.menuResponseDTOList || [],
                 )}
-                onRowClick={(id) => findOriginalId(id)}
+                onRowClick={(id) => handleClickRow(String(id))}
               />
               <Pagination
                 limit={PAGE_LIMIT}
