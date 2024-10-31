@@ -10,7 +10,16 @@ interface SatisfactionDistribution {
 }
 
 const BarGraph = ({ data }: SatisfactionDistribution) => {
-  const valuesArray = Object.values(data);
+  const totalVotes = Object.values(data).reduce((acc, cur) => acc + cur, 0);
+
+  const valuesArray = Object.values(data).map((score) =>
+    Math.floor((score / totalVotes) * 100),
+  );
+
+  const yMin = 0;
+  const yMax = Math.ceil(Math.max(...valuesArray) / 10) * 10;
+  const adjustedYMax = yMax < 100 ? yMax + 10 : 100;
+
   const [chartOptions] = useState<ApexOptions>({
     chart: {
       type: 'bar',
@@ -38,6 +47,11 @@ const BarGraph = ({ data }: SatisfactionDistribution) => {
       title: {},
     },
     yaxis: {
+      min: yMin,
+      max: adjustedYMax,
+      labels: {
+        formatter: (value) => `${value}%`,
+      },
       title: {},
     },
     colors: [
@@ -69,7 +83,7 @@ const BarGraph = ({ data }: SatisfactionDistribution) => {
     <div id='chart'>
       <ApexCharts
         options={chartOptions}
-        series={[{ data: valuesArray, name: '해당 점수 답변수' }]}
+        series={[{ data: valuesArray, name: '해당 점수 비율' }]}
         type='bar'
         height='300'
       />
