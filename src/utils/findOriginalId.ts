@@ -1,4 +1,3 @@
-import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 import { MenuResponseDTO } from '@/type/menu/menuResponse';
 
 interface FindOriginalIdParams {
@@ -7,7 +6,7 @@ interface FindOriginalIdParams {
   matchValue: string;
   navigateTo: string;
   getId: (item: MenuResponseDTO) => string;
-  router: AppRouterInstance;
+  navigate: (path: string) => void;
 }
 
 export const findOriginalId = ({
@@ -16,7 +15,7 @@ export const findOriginalId = ({
   matchValue,
   navigateTo,
   getId,
-  router,
+  navigate,
 }: FindOriginalIdParams) => {
   const matchedItem = list.find(
     (item) => String(item[matchField]).slice(0, 4) === matchValue,
@@ -24,6 +23,6 @@ export const findOriginalId = ({
 
   if (matchedItem) {
     const originalId = getId(matchedItem);
-    router.push(`${navigateTo}/${originalId}`);
+    navigate(`${navigateTo}/${originalId}`);
   }
 };

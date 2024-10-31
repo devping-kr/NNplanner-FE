@@ -1,6 +1,6 @@
 'use client';
 
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import dayjs from 'dayjs';
@@ -21,13 +21,14 @@ import { ROUTES } from '@/constants/_navbar';
 import { useGetMealList } from '@/hooks/meal/useGetMealList';
 import { useGetSearchMealList } from '@/hooks/meal/useGetSearchMealList';
 import { usePrefetchMinorCategories } from '@/hooks/menuCategory/usePrefetchMinorCategories';
+import useNavigate from '@/hooks/useNavigate';
 import { useToastStore } from '@/stores/useToastStore';
 
 const PAGE_LIMIT = 8;
 
 const ViewPlan = () => {
   const searchParam = useSearchParams();
-  const router = useRouter();
+  const { navigate } = useNavigate();
   const sort = searchParam.get('sort') as string;
   const currentTab = sort ?? ('최신순' as string);
   const showToast = useToastStore((state) => state.showToast);
@@ -130,7 +131,7 @@ const ViewPlan = () => {
       matchValue: id,
       navigateTo: ROUTES.VIEW.PLAN,
       getId: (menu) => menu.monthMenuId,
-      router,
+      navigate,
     });
   };
 
