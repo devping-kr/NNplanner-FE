@@ -7,6 +7,7 @@ import dayjs from 'dayjs';
 import { MenuResponseDTO } from '@/type/menu/menuResponse';
 import { Result } from '@/type/response';
 import { getCurrentYearMonthNow } from '@/utils/calendar';
+import { findOriginalId } from '@/utils/findOriginalId';
 import Pagination from '@/components/common/Pagination';
 import { Option } from '@/components/common/Selectbox';
 import { TableRowData } from '@/components/common/Table';
@@ -116,20 +117,21 @@ const ViewPlan = () => {
     }
   }, [hasCategories, prefetchMinorCategories]);
 
-  const findOriginalId = (id: string | number) => {
+  const handleClickRow = (id: string) => {
+    if (!mealList?.data && !searchMealList?.data) return;
     const selectedMenuList =
       selectedCategory === ''
         ? mealList!.data.menuResponseDTOList
         : searchMealList?.data?.menuResponseDTOList || [];
 
-    const selectedMenu = selectedMenuList.find(
-      (menu) => menu.monthMenuId.slice(0, 4) === id,
-    );
-
-    const originalId = selectedMenu?.monthMenuId;
-    if (originalId) {
-      router.push(`${ROUTES.VIEW.PLAN}/${originalId}`);
-    }
+    findOriginalId({
+      list: selectedMenuList,
+      matchField: 'monthMenuId',
+      matchValue: id,
+      navigateTo: ROUTES.VIEW.PLAN,
+      getId: (menu) => menu.monthMenuId,
+      router,
+    });
   };
 
   return (
@@ -166,7 +168,7 @@ const ViewPlan = () => {
                     ? mealList.data.menuResponseDTOList
                     : searchMealList?.data?.menuResponseDTOList || [],
                 )}
-                onRowClick={(id) => findOriginalId(id)}
+                onRowClick={(id) => handleClickRow(String(id))}
               />
               <Pagination
                 limit={PAGE_LIMIT}
