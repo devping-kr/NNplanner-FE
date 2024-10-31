@@ -15,6 +15,7 @@ import {
   getCurrentYearMonthNow,
   transformResponseToCalendar,
   transformCalendarToPostSave,
+  isAllFoodsEmpty,
 } from '@/utils/calendar';
 import MealForm from '@/components/common/MealForm';
 import MealCalendar from '@/components/shared/Meal/MealCalender';
@@ -68,6 +69,11 @@ const AutoPlanCreate = () => {
   };
 
   const onSubmit = (data: MealHeaderFormData) => {
+    if (isAllFoodsEmpty(calendarData)) {
+      showToast('빈 식단은 생성할 수 없습니다.', 'warning', 3000);
+      return;
+    }
+
     const formattedData = transformCalendarToPostSave(
       calendarData,
       data.monthMenuName,
