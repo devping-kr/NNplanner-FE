@@ -200,3 +200,13 @@ export const getYearAndMonth = (createdAt: string) => {
 
   return { year, month };
 };
+
+/**
+ * @description 식단 데이터가 비어있는 지 확인
+ * @param calendarData
+ */
+export const isAllFoodsEmpty = (calendarData: CalendarInfo): boolean => {
+  return Object.values(calendarData).every(
+    (dateData) => dateData.foods.length === 0,
+  );
+};
