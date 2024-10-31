@@ -81,7 +81,11 @@ const AverageGraph = ({ averageScores }: Props) => {
           offsetX: -20,
           fontSize: '12px',
           formatter: function (seriesName, opts) {
-            return seriesName + ':  ' + opts.w.globals.series[opts.seriesIndex];
+            return (
+              seriesName +
+              ':  ' +
+              Number(opts.w.globals.series[opts.seriesIndex]).toFixed(0)
+            );
           },
         },
       },
