@@ -1,5 +1,5 @@
 import { env } from '@/lib/env';
-import axios, { AxiosError, AxiosResponse } from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { parseCookies } from 'nookies';
 import { saveTokens } from '@/utils/saveTokens';
 import { AUTH_API } from '@/constants/_apiPath';
@@ -100,14 +100,12 @@ instance.interceptors.request.use(
 
 instance.interceptors.response.use(
   (response) => response,
-  async (error: AxiosError) => {
+  async (error) => {
     const originalRequest = error.config;
-    console.log(error);
 
     if (
-      !originalRequest ||
-      // TODO: 서버에서 에러코드 변경시 그거로 변경해야함
-      error.response?.status !== 403 ||
+      !originalRequest &&
+      error.response?.status !== 418 &&
       originalRequest.headers._retry !== '0'
     ) {
       return Promise.reject(error);
@@ -125,8 +123,7 @@ instance.interceptors.response.use(
       const response = await axios.get(
         `${env.BASE_API_URL}${AUTH_API.REISSUE}`,
         {
-          headers: { Refreshtoken: `Bearer ${refreshToken}` },
-          withCredentials: true,
+          headers: { Refreshtoken: `${refreshToken}` },
         },
       );
 
