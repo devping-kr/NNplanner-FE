@@ -4,6 +4,6 @@ export const destroyTokens = () => {
   if (typeof window === 'undefined') return;
 
   localStorage.removeItem('accessToken');
-  destroyCookie(null, 'refreshToken');
-  destroyCookie(null, 'isLogin');
+  destroyCookie(null, 'refreshToken', { path: '/' });
+  destroyCookie(null, 'isLogin', { path: '/' });
 };
