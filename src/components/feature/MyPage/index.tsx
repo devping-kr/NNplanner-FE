@@ -11,6 +11,7 @@ import { changePasswordSchema } from '@/schema/authSchema';
 import { MenuResponseDTO } from '@/type/menu/menuResponse';
 import { FailResponse, Result } from '@/type/response';
 import { surveyType } from '@/type/survey/surveyResponse';
+import { findOriginalId } from '@/utils/findOriginalId';
 import Button from '@/components/common/Button/Button';
 import { Input } from '@/components/common/Input';
 import Modal from '@/components/common/Modal';
@@ -22,10 +23,11 @@ import {
   NutritionEtc,
 } from '@/components/common/Typography';
 import GetAllListTable from '@/components/shared/GetAllList/ListTable';
-import { NAV_LINKS } from '@/constants/_navbar';
+import { NAV_LINKS, ROUTES } from '@/constants/_navbar';
 import { useGetMealList } from '@/hooks/meal/useGetMealList';
 import { useGetMenuCount } from '@/hooks/menu/useGetMenuCount';
 import { useGetSurveyList } from '@/hooks/survey/useGetSurveyList';
+import useNavigate from '@/hooks/useNavigate';
 import { usePostCheckPw } from '@/hooks/user/usePostCheckPw';
 import { usePostEditPw } from '@/hooks/user/usePostEditPw';
 import { useModalStore } from '@/stores/modalStore';
@@ -151,6 +153,25 @@ const MyPage = () => {
       생성일: survey.createdAt,
       상태: survey.state,
     }));
+  };
+
+  const { navigate } = useNavigate();
+
+  const handleMealRowClick = (id: string | number) => {
+    if (!mealList?.data) return;
+    findOriginalId({
+      list: mealList.data.menuResponseDTOList.slice(0, 4),
+      matchField: 'monthMenuId',
+      matchValue: id as string,
+      navigateTo: ROUTES.VIEW.PLAN,
+      getId: (menu) => menu.monthMenuId,
+      navigate,
+    });
+  };
+
+  const handleSurveyRowClick = (id: number) => {
+    if (!surveyList?.data) return;
+    navigate(`${ROUTES.VIEW.CHART}/${id}`);
   };
 
   return (
@@ -305,6 +326,7 @@ const MyPage = () => {
             {mealList?.data.menuResponseDTOList ? (
               <GetAllListTable
                 data={convertToTableRowData(mealList!.data.menuResponseDTOList)}
+                onRowClick={(id) => handleMealRowClick(id)}
               />
             ) : (
               <div className='mt-1 flex justify-center'>
@@ -326,6 +348,7 @@ const MyPage = () => {
             {surveyList?.data.surveys ? (
               <GetAllListTable
                 data={surveyConvertToTableRowData(surveyList!.data.surveys)}
+                onRowClick={(id) => handleSurveyRowClick(Number(id))}
               />
             ) : (
               <div className='mt-1 flex justify-center'>

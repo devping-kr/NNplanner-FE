@@ -23,8 +23,8 @@ const TableBody = ({
           key={rowIndex}
           className='border-separate border-spacing-0 cursor-pointer'
           onClick={
-            onRowClick && type === 'list' && typeof item.surveyId === 'number'
-              ? () => onRowClick(item.surveyId as number)
+            onRowClick && type === 'list' && typeof item.설문ID === 'number'
+              ? () => onRowClick(item.설문ID as number)
               : onRowClick && type === 'list' && typeof item.식단ID === 'string'
                 ? () => onRowClick(item.식단ID as string)
                 : undefined
