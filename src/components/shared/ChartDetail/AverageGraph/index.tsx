@@ -10,6 +10,7 @@ interface Props {
     tasteSatisfaction: number;
   };
 }
+
 const scoreTitleTranslations: { [key: string]: string } = {
   totalSatisfaction: '총점',
   portionSatisfaction: '양',
@@ -28,20 +29,14 @@ const AverageGraph = ({ averageScores }: Props) => {
     },
     legend: {
       show: true,
-      markers: {
-        shape: 'circle',
-      },
       position: 'bottom',
+      formatter: (seriesName: string, opts) => {
+        const value = opts.w.globals.series[opts.seriesIndex];
+        return `${seriesName}: ${value !== undefined ? value.toFixed(0) : 0}점`;
+      },
     },
     labels: titleList,
     colors: ['#FFF9B1', '#FFD1A9', '#C9F4C5', '#A7D8F0'],
-    // states: {
-    //   hover: {
-    //     filter: {
-    //       type: 'none',
-    // },
-    //   },
-    // },
     plotOptions: {
       radialBar: {
         offsetY: 0,
@@ -99,11 +94,10 @@ const AverageGraph = ({ averageScores }: Props) => {
     <div id='chart'>
       <ApexCharts
         options={chartOptions}
-        series={scoreValueList.map((item) => {
-          return item * 10;
-        })}
+        series={scoreValueList.map((item) => item * 10 || 0)}
         type='radialBar'
-        height='330'
+        height={330}
+        width='100%'
       />
     </div>
   );
