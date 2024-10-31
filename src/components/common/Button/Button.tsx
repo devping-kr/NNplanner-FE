@@ -7,7 +7,7 @@ import { buttonVariants } from '@/components/common/Button/Button.variant';
 
 export type ButtonProps = VariantProps<typeof buttonVariants> &
   ComponentPropsWithoutRef<'button'> & {
-    size?: 'small' | 'basic' | 'large';
+    size?: 'xSmall' | 'small' | 'basic' | 'large';
     width?: 'fit' | 'full';
   };
 

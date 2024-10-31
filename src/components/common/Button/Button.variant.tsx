@@ -14,6 +14,7 @@ export const buttonVariants = cva(
         pagination: '',
       },
       size: {
+        xSmall: 'py-1 px-2 text-xs',
         small: 'py-2 px-4 text-xs',
         basic: 'py-3 px-5 text-sm',
         large: 'py-4 px-6 text-base',

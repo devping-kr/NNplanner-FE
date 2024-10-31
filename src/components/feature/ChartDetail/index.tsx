@@ -65,6 +65,24 @@ const ChartDetail = ({ id }: Props) => {
     return distributionValues.every((value) => value === 0);
   };
 
+  const copyQRcode = async () => {
+    try {
+      if (!qrData?.body) return;
+      const imageUrl = `data:image/png;base64,${qrData.body}`;
+
+      const response = await fetch(imageUrl);
+      const blob = await response.blob();
+
+      await navigator.clipboard.write([
+        new ClipboardItem({ 'image/png': blob }),
+      ]);
+
+      showToast('QRcode 복사 성공', 'success', 1000);
+    } catch (error) {
+      showToast('QRcode 복사 실패', 'warning', 1000);
+    }
+  };
+
   return (
     <div className='flex flex-col gap-10'>
       {detailData &&
@@ -126,14 +144,23 @@ const ChartDetail = ({ id }: Props) => {
               <div className='flex w-1/3 flex-col gap-3'>
                 <div className='mb-3 flex flex-1 flex-col gap-3 rounded border border-gray-300 bg-white-100 p-5'>
                   <CardTitle>설문 조사 링크</CardTitle>
-                  <div className='flex items-center justify-center rounded border border-gray-300'>
+                  <div className='flex cursor-pointer flex-col items-center justify-center rounded border border-gray-300'>
                     <Image
                       width={180}
                       height={180}
                       style={{ borderRadius: 4 }}
                       src={`data:image/png;base64,${qrData.body}`}
                       alt='qr이미지'
+                      onClick={() => navigate(`${ROUTES.SURVEY.TAKE}/${id}`)}
                     />
+                    <Button
+                      size='xSmall'
+                      width='fit'
+                      className='mb-2 rounded'
+                      onClick={copyQRcode}
+                    >
+                      QRcode 복사
+                    </Button>
                   </div>
                 </div>
                 <TextList
