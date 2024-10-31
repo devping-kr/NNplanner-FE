@@ -144,7 +144,7 @@ const ChartDetail = ({ id }: Props) => {
               <div className='flex w-1/3 flex-col gap-3'>
                 <div className='mb-3 flex flex-1 flex-col gap-3 rounded border border-gray-300 bg-white-100 p-5'>
                   <CardTitle>설문 조사 링크</CardTitle>
-                  <div className='flex cursor-pointer flex-col items-center justify-center rounded border border-gray-300'>
+                  <div className='flex cursor-pointer flex-col items-center justify-center gap-2 rounded border border-gray-300'>
                     <Image
                       width={180}
                       height={180}
