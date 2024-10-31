@@ -3,6 +3,7 @@
 import dayjs from 'dayjs';
 import { MenuResponseDTO } from '@/type/menu/menuResponse';
 import { MenuRecipeListResponse } from '@/type/openAPI/recipeResponse';
+import { findOriginalId } from '@/utils/findOriginalId';
 import { calculateUpdownPercent, countSurveysByMonth } from '@/utils/survey';
 import { TableRowData } from '@/components/common/Table';
 import { CardTitle, NutritionDate } from '@/components/common/Typography';
@@ -69,7 +70,7 @@ const MainPageBody = () => {
 
   const convertToTableRowData = (menus: MenuResponseDTO[]): TableRowData[] => {
     return menus.map((menu) => ({
-      식단ID: menu.monthMenuId,
+      식단ID: menu.monthMenuId.slice(0, 4),
       식단이름: menu.monthMenuName,
       대분류: menu.majorCategory,
       소분류: menu.minorCategory,
@@ -78,7 +79,15 @@ const MainPageBody = () => {
   };
 
   const handleRowClick = (id: string | number) => {
-    navigate(`${ROUTES.VIEW.PLAN}/${id}`);
+    if (!mealList?.data) return;
+    findOriginalId({
+      list: mealList.data.menuResponseDTOList.slice(0, 4),
+      matchField: 'monthMenuId',
+      matchValue: id as string,
+      navigateTo: ROUTES.VIEW.PLAN,
+      getId: (menu) => menu.monthMenuId,
+      navigate,
+    });
   };
 
   return (
