@@ -17,7 +17,7 @@ interface Props {
   organization?: string;
   setOrganization?: React.Dispatch<React.SetStateAction<string>>;
   searchValue: string;
-  handlechangeSearchValue: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleChangeSearchValue: (e: React.ChangeEvent<HTMLInputElement>) => void;
   selectedFilter?: string;
   setSelectedFilter?: React.Dispatch<React.SetStateAction<string>>;
   selectedTab: string;
@@ -38,7 +38,7 @@ const GetAllListControls = ({
   organization,
   setOrganization,
   searchValue,
-  handlechangeSearchValue,
+  handleChangeSearchValue,
   selectedFilter,
   setSelectedFilter,
   selectedTab,
@@ -78,7 +78,7 @@ const GetAllListControls = ({
             bgcolor='meal'
             includeButton={true}
             value={searchValue}
-            onChange={handlechangeSearchValue}
+            onChange={handleChangeSearchValue}
             onSubmit={handleSearchSubmit}
           />
           {type === 'viewPlan' && setOrganization && setSelectedCategory && (
@@ -87,6 +87,7 @@ const GetAllListControls = ({
                 options={ORGANIZATION_LIST}
                 size='small'
                 onChange={handleOrganizationChange}
+                selectedValue={organization}
               />
               {ORGANIZATION_LIST.map(
                 (item) =>
