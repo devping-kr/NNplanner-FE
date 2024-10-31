@@ -171,7 +171,7 @@ const ChartDetail = ({ id }: Props) => {
                       '먹고 싶은 메뉴',
                     )!
                   }
-                  title='먹고 싶은 메뉴 목록'
+                  title='먹고 싶은 메뉴'
                 />
               </div>
               <div className='flex w-2/3 flex-col gap-3'>
