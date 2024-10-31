@@ -1,5 +1,13 @@
 import { Suspense } from 'react';
 import ViewChart from '@/components/feature/ViewChart';
+import { PAGE_METADATA } from '@/constants/_metadata';
+
+const { title, description } = PAGE_METADATA.VIEWCHART;
+
+export const metadata = {
+  title,
+  description,
+};
 
 const page = () => {
   return (
