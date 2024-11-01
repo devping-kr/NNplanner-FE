@@ -1,6 +1,5 @@
 'use client';
 
-import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import dayjs from 'dayjs';
@@ -18,7 +17,6 @@ import GetAllListTable from '@/components/shared/GetAllList/ListTable';
 import { CATEGORY_MAPPINGS } from '@/constants/_category';
 import { TAB_OPTIONS } from '@/constants/_controlTab';
 import { ROUTES } from '@/constants/_navbar';
-import { useGetMealList } from '@/hooks/meal/useGetMealList';
 import { useGetSearchMealList } from '@/hooks/meal/useGetSearchMealList';
 import { usePrefetchMinorCategories } from '@/hooks/menuCategory/usePrefetchMinorCategories';
 import useNavigate from '@/hooks/useNavigate';
@@ -31,10 +29,7 @@ const SORT_ASC = 'createdAt,asc';
 const DEFAULT_PAGE = 1;
 
 const ViewPlan = () => {
-  const searchParam = useSearchParams();
   const { navigate } = useNavigate();
-  const sort = searchParam.get('sort') as string;
-  const currentTab = sort ?? (TAB_OPTIONS[0] as string);
   const showToast = useToastStore((state) => state.showToast);
 
   const queryClient = useQueryClient();
@@ -45,24 +40,13 @@ const ViewPlan = () => {
   const { month, year } = getCurrentYearMonthNow();
   const [selectedYear, setSelectedYear] = useState<string>(year.toString());
   const [selectedMonth, setSelectedMonth] = useState<string>(month.toString());
-  const [searchValue, setSearchValue] = useState('');
+  const [searchInputValue, setSearchInputValue] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
   const [selectedOrganization, setSelectedOrganization] = useState<string>('');
   const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [selectedTab, setSelectedTab] = useState<string>(TAB_OPTIONS[0]);
   const [page, setPage] = useState(DEFAULT_PAGE);
   const [isSearchClicked, setIsSearchClicked] = useState(false);
-
-  // TODO : 식단 검색 api 연결 - 오래된 순
-  // 1. 검색어 검색 시 리스폰스는 잘 오는데 화면에 연결 안 됨 -> state 추가해서 해결
-  // 2. 카테고리 눌러놓으면 / 검색 한 번 누르고 나면?검색어 value 변경 시 마다 검색 api 트리거됨
-  // 3. 카테고리 눌러놔도 어느 순간 대분류가 placeholder로 바뀌어있음 -> control select에 기본값 추가
-  // 4. 검색어나 날짜 선택, 카테고리 선택하고 오래된 순 정렬이 안 된다. -> 우선 카테고리가 있어도 정렬 누르면 검색 api 트리거가 안됨
-
-  const { data: mealList, refetch: mealRefetch } = useGetMealList({
-    page,
-    sort: currentTab === TAB_OPTIONS[0] ? SORT_DESC : SORT_ASC,
-    size: PAGE_LIMIT,
-  });
 
   const searchTriggerCondition =
     // 1. 대분류, 소분류 값있을 때
@@ -71,8 +55,7 @@ const ViewPlan = () => {
     !!(
       selectedYear !== year.toString() || selectedMonth !== month.toString()
     ) ||
-    // 3. 오래된 순이면서
-    // 전체 식단 오래된 순 정렬은 이미 존재하므로 (식단 전체 조회) 다른 파람들 중에 유효한 값이 하나라도 있어야 함
+    // 3. 오래된 순이면서 다른 파람들 중에 유효한 값이 하나라도 있어야 함
     !!(
       selectedTab !== TAB_OPTIONS[0] &&
       // 대분류 + 소분류 선택되거나
@@ -92,7 +75,7 @@ const ViewPlan = () => {
         size: PAGE_LIMIT,
         majorCategory: selectedOrganization || undefined,
         minorCategory: selectedCategory || undefined,
-        menuName: searchValue || undefined,
+        menuName: searchTerm || undefined,
         year: selectedYear || undefined,
         month: selectedMonth || undefined,
       },
@@ -102,13 +85,20 @@ const ViewPlan = () => {
     );
 
   const handleChangeSearchValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchValue(e.target.value);
+    const newValue = e.target.value;
+    setSearchInputValue(newValue);
+
+    if (newValue) return;
+
+    setSearchTerm('');
+    setIsSearchClicked(false);
   };
 
   const submitSearchValue = () => {
-    if (!searchValue) return;
+    if (!searchInputValue) return;
+
     setPage(DEFAULT_PAGE);
-    searchMealRefetch();
+    setSearchTerm(searchInputValue);
     setIsSearchClicked(true);
   };
 
@@ -123,11 +113,7 @@ const ViewPlan = () => {
   };
 
   useEffect(() => {
-    if (!searchTriggerCondition && !isSearchClicked) {
-      mealRefetch();
-    } else {
-      searchMealRefetch();
-    }
+    searchMealRefetch();
     setPage(DEFAULT_PAGE);
   }, [selectedTab]);
 
@@ -165,11 +151,7 @@ const ViewPlan = () => {
   }, [hasCategories, prefetchMinorCategories]);
 
   const handleClickRow = (id: string) => {
-    if (!mealList?.data && !searchMealList?.data) return;
-    const selectedMenuList =
-      selectedCategory === ''
-        ? mealList!.data.menuResponseDTOList
-        : searchMealList?.data?.menuResponseDTOList || [];
+    const selectedMenuList = searchMealList?.data?.menuResponseDTOList || [];
 
     findOriginalId({
       list: selectedMenuList,
@@ -183,7 +165,7 @@ const ViewPlan = () => {
 
   return (
     <div className='flex flex-col gap-4'>
-      {mealList && (
+      {searchMealList && (
         <>
           <GetAllListHeader title={'내가 작성한 식단'} />
           <GetAllListControls
@@ -196,7 +178,7 @@ const ViewPlan = () => {
             setOrganization={setSelectedOrganization}
             selectedCategory={selectedCategory}
             setSelectedCategory={setSelectedCategory}
-            searchValue={searchValue}
+            searchValue={searchInputValue}
             handleChangeSearchValue={handleChangeSearchValue}
             selectedTab={selectedTab}
             setSelectedTab={setSelectedTab}
@@ -204,16 +186,13 @@ const ViewPlan = () => {
             handleSearchSubmit={submitSearchValue}
             minorCategories={minorCategories}
           />
-          {mealList.data.totalElements === 0 ||
-          searchMealList?.data.totalElements === 0 ? (
+          {searchMealList?.data.totalElements === 0 ? (
             <HeadPrimary>식단이 존재하지 않습니다</HeadPrimary>
           ) : (
             <>
               <GetAllListTable
                 data={convertToTableRowData(
-                  searchTriggerCondition || isSearchClicked
-                    ? (searchMealList?.data?.menuResponseDTOList ?? [])
-                    : mealList.data.menuResponseDTOList,
+                  searchMealList?.data?.menuResponseDTOList ?? [],
                 )}
                 onRowClick={(id) => handleClickRow(String(id))}
               />
@@ -221,11 +200,7 @@ const ViewPlan = () => {
                 limit={PAGE_LIMIT}
                 page={page}
                 setPage={setPage}
-                totalPosts={
-                  searchTriggerCondition || isSearchClicked
-                    ? (searchMealList?.data.totalElements ?? 0)
-                    : mealList.data.totalElements
-                }
+                totalPosts={searchMealList?.data.totalElements ?? 0}
               />
             </>
           )}
