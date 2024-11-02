@@ -29,7 +29,6 @@ const instance = axios.create({
     'Content-Type': 'application/json',
     _retry: '0',
   },
-  withCredentials: true,
   timeout: TIME_OUT,
 });
 
@@ -51,16 +50,13 @@ instance.interceptors.response.use(
   (response) => {
     return response;
   },
+
   async (error) => {
-    console.log(error);
     const originalRequest = error.config;
-    if (error.response) {
-      console.log(error.response);
-    }
 
     if (
       !originalRequest ||
-      error.response?.status !== 418 ||
+      error.response?.status !== 410 ||
       originalRequest.headers._retry !== '0'
     ) {
       return Promise.reject(error);
@@ -73,9 +69,12 @@ instance.interceptors.response.use(
     }
 
     try {
-      const response = await axios.get(AUTH_API.REISSUE, {
-        headers: { Refreshtoken: `${refreshToken}` },
-      });
+      const response = await axios.get(
+        `${env.BASE_API_URL}${AUTH_API.REISSUE}`,
+        {
+          headers: { Refreshtoken: `${refreshToken}` },
+        },
+      );
 
       if (response.status === 200) {
         const { accessToken, refreshToken: newRefreshToken } =
@@ -83,15 +82,12 @@ instance.interceptors.response.use(
         saveTokens({ accessToken, refreshToken: newRefreshToken });
 
         originalRequest.headers.Authorization = `Bearer ${accessToken}`;
-        originalRequest.withCredentials = true;
         originalRequest.headers._retry = '1';
         return await instance(originalRequest);
       } else {
         throw new Error('Failed to reissue tokens');
       }
     } catch (refreshError) {
-      alert('로그인이 필요합니다.');
-      redirectToLogin();
       return Promise.reject(refreshError);
     }
   },
@@ -163,57 +159,3 @@ export const patch = <T>(...args: Parameters<typeof instance.patch>) => {
 export const del = <T>(...args: Parameters<typeof instance.delete>) => {
   return instance.delete<T, AxiosResponse<T>>(...args);
 };
-
-// TODO: 원복용 코드 (주석 아래의 코드 정상작동시 삭제 예정)
-// instance.interceptors.response.use(
-//   (response) => response,
-//   async (error: AxiosError) => {
-//     const originalRequest = error.config;
-//     console.log(error);
-
-//     const errorData = error;
-
-//     if (
-//       !originalRequest ||
-//       !errorData ||
-//       errorData?.code !== 'ERR_NETWORK' ||
-//       originalRequest.headers._retry === '1'
-//     ) {
-//       return Promise.reject(error);
-//     }
-
-//     // Set `_retry` to avoid infinite loops
-//     originalRequest.headers._retry = '1';
-
-//     const refreshToken = parseCookies().refreshToken;
-//     if (!refreshToken) {
-//       redirectToLogin();
-//       return Promise.reject(error);
-//     }
-
-//     try {
-//       const response = await axios.get(
-//         `${env.BASE_API_URL}${AUTH_API.REISSUE}`,
-//         {
-//           headers: { Authorization: `Bearer ${refreshToken}` },
-//           withCredentials: true,
-//         },
-//       );
-
-//       if (response.status === 200) {
-//         const { accessToken, refreshToken: newRefreshToken } =
-//           response.data.data;
-//         saveTokens({ accessToken, refreshToken: newRefreshToken });
-
-//         originalRequest.headers.Authorization = `Bearer ${accessToken}`;
-//         return await instance(originalRequest);
-//       } else {
-//         throw new Error('Failed to reissue tokens');
-//       }
-//     } catch (refreshError) {
-//       alert('로그인이 필요합니다.');
-//       redirectToLogin();
-//       return Promise.reject(refreshError);
-//     }
-//   },
-// );
