@@ -1,6 +1,5 @@
 'use client';
 
-import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import dayjs from 'dayjs';
@@ -18,19 +17,19 @@ import GetAllListTable from '@/components/shared/GetAllList/ListTable';
 import { CATEGORY_MAPPINGS } from '@/constants/_category';
 import { TAB_OPTIONS } from '@/constants/_controlTab';
 import { ROUTES } from '@/constants/_navbar';
-import { useGetMealList } from '@/hooks/meal/useGetMealList';
 import { useGetSearchMealList } from '@/hooks/meal/useGetSearchMealList';
 import { usePrefetchMinorCategories } from '@/hooks/menuCategory/usePrefetchMinorCategories';
 import useNavigate from '@/hooks/useNavigate';
 import { useToastStore } from '@/stores/useToastStore';
 
+// TODO: constant 파일로 관리
 const PAGE_LIMIT = 8;
+const SORT_DESC = 'createdAt,desc';
+const SORT_ASC = 'createdAt,asc';
+const DEFAULT_PAGE = 1;
 
 const ViewPlan = () => {
-  const searchParam = useSearchParams();
   const { navigate } = useNavigate();
-  const sort = searchParam.get('sort') as string;
-  const currentTab = sort ?? ('최신순' as string);
   const showToast = useToastStore((state) => state.showToast);
 
   const queryClient = useQueryClient();
@@ -41,34 +40,66 @@ const ViewPlan = () => {
   const { month, year } = getCurrentYearMonthNow();
   const [selectedYear, setSelectedYear] = useState<string>(year.toString());
   const [selectedMonth, setSelectedMonth] = useState<string>(month.toString());
-  const [searchValue, setSearchValue] = useState('');
+  const [searchInputValue, setSearchInputValue] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
   const [selectedOrganization, setSelectedOrganization] = useState<string>('');
   const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [selectedTab, setSelectedTab] = useState<string>(TAB_OPTIONS[0]);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(DEFAULT_PAGE);
+  const [isSearchClicked, setIsSearchClicked] = useState(false);
 
-  const { data: mealList, refetch } = useGetMealList({
-    //TODO: page기본값 1로 바뀌면 다시 page로 수정해야함
-    page: page - 1,
-    sort: currentTab === '최신순' ? 'createdAt,desc' : 'createdAt,asc',
-    size: 8,
-  });
+  const searchTriggerCondition =
+    // 1. 대분류, 소분류 값있을 때
+    !!(selectedOrganization && selectedCategory) ||
+    // 2. 기본 연월과 다른 연월 선택했을 때
+    !!(
+      selectedYear !== year.toString() || selectedMonth !== month.toString()
+    ) ||
+    // 3. 오래된 순이면서 다른 파람들 중에 유효한 값이 하나라도 있어야 함
+    !!(
+      selectedTab !== TAB_OPTIONS[0] &&
+      // 대분류 + 소분류 선택되거나
+      ((selectedOrganization && selectedCategory) ||
+        // 기본 연월과 다른 연월 선택했을 때
+        selectedYear !== year.toString() ||
+        selectedMonth !== month.toString())
+    ) ||
+    // 4. 검색어 있고 검색버튼 클릭 됐을 때
+    !!isSearchClicked;
 
-  const { data: searchMealList } = useGetSearchMealList({
-    page: page - 1,
-    sort: currentTab === '최신순' ? 'createdAt,desc' : 'createdAt,asc',
-    size: 8,
-    majorCategory: selectedOrganization ?? '',
-    minorCategory: selectedCategory ?? '',
-  });
+  const { data: searchMealList, refetch: searchMealRefetch } =
+    useGetSearchMealList(
+      {
+        page: page,
+        sort: selectedTab === TAB_OPTIONS[0] ? SORT_DESC : SORT_ASC,
+        size: PAGE_LIMIT,
+        majorCategory: selectedOrganization || undefined,
+        minorCategory: selectedCategory || undefined,
+        menuName: searchTerm || undefined,
+        year: selectedYear || undefined,
+        month: selectedMonth || undefined,
+      },
+      {
+        enabled: searchTriggerCondition,
+      },
+    );
 
-  const handlechangeSearchValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchValue(e.target.value);
+  const handleChangeSearchValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.value;
+    setSearchInputValue(newValue);
+
+    if (newValue) return;
+
+    setSearchTerm('');
+    setIsSearchClicked(false);
   };
 
   const submitSearchValue = () => {
-    // TODO: api request body로 보내줄 식단이름 제출함수
-    console.log('검색 버튼 클릭');
+    if (!searchInputValue) return;
+
+    setPage(DEFAULT_PAGE);
+    setSearchTerm(searchInputValue);
+    setIsSearchClicked(true);
   };
 
   const convertToTableRowData = (menus: MenuResponseDTO[]): TableRowData[] => {
@@ -82,7 +113,8 @@ const ViewPlan = () => {
   };
 
   useEffect(() => {
-    refetch();
+    searchMealRefetch();
+    setPage(DEFAULT_PAGE);
   }, [selectedTab]);
 
   useEffect(() => {
@@ -119,11 +151,7 @@ const ViewPlan = () => {
   }, [hasCategories, prefetchMinorCategories]);
 
   const handleClickRow = (id: string) => {
-    if (!mealList?.data && !searchMealList?.data) return;
-    const selectedMenuList =
-      selectedCategory === ''
-        ? mealList!.data.menuResponseDTOList
-        : searchMealList?.data?.menuResponseDTOList || [];
+    const selectedMenuList = searchMealList?.data?.menuResponseDTOList || [];
 
     findOriginalId({
       list: selectedMenuList,
@@ -137,7 +165,7 @@ const ViewPlan = () => {
 
   return (
     <div className='flex flex-col gap-4'>
-      {mealList && (
+      {searchMealList && (
         <>
           <GetAllListHeader title={'내가 작성한 식단'} />
           <GetAllListControls
@@ -148,26 +176,23 @@ const ViewPlan = () => {
             onYearChange={setSelectedYear}
             organization={selectedOrganization}
             setOrganization={setSelectedOrganization}
-            searchValue={searchValue}
-            handlechangeSearchValue={handlechangeSearchValue}
+            selectedCategory={selectedCategory}
+            setSelectedCategory={setSelectedCategory}
+            searchValue={searchInputValue}
+            handleChangeSearchValue={handleChangeSearchValue}
             selectedTab={selectedTab}
             setSelectedTab={setSelectedTab}
             inputPlaceholder='식단 이름을 입력해주세요.'
             handleSearchSubmit={submitSearchValue}
             minorCategories={minorCategories}
-            selectedCategory={selectedCategory}
-            setSelectedCategory={setSelectedCategory}
           />
-          {mealList.data.menuResponseDTOList.length === 0 ||
-          searchMealList?.data.menuResponseDTOList.length === 0 ? (
+          {searchMealList?.data.totalElements === 0 ? (
             <HeadPrimary>식단이 존재하지 않습니다</HeadPrimary>
           ) : (
             <>
               <GetAllListTable
                 data={convertToTableRowData(
-                  selectedCategory === ''
-                    ? mealList.data.menuResponseDTOList
-                    : searchMealList?.data?.menuResponseDTOList || [],
+                  searchMealList?.data?.menuResponseDTOList ?? [],
                 )}
                 onRowClick={(id) => handleClickRow(String(id))}
               />
@@ -175,11 +200,7 @@ const ViewPlan = () => {
                 limit={PAGE_LIMIT}
                 page={page}
                 setPage={setPage}
-                totalPosts={
-                  selectedCategory === ''
-                    ? mealList.data.totalElements
-                    : searchMealList?.data?.totalElements || 0
-                }
+                totalPosts={searchMealList?.data.totalElements ?? 0}
               />
             </>
           )}

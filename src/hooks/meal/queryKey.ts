@@ -10,5 +10,12 @@ export const mealKeys = {
   sort: (request?: GetMealListReqeust) =>
     [...mealKeys.lists(), request] as const,
   search: (request?: GetSearchMealListRequest) =>
-    [...mealKeys.lists(), request] as const,
+    [
+      ...mealKeys.lists(),
+      request?.majorCategory,
+      request?.minorCategory,
+      request?.menuName,
+      request?.year,
+      request?.month,
+    ] as const,
 };

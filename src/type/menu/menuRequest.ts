@@ -47,12 +47,16 @@ export interface GetFoodsRequest {
 export interface GetMealListReqeust {
   page: number;
   size: number;
+  // TODO: 타입 분리해서 selectedTab 타입으로 적용
   sort: 'createdAt,desc' | 'createdAt,asc';
 }
 
 export interface GetSearchMealListRequest extends GetMealListReqeust {
-  majorCategory: string;
-  minorCategory: string;
+  majorCategory?: string;
+  minorCategory?: string;
+  menuName?: string;
+  year?: string;
+  month?: string;
 }
 
 export interface GetMonthMenuDetailRequest {

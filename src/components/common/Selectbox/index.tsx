@@ -28,7 +28,7 @@ export type SelectboxProps = VariantProps<typeof selectboxVariants> & {
 
 export const Selectbox = ({
   options,
-  placeholder = '소분류를 선택해주세요.',
+  placeholder = '분류를 선택해주세요.',
   size = 'small',
   className,
   onChange,

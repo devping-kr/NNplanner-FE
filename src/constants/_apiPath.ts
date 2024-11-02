@@ -41,6 +41,7 @@ export const MENUS_API = {
   FOODS: `${BASE_API.MONTH_MENUS}/foods`,
   FOOD_NAME: 'foodName',
   COUNT: `${BASE_API.MONTH_MENUS}/count`,
+  SEARCH: `${BASE_API.MONTH_MENUS}/search`,
 };
 
 /**

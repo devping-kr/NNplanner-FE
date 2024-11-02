@@ -87,7 +87,7 @@ const ViewChart = () => {
             onMonthChange={setSelectedMonth}
             onYearChange={setSelectedYear}
             searchValue={searchValue}
-            handlechangeSearchValue={handleChangeSearchValue}
+            handleChangeSearchValue={handleChangeSearchValue}
             selectedFilter={selectedFilter}
             setSelectedFilter={setSelectedFilter}
             selectedTab={selectedTab}
