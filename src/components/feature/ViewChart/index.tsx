@@ -66,12 +66,13 @@ const ViewChart = () => {
     refetch();
   }, [selectedFilter, refetch]);
 
-  const formatSurveyList = (surveys: surveyType[]) => {
+  const convertToTableRowData = (surveys: surveyType[]) => {
     return surveys.map((survey) => ({
-      ...survey,
-      createdAt: dayjs(survey.createdAt).format('YYYY-MM-DD'),
-      deadlineAt: dayjs(survey.deadlineAt).format('YYYY-MM-DD'),
-      state: survey.state === 'IN_PROGRESS' ? '진행중' : '마감',
+      설문ID: survey.surveyId,
+      설문이름: survey.surveyName,
+      생성일: dayjs(survey.createdAt).format('YYYY-MM-DD'),
+      마감일: dayjs(survey.deadlineAt).format('YYYY-MM-DD'),
+      상태: survey.state === 'IN_PROGRESS' ? '진행중' : '마감',
     }));
   };
 
@@ -100,7 +101,7 @@ const ViewChart = () => {
           ) : (
             <>
               <GetAllListTable
-                data={formatSurveyList(surveyList.data.surveys)}
+                data={convertToTableRowData(surveyList.data.surveys)}
                 onRowClick={(id) => router.push(`${ROUTES.VIEW.CHART}/${id}`)}
               />
               <Pagination
