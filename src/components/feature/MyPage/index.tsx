@@ -150,8 +150,8 @@ const MyPage = () => {
     return surveys.map((survey) => ({
       설문ID: survey.surveyId,
       설문이름: survey.surveyName,
-      생성일: survey.createdAt,
-      상태: survey.state,
+      생성일: dayjs(survey.createdAt).format('YYYY-MM-DD'),
+      상태: survey.state === 'IN_PROGRESS' ? '진행중' : '마감',
     }));
   };
 
@@ -293,7 +293,7 @@ const MyPage = () => {
             </div>
           </div>
           <div className='flex w-1/3 flex-col items-center justify-center gap-2 border-r-2 border-gray-200 border-opacity-50 px-6'>
-            <NutritionEtc>내가 작성한 식단</NutritionEtc>
+            <NutritionEtc>총 작성한 식단</NutritionEtc>
             <Link
               href={NAV_LINKS[3].href}
               className='text-3xl font-semibold text-green-400 underline'
@@ -302,7 +302,7 @@ const MyPage = () => {
             </Link>
           </div>
           <div className='flex w-1/3 flex-col items-center justify-center gap-2 px-6'>
-            <NutritionEtc>내가 생성한 설문</NutritionEtc>
+            <NutritionEtc>총 생성한 설문</NutritionEtc>
             <Link
               href={NAV_LINKS[4].href}
               className='text-3xl font-semibold text-green-400 underline'
