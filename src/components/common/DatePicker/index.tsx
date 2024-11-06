@@ -37,7 +37,8 @@ const DatePicker = ({
         <Selectbox
           options={years}
           onChange={onYearChange}
-          placeholder={selectedYear}
+          placeholder='년도'
+          selectedValue={selectedYear.toString()}
         />
       </div>
       <div className='flex flex-col gap-1'>
@@ -45,7 +46,8 @@ const DatePicker = ({
         <Selectbox
           options={months}
           onChange={onMonthChange}
-          placeholder={selectedMonth}
+          placeholder='월'
+          selectedValue={selectedMonth.toString()}
         />
       </div>
     </div>
