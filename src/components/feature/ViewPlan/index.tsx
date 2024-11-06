@@ -5,7 +5,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { MenuResponseDTO } from '@/type/menu/menuResponse';
 import { Result } from '@/type/response';
-import { getCurrentYearMonthNow } from '@/utils/calendar';
+// import { getCurrentYearMonthNow } from '@/utils/calendar';
 import { findOriginalId } from '@/utils/findOriginalId';
 import Pagination from '@/components/common/Pagination';
 import { Option } from '@/components/common/Selectbox';
@@ -37,9 +37,9 @@ const ViewPlan = () => {
     usePrefetchMinorCategories();
   const [minorCategories, setMinorCategories] = useState<Option[]>([]);
 
-  const { month, year } = getCurrentYearMonthNow();
-  const [selectedYear, setSelectedYear] = useState<string>(year.toString());
-  const [selectedMonth, setSelectedMonth] = useState<string>(month.toString());
+  // const { month, year } = getCurrentYearMonthNow();
+  const [selectedYear, setSelectedYear] = useState<string>('');
+  const [selectedMonth, setSelectedMonth] = useState<string>('');
   const [searchInputValue, setSearchInputValue] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedOrganization, setSelectedOrganization] = useState<string>('');
@@ -48,23 +48,32 @@ const ViewPlan = () => {
   const [page, setPage] = useState(DEFAULT_PAGE);
   const [isSearchClicked, setIsSearchClicked] = useState(false);
 
+  // const searchTriggerCondition =
+  //   // 1. 대분류, 소분류 값있을 때
+  //   !!(selectedOrganization && selectedCategory) ||
+  //   // 2. 기본 연월과 다른 연월 선택했을 때
+  //   !!(
+  //     selectedYear !== year.toString() || selectedMonth !== month.toString()
+  //   ) ||
+  //   // 3. 오래된 순이면서 다른 파람들 중에 유효한 값이 하나라도 있어야 함
+  //   !!(
+  //     selectedTab !== TAB_OPTIONS[0] ||
+  //     // 대분류 + 소분류 선택되거나
+  //     (selectedOrganization && selectedCategory) ||
+  //     // 기본 연월과 다른 연월 선택했을 때
+  //     selectedYear !== year.toString() ||
+  //     selectedMonth !== month.toString()
+  //   ) ||
+  //   // 4. 검색어 있고 검색버튼 클릭 됐을 때
+  //   !!isSearchClicked;
   const searchTriggerCondition =
-    // 1. 대분류, 소분류 값있을 때
+    // 1. 대분류, 소분류 값이 있을 때
     !!(selectedOrganization && selectedCategory) ||
-    // 2. 기본 연월과 다른 연월 선택했을 때
-    !!(
-      selectedYear !== year.toString() || selectedMonth !== month.toString()
-    ) ||
-    // 3. 오래된 순이면서 다른 파람들 중에 유효한 값이 하나라도 있어야 함
-    !!(
-      selectedTab !== TAB_OPTIONS[0] &&
-      // 대분류 + 소분류 선택되거나
-      ((selectedOrganization && selectedCategory) ||
-        // 기본 연월과 다른 연월 선택했을 때
-        selectedYear !== year.toString() ||
-        selectedMonth !== month.toString())
-    ) ||
-    // 4. 검색어 있고 검색버튼 클릭 됐을 때
+    // 2. 특정 연도와 월이 선택된 경우 (초기에는 전체 리스트를 가져오기 위해 빈 문자열이면 false)
+    !!(selectedYear || selectedMonth) ||
+    // 3. 오래된 순이면서 다른 파라미터 중에 유효한 값이 하나라도 있는 경우
+    selectedTab !== TAB_OPTIONS[0] ||
+    // 4. 검색어가 있고, 검색 버튼이 클릭되었을 때
     !!isSearchClicked;
 
   const { data: searchMealList, refetch: searchMealRefetch } =

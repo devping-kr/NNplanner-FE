@@ -4,7 +4,6 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import { surveyType } from '@/type/survey/surveyResponse';
-import { getCurrentYearMonthNow } from '@/utils/calendar';
 import Pagination from '@/components/common/Pagination';
 import { HeadPrimary } from '@/components/common/Typography';
 import GetAllListControls from '@/components/shared/GetAllList/Controls';
@@ -20,15 +19,11 @@ const ViewChart = () => {
   const sort = searchParam.get('sort') as string;
   const currentTab = sort ?? ('최신순' as string);
 
-  const { month, year } = getCurrentYearMonthNow();
-
   const [searchValue, setSearchValue] = useState('');
   const [actualSearchValue, setActualSearchValue] = useState('');
 
-  const [selectedYear, setSelectedYear] = useState<string>(year.toString());
-  const [selectedMonth, setSelectedMonth] = useState<string>(
-    month.toString().padStart(2, '0'),
-  );
+  const [selectedYear, setSelectedYear] = useState<string>('');
+  const [selectedMonth, setSelectedMonth] = useState<string>('');
   const [selectedFilter, setSelectedFilter] = useState<string>(
     SURVEY_FILTER_OPTIONS[0],
   );
@@ -58,8 +53,14 @@ const ViewChart = () => {
         : selectedFilter === '진행중'
           ? 'IN_PROGRESS'
           : 'CLOSED',
-    startDate: `${selectedYear}-${selectedMonth.toString().padStart(2, '0')}-01T00:00:00`,
-    endDate: `${selectedYear}-${selectedMonth.toString().padStart(2, '0')}-31T23:59:59`,
+    startDate:
+      selectedMonth && selectedYear
+        ? `${selectedYear}-${selectedMonth.toString().padStart(2, '0')}-01T00:00:00`
+        : undefined,
+    endDate:
+      selectedMonth && selectedYear
+        ? `${selectedYear}-${selectedMonth.toString().padStart(2, '0')}-31T23:59:59`
+        : undefined,
   });
 
   useEffect(() => {
@@ -97,7 +98,7 @@ const ViewChart = () => {
             handleSearchSubmit={handleSearchSubmit}
           />
           {surveyList?.data.totalItems === 0 ? (
-            <HeadPrimary>메뉴가 존재하지 않습니다</HeadPrimary>
+            <HeadPrimary>설문이 존재하지 않습니다</HeadPrimary>
           ) : (
             <>
               <GetAllListTable
