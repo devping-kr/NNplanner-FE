@@ -123,8 +123,12 @@ const ViewPlan = () => {
 
   useEffect(() => {
     searchMealRefetch();
+  }, [page, searchMealRefetch]);
+
+  useEffect(() => {
+    searchMealRefetch();
     setPage(DEFAULT_PAGE);
-  }, [selectedTab]);
+  }, [selectedTab, searchMealRefetch]);
 
   useEffect(() => {
     if (!selectedOrganization) return;
