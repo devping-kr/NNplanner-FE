@@ -10,7 +10,7 @@ import GetAllListControls from '@/components/shared/GetAllList/Controls';
 import GetAllListHeader from '@/components/shared/GetAllList/Header';
 import GetAllListTable from '@/components/shared/GetAllList/ListTable';
 import { SURVEY_FILTER_OPTIONS, TAB_OPTIONS } from '@/constants/_controlTab';
-import { ROUTES } from '@/constants/_navbar';
+import { NAV_LINKS, ROUTES } from '@/constants/_navbar';
 import { useGetSurveyList } from '@/hooks/survey/useGetSurveyList';
 
 const ViewChart = () => {
@@ -81,7 +81,7 @@ const ViewChart = () => {
     <div className='flex flex-col gap-4'>
       {surveyList && (
         <>
-          <GetAllListHeader title='설문 결과 리스트' />
+          <GetAllListHeader title={NAV_LINKS[4].name} />
           <GetAllListControls
             type='viewChart'
             selectedMonth={selectedMonth}
