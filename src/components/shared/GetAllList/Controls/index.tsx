@@ -1,6 +1,7 @@
 'use client';
 
 import { cn } from '@/utils/core';
+import Button from '@/components/common/Button/Button';
 import ControlTab from '@/components/common/ControlTab';
 import DatePicker from '@/components/common/DatePicker';
 import { Input } from '@/components/common/Input';
@@ -56,6 +57,11 @@ const GetAllListControls = ({
     }
   };
 
+  const handleResetMenu = () => {
+    setOrganization?.('');
+    setSelectedCategory?.('');
+  };
+
   return (
     <>
       <div className='flex justify-between'>
@@ -100,6 +106,17 @@ const GetAllListControls = ({
                       selectedValue={selectedCategory}
                     />
                   ),
+              )}
+              {(organization || selectedCategory) && (
+                <Button
+                  className='w-fit rounded-md'
+                  size='small'
+                  variant='outline'
+                  type='button'
+                  onClick={handleResetMenu}
+                >
+                  분류 초기화
+                </Button>
               )}
             </div>
           )}
