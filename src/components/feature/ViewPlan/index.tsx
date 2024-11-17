@@ -6,6 +6,7 @@ import dayjs from 'dayjs';
 import { MenuResponseDTO } from '@/type/menu/menuResponse';
 import { Result } from '@/type/response';
 // import { getCurrentYearMonthNow } from '@/utils/calendar';
+import { getCurrentYearMonthNow } from '@/utils/calendar';
 import { findOriginalId } from '@/utils/findOriginalId';
 import Pagination from '@/components/common/Pagination';
 import { Option } from '@/components/common/Selectbox';
@@ -16,7 +17,7 @@ import GetAllListHeader from '@/components/shared/GetAllList/Header';
 import GetAllListTable from '@/components/shared/GetAllList/ListTable';
 import { CATEGORY_MAPPINGS } from '@/constants/_category';
 import { TAB_OPTIONS } from '@/constants/_controlTab';
-import { ROUTES } from '@/constants/_navbar';
+import { NAV_LINKS, ROUTES } from '@/constants/_navbar';
 import { useGetSearchMealList } from '@/hooks/meal/useGetSearchMealList';
 import { usePrefetchMinorCategories } from '@/hooks/menuCategory/usePrefetchMinorCategories';
 import useNavigate from '@/hooks/useNavigate';
@@ -37,9 +38,9 @@ const ViewPlan = () => {
     usePrefetchMinorCategories();
   const [minorCategories, setMinorCategories] = useState<Option[]>([]);
 
-  // const { month, year } = getCurrentYearMonthNow();
-  const [selectedYear, setSelectedYear] = useState<string>('');
-  const [selectedMonth, setSelectedMonth] = useState<string>('');
+  const { month, year } = getCurrentYearMonthNow();
+  const [selectedYear, setSelectedYear] = useState<string>(year.toString());
+  const [selectedMonth, setSelectedMonth] = useState<string>(month.toString());
   const [searchInputValue, setSearchInputValue] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedOrganization, setSelectedOrganization] = useState<string>('');
@@ -76,22 +77,25 @@ const ViewPlan = () => {
     // 4. 검색어가 있고, 검색 버튼이 클릭되었을 때
     !!isSearchClicked;
 
-  const { data: searchMealList, refetch: searchMealRefetch } =
-    useGetSearchMealList(
-      {
-        page: page,
-        sort: selectedTab === TAB_OPTIONS[0] ? SORT_DESC : SORT_ASC,
-        size: PAGE_LIMIT,
-        majorCategory: selectedOrganization || undefined,
-        minorCategory: selectedCategory || undefined,
-        menuName: searchTerm || undefined,
-        year: selectedYear || undefined,
-        month: selectedMonth || undefined,
-      },
-      {
-        enabled: searchTriggerCondition,
-      },
-    );
+  const {
+    data: searchMealList,
+    refetch: searchMealRefetch,
+    isLoading,
+  } = useGetSearchMealList(
+    {
+      page: page,
+      sort: selectedTab === TAB_OPTIONS[0] ? SORT_DESC : SORT_ASC,
+      size: PAGE_LIMIT,
+      majorCategory: selectedOrganization || undefined,
+      minorCategory: selectedCategory || undefined,
+      menuName: searchTerm || undefined,
+      year: selectedYear || undefined,
+      month: selectedMonth || undefined,
+    },
+    {
+      enabled: searchTriggerCondition,
+    },
+  );
 
   const handleChangeSearchValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
@@ -176,47 +180,45 @@ const ViewPlan = () => {
     });
   };
 
+  if (isLoading) return <div>loading...</div>;
+
   return (
     <div className='flex flex-col gap-4'>
-      {searchMealList && (
+      <GetAllListHeader title={NAV_LINKS[3].name} />
+      <GetAllListControls
+        type='viewPlan'
+        selectedMonth={selectedMonth}
+        selectedYear={selectedYear}
+        onMonthChange={setSelectedMonth}
+        onYearChange={setSelectedYear}
+        organization={selectedOrganization}
+        setOrganization={setSelectedOrganization}
+        selectedCategory={selectedCategory}
+        setSelectedCategory={setSelectedCategory}
+        searchValue={searchInputValue}
+        handleChangeSearchValue={handleChangeSearchValue}
+        selectedTab={selectedTab}
+        setSelectedTab={setSelectedTab}
+        inputPlaceholder='식단 이름을 입력해주세요.'
+        handleSearchSubmit={submitSearchValue}
+        minorCategories={minorCategories}
+      />
+      {searchMealList?.data?.totalElements === 0 ? (
+        <HeadPrimary>식단이 존재하지 않습니다</HeadPrimary>
+      ) : (
         <>
-          <GetAllListHeader title={'내가 작성한 식단'} />
-          <GetAllListControls
-            type='viewPlan'
-            selectedMonth={selectedMonth}
-            selectedYear={selectedYear}
-            onMonthChange={setSelectedMonth}
-            onYearChange={setSelectedYear}
-            organization={selectedOrganization}
-            setOrganization={setSelectedOrganization}
-            selectedCategory={selectedCategory}
-            setSelectedCategory={setSelectedCategory}
-            searchValue={searchInputValue}
-            handleChangeSearchValue={handleChangeSearchValue}
-            selectedTab={selectedTab}
-            setSelectedTab={setSelectedTab}
-            inputPlaceholder='식단 이름을 입력해주세요.'
-            handleSearchSubmit={submitSearchValue}
-            minorCategories={minorCategories}
+          <GetAllListTable
+            data={convertToTableRowData(
+              searchMealList?.data?.menuResponseDTOList ?? [],
+            )}
+            onRowClick={(id) => handleClickRow(String(id))}
           />
-          {searchMealList?.data.totalElements === 0 ? (
-            <HeadPrimary>식단이 존재하지 않습니다</HeadPrimary>
-          ) : (
-            <>
-              <GetAllListTable
-                data={convertToTableRowData(
-                  searchMealList?.data?.menuResponseDTOList ?? [],
-                )}
-                onRowClick={(id) => handleClickRow(String(id))}
-              />
-              <Pagination
-                limit={PAGE_LIMIT}
-                page={page}
-                setPage={setPage}
-                totalPosts={searchMealList?.data.totalElements ?? 0}
-              />
-            </>
-          )}
+          <Pagination
+            limit={PAGE_LIMIT}
+            page={page}
+            setPage={setPage}
+            totalPosts={searchMealList?.data.totalElements ?? 0}
+          />
         </>
       )}
     </div>

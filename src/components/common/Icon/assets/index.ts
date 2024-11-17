@@ -14,6 +14,7 @@ import Normal from '@/components/common/Icon/assets/Info';
 import Logout from '@/components/common/Icon/assets/Logout';
 import Plus from '@/components/common/Icon/assets/Plus';
 import Profile from '@/components/common/Icon/assets/Profile';
+import Refresh from '@/components/common/Icon/assets/Refresh';
 import Search from '@/components/common/Icon/assets/Search';
 import Show from '@/components/common/Icon/assets/Show';
 import Success from '@/components/common/Icon/assets/Success';
@@ -105,6 +106,10 @@ export const iconMap: Record<string, IconMapEntry> = {
   profile: {
     type: 'stroke',
     file: Profile,
+  },
+  refresh: {
+    type: 'fill',
+    file: Refresh,
   },
 };
 
