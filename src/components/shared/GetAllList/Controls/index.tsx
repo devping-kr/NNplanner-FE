@@ -4,6 +4,7 @@ import { cn } from '@/utils/core';
 import Button from '@/components/common/Button/Button';
 import ControlTab from '@/components/common/ControlTab';
 import DatePicker from '@/components/common/DatePicker';
+import Icon from '@/components/common/Icon';
 import { Input } from '@/components/common/Input';
 import { Option, Selectbox } from '@/components/common/Selectbox';
 import { ORGANIZATION_LIST } from '@/constants/_category';
@@ -115,7 +116,7 @@ const GetAllListControls = ({
                   type='button'
                   onClick={handleResetMenu}
                 >
-                  분류 초기화
+                  <Icon name='refresh' color='black' />
                 </Button>
               )}
             </div>
