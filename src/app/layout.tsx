@@ -39,6 +39,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='ko'>
+      <head>
+        <meta
+          name='google-site-verification'
+          content='cg79sBghjxaeDLPXXAtwcSeMFpbrwe6TVJQqjnFGAyI'
+        />
+      </head>
       <body className={cn('bg-white-100', pretendard.className)}>
         <Providers>
           <div>{children}</div>
