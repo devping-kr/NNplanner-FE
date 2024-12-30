@@ -57,7 +57,7 @@ export const PAGE_METADATA = {
     },
     LIST: {
       title: `${PLAN} ${LIST} ${PAGE}`,
-      description: `${PLAN} ${DETAIL} ${PAGE}입니다.`,
+      description: `${PLAN} ${LIST} ${PAGE}입니다.`,
     },
     CREATE: {
       title: `${PLAN} ${CREATE} ${PAGE}`,
@@ -69,8 +69,14 @@ export const PAGE_METADATA = {
     },
   },
   VIEWCHART: {
-    title: `${SURVEY} ${CHART} ${DETAIL} ${PAGE}`,
-    description: `${SURVEY} ${CHART} ${DETAIL} ${PAGE}입니다.`,
+    DETAIL: {
+      title: `${SURVEY} ${CHART} ${DETAIL} ${PAGE}`,
+      description: `${SURVEY} ${CHART} ${DETAIL} ${PAGE}입니다.`,
+    },
+    LIST: {
+      title: `${SURVEY} ${CHART} ${LIST} ${PAGE}`,
+      description: `${SURVEY} ${CHART} ${LIST} ${PAGE}입니다.`,
+    },
   },
   AUTOPLAN: {
     DEFAULT: {

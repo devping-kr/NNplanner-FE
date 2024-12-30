@@ -94,7 +94,7 @@ const MainPageBody = () => {
     <div className='flex flex-col gap-5'>
       <div className='flex gap-3'>
         <MiniCard
-          title='관리 중인 식단'
+          title='이번 달 식단'
           icon='time'
           color='active'
           count={currentMenuCount}
