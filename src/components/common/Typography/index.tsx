@@ -22,6 +22,7 @@ const customTypography = (
   return Typography;
 };
 
+// 리디자인 변경 전 Typography
 export const HeadPrimary = customTypography('h1', {
   type: 'heading1',
   weight: 'bold',
@@ -52,7 +53,6 @@ export const PageHeaderTitle = customTypography('h1', {
   weight: 'bold',
   color: 'dark',
 });
-
 export const CardTitle = customTypography('h1', {
   type: 'title2',
   weight: 'bold',
