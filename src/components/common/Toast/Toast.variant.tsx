@@ -1,20 +1,17 @@
 import { cva } from 'class-variance-authority';
 
-export const progressVariants = cva('h-full origin-left animate-shrink', {
+export const toastVariants = cva('', {
   variants: {
     variant: {
+      // 추후 삭제
       normal: 'bg-gray-500',
-      success: 'bg-blue-200',
-      warning: 'bg-red-200',
-    },
-    duration: {
-      '1000': 'animate-shrink-1s',
-      '2000': 'animate-shrink-2s',
-      '3000': 'animate-shrink-3s',
+      // 리디자인 variants
+      success: 'bg-green-50 text-black-100',
+      info: 'bg-blue-50 text-black-100',
+      warning: 'bg-red-50 text-red-500',
     },
   },
   defaultVariants: {
     variant: 'normal',
-    duration: '3000',
   },
 });
