@@ -7,18 +7,10 @@ on:
       - dev
 
 jobs:
-  push_main:
-    if: github.ref == 'refs/heads/main'
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Install Ruby and Mustache
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y ruby-full
-          gem install mustache
-      - name: creates output
-        run: sh ./build.sh
       - name: Pushes to another repository
         id: push_directory
         uses: cpina/github-action-push-to-another-repository@main
@@ -30,29 +22,4 @@ jobs:
           destination-repository-name: NNplanner-FE
           user-email: ${{ secrets.EMAIL }}
           commit-message: ${{ github.event.commits[0].message }}
-          target-branch: main
-
-  push_dev:
-    if: github.ref == 'refs/heads/dev'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Install Ruby and Mustache
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y ruby-full
-          gem install mustache
-      - name: creates output
-        run: sh ./build.sh
-      - name: Pushes to another repository
-        id: push_directory
-        uses: cpina/github-action-push-to-another-repository@main
-        env:
-          API_TOKEN_GITHUB: ${{ secrets.AUTO_ACTIONS }}
-        with:
-          source-directory: 'output'
-          destination-github-username: plla2
-          destination-repository-name: NNplanner-FE
-          user-email: ${{ secrets.EMAIL }}
-          commit-message: ${{ github.event.commits[0].message }}
-          target-branch: dev
+          target-branch: ${{ github.ref == 'refs/heads/main' && 'main' || 'dev' }}
