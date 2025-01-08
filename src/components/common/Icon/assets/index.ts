@@ -16,15 +16,16 @@ import Plus from '@/components/common/Icon/assets/Plus';
 import Profile from '@/components/common/Icon/assets/Profile';
 import Search from '@/components/common/Icon/assets/Search';
 import Show from '@/components/common/Icon/assets/Show';
-import Success from '@/components/common/Icon/assets/Success';
 import Time from '@/components/common/Icon/assets/Time';
 import TrendDown from '@/components/common/Icon/assets/TrendDown';
 import TrendUp from '@/components/common/Icon/assets/TrendUp';
-import Warning from '@/components/common/Icon/assets/Warning';
 import Xmark from '@/components/common/Icon/assets/Xmark';
 import { colors } from '@/styles/colors';
 import ArrowNextBlock from './ArrowNextBlock';
 import ArrowPrevBlock from './ArrowPrevBlock';
+import CheckCircle from './CheckCircle';
+import InfoCircle from './InfoCircle';
+import WarnCircle from './WarnCircle';
 
 type IconMapEntry = {
   type: 'fill' | 'stroke';
@@ -62,10 +63,6 @@ export const iconMap: Record<string, IconMapEntry> = {
     type: 'stroke',
     file: Calendar,
   },
-  warning: {
-    type: 'stroke',
-    file: Warning,
-  },
   show: {
     type: 'stroke',
     file: Show,
@@ -73,10 +70,6 @@ export const iconMap: Record<string, IconMapEntry> = {
   hide: {
     type: 'stroke',
     file: Hide,
-  },
-  success: {
-    type: 'stroke',
-    file: Success,
   },
   normal: {
     type: 'stroke',
@@ -105,6 +98,19 @@ export const iconMap: Record<string, IconMapEntry> = {
   profile: {
     type: 'stroke',
     file: Profile,
+  },
+  // 리디자인 후 추가된 아이콘
+  success: {
+    type: 'stroke',
+    file: CheckCircle,
+  },
+  info: {
+    type: 'stroke',
+    file: InfoCircle,
+  },
+  warning: {
+    type: 'stroke',
+    file: WarnCircle,
   },
 };
 
@@ -144,9 +150,12 @@ const COLOR_CLASSNAMES: ColorClassNames = {
 };
 
 export const COLORS = {
-  warning: colors.red[100],
+  // 리디자인 색상 적용
+  warning: colors.red[500],
+  black: colors.black[100],
+  //---
+  // 기존 아이콘 색상
   white: colors.white[100],
-  black: colors.dark[100],
   normal: colors.gray[500],
   success: colors.blue[200],
   active: colors.green[800],
