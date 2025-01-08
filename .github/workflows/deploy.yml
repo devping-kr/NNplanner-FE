@@ -19,7 +19,7 @@ jobs:
         run: sh ./build.sh
       - name: Pushes to another repository
         id: push_directory
-        uses: cpina/github-action-push-to-another-repository@${{ github.ref == 'refs/heads/main' && 'main' || 'dev' }}
+        uses: cpina/github-action-push-to-another-repository@v2
         env:
           API_TOKEN_GITHUB: ${{ secrets.AUTO_ACTIONS }}
         with:
@@ -27,7 +27,7 @@ jobs:
           destination-github-username: plla2
           destination-repository-name: NNplanner-FE
           user-email: ${{ secrets.EMAIL }}
-          commit-message: ${{ github.event.commits[0].message }}
-          target-branch: ${{ github.ref == 'refs/heads/main' && 'main' || 'dev' }}
+          commit-message: ${{ github.event.head_commit.message }}
+          target-branch: ${{ github.ref_name }}
       - name: Test get variable exported by push-to-another-repository
         run: echo $DESTINATION_CLONED_DIRECTORY
