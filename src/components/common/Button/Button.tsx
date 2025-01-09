@@ -7,8 +7,9 @@ import { buttonVariants } from '@/components/common/Button/Button.variant';
 
 export type ButtonProps = VariantProps<typeof buttonVariants> &
   ComponentPropsWithoutRef<'button'> & {
-    size?: 'xSmall' | 'small' | 'basic' | 'large';
-    width?: 'fit' | 'full';
+    // redesign : xs, sm, md, lg 로 사이즈 교체
+    size?: 'xSmall' | 'small' | 'basic' | 'large' | 'xs' | 'sm' | 'md' | 'lg';
+    width?: 'fit' | 'full' | 'circular';
   };
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
@@ -17,6 +18,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       <button
         className={cn(buttonVariants({ variant, size, width }), className)}
         ref={ref}
+        type='button'
         {...props}
       />
     );
