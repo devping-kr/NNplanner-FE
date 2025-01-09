@@ -11,6 +11,10 @@ export const inputContainerVariants = cva(
       height: {
         s: 'h-12',
         m: 'h-16',
+        // 추후 삭제 예정
+        basic: 'h-[38px]',
+        large: 'h-[62px]',
+        // --------------
       },
       isFocused: {
         true: 'border border-green-500',
