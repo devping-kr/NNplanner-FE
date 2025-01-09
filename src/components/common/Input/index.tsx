@@ -41,6 +41,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       borderRadius,
       className,
       bgcolor,
+      size,
       isLeftIcon = false,
       isRightIcon = false,
       rightIcon = '',
@@ -49,17 +50,17 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       disabled,
       rightIconAction = () => {},
       onSubmit = () => {},
-      height,
       buttonText = '검색',
       isError,
       ...props
-    }: InputProps,
+    },
     ref,
   ) => {
     const [isFocused, setIsFocused] = useState(false);
 
     const handleFocus = useCallback(() => setIsFocused(true), []);
     const handleBlur = useCallback(() => setIsFocused(false), []);
+
     return (
       <div
         className={inputContainerVariants({
@@ -67,14 +68,14 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           borderRadius,
           bgcolor,
           variant,
-          height,
+          size,
           disabled,
           isError,
         })}
       >
         {isLeftIcon && <Icon name='search' width={22} height={22} />}
         <input
-          className={cn(inputVariants(), className)}
+          className={cn(inputVariants({ size }), className)}
           ref={ref}
           value={value}
           disabled={disabled}
@@ -86,8 +87,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           <button onClick={rightIconAction} type='button'>
             <Icon
               name={rightIcon}
-              width={20}
-              height={20}
+              width={size === 's' ? 20 : 24}
+              height={size === 's' ? 20 : 24}
               className='cursor-pointer'
             />
           </button>
@@ -108,4 +109,5 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     );
   },
 );
+
 Input.displayName = 'Input';

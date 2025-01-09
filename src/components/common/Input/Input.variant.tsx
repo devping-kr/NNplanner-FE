@@ -1,7 +1,7 @@
 import { cva } from 'class-variance-authority';
 
 export const inputContainerVariants = cva(
-  'flex w-full items-center gap-2 box-border',
+  'flex w-full items-center gap-2 px-4 rounded-lg',
   {
     variants: {
       variant: {
@@ -13,11 +13,11 @@ export const inputContainerVariants = cva(
         m: 'h-16',
       },
       isFocused: {
-        true: 'border-green-500',
+        true: 'border border-green-500',
         false: '',
       },
       disabled: {
-        true: 'cursor-not-allowed opacity-80',
+        true: '!bg-grey-100 cursor-not-allowed',
       },
 
       // 추후 삭제 예정
@@ -43,10 +43,22 @@ export const inputContainerVariants = cva(
       borderRadius: 'basic',
       height: 'basic',
       bgcolor: 'form',
+      size: 's',
     },
   },
 );
 
 export const inputVariants = cva(
-  'w-full flex items-center bg-transparent text-[14px] placeholder:text-placeholder focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-80',
+  'w-full flex items-center bg-transparent text-[14px] placeholder:text-placeholder focus-visible:outline-none disabled:cursor-not-allowed disabled:bg-grey-100',
+  {
+    variants: {
+      size: {
+        s: 'text-base leading-[1.52] tracking-[-0.008em] font-medium',
+        m: 'text-lg leading-[1.52] tracking-[-0.008em] font-medium',
+      },
+    },
+    defaultVariants: {
+      size: 's',
+    },
+  },
 );
