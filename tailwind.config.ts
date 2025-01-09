@@ -13,7 +13,7 @@ const config: Config = {
       textColor: {
         placeholder: colors.grey[200],
         assistiveTxt: colors.grey[500],
-        dimmend: colors.dimmed,
+        dimmed: colors.dimmed,
       },
       translate: {
         '-1/2': '-50%',
