@@ -7,6 +7,7 @@ export const colors = {
   black: {
     100: '#101010',
   },
+  dimmed: 'rgba(0, 0, 0, 0.56)',
   grey: {
     50: '#F5F5F6',
     100: '#E2E3E5',
