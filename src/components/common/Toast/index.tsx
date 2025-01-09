@@ -2,11 +2,12 @@
 
 import { useEffect } from 'react';
 import { VariantProps } from 'class-variance-authority';
+import { cn } from '@/utils/core';
 import Icon from '@/components/common/Icon';
-import { progressVariants } from '@/components/common/Toast/Toast.variant';
+import { toastVariants } from '@/components/common/Toast/Toast.variant';
 
 export type ToastVariant = NonNullable<
-  VariantProps<typeof progressVariants>['variant']
+  VariantProps<typeof toastVariants>['variant']
 >;
 
 type ToastProps = {
@@ -16,9 +17,7 @@ type ToastProps = {
   onClose: () => void;
 };
 
-export type AnimateDuration = '1000' | '2000' | '3000';
-
-const Toast = ({ message, variant, duration = 3000, onClose }: ToastProps) => {
+const Toast = ({ message, variant, duration, onClose }: ToastProps) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       onClose();
@@ -28,18 +27,20 @@ const Toast = ({ message, variant, duration = 3000, onClose }: ToastProps) => {
   }, [duration, onClose]);
 
   return (
-    <div className='text-white w-88 fixed right-3 top-1/4 z-50 rounded-lg border-[1px] border-gray-300 bg-white-100 p-4 shadow-lg'>
-      <div className='mb-2 flex items-center gap-2'>
-        <Icon name={variant} color={variant} />
-        <span>{message}</span>
-      </div>
-      <div className='h-1.5 w-full overflow-hidden rounded-full bg-gray-200'>
-        <div
-          className={progressVariants({
-            variant,
-            duration: `${duration}` as AnimateDuration,
-          })}
+    <div
+      className={cn(
+        toastVariants({ variant }),
+        'fixed bottom-10 right-10 z-50 rounded-lg border border-grey-100 p-4',
+      )}
+    >
+      <div className='flex items-center gap-2'>
+        <Icon
+          name={variant}
+          color={variant === 'warning' ? 'warning' : 'black'}
+          width={24}
+          height={24}
         />
+        <span>{message}</span>
       </div>
     </div>
   );

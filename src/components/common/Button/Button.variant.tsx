@@ -1,33 +1,43 @@
 import { cva } from 'class-variance-authority';
 
 export const buttonVariants = cva(
-  'inline-flex items-center justify-center font-bold rounded-lg focus-visible:outline-none  disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap',
+  'inline-flex items-center justify-center rounded focus-visible:outline-none whitespace-nowrap disabled:cursor-not-allowed',
   {
     variants: {
       variant: {
         primary:
-          'bg-green-400 text-white-100 hover:bg-green-500 active:bg-green-600 disabled:hover:bg-green-400',
+          'bg-green-500 text-white-100 hover:bg-green-600 active:bg-green-700 disabled:bg-grey-200 disabled:text-white-100',
+        grey: 'bg-grey-100 text-grey-900 hover:bg-grey-200 active:bg-grey-300 disabled:bg-grey-200 disabled:text-white-100',
         secondary:
-          'bg-gray-100 text-dark-100 hover:bg-gray-200 active:bg-gray-300 disabled:hover:bg-gray-100',
+          'bg-white-100 text-green-500 hover:bg-grey-200 active:bg-grey-300 disabled:bg-white-100 disabled:text-grey-200',
+        teritary:
+          'bg-grey-800 text-grey-100 hover:bg-grey-900 active:bg-black-100 disabled:bg-grey-200 disabled:text-white-100',
         outline:
-          'bg-white-100 text-green-700 border-[1px] border-solid border-green-700 hover:border-green-800 hover:text-green-800 active:border-green-900 active:text-green-900 disabled:hover:text-green-700',
+          'bg-white-100 text-black-100 border border-grey-100 hover:bg-grey-100 active:bg-grey-200 disabled:bg-white-100 disabled:text-grey-200 disabled:border-grey-100',
         pagination: '',
       },
       size: {
+        // 추후 삭제 예정
         xSmall: 'py-1 px-2 text-xs',
         small: 'py-2 px-4 text-xs',
         basic: 'py-3 px-5 text-sm',
         large: 'py-4 px-6 text-base',
+        // 리디자인 추가
+        xs: 'h-10',
+        sm: 'h-12',
+        md: 'h-14',
+        lg: 'h-16',
       },
       width: {
-        fit: 'w-fit',
+        fit: 'w-fit px-4',
         full: 'w-full',
+        circular: 'rounded-full w-16 h-16',
       },
     },
     defaultVariants: {
       variant: 'primary',
       size: 'basic',
-      width: 'full',
+      width: 'fit',
     },
     compoundVariants: [
       {
