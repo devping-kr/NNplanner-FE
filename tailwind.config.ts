@@ -10,6 +10,11 @@ const config: Config = {
   theme: {
     extend: {
       colors,
+      textColor: {
+        placeholder: colors.grey[200],
+        assistiveTxt: colors.grey[500],
+        dimmed: colors.dimmed,
+      },
       translate: {
         '-1/2': '-50%',
       },

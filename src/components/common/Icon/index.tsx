@@ -21,7 +21,7 @@ const Icon = ({
   name,
   width = 20,
   height = 20,
-  color = 'black',
+  color,
   hoverColor,
   className,
 }: IconProps) => {
