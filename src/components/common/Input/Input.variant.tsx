@@ -8,7 +8,7 @@ export const inputContainerVariants = cva(
         white: 'bg-white-100',
         grey50: 'bg-grey-50',
       },
-      size: {
+      height: {
         s: 'h-12',
         m: 'h-16',
       },
@@ -30,10 +30,6 @@ export const inputContainerVariants = cva(
         basic: 'rounded-md',
         large: 'rounded-lg',
       },
-      height: {
-        basic: 'h-[38px]',
-        large: 'h-[62px]',
-      },
       isError: {
         true: 'border-red-300',
       },
@@ -41,9 +37,8 @@ export const inputContainerVariants = cva(
     },
     defaultVariants: {
       borderRadius: 'basic',
-      height: 'basic',
       bgcolor: 'form',
-      size: 's',
+      height: 's',
     },
   },
 );
@@ -52,13 +47,13 @@ export const inputVariants = cva(
   'w-full flex items-center bg-transparent text-[14px] placeholder:text-placeholder focus-visible:outline-none disabled:cursor-not-allowed disabled:bg-grey-100',
   {
     variants: {
-      size: {
+      height: {
         s: 'text-base leading-[1.52] tracking-[-0.008em] font-medium',
         m: 'text-lg leading-[1.52] tracking-[-0.008em] font-medium',
       },
     },
     defaultVariants: {
-      size: 's',
+      height: 's',
     },
   },
 );

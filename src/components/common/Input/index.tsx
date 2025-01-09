@@ -41,7 +41,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       borderRadius,
       className,
       bgcolor,
-      size,
+      height,
       isLeftIcon = false,
       isRightIcon = false,
       rightIcon = '',
@@ -68,14 +68,14 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           borderRadius,
           bgcolor,
           variant,
-          size,
+          height,
           disabled,
           isError,
         })}
       >
         {isLeftIcon && <Icon name='search' width={22} height={22} />}
         <input
-          className={cn(inputVariants({ size }), className)}
+          className={cn(inputVariants({ height }), className)}
           ref={ref}
           value={value}
           disabled={disabled}
@@ -84,12 +84,15 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           {...props}
         />
         {isRightIcon && rightIcon && (
-          <button onClick={rightIconAction} type='button'>
+          <button
+            onClick={!disabled ? () => rightIconAction() : undefined}
+            type='button'
+          >
             <Icon
               name={rightIcon}
-              width={size === 's' ? 20 : 24}
-              height={size === 's' ? 20 : 24}
-              className='cursor-pointer'
+              width={height === 's' ? 20 : 24}
+              height={height === 's' ? 20 : 24}
+              className={`cursor-pointer ${disabled ? 'cursor-not-allowed' : ''}`}
             />
           </button>
         )}
