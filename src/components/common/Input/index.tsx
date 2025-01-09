@@ -24,7 +24,7 @@ export type InputIconProps =
       rightIcon?: string;
     };
 
-export type InputProps = ComponentPropsWithoutRef<'input'> &
+export type InputProps = Omit<ComponentPropsWithoutRef<'input'>, 'size'> &
   VariantProps<typeof inputVariants> &
   VariantProps<typeof inputContainerVariants> &
   InputIconProps & {
@@ -42,6 +42,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       className,
       bgcolor,
       height,
+      size,
       isLeftIcon = false,
       isRightIcon = false,
       rightIcon = '',
@@ -69,13 +70,14 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           bgcolor,
           variant,
           height,
+          size,
           disabled,
           isError,
         })}
       >
         {isLeftIcon && <Icon name='search' width={22} height={22} />}
         <input
-          className={cn(inputVariants({ height }), className)}
+          className={cn(inputVariants({ size }), className)}
           ref={ref}
           value={value}
           disabled={disabled}
@@ -90,8 +92,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           >
             <Icon
               name={rightIcon}
-              width={height === 's' ? 20 : 24}
-              height={height === 's' ? 20 : 24}
+              width={size === 's' ? 20 : 24}
+              height={size === 's' ? 20 : 24}
               className={`cursor-pointer ${disabled ? 'cursor-not-allowed' : ''}`}
             />
           </button>
