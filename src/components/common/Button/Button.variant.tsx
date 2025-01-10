@@ -43,7 +43,7 @@ export const buttonVariants = cva(
       {
         variant: 'pagination',
         className:
-          'flex w-7 h-7 p-0 cursor-pointer items-center justify-center rounded bg-green-200 text-center text-white-100 hover:bg-green-300 disabled:cursor-default disabled:hover:bg-green-200 active:bg-green-400',
+          'flex w-8 h-8 p-0 cursor-pointer items-center justify-center rounded-lg bg-white-100 text-black-100 text-base leading-[1.44] tracking-[-0.008em] font-bold border border-grey-100 hover:bg-grey-100 active:bg-grey-200 disabled:cursor-default disabled:hover:bg-white-100',
       },
     ],
   },
