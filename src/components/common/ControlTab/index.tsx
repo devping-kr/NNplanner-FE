@@ -4,10 +4,10 @@ import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { Dispatch, SetStateAction } from 'react';
 import { cn } from '@/utils/core';
-import { ControlTabTypo } from '../Typography';
+import { ControlTabTypo } from '@/components/common/Typography';
 
 type Props<T> = {
-  type?: string;
+  isSortControl?: boolean;
   controlTabItems: readonly T[];
   selectedFilter?: string;
   setSelectedFilter?: Dispatch<SetStateAction<string>>;
@@ -16,7 +16,7 @@ type Props<T> = {
 };
 
 const ControlTab = <T extends string>({
-  type,
+  isSortControl,
   controlTabItems,
   selectedFilter,
   setSelectedFilter,
@@ -31,20 +31,20 @@ const ControlTab = <T extends string>({
     <div
       className={cn(
         'flex justify-end gap-3',
-        type !== 'sort' ? 'border-r border-grey-100 pr-6' : '',
+        !isSortControl ? 'border-r border-grey-100 pr-6' : '',
       )}
     >
       {controlTabItems.map((tab) => (
         <Link
           href={
-            type === 'sort'
+            isSortControl
               ? `${selectedFilter === undefined ? `?sort=${tab}` : `?tab=${selectedFilter}&sort=${tab}`}`
               : `?tab=${tab}&sort=${selectedTab}`
           }
           key={tab}
           replace
           onClick={() => {
-            if (type === 'sort') {
+            if (isSortControl) {
               setSelectedTab!(tab);
             } else {
               setSelectedFilter!(tab);

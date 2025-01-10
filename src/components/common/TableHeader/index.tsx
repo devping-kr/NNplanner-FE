@@ -1,5 +1,5 @@
 import { cn } from '@/utils/core';
-import { TableHeaderTypo } from '../Typography';
+import { TableHeaderTypo } from '@/components/common/Typography';
 
 type TableHeaderProps = {
   headerData: string[];

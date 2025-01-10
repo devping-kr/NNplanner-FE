@@ -61,11 +61,11 @@ const GetAllListControls = ({
         )}
       >
         <Input
-          isLeftIcon={true}
+          isLeftIcon
           height='basic'
           placeholder={inputPlaceholder}
           bgcolor='meal'
-          includeButton={true}
+          includeButton
           value={searchValue}
           onChange={handleChangeSearchValue}
           onSubmit={handleSearchSubmit}

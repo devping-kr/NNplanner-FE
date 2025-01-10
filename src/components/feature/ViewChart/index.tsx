@@ -12,6 +12,7 @@ import GetAllListHeader from '@/components/shared/GetAllList/Header';
 import GetAllListTable from '@/components/shared/GetAllList/ListTable';
 import { SURVEY_FILTER_OPTIONS, TAB_OPTIONS } from '@/constants/_controlTab';
 import { ROUTES } from '@/constants/_navbar';
+import { PAGE_LIMIT } from '@/constants/_pagination';
 import { useGetSurveyList } from '@/hooks/survey/useGetSurveyList';
 
 const ViewChart = () => {
@@ -107,7 +108,7 @@ const ViewChart = () => {
                   setSelectedTab={setSelectedTab}
                 />
                 <ControlTab
-                  type='sort'
+                  isSortControl
                   controlTabItems={TAB_OPTIONS}
                   selectedFilter={selectedFilter!}
                   setSelectedFilter={setSelectedFilter!}
@@ -121,7 +122,7 @@ const ViewChart = () => {
                 headerType='viewChart'
               />
               <Pagination
-                limit={8}
+                limit={PAGE_LIMIT}
                 page={page}
                 setPage={setPage}
                 totalPosts={surveyList.data.totalItems}

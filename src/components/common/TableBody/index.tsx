@@ -1,6 +1,6 @@
 import { cn } from '@/utils/core';
-import { TableBodyTypo } from '../Typography';
 import { TableRowData, TableType } from '@/components/common/Table';
+import { TableBodyTypo } from '@/components/common/Typography';
 
 type TableBodyProps = {
   headerData: string[];

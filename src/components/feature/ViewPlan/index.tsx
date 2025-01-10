@@ -5,7 +5,6 @@ import { useQueryClient } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { MenuResponseDTO } from '@/type/menu/menuResponse';
 import { Result } from '@/type/response';
-// import { getCurrentYearMonthNow } from '@/utils/calendar';
 import { findOriginalId } from '@/utils/findOriginalId';
 import ControlTab from '@/components/common/ControlTab';
 import Pagination from '@/components/common/Pagination';
@@ -18,15 +17,14 @@ import GetAllListTable from '@/components/shared/GetAllList/ListTable';
 import { CATEGORY_MAPPINGS } from '@/constants/_category';
 import { TAB_OPTIONS } from '@/constants/_controlTab';
 import { ROUTES } from '@/constants/_navbar';
+import { DEFAULT_PAGE, PAGE_LIMIT } from '@/constants/_pagination';
 import { useGetSearchMealList } from '@/hooks/meal/useGetSearchMealList';
 import { usePrefetchMinorCategories } from '@/hooks/menuCategory/usePrefetchMinorCategories';
 import useNavigate from '@/hooks/useNavigate';
 import { useToastStore } from '@/stores/useToastStore';
 
-const PAGE_LIMIT = 8;
 const SORT_DESC = 'createdAt,desc';
 const SORT_ASC = 'createdAt,asc';
-const DEFAULT_PAGE = 1;
 
 const ViewPlan = () => {
   const { navigate } = useNavigate();
@@ -37,7 +35,6 @@ const ViewPlan = () => {
     usePrefetchMinorCategories();
   const [minorCategories, setMinorCategories] = useState<Option[]>([]);
 
-  // const { month, year } = getCurrentYearMonthNow();
   const [selectedYear, setSelectedYear] = useState<string>('');
   const [selectedMonth, setSelectedMonth] = useState<string>('');
   const [searchInputValue, setSearchInputValue] = useState('');
@@ -202,7 +199,7 @@ const ViewPlan = () => {
           ) : (
             <div className='flex flex-col gap-6 rounded-2xl bg-white-100 p-6'>
               <ControlTab
-                type='sort'
+                isSortControl
                 controlTabItems={TAB_OPTIONS}
                 selectedTab={selectedTab}
                 setSelectedTab={setSelectedTab}
