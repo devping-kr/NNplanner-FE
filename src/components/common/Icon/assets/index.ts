@@ -33,7 +33,7 @@ type IconMapEntry = {
 };
 
 type ColorClassNames = {
-  [group in 'white' | 'dark' | 'red' | 'green' | 'gray']: {
+  [group in 'white' | 'dark' | 'red' | 'green' | 'gray' | 'grey']: {
     [shade: number]: string;
   };
 };
@@ -45,10 +45,10 @@ export const iconMap: Record<string, IconMapEntry> = {
   plus: { type: 'stroke', file: Plus },
   arrowUp: { type: 'stroke', file: Arrowup },
   arrowDown: { type: 'stroke', file: ArrowDown },
-  arrowPrev: { type: 'stroke', file: ArrowPrev },
-  arrowNext: { type: 'stroke', file: ArrowNext },
-  arrowPrevBlock: { type: 'stroke', file: ArrowPrevBlock },
-  arrowNextBlock: { type: 'stroke', file: ArrowNextBlock },
+  arrowPrev: { type: 'fill', file: ArrowPrev },
+  arrowNext: { type: 'fill', file: ArrowNext },
+  arrowPrevBlock: { type: 'fill', file: ArrowPrevBlock },
+  arrowNextBlock: { type: 'fill', file: ArrowNextBlock },
   dashboard: {
     type: 'stroke',
     file: Dashboard,
@@ -147,12 +147,16 @@ const COLOR_CLASSNAMES: ColorClassNames = {
     700: 'gray-700',
     800: 'gray-800',
   },
+  grey: {
+    200: 'grey-200',
+  },
 };
 
 export const COLORS = {
   // 리디자인 색상 적용
   warning: colors.red[500],
   black: colors.black[100],
+  grey: colors.grey[200],
   //---
   // 기존 아이콘 색상
   white: colors.white[100],
