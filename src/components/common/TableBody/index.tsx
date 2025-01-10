@@ -8,7 +8,7 @@ type TableBodyProps = {
   type: TableType;
   className?: string;
   onRowClick?: (id: number | string) => void;
-  headerType: 'viewPlan' | 'viewChart';
+  headerType?: 'viewPlan' | 'viewChart';
 };
 
 const TableBody = ({

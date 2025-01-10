@@ -4,7 +4,7 @@ import { TableHeaderTypo } from '../Typography';
 type TableHeaderProps = {
   headerData: string[];
   className?: string;
-  headerType: 'viewPlan' | 'viewChart';
+  headerType?: 'viewPlan' | 'viewChart';
 };
 
 const TableHeader = ({

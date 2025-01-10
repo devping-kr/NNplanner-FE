@@ -15,7 +15,7 @@ type TableProps = {
   headerClassName?: string;
   bodyClassName?: string;
   onRowClick?: (id: number | string) => void;
-  headerType: 'viewPlan' | 'viewChart';
+  headerType?: 'viewPlan' | 'viewChart';
 };
 
 const Table = ({
@@ -36,7 +36,7 @@ const Table = ({
         <TableHeader
           headerData={tableHeaders}
           className={headerClassName}
-          headerType={headerType}
+          headerType={headerType!}
         />
         <TableBody
           headerData={tableHeaders}
@@ -44,7 +44,7 @@ const Table = ({
           type={type}
           className={bodyClassName}
           onRowClick={onRowClick}
-          headerType={headerType}
+          headerType={headerType!}
         />
       </table>
     </div>
