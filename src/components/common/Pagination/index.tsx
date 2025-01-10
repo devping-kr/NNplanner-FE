@@ -12,7 +12,7 @@ interface Props {
   totalPosts: number;
 }
 
-const PAGE_LIMIT = 5;
+const PAGE_LIMIT = 10;
 const ZERO = 0;
 const ONE = 1;
 
@@ -32,9 +32,9 @@ const Pagination = ({ limit, page, setPage, totalPosts }: Props) => {
         variant={'pagination'}
         className={cn(
           '',
-          page === i + ONE
-            ? 'bg-green-500 text-white-100 hover:bg-green-500'
-            : '',
+          page === i + ONE && 'bg-green-500 text-white-100 hover:bg-green-500',
+          totalPages === ONE &&
+            'cursor-default border-none bg-transparent text-green-500 hover:bg-transparent active:bg-transparent',
         )}
       >
         {i + ONE}
