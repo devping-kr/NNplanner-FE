@@ -2,6 +2,7 @@
 
 import { ComponentPropsWithoutRef, ElementType } from 'react';
 import { VariantProps } from 'class-variance-authority';
+import { cn } from '@/utils/core';
 import { typographyVariants } from './Typography.variant';
 
 export type TypographyProps = VariantProps<typeof typographyVariants> &
@@ -11,16 +12,21 @@ const customTypography = (
   element: ElementType,
   variants: VariantProps<typeof typographyVariants>,
 ) => {
-  const Typography = ({ children, ...props }: TypographyProps) => {
+  const Typography = ({ children, className, ...props }: TypographyProps) => {
     const Tag = element;
     return (
-      <Tag className={typographyVariants(variants)} {...props}>
+      <Tag className={cn(typographyVariants(variants), className)} {...props}>
         {children}
       </Tag>
     );
   };
   return Typography;
 };
+
+export const ControlTabTypo = customTypography('span', {
+  type: 'Body3',
+  color: 'gray',
+});
 
 // 리디자인 변경 전 Typography
 export const HeadPrimary = customTypography('h1', {
