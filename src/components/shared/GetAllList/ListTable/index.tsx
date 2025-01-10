@@ -3,7 +3,7 @@ import Table, { TableRowData } from '@/components/common/Table';
 interface Props {
   data: TableRowData[];
   onRowClick?: (id: number | string) => void;
-  headerType: 'viewPlan' | 'viewChart';
+  headerType?: 'viewPlan' | 'viewChart';
 }
 
 const GetAllListTable = ({ headerType, data, onRowClick }: Props) => {
@@ -12,7 +12,7 @@ const GetAllListTable = ({ headerType, data, onRowClick }: Props) => {
       data={data}
       type='list'
       onRowClick={onRowClick}
-      headerType={headerType}
+      headerType={headerType!}
     />
   );
 };
