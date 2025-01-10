@@ -4,6 +4,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import { surveyType } from '@/type/survey/surveyResponse';
+import ControlTab from '@/components/common/ControlTab';
 import Pagination from '@/components/common/Pagination';
 import { HeadPrimary } from '@/components/common/Typography';
 import GetAllListControls from '@/components/shared/GetAllList/Controls';
@@ -11,6 +12,7 @@ import GetAllListHeader from '@/components/shared/GetAllList/Header';
 import GetAllListTable from '@/components/shared/GetAllList/ListTable';
 import { SURVEY_FILTER_OPTIONS, TAB_OPTIONS } from '@/constants/_controlTab';
 import { ROUTES } from '@/constants/_navbar';
+import { PAGE_LIMIT } from '@/constants/_pagination';
 import { useGetSurveyList } from '@/hooks/survey/useGetSurveyList';
 
 const ViewChart = () => {
@@ -69,8 +71,8 @@ const ViewChart = () => {
 
   const convertToTableRowData = (surveys: surveyType[]) => {
     return surveys.map((survey) => ({
-      설문ID: survey.surveyId,
-      설문이름: survey.surveyName,
+      '설문 ID': survey.surveyId,
+      '설문 이름': survey.surveyName,
       생성일: dayjs(survey.createdAt).format('YYYY-MM-DD'),
       마감일: dayjs(survey.deadlineAt).format('YYYY-MM-DD'),
       상태: survey.state === 'IN_PROGRESS' ? '진행중' : '마감',
@@ -90,28 +92,42 @@ const ViewChart = () => {
             onYearChange={setSelectedYear}
             searchValue={searchValue}
             handleChangeSearchValue={handleChangeSearchValue}
-            selectedFilter={selectedFilter}
-            setSelectedFilter={setSelectedFilter}
-            selectedTab={selectedTab}
-            setSelectedTab={setSelectedTab}
             inputPlaceholder='설문 이름을 입력해주세요.'
             handleSearchSubmit={handleSearchSubmit}
           />
           {surveyList?.data.totalItems === 0 ? (
             <HeadPrimary>설문이 존재하지 않습니다</HeadPrimary>
           ) : (
-            <>
+            <div className='flex flex-col gap-6 rounded-2xl bg-white-100 p-6'>
+              <div className='flex items-center justify-end gap-6'>
+                <ControlTab
+                  controlTabItems={SURVEY_FILTER_OPTIONS}
+                  selectedFilter={selectedFilter!}
+                  setSelectedFilter={setSelectedFilter!}
+                  selectedTab={selectedTab}
+                  setSelectedTab={setSelectedTab}
+                />
+                <ControlTab
+                  isSortControl
+                  controlTabItems={TAB_OPTIONS}
+                  selectedFilter={selectedFilter!}
+                  setSelectedFilter={setSelectedFilter!}
+                  selectedTab={selectedTab}
+                  setSelectedTab={setSelectedTab}
+                />
+              </div>
               <GetAllListTable
                 data={convertToTableRowData(surveyList.data.surveys)}
                 onRowClick={(id) => router.push(`${ROUTES.VIEW.CHART}/${id}`)}
+                headerType='viewChart'
               />
               <Pagination
-                limit={8}
+                limit={PAGE_LIMIT}
                 page={page}
                 setPage={setPage}
                 totalPosts={surveyList.data.totalItems}
               />
-            </>
+            </div>
           )}
         </>
       )}

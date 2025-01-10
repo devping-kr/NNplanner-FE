@@ -4,18 +4,19 @@ import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { Dispatch, SetStateAction } from 'react';
 import { cn } from '@/utils/core';
+import { ControlTabTypo } from '@/components/common/Typography';
 
 type Props<T> = {
-  type?: string;
+  isSortControl?: boolean;
   controlTabItems: readonly T[];
-  selectedFilter: string;
-  setSelectedFilter: Dispatch<SetStateAction<string>>;
-  selectedTab: T;
-  setSelectedTab: Dispatch<SetStateAction<T>>;
+  selectedFilter?: string;
+  setSelectedFilter?: Dispatch<SetStateAction<string>>;
+  selectedTab?: T;
+  setSelectedTab?: Dispatch<SetStateAction<T>>;
 };
 
 const ControlTab = <T extends string>({
-  type,
+  isSortControl,
   controlTabItems,
   selectedFilter,
   setSelectedFilter,
@@ -27,30 +28,36 @@ const ControlTab = <T extends string>({
   const currentTab = tabParam ?? ('전체' as string);
 
   return (
-    <div className='flex gap-2'>
+    <div
+      className={cn(
+        'flex justify-end gap-3',
+        !isSortControl ? 'border-r border-grey-100 pr-6' : '',
+      )}
+    >
       {controlTabItems.map((tab) => (
         <Link
           href={
-            type === 'sort'
+            isSortControl
               ? `${selectedFilter === undefined ? `?sort=${tab}` : `?tab=${selectedFilter}&sort=${tab}`}`
               : `?tab=${tab}&sort=${selectedTab}`
           }
           key={tab}
-          className={cn(
-            'text-xs text-gray-400',
-            (tab === currentTab || tab === selectedTab) &&
-              'font-semibold text-green-600',
-          )}
           replace
           onClick={() => {
-            if (type === 'sort') {
-              setSelectedTab(tab);
+            if (isSortControl) {
+              setSelectedTab!(tab);
             } else {
-              setSelectedFilter(tab);
+              setSelectedFilter!(tab);
             }
           }}
         >
-          {tab}
+          <ControlTabTypo
+            className={
+              tab === currentTab || tab === selectedTab ? 'text-green-500' : ''
+            }
+          >
+            {tab}
+          </ControlTabTypo>
         </Link>
       ))}
     </div>

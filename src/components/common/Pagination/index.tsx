@@ -12,7 +12,6 @@ interface Props {
   totalPosts: number;
 }
 
-const PAGE_LIMIT = 5;
 const ZERO = 0;
 const ONE = 1;
 
@@ -20,7 +19,7 @@ const Pagination = ({ limit, page, setPage, totalPosts }: Props) => {
   const [blockNum, setBlockNum] = useState(0);
 
   const totalPages = Math.ceil(totalPosts / limit);
-  const blockArea = blockNum * PAGE_LIMIT;
+  const blockArea = blockNum * limit;
 
   const createArr = Array(totalPages)
     .fill(ZERO)
@@ -32,16 +31,16 @@ const Pagination = ({ limit, page, setPage, totalPosts }: Props) => {
         variant={'pagination'}
         className={cn(
           '',
-          page === i + ONE
-            ? 'bg-green-500 text-white-100 hover:bg-green-500'
-            : '',
+          page === i + ONE && 'bg-green-500 text-white-100 hover:bg-green-500',
+          totalPages === ONE &&
+            'cursor-default border-none bg-transparent text-green-500 hover:bg-transparent active:bg-transparent',
         )}
       >
         {i + ONE}
       </Button>
     ));
 
-  const sliceArr = createArr.slice(blockArea, PAGE_LIMIT + blockArea);
+  const sliceArr = createArr.slice(blockArea, limit + blockArea);
 
   const firstPage = () => {
     setPage(ONE);
@@ -50,12 +49,12 @@ const Pagination = ({ limit, page, setPage, totalPosts }: Props) => {
 
   const lastPage = () => {
     setPage(totalPages);
-    setBlockNum(Math.ceil(totalPages / PAGE_LIMIT) - ONE);
+    setBlockNum(Math.ceil(totalPages / limit) - ONE);
   };
 
   const prevBtnHandler = () => {
     if (page > ONE) {
-      if (page - ONE <= PAGE_LIMIT * blockNum) {
+      if (page - ONE <= limit * blockNum) {
         setBlockNum((num) => Math.max(num - ONE, 0));
       }
       setPage((num) => num - ONE);
@@ -64,7 +63,7 @@ const Pagination = ({ limit, page, setPage, totalPosts }: Props) => {
 
   const nextBtnHandler = () => {
     if (page < totalPages) {
-      if (page + ONE > PAGE_LIMIT * (blockNum + ONE)) {
+      if (page + ONE > limit * (blockNum + ONE)) {
         setBlockNum((num) => num + ONE);
       }
       setPage((num) => num + ONE);
@@ -112,14 +111,14 @@ const Pagination = ({ limit, page, setPage, totalPosts }: Props) => {
       </Button>
       <Button
         onClick={lastPage}
-        disabled={blockArea >= totalPages - PAGE_LIMIT}
+        disabled={blockArea >= totalPages - limit}
         variant='pagination'
       >
         <Icon
           name='arrowNextBlock'
           width={24}
           height={24}
-          color={blockArea >= totalPages - PAGE_LIMIT ? 'grey' : 'black'}
+          color={blockArea >= totalPages - limit ? 'grey' : 'black'}
         />
       </Button>
     </div>
