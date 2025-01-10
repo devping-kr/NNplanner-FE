@@ -32,7 +32,9 @@ const Pagination = ({ limit, page, setPage, totalPosts }: Props) => {
         variant={'pagination'}
         className={cn(
           '',
-          page === i + ONE ? 'bg-green-400 hover:bg-green-400' : '',
+          page === i + ONE
+            ? 'bg-green-500 text-white-100 hover:bg-green-500'
+            : '',
         )}
       >
         {i + ONE}
@@ -76,14 +78,24 @@ const Pagination = ({ limit, page, setPage, totalPosts }: Props) => {
         disabled={blockNum === ZERO}
         variant='pagination'
       >
-        <Icon name='arrowPrevBlock' width={15} height={15} color='white' />
+        <Icon
+          name='arrowPrevBlock'
+          width={24}
+          height={24}
+          color={blockNum === ZERO ? 'grey' : 'black'}
+        />
       </Button>
       <Button
         onClick={prevBtnHandler}
         disabled={page === ONE}
         variant='pagination'
       >
-        <Icon name='arrowPrev' width={15} height={15} color='white' />
+        <Icon
+          name='arrowPrev'
+          width={24}
+          height={24}
+          color={page === ONE ? 'grey' : 'black'}
+        />
       </Button>
       {sliceArr}
       <Button
@@ -91,14 +103,24 @@ const Pagination = ({ limit, page, setPage, totalPosts }: Props) => {
         disabled={page === totalPages}
         variant='pagination'
       >
-        <Icon name='arrowNext' width={15} height={15} color='white' />
+        <Icon
+          name='arrowNext'
+          width={24}
+          height={24}
+          color={page === totalPages ? 'grey' : 'black'}
+        />
       </Button>
       <Button
         onClick={lastPage}
         disabled={blockArea >= totalPages - PAGE_LIMIT}
         variant='pagination'
       >
-        <Icon name='arrowNextBlock' width={15} height={15} color='white' />
+        <Icon
+          name='arrowNextBlock'
+          width={24}
+          height={24}
+          color={blockArea >= totalPages - PAGE_LIMIT ? 'grey' : 'black'}
+        />
       </Button>
     </div>
   );
