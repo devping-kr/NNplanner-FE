@@ -38,6 +38,11 @@ export const TableBodyTypo = customTypography('span', {
   color: 'dark',
 });
 
+export const InfoCardTypo = customTypography('span', {
+  type: 'Body2',
+  color: 'black',
+});
+
 // 리디자인 변경 전 Typography
 export const HeadPrimary = customTypography('h1', {
   type: 'heading1',
