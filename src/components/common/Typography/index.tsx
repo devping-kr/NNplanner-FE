@@ -28,6 +28,16 @@ export const ControlTabTypo = customTypography('span', {
   color: 'gray',
 });
 
+export const TableHeaderTypo = customTypography('span', {
+  type: 'label1',
+  color: 'dark',
+});
+
+export const TableBodyTypo = customTypography('span', {
+  type: 'Body2',
+  color: 'dark',
+});
+
 // 리디자인 변경 전 Typography
 export const HeadPrimary = customTypography('h1', {
   type: 'heading1',

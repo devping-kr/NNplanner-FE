@@ -70,8 +70,8 @@ const ViewChart = () => {
 
   const convertToTableRowData = (surveys: surveyType[]) => {
     return surveys.map((survey) => ({
-      설문ID: survey.surveyId,
-      설문이름: survey.surveyName,
+      '설문 ID': survey.surveyId,
+      '설문 이름': survey.surveyName,
       생성일: dayjs(survey.createdAt).format('YYYY-MM-DD'),
       마감일: dayjs(survey.deadlineAt).format('YYYY-MM-DD'),
       상태: survey.state === 'IN_PROGRESS' ? '진행중' : '마감',
@@ -118,6 +118,7 @@ const ViewChart = () => {
               <GetAllListTable
                 data={convertToTableRowData(surveyList.data.surveys)}
                 onRowClick={(id) => router.push(`${ROUTES.VIEW.CHART}/${id}`)}
+                headerType='viewChart'
               />
               <Pagination
                 limit={8}

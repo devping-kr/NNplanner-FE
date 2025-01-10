@@ -113,8 +113,8 @@ const ViewPlan = () => {
 
   const convertToTableRowData = (menus: MenuResponseDTO[]): TableRowData[] => {
     return menus.map((menu) => ({
-      식단ID: menu.monthMenuId.slice(0, 4),
-      식단이름: menu.monthMenuName,
+      '식단 ID': menu.monthMenuId.slice(0, 4),
+      '식단 이름': menu.monthMenuName,
       대분류: menu.majorCategory,
       소분류: menu.minorCategory,
       생성일: dayjs(menu.createAt).format('YYYY-MM-DD'),
@@ -212,6 +212,7 @@ const ViewPlan = () => {
                   searchMealList?.data?.menuResponseDTOList ?? [],
                 )}
                 onRowClick={(id) => handleClickRow(String(id))}
+                headerType='viewPlan'
               />
               <Pagination
                 limit={PAGE_LIMIT}
