@@ -7,6 +7,7 @@ import { MenuResponseDTO } from '@/type/menu/menuResponse';
 import { Result } from '@/type/response';
 // import { getCurrentYearMonthNow } from '@/utils/calendar';
 import { findOriginalId } from '@/utils/findOriginalId';
+import ControlTab from '@/components/common/ControlTab';
 import Pagination from '@/components/common/Pagination';
 import { Option } from '@/components/common/Selectbox';
 import { TableRowData } from '@/components/common/Table';
@@ -22,7 +23,6 @@ import { usePrefetchMinorCategories } from '@/hooks/menuCategory/usePrefetchMino
 import useNavigate from '@/hooks/useNavigate';
 import { useToastStore } from '@/stores/useToastStore';
 
-// TODO: constant 파일로 관리
 const PAGE_LIMIT = 8;
 const SORT_DESC = 'createdAt,desc';
 const SORT_ASC = 'createdAt,asc';
@@ -193,8 +193,6 @@ const ViewPlan = () => {
             setSelectedCategory={setSelectedCategory}
             searchValue={searchInputValue}
             handleChangeSearchValue={handleChangeSearchValue}
-            selectedTab={selectedTab}
-            setSelectedTab={setSelectedTab}
             inputPlaceholder='식단 이름을 입력해주세요.'
             handleSearchSubmit={submitSearchValue}
             minorCategories={minorCategories}
@@ -202,7 +200,13 @@ const ViewPlan = () => {
           {searchMealList?.data.totalElements === 0 ? (
             <HeadPrimary>식단이 존재하지 않습니다</HeadPrimary>
           ) : (
-            <>
+            <div className='flex flex-col gap-6 rounded-2xl bg-white-100 p-6'>
+              <ControlTab
+                type='sort'
+                controlTabItems={TAB_OPTIONS}
+                selectedTab={selectedTab}
+                setSelectedTab={setSelectedTab}
+              />
               <GetAllListTable
                 data={convertToTableRowData(
                   searchMealList?.data?.menuResponseDTOList ?? [],
@@ -215,7 +219,7 @@ const ViewPlan = () => {
                 setPage={setPage}
                 totalPosts={searchMealList?.data.totalElements ?? 0}
               />
-            </>
+            </div>
           )}
         </>
       )}

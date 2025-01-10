@@ -4,6 +4,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import { surveyType } from '@/type/survey/surveyResponse';
+import ControlTab from '@/components/common/ControlTab';
 import Pagination from '@/components/common/Pagination';
 import { HeadPrimary } from '@/components/common/Typography';
 import GetAllListControls from '@/components/shared/GetAllList/Controls';
@@ -90,17 +91,30 @@ const ViewChart = () => {
             onYearChange={setSelectedYear}
             searchValue={searchValue}
             handleChangeSearchValue={handleChangeSearchValue}
-            selectedFilter={selectedFilter}
-            setSelectedFilter={setSelectedFilter}
-            selectedTab={selectedTab}
-            setSelectedTab={setSelectedTab}
             inputPlaceholder='설문 이름을 입력해주세요.'
             handleSearchSubmit={handleSearchSubmit}
           />
           {surveyList?.data.totalItems === 0 ? (
             <HeadPrimary>설문이 존재하지 않습니다</HeadPrimary>
           ) : (
-            <>
+            <div className='flex flex-col gap-6 rounded-2xl bg-white-100 p-6'>
+              <div className='flex items-center justify-end gap-6'>
+                <ControlTab
+                  controlTabItems={SURVEY_FILTER_OPTIONS}
+                  selectedFilter={selectedFilter!}
+                  setSelectedFilter={setSelectedFilter!}
+                  selectedTab={selectedTab}
+                  setSelectedTab={setSelectedTab}
+                />
+                <ControlTab
+                  type='sort'
+                  controlTabItems={TAB_OPTIONS}
+                  selectedFilter={selectedFilter!}
+                  setSelectedFilter={setSelectedFilter!}
+                  selectedTab={selectedTab}
+                  setSelectedTab={setSelectedTab}
+                />
+              </div>
               <GetAllListTable
                 data={convertToTableRowData(surveyList.data.surveys)}
                 onRowClick={(id) => router.push(`${ROUTES.VIEW.CHART}/${id}`)}
@@ -111,7 +125,7 @@ const ViewChart = () => {
                 setPage={setPage}
                 totalPosts={surveyList.data.totalItems}
               />
-            </>
+            </div>
           )}
         </>
       )}
