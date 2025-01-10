@@ -40,7 +40,7 @@ const TableBody = ({
       {bodyData.map((item, rowIndex) => (
         <tr
           key={rowIndex}
-          className={cn('mx-3 h-16 cursor-pointer odd:bg-grey-50')}
+          className={cn('h-16 cursor-pointer odd:bg-grey-50 hover:bg-grey-100')}
           onClick={
             onRowClick && type === 'list' && typeof item.설문ID === 'number'
               ? () => onRowClick(item.설문ID as number)
