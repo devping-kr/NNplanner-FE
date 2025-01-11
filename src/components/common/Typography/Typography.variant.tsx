@@ -49,15 +49,24 @@ export const typographyVariants = cva('whitespace-pre-line text-wrap', {
       normal: 'font-normal',
     },
     color: {
+      black: 'text-black-100',
       white: 'text-white-100',
+      green: 'text-green-500',
+      blue: 'text-blue-500',
+      red: 'text-red-500',
+      grey100: 'text-grey-100',
+      grey200: 'text-grey-200',
+      grey500: 'text-grey-500',
+      grey900: 'text-grey-900',
+
+      // 리디자인 후 삭제
       darken: 'text-dark-200',
       dark: 'text-dark-100',
       gray: 'text-gray-500',
-      black: 'text-black-100',
     },
   },
   defaultVariants: {
-    type: 'body3',
-    color: 'dark',
+    type: 'Body3',
+    color: 'black',
   },
 });

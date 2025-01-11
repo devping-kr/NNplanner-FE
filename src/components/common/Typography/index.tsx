@@ -3,7 +3,7 @@
 import { ComponentPropsWithoutRef, ElementType } from 'react';
 import { VariantProps } from 'class-variance-authority';
 import { cn } from '@/utils/core';
-import { typographyVariants } from './Typography.variant';
+import { typographyVariants } from '@/components/common/Typography/Typography.variant';
 
 export type TypographyProps = VariantProps<typeof typographyVariants> &
   ComponentPropsWithoutRef<'p'>;
@@ -25,17 +25,17 @@ const customTypography = (
 
 export const ControlTabTypo = customTypography('span', {
   type: 'Body3',
-  color: 'gray',
+  color: 'grey500',
 });
 
 export const TableHeaderTypo = customTypography('span', {
   type: 'label1',
-  color: 'dark',
+  color: 'black',
 });
 
 export const TableBodyTypo = customTypography('span', {
   type: 'Body2',
-  color: 'dark',
+  color: 'black',
 });
 
 export const InfoCardTypo = customTypography('span', {
