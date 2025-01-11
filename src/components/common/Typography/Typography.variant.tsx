@@ -53,6 +53,7 @@ export const typographyVariants = cva('whitespace-pre-line text-wrap', {
       darken: 'text-dark-200',
       dark: 'text-dark-100',
       gray: 'text-gray-500',
+      black: 'text-black-100',
     },
   },
   defaultVariants: {
