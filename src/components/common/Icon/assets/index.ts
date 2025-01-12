@@ -47,7 +47,7 @@ export const iconMap: Record<string, IconMapEntry> = {
   arrowUp: { type: 'stroke', file: Arrowup },
   arrowDown: { type: 'stroke', file: ArrowDown },
   arrowPrev: { type: 'fill', file: ArrowPrev },
-  arrowNext: { type: 'fill', file: ArrowNext },
+  arrowNext: { type: 'stroke', file: ArrowNext },
   arrowPrevBlock: { type: 'fill', file: ArrowPrevBlock },
   arrowNextBlock: { type: 'fill', file: ArrowNextBlock },
   dashboard: {
