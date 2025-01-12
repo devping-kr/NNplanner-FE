@@ -43,6 +43,11 @@ export const InfoCardTypo = customTypography('span', {
   color: 'black',
 });
 
+export const NavbarTypo = customTypography('span', {
+  type: 'label1',
+  color: 'white',
+});
+
 // 리디자인 변경 전 Typography
 export const HeadPrimary = customTypography('h1', {
   type: 'heading1',
