@@ -15,6 +15,7 @@ const Navbar = () => {
   const isSurveyPage = /^\/survey\/\d+$/.test(pathname);
   const mealLinks = NAV_LINKS.slice(0, 4);
   const surveyLinks = NAV_LINKS.slice(4);
+  const ICON_SIZE = 24;
 
   return (
     !isSurveyPage && (
@@ -27,6 +28,8 @@ const Navbar = () => {
                 name={icon}
                 className='hover:stroke-green-500'
                 color={selectedTab === name ? 'green500' : 'grey500'}
+                width={ICON_SIZE}
+                height={ICON_SIZE}
               />
               <span>{name}</span>
             </NavMenu>
@@ -40,6 +43,8 @@ const Navbar = () => {
                 name={icon}
                 className='hover:stroke-green-500'
                 color={selectedTab === name ? 'green500' : 'grey500'}
+                width={ICON_SIZE}
+                height={ICON_SIZE}
               />
               <span>{name}</span>
             </NavMenu>
