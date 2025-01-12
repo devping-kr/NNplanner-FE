@@ -35,17 +35,12 @@ export const NAV_LINKS = [
   {
     name: '식단 조회',
     href: BASE_ROUTES.VIEW_PLAN,
-    icon: 'search',
+    icon: 'navSearch',
   },
   {
     name: '설문 결과 조회',
     href: BASE_ROUTES.VIEW_CHART,
     icon: 'chart',
-  },
-  {
-    name: '마이 페이지',
-    href: BASE_ROUTES.MY_PAGE,
-    icon: 'profile',
   },
 ];
 
