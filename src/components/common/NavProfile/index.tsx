@@ -4,8 +4,9 @@ import { Subtitle2Black, TableBodyTypo } from '@/components/common/Typography';
 
 const NavProfile = ({ name = '냠냠' }: { name: string }) => {
   return (
-    <button className='flex w-full items-center justify-between gap-2'>
+    <button className='flex w-[238px] items-center justify-between gap-2'>
       <Badge
+        // TODO: 추후 이미지 변경 필요
         imageSrc='/imgs/pi-gon-ping.jpg'
         size={40}
         className='border border-grey-100'
