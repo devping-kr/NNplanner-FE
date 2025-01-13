@@ -43,6 +43,11 @@ export const InfoCardTypo = customTypography('span', {
   color: 'black',
 });
 
+export const Subtitle2Black = customTypography('span', {
+  type: 'Subtitle2',
+  color: 'black',
+});
+
 export const Label1White = customTypography('span', {
   type: 'label1',
   color: 'white',
