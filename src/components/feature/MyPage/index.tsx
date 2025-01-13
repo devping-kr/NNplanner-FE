@@ -180,7 +180,7 @@ const MyPage = () => {
         <form onSubmit={handleSubmit(submitChangePassword)} className='w-full'>
           <fieldset className='flex w-full justify-center'>
             <legend className='sr-only'>비밀번호 변경</legend>
-            <div className='flex w-full flex-col items-center gap-6 rounded bg-white-100 p-12'>
+            <div className='flex w-full flex-col items-center gap-6 rounded-2xl bg-white-100 p-12'>
               <div className='flex w-full flex-col gap-2'>
                 <label
                   htmlFor='currentPassword'
