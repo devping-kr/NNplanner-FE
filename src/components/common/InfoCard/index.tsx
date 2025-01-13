@@ -1,5 +1,5 @@
 import { cn } from '@/utils/core';
-import { InfoCardTypo } from '../Typography';
+import { Body2Black } from '../Typography';
 import Icon from '@/components/common/Icon';
 
 type InfoCardProps = {
@@ -20,7 +20,7 @@ const InfoCard = ({ message, className }: InfoCardProps) => {
       <div className='h-fit w-fit'>
         <Icon name='info' color='black' width={ICON_SIZE} height={ICON_SIZE} />
       </div>
-      <InfoCardTypo>{message}</InfoCardTypo>
+      <Body2Black>{message}</Body2Black>
     </div>
   );
 };

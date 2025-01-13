@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { Dispatch, SetStateAction } from 'react';
 import { cn } from '@/utils/core';
-import { ControlTabTypo } from '@/components/common/Typography';
+import { Body3Grey500 } from '@/components/common/Typography';
 
 type Props<T> = {
   isSortControl?: boolean;
@@ -51,13 +51,13 @@ const ControlTab = <T extends string>({
             }
           }}
         >
-          <ControlTabTypo
+          <Body3Grey500
             className={
               tab === currentTab || tab === selectedTab ? 'text-green-500' : ''
             }
           >
             {tab}
-          </ControlTabTypo>
+          </Body3Grey500>
         </Link>
       ))}
     </div>

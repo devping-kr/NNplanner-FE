@@ -1,6 +1,6 @@
 import { cn } from '@/utils/core';
 import { TableRowData, TableType } from '@/components/common/Table';
-import { TableBodyTypo } from '@/components/common/Typography';
+import { Body2Black } from '@/components/common/Typography';
 
 type TableBodyProps = {
   headerData: string[];
@@ -59,9 +59,9 @@ const TableBody = ({
             );
             return (
               <td key={header} className={cellClass}>
-                <TableBodyTypo>
+                <Body2Black>
                   {item[header] !== undefined ? item[header] : '-'}
-                </TableBodyTypo>
+                </Body2Black>
               </td>
             );
           })}
