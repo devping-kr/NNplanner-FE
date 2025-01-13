@@ -1,17 +1,21 @@
 import Badge from '@/components/common/Badge';
 import Icon from '@/components/common/Icon';
+import { Subtitle2Black, TableBodyTypo } from '@/components/common/Typography';
 
 const NavProfile = ({ name = '냠냠' }: { name: string }) => {
   return (
-    <button className='flex h-[90px] w-full items-center justify-between px-10 py-6'>
-      <Badge imageSrc='/imgs/pi-gon-ping.jpg' />
-      <div className='flex flex-col gap-[2px]'>
-        <span className='text-nowrap text-xs text-gray-600'>
-          다시 만나 기뻐요🐭
-        </span>
-        <span className='text-sm text-dark-100'>{name}님</span>
+    <button className='flex w-[238px] items-center justify-between gap-2'>
+      <Badge
+        // TODO: 추후 이미지 변경 필요
+        imageSrc='/imgs/pi-gon-ping.jpg'
+        size={40}
+        className='border border-grey-100'
+      />
+      <div className='flex items-center justify-center gap-2'>
+        <TableBodyTypo>다시 만나 기뻐요!</TableBodyTypo>
+        <Subtitle2Black>{name}님</Subtitle2Black>
       </div>
-      <Icon name='arrowNext' color='black' className='hover:stroke-dark-200' />
+      <Icon name='arrowNext' color='black' />
     </button>
   );
 };
