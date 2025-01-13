@@ -43,6 +43,21 @@ export const InfoCardTypo = customTypography('span', {
   color: 'black',
 });
 
+export const Label1White = customTypography('span', {
+  type: 'label1',
+  color: 'white',
+});
+
+export const Body2Grey500 = customTypography('span', {
+  type: 'Body2',
+  color: 'grey500',
+});
+
+export const Subtitle2Green500 = customTypography('span', {
+  type: 'Subtitle2',
+  color: 'green',
+});
+
 // 리디자인 변경 전 Typography
 export const HeadPrimary = customTypography('h1', {
   type: 'heading1',

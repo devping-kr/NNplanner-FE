@@ -1,17 +1,22 @@
 import ArrowDown from '@/components/common/Icon/assets/ArrowDown';
 import ArrowNext from '@/components/common/Icon/assets/ArrowNext';
+import ArrowNextBlock from '@/components/common/Icon/assets/ArrowNextBlock';
 import ArrowPrev from '@/components/common/Icon/assets/ArrowPrev';
+import ArrowPrevBlock from '@/components/common/Icon/assets/ArrowPrevBlock';
 import Arrowup from '@/components/common/Icon/assets/ArrowUp';
 import Auto from '@/components/common/Icon/assets/Auto';
 import Calendar from '@/components/common/Icon/assets/Calendar';
 import Chart from '@/components/common/Icon/assets/Chart';
+import CheckCircle from '@/components/common/Icon/assets/CheckCircle';
 import Danger from '@/components/common/Icon/assets/Danger';
 import Dashboard from '@/components/common/Icon/assets/Dashboard';
 import Edit from '@/components/common/Icon/assets/Edit';
 import Group from '@/components/common/Icon/assets/Group';
 import Hide from '@/components/common/Icon/assets/Hide';
 import Normal from '@/components/common/Icon/assets/Info';
+import InfoCircle from '@/components/common/Icon/assets/InfoCircle';
 import Logout from '@/components/common/Icon/assets/Logout';
+import NavSearch from '@/components/common/Icon/assets/NavSearch';
 import Plus from '@/components/common/Icon/assets/Plus';
 import Profile from '@/components/common/Icon/assets/Profile';
 import Search from '@/components/common/Icon/assets/Search';
@@ -19,13 +24,9 @@ import Show from '@/components/common/Icon/assets/Show';
 import Time from '@/components/common/Icon/assets/Time';
 import TrendDown from '@/components/common/Icon/assets/TrendDown';
 import TrendUp from '@/components/common/Icon/assets/TrendUp';
+import WarnCircle from '@/components/common/Icon/assets/WarnCircle';
 import Xmark from '@/components/common/Icon/assets/Xmark';
 import { colors } from '@/styles/colors';
-import ArrowNextBlock from './ArrowNextBlock';
-import ArrowPrevBlock from './ArrowPrevBlock';
-import CheckCircle from './CheckCircle';
-import InfoCircle from './InfoCircle';
-import WarnCircle from './WarnCircle';
 
 type IconMapEntry = {
   type: 'fill' | 'stroke';
@@ -112,6 +113,10 @@ export const iconMap: Record<string, IconMapEntry> = {
     type: 'stroke',
     file: WarnCircle,
   },
+  navSearch: {
+    type: 'stroke',
+    file: NavSearch,
+  },
 };
 
 const COLOR_CLASSNAMES: ColorClassNames = {
@@ -157,6 +162,8 @@ export const COLORS = {
   warning: colors.red[500],
   black: colors.black[100],
   grey: colors.grey[200],
+  grey500: colors.grey[500],
+  green500: colors.green[500],
   //---
   // 기존 아이콘 색상
   white: colors.white[100],
