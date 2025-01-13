@@ -43,11 +43,8 @@ const Modal = ({ children }: ModalProps) => {
   if (!isOpen) return null;
 
   return (
-    <div className='fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50'>
-      <div
-        ref={modalRef}
-        className='left-1/2 top-1/2 w-2/5 rounded-lg bg-white-100'
-      >
+    <div className='fixed inset-0 z-50 flex items-center justify-center bg-dimmed'>
+      <div ref={modalRef} className='left-1/2 top-1/2'>
         {children}
       </div>
     </div>

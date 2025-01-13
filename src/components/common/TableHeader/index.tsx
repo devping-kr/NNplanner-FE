@@ -1,5 +1,5 @@
 import { cn } from '@/utils/core';
-import { TableHeaderTypo } from '@/components/common/Typography';
+import { Label1Black } from '@/components/common/Typography';
 
 type TableHeaderProps = {
   headerData: string[];
@@ -42,7 +42,7 @@ const TableHeader = ({
               (headerType === 'viewChart' && surveyHeaderStyles[header]) || '',
             )}
           >
-            <TableHeaderTypo>{header}</TableHeaderTypo>
+            <Label1Black>{header}</Label1Black>
           </th>
         ))}
       </tr>

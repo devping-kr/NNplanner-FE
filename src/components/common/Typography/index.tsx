@@ -23,22 +23,17 @@ const customTypography = (
   return Typography;
 };
 
-export const ControlTabTypo = customTypography('span', {
+export const Body3Grey500 = customTypography('span', {
   type: 'Body3',
   color: 'grey500',
 });
 
-export const TableHeaderTypo = customTypography('span', {
+export const Label1Black = customTypography('span', {
   type: 'label1',
   color: 'black',
 });
 
-export const TableBodyTypo = customTypography('span', {
-  type: 'Body2',
-  color: 'black',
-});
-
-export const InfoCardTypo = customTypography('span', {
+export const Body2Black = customTypography('span', {
   type: 'Body2',
   color: 'black',
 });

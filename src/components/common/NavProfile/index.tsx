@@ -1,6 +1,6 @@
 import Badge from '@/components/common/Badge';
 import Icon from '@/components/common/Icon';
-import { Subtitle2Black, TableBodyTypo } from '@/components/common/Typography';
+import { Body2Black, Subtitle2Black } from '@/components/common/Typography';
 
 const NavProfile = ({ name = '냠냠' }: { name: string }) => {
   return (
@@ -12,7 +12,7 @@ const NavProfile = ({ name = '냠냠' }: { name: string }) => {
         className='border border-grey-100'
       />
       <div className='flex items-center justify-center gap-2'>
-        <TableBodyTypo>다시 만나 기뻐요!</TableBodyTypo>
+        <Body2Black>다시 만나 기뻐요!</Body2Black>
         <Subtitle2Black>{name}님</Subtitle2Black>
       </div>
       <Icon name='arrowNext' color='black' />
