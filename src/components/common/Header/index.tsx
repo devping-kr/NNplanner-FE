@@ -1,17 +1,13 @@
 'use client';
 
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
 import NavProfile from '@/components/common/NavProfile';
+import { useMounted } from '@/hooks/useMounted';
 import { useUserStore } from '@/stores/useUserStore';
 
 const Header = () => {
-  const [isMounted, setIsMounted] = useState(false);
+  const isMounted = useMounted();
   const username = useUserStore((state) => state.username);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
 
   return (
     <header className='fixed top-0 z-10 flex w-full flex-row items-center justify-between border border-b-gray-100 bg-white-100 px-6 py-4'>
