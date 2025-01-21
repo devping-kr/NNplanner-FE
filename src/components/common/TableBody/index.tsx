@@ -42,10 +42,12 @@ const TableBody = ({
           key={rowIndex}
           className={cn('h-16 cursor-pointer odd:bg-grey-50 hover:bg-grey-100')}
           onClick={
-            onRowClick && type === 'list' && typeof item.설문ID === 'number'
-              ? () => onRowClick(item.설문ID as number)
-              : onRowClick && type === 'list' && typeof item.식단ID === 'string'
-                ? () => onRowClick(item.식단ID as string)
+            onRowClick && type === 'list' && typeof item['설문 ID'] === 'number'
+              ? () => onRowClick(item['설문 ID'] as number)
+              : onRowClick &&
+                  type === 'list' &&
+                  typeof item['식단 ID'] === 'string'
+                ? () => onRowClick(item['식단 ID'] as string)
                 : undefined
           }
         >
