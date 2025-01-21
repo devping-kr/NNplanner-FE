@@ -1,6 +1,6 @@
 import React from 'react';
 import { Selectbox } from '@/components/common/Selectbox';
-import { Body1Black } from '@/components/common/Typography';
+import { Body2Black } from '@/components/common/Typography';
 
 const options = [
   { value: 'option1', label: '옵션 1' },
@@ -18,7 +18,7 @@ const options = [
 const page = () => {
   return (
     <div className='mt-20 bg-[#D8D8D8] p-4'>
-      <Body1Black>Select Box</Body1Black>
+      <Body2Black>Select Box</Body2Black>
       <div className='flex flex-col gap-2'>
         <Selectbox options={options} buttonSize='sm' />
         <Selectbox options={options} buttonSize='sm' bgColor='grey' />
