@@ -1,6 +1,12 @@
 import { env } from '@/lib/env';
-import axios, { AxiosResponse } from 'axios';
+import axios, {
+  AxiosError,
+  AxiosRequestConfig,
+  AxiosResponse,
+  InternalAxiosRequestConfig,
+} from 'axios';
 import { parseCookies } from 'nookies';
+import { destroyTokens } from '@/utils/destroyTokens';
 import { saveTokens } from '@/utils/saveTokens';
 import { AUTH_API } from '@/constants/_apiPath';
 import { AUTH_LINKS } from '@/constants/_auth';
@@ -33,11 +39,13 @@ const instance = axios.create({
 });
 
 instance.interceptors.request.use(
-  (config) => {
-    const accessToken = getAccessToken();
-
-    if (accessToken) {
-      config.headers.Authorization = `Bearer ${accessToken}`;
+  (config: InternalAxiosRequestConfig) => {
+    if (typeof window !== 'undefined') {
+      const accessToken = getAccessToken();
+      if (accessToken) {
+        config.headers = config.headers || {};
+        config.headers.Authorization = `Bearer ${accessToken}`;
+      }
     }
     return config;
   },
@@ -46,27 +54,53 @@ instance.interceptors.request.use(
   },
 );
 
+type RefreshQueueItem = {
+  config: AxiosRequestConfig;
+  resolve: (value: AxiosResponse) => void;
+  reject: (reason?: AxiosError) => void;
+};
+
+let isRefreshed = false;
+let refreshAndRetryQueue: RefreshQueueItem[] = [];
+
 instance.interceptors.response.use(
   (response) => {
     return response;
   },
 
   async (error) => {
-    const originalRequest = error.config;
+    const originalRequest = error.config as AxiosRequestConfig & {
+      headers: Record<string, string>;
+    };
+
+    if (error.response?.status === 400) {
+      return Promise.resolve();
+    }
 
     if (
       !originalRequest ||
       error.response?.status !== 410 ||
-      originalRequest.headers._retry !== '0'
+      originalRequest.headers._retry === '1'
     ) {
       return Promise.reject(error);
     }
 
+    originalRequest.headers._retry = '1';
+
     const refreshToken = parseCookies().refreshToken;
     if (!refreshToken) {
       redirectToLogin();
+      destroyTokens();
       return Promise.reject(error);
     }
+
+    if (isRefreshed) {
+      return new Promise((resolve, reject) => {
+        refreshAndRetryQueue.push({ config: originalRequest, resolve, reject });
+      });
+    }
+
+    isRefreshed = true;
 
     try {
       const response = await axios.get(
@@ -82,13 +116,27 @@ instance.interceptors.response.use(
         saveTokens({ accessToken, refreshToken: newRefreshToken });
 
         originalRequest.headers.Authorization = `Bearer ${accessToken}`;
-        originalRequest.headers._retry = '1';
-        return await instance(originalRequest);
-      } else {
-        throw new Error('Failed to reissue tokens');
+
+        refreshAndRetryQueue.forEach(({ config, resolve, reject }) => {
+          config.headers = {
+            ...config.headers,
+            Authorization: `Bearer ${accessToken}`,
+          };
+          instance.request(config).then(resolve).catch(reject);
+        });
+
+        refreshAndRetryQueue = [];
+
+        return instance(originalRequest);
       }
     } catch (refreshError) {
+      destroyTokens();
+      redirectToLogin();
+      refreshAndRetryQueue.forEach(({ reject }) => reject(error as AxiosError));
+      refreshAndRetryQueue = [];
       return Promise.reject(refreshError);
+    } finally {
+      isRefreshed = false;
     }
   },
 );
