@@ -13,28 +13,37 @@ export type Option = {
   label: string;
 };
 
+export type BgColor = 'grey' | 'white' | 'disabled';
+export type ButtonSize = 'sm' | 'md';
+
+// 리디자인 완성 후 삭제
 export type Size = 'small' | 'basic' | 'large';
 
 export type SelectboxProps = VariantProps<typeof selectboxVariants> & {
   options?: Option[];
   placeholder?: string;
-  size?: Size;
+  buttonSize?: ButtonSize;
+  bgColor?: BgColor;
   className?: string;
-  onChange?: (value: string) => void;
   selectedValue?: string;
   readonly?: boolean;
   isError?: boolean;
+  onChange?: (value: string) => void;
+  // 추후 삭제
+  size?: Size;
 };
 
 export const Selectbox = ({
   options,
   placeholder = '분류를 선택해주세요.',
-  size = 'small',
+  size = 'basic',
+  buttonSize = 'sm',
+  bgColor = 'white',
   className,
-  onChange,
   selectedValue,
   readonly = false,
   isError = false,
+  onChange,
 }: SelectboxProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
@@ -56,6 +65,7 @@ export const Selectbox = ({
     [onChange, readonly],
   );
 
+  // TODO: isOpen state랑 합쳐서 훅으로 분리하기
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (
@@ -80,17 +90,24 @@ export const Selectbox = ({
           selectedOption={chosenOption ?? (selectedValue as string)}
           placeholder={placeholder}
           size={size}
+          buttonSize={buttonSize}
+          bgColor={bgColor}
           onClick={handleToggle}
           isOpen={isOpen}
           className={className}
           isError={isError}
         />
         {!readonly && options && (
-          <Dropdown isOpen={isOpen} size={size}>
+          <Dropdown
+            isOpen={isOpen}
+            // 추후 삭제
+            size={size}
+          >
             <OptionList
               options={options}
-              size={size}
               onSelect={handleOptionSelect}
+              // 추후 삭제
+              size={size}
             />
           </Dropdown>
         )}
