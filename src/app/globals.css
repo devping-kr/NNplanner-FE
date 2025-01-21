@@ -15,9 +15,11 @@
 
   .custom-scrollbar::-webkit-scrollbar-thumb,
   .scrollbar-gray-100::-webkit-scrollbar-thumb {
-    background-color: #aaaaaa; /* 손잡이 색상 gray400 */
+    /* 손잡이 색상 grey300*/
+    background-color: #abadb2;
     border-radius: 20px;
-    border: 6px solid #fcfbfa; /* 트랙과의 구분을 위한 여백 white100*/
+    /* 트랙과의 구분을 위한 여백 white100*/
+    border: 6px solid #ffffff;
   }
 
   .scrollbar-gray-100::-webkit-scrollbar-thumb {
