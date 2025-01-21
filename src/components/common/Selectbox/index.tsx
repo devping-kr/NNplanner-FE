@@ -1,12 +1,13 @@
 'use client';
 
-import { useState, useRef, useEffect, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { type VariantProps } from 'class-variance-authority';
 import { cn } from '@/utils/core';
 import Dropdown from '@/components/common/Dropdown';
 import OptionList from '@/components/common/OptionList';
 import { selectboxVariants } from '@/components/common/Selectbox/Selectbox.variant';
 import SelectButton from '@/components/common/SelectButton';
+import { useToggleable } from '@/hooks/useToggleable';
 
 export type Option = {
   value: string;
@@ -36,7 +37,6 @@ export type SelectboxProps = VariantProps<typeof selectboxVariants> & {
 export const Selectbox = ({
   options,
   placeholder = '분류를 선택해주세요.',
-  size = 'basic',
   buttonSize = 'sm',
   bgColor = 'white',
   className,
@@ -44,41 +44,27 @@ export const Selectbox = ({
   readonly = false,
   isError = false,
   onChange,
+  // 추후 삭제
+  size = 'basic',
 }: SelectboxProps) => {
-  const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
-  const selectboxRef = useRef<HTMLDivElement>(null);
-
-  const handleToggle = useCallback(() => {
-    if (!readonly) {
-      setIsOpen((prev) => !prev);
-    }
-  }, [readonly]);
+  const {
+    isOpen,
+    toggle: handleToggle,
+    close,
+    ref: selectboxRef,
+  } = useToggleable(readonly);
 
   const handleOptionSelect = useCallback(
     (value: string) => {
       if (readonly) return;
       setSelectedOption(value);
-      setIsOpen(false);
+      // setIsOpen(false);
+      close();
       onChange!(value);
     },
     [onChange, readonly],
   );
-
-  // TODO: isOpen state랑 합쳐서 훅으로 분리하기
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (
-        selectboxRef.current &&
-        !selectboxRef.current.contains(e.target as Node)
-      ) {
-        setIsOpen(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
 
   const chosenOption =
     options?.find((option) => option.value === selectedOption)?.label ?? null;
@@ -88,14 +74,15 @@ export const Selectbox = ({
       <div className={selectboxVariants({ isOpen })}>
         <SelectButton
           selectedOption={chosenOption ?? (selectedValue as string)}
+          isOpen={isOpen}
           placeholder={placeholder}
-          size={size}
           buttonSize={buttonSize}
           bgColor={bgColor}
-          onClick={handleToggle}
-          isOpen={isOpen}
           className={className}
           isError={isError}
+          onClick={handleToggle}
+          // 추후 삭제
+          size={size}
         />
         {!readonly && options && (
           <Dropdown
