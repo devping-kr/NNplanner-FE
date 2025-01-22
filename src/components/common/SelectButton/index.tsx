@@ -1,5 +1,6 @@
 import { VariantProps } from 'class-variance-authority';
 import { cn } from '@/utils/core';
+import Button from '@/components/common/Button/Button';
 import Icon from '@/components/common/Icon';
 import { BgColor, ButtonSize, Size } from '@/components/common/Selectbox';
 import { selectIconVariants } from '@/components/common/Selectbox/Selectbox.variant';
@@ -35,12 +36,13 @@ const SelectButton = ({
   const iconSize = buttonSize === 'sm' ? 20 : 24;
 
   return (
-    <button
+    <Button
       className={cn(
         selectButtonVariants({ size, buttonSize, bgColor, isError }),
         className,
       )}
       type='button'
+      variant='default'
       onClick={onClick}
       aria-haspopup='listbox'
       aria-expanded={isOpen}
@@ -60,7 +62,7 @@ const SelectButton = ({
         width={iconSize}
         height={iconSize}
       />
-    </button>
+    </Button>
   );
 };
 
