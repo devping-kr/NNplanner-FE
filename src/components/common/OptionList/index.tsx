@@ -1,3 +1,4 @@
+import { cn } from '@/utils/core';
 import {
   optionListLiVariants,
   optionListUlVariants,
@@ -11,11 +12,20 @@ type OptionListProps = {
 };
 
 const OptionList = ({ options, size, onSelect }: OptionListProps) => (
-  <ul className={optionListUlVariants({ size })} role='listbox'>
+  <ul
+    className={cn(
+      optionListUlVariants({ size }),
+      'flex h-full w-full flex-col',
+    )}
+    role='listbox'
+  >
     {options.map((option) => (
       <li
         key={option.value}
-        className={optionListLiVariants({ size })}
+        className={cn(
+          optionListLiVariants({ size }),
+          'cursor-pointer px-4 py-3 hover:bg-gray-50 active:bg-white-100 active:text-green-500',
+        )}
         onClick={() => onSelect(option.value)}
       >
         {option.label}
