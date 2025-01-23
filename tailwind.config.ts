@@ -18,6 +18,9 @@ const config: Config = {
       translate: {
         '-1/2': '-50%',
       },
+      boxShadow: {
+        dropShadow: '0px 8px 16px rgba(0, 0, 0, 0.12)',
+      },
     },
   },
   plugins: [],
