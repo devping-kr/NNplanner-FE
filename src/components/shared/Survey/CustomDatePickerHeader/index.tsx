@@ -13,7 +13,7 @@ const CustomDatePickerHeader = ({
   decreaseMonth,
   increaseMonth,
 }: Props) => (
-  <div className='mb-3 flex items-center justify-between font-semibold'>
+  <div className='mb-3 flex items-center justify-between'>
     <Button variant='default' onClick={decreaseMonth} className='p-0'>
       <Icon name='arrowPrev' width={20} height={20} color='black' />
     </Button>

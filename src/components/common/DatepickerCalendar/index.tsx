@@ -4,6 +4,7 @@ import React, { useRef } from 'react';
 import { ko } from 'date-fns/locale';
 import DatePicker from 'react-datepicker';
 import { getCurrentYearMonthNow } from '@/utils/calendar';
+import { cn } from '@/utils/core';
 import Button from '@/components/common/Button/Button';
 import Icon from '@/components/common/Icon';
 import { Subtitle2Black } from '@/components/common/Typography';
@@ -56,7 +57,7 @@ const DatepickerCalendar = ({ isChangeable, deadLine, setDeadLine }: Props) => {
             disabled={!isChangeable}
           >
             <Subtitle2Black
-              className={`flex-shrink-0 ${!isChangeable ? 'text-grey-500' : ''}`}
+              className={cn('flex-shrink-0', !isChangeable && 'text-grey-500')}
             >
               마감 일자
             </Subtitle2Black>

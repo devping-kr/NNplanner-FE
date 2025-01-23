@@ -78,7 +78,7 @@ const SurveyEdit = ({ id }: Props) => {
           accessHandler={submitSurvey}
         />
         <SurveyControls
-          isChangeable={true}
+          isChangeable
           surveyName={editSurveyName!}
           setEditSurveyName={setEditSurveyName}
           deadLine={editDeadLine!}
