@@ -20,8 +20,6 @@ import { surveyKeys } from '@/hooks/survey/queryKey';
 import { usePostSurvey } from '@/hooks/survey/usePostSurvey';
 import { usePostSurveyQrCode } from '@/hooks/survey/usePostSurveyQrCode';
 import { useToastStore } from '@/stores/useToastStore';
-import 'react-datepicker/dist/react-datepicker.css';
-import '@/styles/datepicker-custom.css';
 
 const TWO_WEEK_DAYS = 14;
 const { now: twoWeeksLater } = getCurrentYearMonthNow();
