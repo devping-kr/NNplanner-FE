@@ -94,7 +94,7 @@ const SurveyCreate = ({ id }: { id: string }) => {
         accessHandler={submitSurvey}
       />
       <SurveyControls
-        type='create'
+        isChangeable={true}
         surveyName={surveyName}
         setSurveyName={setSurveyName}
         deadLine={deadLine}

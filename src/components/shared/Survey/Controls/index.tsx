@@ -2,7 +2,7 @@ import DatepickerCalendar from '@/components/common/DatepickerCalendar';
 import { Input } from '@/components/common/Input';
 
 interface Props {
-  type: 'create' | 'edit';
+  isChangeable: boolean;
   surveyName: string;
   setEditSurveyName?: React.Dispatch<React.SetStateAction<string>>;
   setSurveyName?: React.Dispatch<React.SetStateAction<string>>;
@@ -13,15 +13,13 @@ interface Props {
 const EXTRA_SURVEYNAME_LIMIT = 30;
 
 const SurveyControls = ({
-  type,
+  isChangeable,
   surveyName,
   setEditSurveyName,
   setSurveyName,
   deadLine,
   setDeadLine,
 }: Props) => {
-  const isChangeable = type === 'create';
-
   const handleChangeSurveyName = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length <= EXTRA_SURVEYNAME_LIMIT && !isChangeable) {
       setEditSurveyName!(e.target.value);
@@ -44,7 +42,7 @@ const SurveyControls = ({
         />
       </div>
       <DatepickerCalendar
-        type={type}
+        isChangeable={isChangeable}
         deadLine={deadLine}
         setDeadLine={setDeadLine}
       />
