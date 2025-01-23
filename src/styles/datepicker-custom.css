@@ -1,5 +1,5 @@
 .custom-calendar {
-  @apply shadow-dropShadow left-[30px] w-[280px] rounded-lg border border-grey-100 bg-white-100 p-4;
+  @apply shadow-dropShadow left-[30px] flex w-[280px] justify-center rounded-lg border border-grey-100 bg-white-100 p-4;
 }
 
 .react-datepicker__triangle {
