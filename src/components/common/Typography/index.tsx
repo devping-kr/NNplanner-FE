@@ -58,6 +58,11 @@ export const Subtitle2Green500 = customTypography('span', {
   color: 'green',
 });
 
+export const Body2Grey200 = customTypography('span', {
+  type: 'Body2',
+  color: 'grey200',
+});
+
 // 리디자인 변경 전 Typography
 export const HeadPrimary = customTypography('h1', {
   type: 'heading1',

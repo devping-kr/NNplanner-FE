@@ -1,74 +1,70 @@
 'use client';
 
-import { useState, useRef, useEffect, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { type VariantProps } from 'class-variance-authority';
 import { cn } from '@/utils/core';
 import Dropdown from '@/components/common/Dropdown';
 import OptionList from '@/components/common/OptionList';
 import { selectboxVariants } from '@/components/common/Selectbox/Selectbox.variant';
 import SelectButton from '@/components/common/SelectButton';
+import { useToggleable } from '@/hooks/useToggleable';
 
 export type Option = {
   value: string;
   label: string;
 };
 
+export type BgColor = 'grey' | 'white' | 'disabled';
+export type ButtonSize = 'sm' | 'md';
+
+// 리디자인 완성 후 삭제
 export type Size = 'small' | 'basic' | 'large';
 
 export type SelectboxProps = VariantProps<typeof selectboxVariants> & {
   options?: Option[];
   placeholder?: string;
-  size?: Size;
+  buttonSize?: ButtonSize;
+  bgColor?: BgColor;
   className?: string;
-  onChange?: (value: string) => void;
   selectedValue?: string;
   readonly?: boolean;
   isError?: boolean;
+  onChange?: (value: string) => void;
+  // 추후 삭제
+  size?: Size;
 };
 
 export const Selectbox = ({
   options,
   placeholder = '분류를 선택해주세요.',
-  size = 'small',
+  buttonSize = 'sm',
+  bgColor = 'white',
   className,
-  onChange,
   selectedValue,
   readonly = false,
   isError = false,
+  onChange,
+  // 추후 삭제
+  size = 'basic',
 }: SelectboxProps) => {
-  const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
-  const selectboxRef = useRef<HTMLDivElement>(null);
-
-  const handleToggle = useCallback(() => {
-    if (!readonly) {
-      setIsOpen((prev) => !prev);
-    }
-  }, [readonly]);
+  const {
+    isOpen,
+    toggle: handleToggle,
+    close,
+    ref: selectboxRef,
+  } = useToggleable(readonly);
 
   const handleOptionSelect = useCallback(
     (value: string) => {
       if (readonly) return;
       setSelectedOption(value);
-      setIsOpen(false);
+      // setIsOpen(false);
+      close();
       onChange!(value);
     },
     [onChange, readonly],
   );
-
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (
-        selectboxRef.current &&
-        !selectboxRef.current.contains(e.target as Node)
-      ) {
-        setIsOpen(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
 
   const chosenOption =
     options?.find((option) => option.value === selectedOption)?.label ?? null;
@@ -78,19 +74,27 @@ export const Selectbox = ({
       <div className={selectboxVariants({ isOpen })}>
         <SelectButton
           selectedOption={chosenOption ?? (selectedValue as string)}
-          placeholder={placeholder}
-          size={size}
-          onClick={handleToggle}
           isOpen={isOpen}
+          placeholder={placeholder}
+          buttonSize={buttonSize}
+          bgColor={bgColor}
           className={className}
           isError={isError}
+          onClick={handleToggle}
+          // 추후 삭제
+          size={size}
         />
         {!readonly && options && (
-          <Dropdown isOpen={isOpen} size={size}>
+          <Dropdown
+            isOpen={isOpen}
+            // 추후 삭제
+            size={size}
+          >
             <OptionList
               options={options}
-              size={size}
               onSelect={handleOptionSelect}
+              // 추후 삭제
+              size={size}
             />
           </Dropdown>
         )}

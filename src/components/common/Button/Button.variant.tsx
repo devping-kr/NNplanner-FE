@@ -15,6 +15,7 @@ export const buttonVariants = cva(
         outline:
           'bg-white-100 text-black-100 border border-grey-100 hover:bg-grey-100 active:bg-grey-200 disabled:bg-white-100 disabled:text-grey-200 disabled:border-grey-100',
         pagination: '',
+        default: '',
       },
       size: {
         // 추후 삭제 예정

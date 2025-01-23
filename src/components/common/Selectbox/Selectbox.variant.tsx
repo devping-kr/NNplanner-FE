@@ -13,13 +13,14 @@ export const selectboxVariants = cva('inline-block relative w-full', {
 });
 
 export const selectIconVariants = cva(
-  'absolute top-1/2 z-20 -translate-y-1/2',
+  'absolute top-1/2 z-20 -translate-y-1/2 right-4',
   {
     variants: {
       size: {
-        small: 'right-2',
-        basic: 'right-4',
-        large: 'right-4',
+        // 리디자인 완료 후 삭제
+        small: '',
+        basic: '',
+        large: '',
       },
     },
     defaultVariants: {
