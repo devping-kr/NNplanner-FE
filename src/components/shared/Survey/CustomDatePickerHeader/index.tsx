@@ -1,10 +1,11 @@
+import Button from '@/components/common/Button/Button';
 import Icon from '@/components/common/Icon';
+import { SubTitle1Black } from '@/components/common/Typography';
 
 interface Props {
   date: Date | null;
   decreaseMonth: () => void;
   increaseMonth: () => void;
-  prevMonthButtonDisabled: boolean;
   nextMonthButtonDisabled: boolean;
 }
 
@@ -12,24 +13,23 @@ const CustomDatePickerHeader = ({
   date,
   decreaseMonth,
   increaseMonth,
-  prevMonthButtonDisabled,
   nextMonthButtonDisabled,
 }: Props) => (
-  <div className='mb-2 flex items-center justify-between px-6 font-semibold'>
-    <button
-      onClick={decreaseMonth}
-      className={prevMonthButtonDisabled ? 'invisible' : 'block'}
-      disabled={prevMonthButtonDisabled}
-    >
-      <Icon name='arrowPrev' width={20} color='active' />
-    </button>
-    <div className='text-base font-bold'>
+  <div className='mb-3 flex items-center justify-between font-semibold'>
+    <Button variant='default' onClick={decreaseMonth} className='p-0'>
+      <Icon name='arrowPrev' width={20} height={20} color='black' />
+    </Button>
+    <SubTitle1Black>
       {date instanceof Date && !isNaN(date.getTime())
-        ? `${date.getFullYear()}년 ${date.toLocaleString('default', { month: 'long' })}`
+        ? `${date.getFullYear()}년 ${date.toLocaleString('ko-KR', { month: 'long' })}`
         : '날짜 정보 없음'}
-    </div>
-    <button onClick={increaseMonth} disabled={nextMonthButtonDisabled}>
-      <Icon name='arrowNext' width={20} color='active' />
+    </SubTitle1Black>
+    <button
+      onClick={increaseMonth}
+      disabled={nextMonthButtonDisabled}
+      className='p-0'
+    >
+      <Icon name='arrowNext' width={20} height={20} color='black' />
     </button>
   </div>
 );
