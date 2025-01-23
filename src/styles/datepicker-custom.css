@@ -1,5 +1,5 @@
 .custom-calendar {
-  @apply left-10 rounded-lg border border-green-500 bg-white-100 p-2 shadow-2xl;
+  @apply shadow-dropShadow left-[30px] w-[280px] rounded-lg border border-grey-100 bg-white-100 p-4;
 }
 
 .react-datepicker__triangle {
@@ -7,35 +7,42 @@
 }
 
 .react-datepicker__header {
-  @apply border-b border-green-500 bg-transparent;
+  @apply border-b-2 border-grey-100 bg-transparent pb-3 pt-0;
 
-  & .react-datepicker__current-month {
-    @apply py-1 text-dark-200;
+  & .react-datepicker__day-names {
+    @apply flex items-center justify-around;
   }
-
   & .react-datepicker__day-name {
-    @apply text-green-800;
+    @apply m-0 flex h-8 w-8 items-center justify-center text-base font-bold leading-[1.44] tracking-[-0.008em] text-grey-700;
+  }
+}
+
+.react-datepicker__month {
+  @apply mx-0 mb-0 mt-1 flex flex-col gap-1;
+
+  & .react-datepicker__week {
+    @apply flex gap-[2px];
+
+    & .react-datepicker__day {
+      @apply flex items-center justify-center;
+    }
   }
 }
 
 .custom-day {
-  @apply text-sm text-dark-100 hover:bg-green-800 hover:text-white-100;
+  @apply m-0 h-8 w-8 text-base font-bold text-black-100 hover:bg-grey-100;
 
   &.react-datepicker__day--selected,
   &.react-datepicker__day--in-selecting-range,
   &.react-datepicker__day--in-range {
-    @apply border border-green-800 bg-transparent font-semibold text-green-800;
+    @apply bg-green-50 text-green-500;
   }
   &.react-datepicker__day:not([aria-disabled='true']) {
-    @apply hover:bg-green-800 hover:text-white-100;
-  }
-
-  &.react-datepicker__day--today {
-    @apply bg-inherit font-bold;
+    @apply hover:bg-grey-100;
   }
 
   &.react-datepicker__day--disabled {
-    @apply text-gray-400 hover:bg-inherit;
+    @apply cursor-default text-opacity-[24%] hover:bg-transparent;
   }
 
   &.react-datepicker__day--keyboard-selected {
@@ -43,6 +50,10 @@
   }
 
   &.react-datepicker__day--outside-month {
-    @apply text-gray-400;
+    @apply text-opacity-[24%] hover:text-opacity-100;
+  }
+
+  &.react-datepicker__day--disabled.react-datepicker__day--outside-month {
+    @apply text-opacity-[24%];
   }
 }
