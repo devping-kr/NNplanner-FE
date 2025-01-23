@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  *,
+  *::before,
+  *::after {
+    @apply m-0 p-0;
+  }
+}
+
 @layer utilities {
   .custom-scrollbar::-webkit-scrollbar,
   .scrollbar-gray-100::-webkit-scrollbar {
