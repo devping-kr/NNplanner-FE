@@ -6,14 +6,12 @@ interface Props {
   date: Date | null;
   decreaseMonth: () => void;
   increaseMonth: () => void;
-  nextMonthButtonDisabled: boolean;
 }
 
 const CustomDatePickerHeader = ({
   date,
   decreaseMonth,
   increaseMonth,
-  nextMonthButtonDisabled,
 }: Props) => (
   <div className='mb-3 flex items-center justify-between font-semibold'>
     <Button variant='default' onClick={decreaseMonth} className='p-0'>
@@ -24,13 +22,9 @@ const CustomDatePickerHeader = ({
         ? `${date.getFullYear()}년 ${date.toLocaleString('ko-KR', { month: 'long' })}`
         : '날짜 정보 없음'}
     </SubTitle1Black>
-    <button
-      onClick={increaseMonth}
-      disabled={nextMonthButtonDisabled}
-      className='p-0'
-    >
+    <Button variant='default' onClick={increaseMonth} className='p-0'>
       <Icon name='arrowNext' width={20} height={20} color='black' />
-    </button>
+    </Button>
   </div>
 );
 
