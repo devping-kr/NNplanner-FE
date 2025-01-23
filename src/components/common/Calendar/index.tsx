@@ -4,8 +4,8 @@ import { useCallback, useMemo, useState } from 'react';
 import dayjs from 'dayjs';
 import { CalendarInfo } from '@/type/mealType';
 import { getDaysInMonth, isHoliday, isInvalidDate } from '@/utils/calendar';
-import { cn } from '@/utils/core';
 import CalendarDay from '@/components/common/CalendarDay';
+import CalendarHeaderDay from '@/components/common/CalendarHeaderDay';
 import { SUN_TO_SAT } from '@/constants/_calendarData';
 
 export type CalendarProps = {
@@ -52,44 +52,34 @@ const Calendar = ({
   );
 
   return (
-    <div className='w-fit'>
-      <div className='mb-2 grid w-[calc(100%-20px)] grid-cols-7'>
-        {SUN_TO_SAT.map((day) => (
-          <span
-            key={day}
-            className={cn(
-              'w-full text-center font-bold text-dark-100',
-              day === SUN_TO_SAT[0] && 'text-red-500',
-            )}
-            aria-label={`${day}요일`}
-          >
-            {day}
-          </span>
+    <div className='w-[1196px]'>
+      <div className='grid w-full grid-cols-7'>
+        {SUN_TO_SAT.map((day, index) => (
+          <CalendarHeaderDay key={day} day={day} index={index} />
         ))}
       </div>
-      <div className='scrollbar-gray-100 h-[690px] w-full overflow-x-hidden overflow-y-scroll md:w-[700px] lg:w-[1244px]'>
-        <div className='grid grid-cols-7 border-[0.5px] border-gray-200'>
-          {allDays.map((date, index) => {
-            const formattedDate = date.format('YYYY-MM-DD');
-            const isActive = formattedDate === activeDate;
-
-            return (
-              <CalendarDay
-                key={index}
-                date={date.format('D')}
-                isHoliday={isHoliday(date)}
-                isInvalid={isInvalidDate(date, year, month)}
-                data={data?.[formattedDate as keyof CalendarInfo]?.foods || []}
-                isActive={isActive}
-                readonly={readonly}
-                onClick={() =>
-                  !isInvalidDate(date, year, month) &&
-                  handleDateClick(formattedDate)
-                }
-              />
-            );
-          })}
-        </div>
+      <div className='grid w-full grid-cols-7'>
+        {allDays.map((date, index) => {
+          const formattedDate = date.format('YYYY-MM-DD');
+          const isActive = formattedDate === activeDate;
+          return (
+            <CalendarDay
+              key={index}
+              date={date.format('D')}
+              isHoliday={isHoliday(date)}
+              isInvalid={isInvalidDate(date, year, month)}
+              data={data?.[formattedDate as keyof CalendarInfo]?.foods || []}
+              isActive={isActive}
+              index={index}
+              totalDays={allDays.length}
+              readonly={readonly}
+              onClick={() =>
+                !isInvalidDate(date, year, month) &&
+                handleDateClick(formattedDate)
+              }
+            />
+          );
+        })}
       </div>
     </div>
   );
