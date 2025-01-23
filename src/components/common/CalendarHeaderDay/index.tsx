@@ -1,6 +1,9 @@
 import React from 'react';
 import { cn } from '@/utils/core';
-import { Subtitle2Black, Subtitle2Red500 } from '../Typography';
+import {
+  Subtitle2Black,
+  Subtitle2Red500,
+} from '@/components/common/Typography';
 import { SUN_TO_SAT } from '@/constants/_calendarData';
 
 const FIRST_DAY_OF_MONTH_INDEX = 0;
