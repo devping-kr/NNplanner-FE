@@ -3,6 +3,7 @@
 import { useCallback, useMemo, useState } from 'react';
 import { CalendarInfo } from '@/type/mealType';
 import { getAllDays, isHoliday, isInvalidDate } from '@/utils/calendar';
+import { formatFullDate } from '@/utils/dayjs';
 import CalendarDay from '@/components/common/CalendarDay';
 import CalendarHeaderDay from '@/components/common/CalendarHeaderDay';
 import { SUN_TO_SAT } from '@/constants/_calendarData';
@@ -48,7 +49,7 @@ const Calendar = ({
       </div>
       <div className='grid w-full grid-cols-7'>
         {allDays.map((date, index) => {
-          const formattedDate = date.format('YYYY-MM-DD');
+          const formattedDate = formatFullDate(date);
           const isActive = formattedDate === activeDate;
           return (
             <CalendarDay
