@@ -1,26 +1,30 @@
 import { cva } from 'class-variance-authority';
 
-export const calendarDayVariants = cva(
-  'w-full h-44 pt-1 pr-2 pb-2 pl-2 flex flex-col text-left bg-white-100 border-[0.5px] border-gray-200 hover:border-gray-400 active:border-gray-500',
+export const calendarDayVariants = cva('', {
+  variants: {
+    isInvalid: {
+      true: 'text-opacity-[24%]',
+      false: '',
+    },
+  },
+});
+
+export const calendarDayButtonVariants = cva(
+  'flex max-h-[202px] min-h-[180px] w-full flex-col gap-2 bg-white-100 p-2 pb-4 text-left hover:bg-grey-50',
   {
     variants: {
       isInvalid: {
-        true: 'hover:border-gray-200 active:border-gray-200 text-opacity-30 text-dark-100 cursor-not-allowed',
+        true: 'cursor-not-allowed hover:bg-white-100',
         false: '',
       },
       isActive: {
-        true: 'bg-gray-100',
+        true: 'bg-grey-50',
         false: '',
       },
       readonly: {
-        true: 'hover:border-gray-200 active:border-gray-200 pointer-events-none',
+        true: 'pointer-events-none',
         false: '',
       },
-    },
-    defaultVariants: {
-      isInvalid: false,
-      isActive: false,
-      readonly: false,
     },
   },
 );

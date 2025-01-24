@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 import { CalendarInfo } from '@/type/mealType';
 import { AutoDayMenus, MajorCategory } from '@/type/menu/menuRequest';
 import { FoodInfo, MenuResponse, MonthMenu } from '@/type/menu/menuResponse';
+import { formatFullDate } from '@/utils/dayjs';
 import { removeTrailingZeros } from '@/utils/meal';
 import { MAXIUM_MENU_PER_DAY } from '@/components/common/CalendarDay';
 import { EMPTY_FOOD_ID, EMPTY_FOOD_NAME } from '@/constants/_meal';
@@ -95,7 +96,7 @@ export const transformResponseToCalendar = (
 
     if (currentDate.month() !== month - 1) return;
 
-    const formattedDate = currentDate.format('YYYY-MM-DD');
+    const formattedDate = formatFullDate(currentDate);
 
     const foodsField =
       type === 'auto'
@@ -209,4 +210,43 @@ export const isAllFoodsEmpty = (calendarData: CalendarInfo): boolean => {
   return Object.values(calendarData).every(
     (dateData) => dateData.foods.length === 0,
   );
+};
+
+/**
+ * @description 이전 달 날짜 계산
+ * @param startOfMonth
+ * @returns
+ */
+export const getPrevMonthDays = (startOfMonth: dayjs.Dayjs) => {
+  return Array.from({ length: startOfMonth.day() }, (_, i) =>
+    startOfMonth.subtract(startOfMonth.day() - i, 'day'),
+  );
+};
+
+/**
+ * @description 다음 달 날짜 계산
+ * @param endOfMonth
+ * @returns
+ */
+export const getNextMonthDays = (endOfMonth: dayjs.Dayjs) => {
+  return Array.from({ length: 6 - endOfMonth.day() }, (_, i) =>
+    endOfMonth.add(i + 1, 'day'),
+  );
+};
+
+/**
+ * @description 모든 날짜 계산
+ * @param year
+ * @param month
+ * @returns
+ */
+export const getAllDays = (year: number, month: number) => {
+  const days = getDaysInMonth(year, month);
+  const startOfMonth = dayjs(new Date(year, month - 1)).startOf('month');
+  const endOfMonth = startOfMonth.endOf('month');
+
+  const prevMonthDays = getPrevMonthDays(startOfMonth);
+  const nextMonthDays = getNextMonthDays(endOfMonth);
+
+  return [...prevMonthDays, ...days, ...nextMonthDays];
 };
