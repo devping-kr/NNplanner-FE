@@ -23,6 +23,11 @@ const customTypography = (
   return Typography;
 };
 
+export const H2Black = customTypography('span', {
+  type: 'H2',
+  color: 'black',
+});
+
 export const Body3Grey500 = customTypography('span', {
   type: 'Body3',
   color: 'grey500',
