@@ -6,7 +6,8 @@ import { getYearAndMonth, transformResponseToCalendar } from '@/utils/calendar';
 import Button from '@/components/common/Button/Button';
 import Calendar from '@/components/common/Calendar';
 import { Input } from '@/components/common/Input';
-import { CardTitle, HeadPrimary } from '@/components/common/Typography';
+import Radio from '@/components/common/Radio';
+import { CardTitle, H2Black } from '@/components/common/Typography';
 import { BASE_ROUTES } from '@/constants/_navbar';
 import { useGetMonthMenuDetails } from '@/hooks/menu/useGetMonthMenuDetail';
 import { surveyKeys } from '@/hooks/survey/queryKey';
@@ -22,14 +23,14 @@ interface Props {
 const RADIO_OPTIONS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 const SurveyTake = ({ id }: Props) => {
-  const queryClient = useQueryClient();
   const { navigate } = useNavigate();
+  const queryClient = useQueryClient();
   const showToast = useToastStore((state) => state.showToast);
-  const { data: surveyData } = useGetSurveyDetail(id);
   const [answers, setAnswers] = useState<{ [key: number]: number | string }>(
     {},
   );
 
+  const { data: surveyData } = useGetSurveyDetail(id);
   const { data: monthMenuData, isLoading } = useGetMonthMenuDetails(
     { monthMenuId: surveyData?.mmId as string },
     {
@@ -94,10 +95,8 @@ const SurveyTake = ({ id }: Props) => {
   );
 
   return (
-    <div className='flex w-full flex-col items-start gap-5 px-44'>
-      <div className='mb-9 flex w-[calc(100%-20px)] justify-center'>
-        <HeadPrimary>{surveyData?.surveyName}</HeadPrimary>
-      </div>
+    <div className='flex w-full flex-col items-start gap-5'>
+      <H2Black>{surveyData?.surveyName}</H2Black>
       <Calendar
         data={calendarData}
         year={createdYear}
@@ -132,18 +131,13 @@ const SurveyTake = ({ id }: Props) => {
             {question.answerType === 'radio' && (
               <div className='flex justify-around'>
                 {RADIO_OPTIONS.map((option) => (
-                  <div key={option} className='flex gap-2'>
-                    <input
-                      type='radio'
-                      name={`question${question.questionId}`}
-                      id={`${question.questionId}_${option}`}
-                      value={option}
-                      checked={answers[question.questionId] === option}
-                      onChange={() => handleChange(question.questionId, option)}
+                  <div key={option}>
+                    <Radio
+                      option={option}
+                      answers={answers}
+                      handleChange={handleChange}
+                      question={question}
                     />
-                    <label htmlFor={`${question.questionId}_${option}`}>
-                      {option}
-                    </label>
                   </div>
                 ))}
               </div>
@@ -171,18 +165,13 @@ const SurveyTake = ({ id }: Props) => {
             {question.answerType === 'radio' && (
               <div className='flex justify-around'>
                 {RADIO_OPTIONS.map((option) => (
-                  <div key={option} className='flex gap-2'>
-                    <input
-                      type='radio'
-                      name={`question${question.questionId}`}
-                      id={`${question.questionId}_${option}`}
-                      value={option}
-                      checked={answers[question.questionId] === option}
-                      onChange={() => handleChange(question.questionId, option)}
+                  <div key={option}>
+                    <Radio
+                      option={option}
+                      answers={answers}
+                      handleChange={handleChange}
+                      question={question}
                     />
-                    <label htmlFor={`${question.questionId}_${option}`}>
-                      {option}
-                    </label>
                   </div>
                 ))}
               </div>
