@@ -1,9 +1,13 @@
 import { cn } from '@/utils/core';
-import { Body3Black, Subtitle2Black, Subtitle2Red500 } from '../Typography';
 import {
   calendarDayButtonVariants,
   calendarDayVariants,
 } from '@/components/common/Calendar/Calendar.variant';
+import {
+  Body3Black,
+  Subtitle2Black,
+  Subtitle2Red500,
+} from '@/components/common/Typography';
 
 export type CalendarDayProps = {
   date: string;
