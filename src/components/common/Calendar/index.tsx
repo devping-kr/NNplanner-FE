@@ -1,9 +1,8 @@
 'use client';
 
 import { useCallback, useMemo, useState } from 'react';
-import dayjs from 'dayjs';
 import { CalendarInfo } from '@/type/mealType';
-import { getDaysInMonth, isHoliday, isInvalidDate } from '@/utils/calendar';
+import { getAllDays, isHoliday, isInvalidDate } from '@/utils/calendar';
 import CalendarDay from '@/components/common/CalendarDay';
 import CalendarHeaderDay from '@/components/common/CalendarHeaderDay';
 import { SUN_TO_SAT } from '@/constants/_calendarData';
@@ -26,18 +25,7 @@ const Calendar = ({
   const [activeDate, setActiveDate] = useState<string | null>(null);
 
   const { allDays } = useMemo(() => {
-    const days = getDaysInMonth(year, month);
-    const startOfMonth = dayjs(new Date(year, month - 1)).startOf('month');
-    const endOfMonth = startOfMonth.endOf('month');
-    const prevMonthDays = Array.from({ length: startOfMonth.day() }, (_, i) =>
-      startOfMonth.subtract(startOfMonth.day() - i, 'day'),
-    );
-    const nextMonthDays = Array.from({ length: 6 - endOfMonth.day() }, (_, i) =>
-      endOfMonth.add(i + 1, 'day'),
-    );
-
-    const allDays = [...prevMonthDays, ...days, ...nextMonthDays];
-
+    const allDays = getAllDays(year, month); // 유틸리티 함수 사용
     return { allDays };
   }, [year, month]);
 
