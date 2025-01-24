@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 import { CalendarInfo } from '@/type/mealType';
 import { AutoDayMenus, MajorCategory } from '@/type/menu/menuRequest';
 import { FoodInfo, MenuResponse, MonthMenu } from '@/type/menu/menuResponse';
+import { formatFullDate } from '@/utils/dayjs';
 import { removeTrailingZeros } from '@/utils/meal';
 import { MAXIUM_MENU_PER_DAY } from '@/components/common/CalendarDay';
 import { EMPTY_FOOD_ID, EMPTY_FOOD_NAME } from '@/constants/_meal';
@@ -95,7 +96,7 @@ export const transformResponseToCalendar = (
 
     if (currentDate.month() !== month - 1) return;
 
-    const formattedDate = currentDate.format('YYYY-MM-DD');
+    const formattedDate = formatFullDate(currentDate);
 
     const foodsField =
       type === 'auto'
