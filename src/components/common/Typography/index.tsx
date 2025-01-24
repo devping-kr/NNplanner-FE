@@ -43,6 +43,21 @@ export const Body2Black = customTypography('span', {
   color: 'black',
 });
 
+export const Body3Black = customTypography('span', {
+  type: 'Body3',
+  color: 'black',
+});
+
+export const Body3Red = customTypography('span', {
+  type: 'Body3',
+  color: 'red',
+});
+
+export const Body3Blue = customTypography('span', {
+  type: 'Body3',
+  color: 'blue',
+});
+
 export const SubTitle1Black = customTypography('span', {
   type: 'Subtitle1',
   color: 'black',
@@ -51,6 +66,21 @@ export const SubTitle1Black = customTypography('span', {
 export const Subtitle2Black = customTypography('span', {
   type: 'Subtitle2',
   color: 'black',
+});
+
+export const SubTitle3Black = customTypography('span', {
+  type: 'Subtitle3',
+  color: 'black',
+});
+
+export const SubTitle3Red = customTypography('span', {
+  type: 'Subtitle3',
+  color: 'red',
+});
+
+export const SubTitle3Blue = customTypography('span', {
+  type: 'Subtitle3',
+  color: 'blue',
 });
 
 export const Label1White = customTypography('span', {

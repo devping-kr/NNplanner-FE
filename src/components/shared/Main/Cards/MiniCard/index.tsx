@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { cn } from '@/utils/core';
+import Badge from '@/components/common/Badge';
 import Icon from '@/components/common/Icon';
 import { CardTitle } from '@/components/common/Typography';
 import { NAV_LINKS } from '@/constants/_navbar';
@@ -25,10 +25,10 @@ const MiniCard = ({
   icon,
   color,
   count,
-  upDownPercent,
+  // upDownPercent,
   type,
 }: Props) => {
-  const isIncrease = upDownPercent >= 0 ? true : false;
+  // const isIncrease = upDownPercent >= 0 ? true : false;
 
   return (
     <div className='flex w-1/4 flex-col justify-around rounded-md border border-gray-300 bg-white-100 p-4'>
@@ -47,13 +47,14 @@ const MiniCard = ({
         </div>
       </div>
       <div className='flex items-center justify-center gap-1'>
-        <Icon
+        {/* <Icon
           name={isIncrease ? 'trendUp' : 'trendDown'}
           color={isIncrease ? 'success' : 'warning'}
           width={20}
           height={20}
-        />
-        <span className='whitespace-nowrap align-middle font-semibold'>
+        /> */}
+        <Badge text='10월' textType='body' variant='blue' size='m' />
+        {/* <span className='whitespace-nowrap align-middle font-semibold'>
           {`지난 달보다 `}
           <span
             className={cn(
@@ -64,7 +65,7 @@ const MiniCard = ({
             {upDownPercent}%
           </span>
           {` ${isIncrease ? '증가' : '감소'}`}
-        </span>
+        </span> */}
       </div>
     </div>
   );
