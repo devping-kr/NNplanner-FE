@@ -1,6 +1,6 @@
 'use client';
 
-import Image from 'next/image';
+// import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -15,6 +15,7 @@ import { findOriginalId } from '@/utils/findOriginalId';
 import Button from '@/components/common/Button/Button';
 import { Input } from '@/components/common/Input';
 import Modal from '@/components/common/Modal';
+import ProfileImage from '@/components/common/ProfileImage';
 import { TableRowData } from '@/components/common/Table';
 import {
   BodyGray,
@@ -35,7 +36,7 @@ import { useToastStore } from '@/stores/useToastStore';
 import { useUserStore } from '@/stores/useUserStore';
 
 const imageInfo = {
-  size: 110,
+  size: 96,
   src: '/imgs/pi-gon-ping.jpg',
 };
 
@@ -272,13 +273,14 @@ const MyPage = () => {
       <div className='flex flex-col'>
         <div className='mb-10 flex w-full'>
           <div className='flex w-full items-center gap-4 border-r-2 border-gray-200 border-opacity-50 px-16'>
-            <Image
+            <ProfileImage src={imageInfo.src} size={imageInfo.size} />
+            {/* <Image
               src={imageInfo.src}
               width={imageInfo.size}
               height={imageInfo.size}
               alt='유저 이미지'
               className='rounded-full'
-            />
+            /> */}
             <div className='flex flex-col gap-1'>
               <div className='flex items-center gap-2'>
                 <CardTitle>{isMounted ? username : ''}</CardTitle> 님
