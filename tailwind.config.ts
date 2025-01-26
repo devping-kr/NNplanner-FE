@@ -21,6 +21,9 @@ const config: Config = {
       boxShadow: {
         dropShadow: '0px 8px 16px rgba(0, 0, 0, 0.12)',
       },
+      transitionProperty: {
+        colors: 'color, background-color, border-color, text-decoration-color',
+      },
     },
   },
   plugins: [],
