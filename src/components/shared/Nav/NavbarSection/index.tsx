@@ -1,13 +1,11 @@
-import Icon from '@/components/common/Icon';
-import NavMenu from '@/components/common/NavMenu';
-import {
-  Body2Grey500,
-  Label1White,
-  Subtitle2Green500,
-} from '@/components/common/Typography';
+import NavMenuItem from '@/components/common/NavMenuItem';
+import { Label1White } from '@/components/common/Typography';
 import { NAV_LINKS } from '@/constants/_navbar';
 
-const ICON_SIZE = 24;
+const BETA_TAB_NAME = NAV_LINKS[1].name;
+
+const isTabActive = (selectedTab: string, tabName: string) =>
+  selectedTab === tabName;
 
 type Props = {
   title: string;
@@ -20,29 +18,14 @@ const NavbarSection = ({ title, links, selectedTab }: Props) => (
     <Label1White className='px-6 pb-4 pt-6'>{title}</Label1White>
     <div className='flex flex-col'>
       {links.map(({ name, href, icon }) => (
-        <NavMenu
+        <NavMenuItem
           key={name}
+          name={name}
           href={href}
-          isActive={selectedTab === name}
-          className='group'
-        >
-          <Icon
-            name={icon}
-            className='group-hover:stroke-white-100'
-            color={selectedTab === name ? 'green500' : 'grey500'}
-            width={ICON_SIZE}
-            height={ICON_SIZE}
-          />
-          {selectedTab === name ? (
-            <Subtitle2Green500 className='group-hover:font-medium group-hover:leading-[1.52] group-hover:text-white-100'>
-              {name}
-            </Subtitle2Green500>
-          ) : (
-            <Body2Grey500 className='group-hover:text-white-100'>
-              {name}
-            </Body2Grey500>
-          )}
-        </NavMenu>
+          icon={icon}
+          isActive={isTabActive(selectedTab, name)}
+          showBetaBadge={name === BETA_TAB_NAME}
+        />
       ))}
     </div>
   </>
