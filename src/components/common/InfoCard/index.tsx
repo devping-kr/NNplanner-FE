@@ -13,7 +13,7 @@ const InfoCard = ({ message, className }: InfoCardProps) => {
   return (
     <div
       className={cn(
-        'whitespace-wrap flex h-fit w-full min-w-60 max-w-80 items-center gap-2 overflow-hidden break-all rounded-md border border-grey-100 bg-blue-50 p-4',
+        'whitespace-wrap flex h-fit w-80 items-center gap-2 overflow-hidden break-all rounded-md border border-grey-100 bg-blue-50 p-4',
         className,
       )}
     >
