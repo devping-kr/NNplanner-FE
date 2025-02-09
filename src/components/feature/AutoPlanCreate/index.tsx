@@ -119,17 +119,17 @@ const AutoPlanCreate = () => {
       <MealCreateHeader
         pageHeaderTitle={PAGE_TITLE.autoPlan.create}
         selectedCategory={selectedCategory}
+        type='create'
         register={register}
+        handleEditMenu={handleEditMenu}
         errors={errors}
       />
       <MealCalendar
-        type='create'
         data={calendarData}
         year={year}
         month={month}
         onDateClick={handleDateClick}
         selectedDate={selectedDate}
-        handleEditMenu={handleEditMenu}
       />
     </MealForm>
   );
