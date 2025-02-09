@@ -6,47 +6,58 @@ import {
   SelectedCategory,
 } from '@/type/menuCategory/category';
 import { cn } from '@/utils/core';
+import Button from '@/components/common/Button/Button';
 import { Input } from '@/components/common/Input';
 import { Option, Selectbox } from '@/components/common/Selectbox';
-import { PageHeaderTitle } from '@/components/common/Typography';
+import { Caption1Grey500, H2BlackH2 } from '@/components/common/Typography';
 import { ORGANIZATION_LIST } from '@/constants/_category';
+import { AUTO_PLAN_BETA_MESSAGE } from '@/constants/_meal';
+import { PAGE_TITLE } from '@/constants/_pageTitle';
 
 export type MealHeaderFormData = {
   monthMenuName: string;
 };
 
 type MealHeaderProps = {
+  pageHeaderTitle: string;
   categories: Option[];
-  register?: UseFormRegister<MealHeaderFormData>;
-  errors?: FieldErrors<MealHeaderFormData>;
   selectedCategory: SelectedCategory;
   handleChangeCategory: (
     type: HandleChangeCategoryParam,
     value: string,
   ) => void;
+  register?: UseFormRegister<MealHeaderFormData>;
+  errors?: FieldErrors<MealHeaderFormData>;
   isCategoryError?: boolean;
-  pageHeaderTitle: string;
 };
 
 const MealHeader = ({
+  pageHeaderTitle,
   categories,
-  register,
-  errors,
   selectedCategory,
   handleChangeCategory,
+  register,
+  errors,
   isCategoryError,
-  pageHeaderTitle,
 }: MealHeaderProps) => {
+  const isBothSelected =
+    selectedCategory.majorCategory && selectedCategory.minorCategory;
+
   return (
-    <div className='flex flex-col gap-5'>
-      <PageHeaderTitle>{pageHeaderTitle}</PageHeaderTitle>
+    <div className='flex flex-col gap-6'>
+      <div className='flex items-center gap-4'>
+        <H2BlackH2>{pageHeaderTitle}</H2BlackH2>
+        {pageHeaderTitle === PAGE_TITLE.autoPlan.default && (
+          <Caption1Grey500>{AUTO_PLAN_BETA_MESSAGE} </Caption1Grey500>
+        )}
+      </div>
       <div className='flex w-full items-center gap-4'>
         {register && errors && (
           <div className='relative flex h-fit flex-col'>
             <Input
               bgcolor='meal'
-              height='basic'
-              placeholder='식단 이름을 입력하세요'
+              size='s'
+              placeholder='식단명을 입력하세요'
               className={cn('text-lg')}
               isError={!!errors.monthMenuName?.message}
               autoComplete='off'
@@ -54,7 +65,8 @@ const MealHeader = ({
             />
           </div>
         )}
-        <div className='relative flex gap-2'>
+
+        <div className='relative flex gap-4'>
           <Selectbox
             options={ORGANIZATION_LIST}
             size='small'
@@ -70,7 +82,7 @@ const MealHeader = ({
                 <Selectbox
                   key={item.value}
                   options={categories}
-                  size='small'
+                  buttonSize='sm'
                   onChange={(minorCategory) =>
                     handleChangeCategory('minorCategory', minorCategory)
                   }
@@ -80,6 +92,14 @@ const MealHeader = ({
               ),
           )}
         </div>
+        <Button
+          variant='primary'
+          size='sm'
+          type='submit'
+          disabled={!isBothSelected}
+        >
+          생성
+        </Button>
       </div>
     </div>
   );
