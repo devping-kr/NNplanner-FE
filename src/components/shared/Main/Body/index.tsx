@@ -9,7 +9,6 @@ import { calculateUpdownPercent, countSurveysByMonth } from '@/utils/survey';
 import { TableRowData } from '@/components/common/Table';
 import {
   Body2Grey600,
-  CardTitle,
   NutritionDate,
   SubTitle1Black,
 } from '@/components/common/Typography';
@@ -142,8 +141,8 @@ const MainPageBody = () => {
           )}
         </div>
       </div>
-      <div className='flex w-full flex-col gap-3 rounded border border-gray-300 bg-white-100 p-5'>
-        <CardTitle>{`${recipeData[0].month}월의 제철 레시피`}</CardTitle>
+      <div className='flex w-full flex-col gap-6 rounded-2xl bg-white-100 p-6'>
+        <SubTitle1Black>{`${recipeData[0].month}월의 제철 레시피`}</SubTitle1Black>
         <SeasonCard data={recipeData} />
       </div>
     </div>
