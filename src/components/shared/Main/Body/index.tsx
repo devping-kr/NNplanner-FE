@@ -1,12 +1,18 @@
 'use client';
 
+import Link from 'next/link';
 import dayjs from 'dayjs';
 import { MenuResponseDTO } from '@/type/menu/menuResponse';
 import { MenuRecipeListResponse } from '@/type/openAPI/recipeResponse';
 import { findOriginalId } from '@/utils/findOriginalId';
 import { calculateUpdownPercent, countSurveysByMonth } from '@/utils/survey';
 import { TableRowData } from '@/components/common/Table';
-import { CardTitle, NutritionDate } from '@/components/common/Typography';
+import {
+  Body2Grey600,
+  CardTitle,
+  NutritionDate,
+  SubTitle1Black,
+} from '@/components/common/Typography';
 import BarGraph from '@/components/shared/ChartDetail/BarGraph';
 import GetAllListTable from '@/components/shared/GetAllList/ListTable';
 import MainTopCard from '@/components/shared/Main/Cards/MainTopCard';
@@ -69,8 +75,8 @@ const MainPageBody = () => {
 
   const convertToTableRowData = (menus: MenuResponseDTO[]): TableRowData[] => {
     return menus.map((menu) => ({
-      식단ID: menu.monthMenuId.slice(0, 4),
-      식단이름: menu.monthMenuName,
+      '식단 ID': menu.monthMenuId.slice(0, 4),
+      '식단 이름': menu.monthMenuName,
       대분류: menu.majorCategory,
       소분류: menu.minorCategory,
       생성일: dayjs(menu.createAt).format('YYYY-MM-DD'),
@@ -90,7 +96,7 @@ const MainPageBody = () => {
   };
 
   return (
-    <div className='flex flex-col gap-5'>
+    <div className='flex flex-col gap-6'>
       <div className='flex gap-6'>
         <MiniCard
           title='관리 중 식단'
@@ -108,19 +114,26 @@ const MainPageBody = () => {
         />
         <MainTopCard title='인기 식단 Top3' top3Data={likedMenusTop3} />
       </div>
-      <div className='flex gap-3'>
-        <div className='flex w-1/2 flex-col gap-3 rounded border border-gray-300 bg-white-100 p-5'>
-          <CardTitle>최신 설문 만족도 분포</CardTitle>
+      <div className='flex w-full gap-6'>
+        <div className='flex h-[423px] w-full flex-col gap-6 rounded-2xl bg-white-100 p-6'>
+          <SubTitle1Black>설문 만족도 분포</SubTitle1Black>
           <BarGraph data={satisfactionDistribution} />
         </div>
-        <div className='flex w-1/2 flex-col gap-3 rounded border border-gray-300 bg-white-100 p-5'>
-          <CardTitle>최신 식단 목록</CardTitle>
+        <div className='flex w-full flex-col gap-6 rounded-2xl bg-white-100 p-6'>
+          <div className='flex items-center justify-between'>
+            <SubTitle1Black>최신 식단 목록</SubTitle1Black>
+            <Link href={'/viewPlan'}>
+              <Body2Grey600>더 보기</Body2Grey600>
+            </Link>
+          </div>
           {mealList?.data.menuResponseDTOList ? (
             <GetAllListTable
               data={convertToTableRowData(
                 mealList.data.menuResponseDTOList.slice(0, 5),
               )}
               onRowClick={(id) => handleRowClick(id)}
+              headerType='viewPlan'
+              miniList
             />
           ) : (
             <div className='mt-1 flex justify-center'>

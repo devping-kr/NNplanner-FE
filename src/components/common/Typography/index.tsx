@@ -58,6 +58,11 @@ export const Body2Black = customTypography('span', {
   color: 'black',
 });
 
+export const Body2Grey600 = customTypography('span', {
+  type: 'Body2',
+  color: 'grey600',
+});
+
 export const Body3Black = customTypography('span', {
   type: 'Body3',
   color: 'black',

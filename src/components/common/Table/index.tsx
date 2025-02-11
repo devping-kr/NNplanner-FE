@@ -16,6 +16,7 @@ type TableProps = {
   bodyClassName?: string;
   onRowClick?: (id: number | string) => void;
   headerType?: 'viewPlan' | 'viewChart';
+  miniList?: boolean;
 };
 
 const Table = ({
@@ -25,6 +26,7 @@ const Table = ({
   bodyClassName,
   onRowClick,
   headerType,
+  miniList,
 }: TableProps) => {
   const tableHeaders = Array.from(
     new Set(data.flatMap((item) => Object.keys(item))),
@@ -37,6 +39,7 @@ const Table = ({
           headerData={tableHeaders}
           className={headerClassName}
           headerType={headerType!}
+          miniList={miniList}
         />
         <TableBody
           headerData={tableHeaders}
@@ -45,6 +48,7 @@ const Table = ({
           className={bodyClassName}
           onRowClick={onRowClick}
           headerType={headerType!}
+          miniList={miniList}
         />
       </table>
     </div>
