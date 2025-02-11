@@ -95,7 +95,7 @@ const BarGraph = ({ data }: SatisfactionDistribution) => {
         options={chartOptions}
         series={[{ data: valuesArray, name: '해당 점수 비율' }]}
         type='bar'
-        height='100%'
+        height={325}
         width='100%'
       />
     </div>
