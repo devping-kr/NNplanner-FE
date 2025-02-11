@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
-import { HeadPrimary } from '@/components/common/Typography';
+import { H4Black, H5Black } from '@/components/common/Typography';
 import { useUserStore } from '@/stores/useUserStore';
 
 const today = new Date();
@@ -20,13 +20,11 @@ const MainPageHeader = () => {
   return (
     <div className='flex items-center justify-between'>
       <div className='flex flex-col gap-1'>
-        <HeadPrimary>{isMounted ? username : ''}님, 어서오세요!</HeadPrimary>
-        <HeadPrimary>
-          오늘도 냠냠플래너에서 건강한 식단을 관리해볼까요?
-        </HeadPrimary>
+        <H4Black>{isMounted ? username : ''}님, 어서오세요!</H4Black>
+        <H4Black>오늘도 냠냠플래너에서 건강한 식단을 관리해볼까요?</H4Black>
       </div>
-      <div className='rounded border border-gray-300 bg-white-100 px-5 py-2'>
-        <HeadPrimary>{date.format('YYYY년 MM월 DD일')}</HeadPrimary>
+      <div className='rounded-lg bg-white-100 px-4 py-3'>
+        <H5Black>{date.format('YYYY년 MM월 DD일')}</H5Black>
       </div>
     </div>
   );

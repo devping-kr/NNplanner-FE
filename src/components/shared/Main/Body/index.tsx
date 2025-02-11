@@ -21,7 +21,6 @@ import { useGetSurveyList } from '@/hooks/survey/useGetSurveyList';
 import useNavigate from '@/hooks/useNavigate';
 
 const SURVEY_LIST_SIZE = 5;
-// TODO: ** 설문 좋아요/싫어요 top3 메뉴 API 연결
 const { likedMenusTop3, satisfactionDistribution } = DETAIL_SURVEY_DATA;
 
 const MainPageBody = () => {
@@ -92,27 +91,22 @@ const MainPageBody = () => {
 
   return (
     <div className='flex flex-col gap-5'>
-      <div className='flex gap-3'>
+      <div className='flex gap-6'>
         <MiniCard
-          title='관리 중인 식단'
-          icon='time'
-          color='active'
+          title='관리 중 식단'
+          icon='calendar'
           count={currentMenuCount}
           upDownPercent={upDownPlanPercent}
           type='plan'
         />
         <MiniCard
-          title='진행 중인 설문'
-          icon='group'
-          color='success'
+          title='진행 중 설문'
+          icon='user'
           count={surveyTotalItems}
           upDownPercent={upDownSurveyPercent}
           type='survey'
         />
-        <MainTopCard
-          title='최근 마감한 설문 좋아요 Top3 메뉴'
-          top3Data={likedMenusTop3}
-        />
+        <MainTopCard title='인기 식단 Top3' top3Data={likedMenusTop3} />
       </div>
       <div className='flex gap-3'>
         <div className='flex w-1/2 flex-col gap-3 rounded border border-gray-300 bg-white-100 p-5'>

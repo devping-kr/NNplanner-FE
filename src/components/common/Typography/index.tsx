@@ -23,8 +23,23 @@ const customTypography = (
   return Typography;
 };
 
+export const H1Black = customTypography('span', {
+  type: 'H1',
+  color: 'black',
+});
+
 export const H2Black = customTypography('span', {
   type: 'H2',
+  color: 'black',
+});
+
+export const H4Black = customTypography('span', {
+  type: 'H4',
+  color: 'black',
+});
+
+export const H5Black = customTypography('span', {
+  type: 'H5',
   color: 'black',
 });
 
@@ -56,6 +71,11 @@ export const Body3Red = customTypography('span', {
 export const Body3Blue = customTypography('span', {
   type: 'Body3',
   color: 'blue',
+});
+
+export const Body3Grey600 = customTypography('span', {
+  type: 'Body3',
+  color: 'grey600',
 });
 
 export const SubTitle1Black = customTypography('span', {

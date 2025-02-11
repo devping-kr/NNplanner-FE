@@ -3,7 +3,7 @@ import MainPageHeader from '@/components/shared/Main/Header';
 
 const MainHome = () => {
   return (
-    <div className='flex flex-col gap-6'>
+    <div className='flex flex-col gap-6 pl-8 pr-10'>
       <MainPageHeader />
       <MainPageBody />
     </div>
