@@ -45,7 +45,12 @@ const MiniCard = ({
       <div className='flex w-full flex-col items-center justify-center gap-2'>
         {MONTH.map((month) => (
           <div key={month} className='flex w-full items-center gap-4'>
-            <Badge text={month} textType='body' variant='default' size='m' />
+            <Badge
+              text={month}
+              textType='subtitle'
+              variant='default'
+              size='m'
+            />
             <Body3Grey600>nn개의 식단을 관리했어요.</Body3Grey600>
           </div>
         ))}
