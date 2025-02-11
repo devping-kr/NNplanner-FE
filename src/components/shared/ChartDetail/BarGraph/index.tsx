@@ -37,7 +37,7 @@ const BarGraph = ({ data }: SatisfactionDistribution) => {
       custom: ({ series, seriesIndex, dataPointIndex, w }) => {
         return `<div class='tooltip_container'>
             <span class='tooltip_label'>${w.globals.labels[dataPointIndex]}</span>
-            <Body3Black class='tooltip_data'>${series[seriesIndex][dataPointIndex]}%</Body3Black>
+            <span class='tooltip_data'>${series[seriesIndex][dataPointIndex]}%</span>
           </div>`;
       },
     },
@@ -95,7 +95,7 @@ const BarGraph = ({ data }: SatisfactionDistribution) => {
         options={chartOptions}
         series={[{ data: valuesArray, name: '해당 점수 비율' }]}
         type='bar'
-        height={325}
+        height='100%'
         width='100%'
       />
     </div>
