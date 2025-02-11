@@ -26,9 +26,19 @@ const BarGraph = ({ data }: SatisfactionDistribution) => {
       toolbar: { show: false },
       zoom: { enabled: false },
     },
+    grid: {
+      show: false,
+    },
     legend: {
-      markers: {
-        shape: 'circle',
+      show: false,
+    },
+    tooltip: {
+      enabled: true,
+      custom: ({ series, seriesIndex, dataPointIndex, w }) => {
+        return `<div class='tooltip_container'>
+            <span class='tooltip_label'>${w.globals.labels[dataPointIndex]}</span>
+            <Body3Black class='tooltip_data'>${series[seriesIndex][dataPointIndex]}%</Body3Black>
+          </div>`;
       },
     },
     xaxis: {
@@ -44,6 +54,12 @@ const BarGraph = ({ data }: SatisfactionDistribution) => {
         '9점',
         '10점',
       ],
+      labels: {
+        style: {
+          fontSize: '14px',
+          fontWeight: 500,
+        },
+      },
       title: {},
     },
     yaxis: {
@@ -51,27 +67,21 @@ const BarGraph = ({ data }: SatisfactionDistribution) => {
       max: adjustedYMax,
       labels: {
         formatter: (value) => `${value}%`,
+        style: {
+          fontSize: '14px',
+          fontWeight: 500,
+        },
       },
       title: {},
     },
-    colors: [
-      '#D0F0C0',
-      '#B2F2BB',
-      '#AEE1D8',
-      '#CDE7BE',
-      '#B2DFDB',
-      '#C1DAB3',
-      '#ACE1AF',
-      '#A8E4A0',
-      '#B3CC9F',
-      '#77DD77',
-    ],
+    colors: ['#00A86B'],
     plotOptions: {
       bar: {
         borderRadiusApplication: 'end',
-        borderRadius: 6,
+        borderRadius: 4,
         distributed: true,
         horizontal: false,
+        columnWidth: '24px',
       },
     },
     dataLabels: {
