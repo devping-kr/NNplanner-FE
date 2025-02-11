@@ -14,14 +14,15 @@ const SeasonCard = ({ data }: SeasonCardProps) => {
           className='flex w-full flex-col items-center gap-4'
           key={recipe.recipeId}
         >
-          <Image
-            src={recipe.imageUrl}
-            alt={recipe.recipeName}
-            width={200}
-            height={120}
-            style={{ height: '120px' }}
-            className='rounded-lg object-fill'
-          />
+          <div className='relative h-[120px] w-[200px] rounded-lg'>
+            <Image
+              src={recipe.imageUrl}
+              alt={recipe.recipeName}
+              sizes='200px'
+              fill
+              style={{ objectFit: 'cover', borderRadius: '8px' }}
+            />
+          </div>
           <Label1Black>{recipe.recipeName}</Label1Black>
         </div>
       ))}
