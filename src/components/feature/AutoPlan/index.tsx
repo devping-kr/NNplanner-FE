@@ -103,6 +103,7 @@ const AutoPlan = () => {
         handleSubmit={handleSubmit}
       >
         <MealHeader
+          type='default'
           categories={minorCategories}
           selectedCategory={selectedCategory}
           handleChangeCategory={handleChangeCategory}
