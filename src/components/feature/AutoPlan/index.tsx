@@ -97,7 +97,7 @@ const AutoPlan = () => {
   }, [hasCategories, prefetchMinorCategories]);
 
   return (
-    <div className='flex gap-6 pb-10 pl-8'>
+    <div className='flex gap-6'>
       <MealForm
         legend={MEAL_FORM_LEGEND.autoPlan.create}
         handleSubmit={handleSubmit}
