@@ -39,7 +39,7 @@ const TableHeader = ({
   };
 
   return (
-    <thead className='h-12'>
+    <thead className={miniList ? 'h-[50px]' : 'h-12'}>
       <tr className='border-y border-grey-100'>
         {headerData.map((header, idx) => (
           <th

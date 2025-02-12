@@ -113,12 +113,12 @@ const MainPageBody = () => {
         />
         <MainTopCard title='인기 식단 Top3' top3Data={likedMenusTop3} />
       </div>
-      <div className='flex w-full gap-6'>
-        <div className='flex h-[423px] w-full flex-col gap-6 rounded-2xl bg-white-100 p-6'>
+      <div className='flex h-[428px] w-full gap-6'>
+        <div className='flex h-full w-full flex-col gap-6 rounded-2xl bg-white-100 p-6'>
           <SubTitle1Black>설문 만족도 분포</SubTitle1Black>
           <BarGraph data={satisfactionDistribution} />
         </div>
-        <div className='flex w-full flex-col gap-6 rounded-2xl bg-white-100 p-6'>
+        <div className='flex h-full w-full flex-col gap-6 rounded-2xl bg-white-100 p-6'>
           <div className='flex items-center justify-between'>
             <SubTitle1Black>최신 식단 목록</SubTitle1Black>
             <Link href={'/viewPlan'}>

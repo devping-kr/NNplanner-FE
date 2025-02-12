@@ -52,7 +52,7 @@ const TableBody = ({
           key={rowIndex}
           className={cn(
             'h-16 cursor-pointer odd:bg-grey-50 hover:bg-grey-100',
-            miniList ? 'h-[55.4px]' : '',
+            miniList ? 'h-14' : '',
           )}
           onClick={
             onRowClick && type === 'list' && typeof item['설문 ID'] === 'number'
