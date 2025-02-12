@@ -143,6 +143,11 @@ export const Caption1Grey500 = customTypography('span', {
   color: 'grey500',
 });
 
+export const Caption1Grey600 = customTypography('span', {
+  type: 'Caption1',
+  color: 'grey600',
+});
+
 // 리디자인 변경 전 Typography
 export const HeadPrimary = customTypography('h1', {
   type: 'heading1',
