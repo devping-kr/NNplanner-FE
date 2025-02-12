@@ -20,6 +20,7 @@ type MealCalendarProps = {
     type: 'edit' | 'add',
   ) => void;
   handleSaveMenu?: (date: string, menuList: FoodInfo[]) => void;
+  handleResetMenu?: () => void;
 } & CalendarProps;
 
 const MealCalendar = ({
