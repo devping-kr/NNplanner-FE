@@ -176,6 +176,7 @@ const MenualPlan = () => {
           handleChangeCategory={handleChangeCategory}
           isCategoryError={isCategoryError}
           pageHeaderTitle={PAGE_TITLE.menualPlan.default}
+          handleResetMenu={handleResetMenu}
         />
         <MealCalendar
           type='menualCreate'
@@ -186,7 +187,6 @@ const MenualPlan = () => {
           onDateClick={handleDateClick}
           selectedDate={selectedDate}
           handleSaveMenu={handleSaveMenu}
-          handleResetMenu={handleResetMenu}
         />
       </MealForm>
       <div className='flex w-fit flex-col gap-2 pt-[166px]'>

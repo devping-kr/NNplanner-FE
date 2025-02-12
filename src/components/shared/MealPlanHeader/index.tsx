@@ -5,6 +5,11 @@ import { PageHeaderTitle } from '@/components/common/Typography';
 type MealPlanHeaderProps = {
   mealName: string;
   selectedCategory: SelectedCategory;
+  handleResetMenu?: () => void;
+  handleEditMenu?: () => void;
+  handleCreateSurvey?: () => void;
+  handleSaveExcel?: () => void;
+  handleDeleteMenu?: () => void;
 };
 
 const MealPlanHeader = ({

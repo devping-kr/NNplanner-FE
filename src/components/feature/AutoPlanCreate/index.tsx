@@ -109,7 +109,13 @@ const AutoPlanCreate = () => {
       minorCategory: category.minorCategory,
     });
     setCalendarData(calendarData);
-  }, [year, month, queryClient]);
+  }, [
+    year,
+    month,
+    queryClient,
+    category.majorCategory,
+    category.minorCategory,
+  ]);
 
   return (
     <MealForm
@@ -125,6 +131,7 @@ const AutoPlanCreate = () => {
         errors={errors}
       />
       <MealCalendar
+        type='create'
         data={calendarData}
         year={year}
         month={month}
