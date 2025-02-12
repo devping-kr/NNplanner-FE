@@ -24,6 +24,7 @@ import Show from '@/components/common/Icon/assets/Show';
 import Time from '@/components/common/Icon/assets/Time';
 import TrendDown from '@/components/common/Icon/assets/TrendDown';
 import TrendUp from '@/components/common/Icon/assets/TrendUp';
+import User from '@/components/common/Icon/assets/User';
 import WarnCircle from '@/components/common/Icon/assets/WarnCircle';
 import Xmark from '@/components/common/Icon/assets/Xmark';
 import { colors } from '@/styles/colors';
@@ -53,6 +54,10 @@ export const iconMap: Record<string, IconMapEntry> = {
   dashboard: {
     type: 'stroke',
     file: Dashboard,
+  },
+  user: {
+    type: 'stroke',
+    file: User,
   },
   auto: { type: 'stroke', file: Auto },
   chart: { type: 'stroke', file: Chart },
@@ -164,6 +169,7 @@ export const COLORS = {
   grey: colors.grey[200],
   grey500: colors.grey[500],
   green500: colors.green[500],
+  grey900: colors.grey[900],
   //---
   // 기존 아이콘 색상
   white: colors.white[100],
