@@ -1,7 +1,7 @@
 import { cva } from 'class-variance-authority';
 
 export const inputContainerVariants = cva(
-  'flex w-full h-full items-center gap-2 px-4 rounded-lg',
+  'flex w-full items-center gap-2 px-4 rounded-lg',
   {
     variants: {
       variant: {
@@ -16,10 +16,6 @@ export const inputContainerVariants = cva(
       disabled: {
         true: '!bg-grey-100 cursor-not-allowed',
       },
-      borderRadius: {
-        basic: 'rounded-md',
-        large: 'rounded-lg',
-      },
 
       // 추후 삭제 예정
       bgcolor: {
@@ -28,8 +24,12 @@ export const inputContainerVariants = cva(
         meal: 'bg-white-100',
       },
       height: {
-        basic: 'h-[38px]',
-        large: 'h-[62px]',
+        basic: '',
+        large: '',
+      },
+      borderRadius: {
+        basic: '',
+        large: '',
       },
       isError: {
         true: 'border-red-300',

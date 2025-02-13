@@ -10,7 +10,7 @@ const Header = () => {
   const username = useUserStore((state) => state.username);
 
   return (
-    <header className='fixed top-0 z-10 flex w-full flex-row items-center justify-between border border-b-gray-100 bg-white-100 px-6 py-4'>
+    <header className='fixed top-0 z-50 flex w-full flex-row items-center justify-between border border-b-grey-100 bg-white-100 px-6 py-4'>
       <Image
         src='/imgs/header-logo.png'
         width={66}

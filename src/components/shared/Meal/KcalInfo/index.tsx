@@ -1,6 +1,9 @@
 import { FoodInfo } from '@/type/menu/menuResponse';
 import { sumCalrories } from '@/utils/calendar';
-import { NutritionMenu } from '@/components/common/Typography';
+import {
+  Subtitle2Black,
+  Subtitle2Green500,
+} from '@/components/common/Typography';
 
 type KcalInfoProps = {
   data: FoodInfo[];
@@ -8,7 +11,8 @@ type KcalInfoProps = {
 const KcalInfo = ({ data }: KcalInfoProps) => {
   return (
     <div className='text-right'>
-      <NutritionMenu>총 칼로리 : {sumCalrories(data)}kcal</NutritionMenu>
+      <Subtitle2Black>총 칼로리 : </Subtitle2Black>
+      <Subtitle2Green500>{sumCalrories(data)}kcal</Subtitle2Green500>
     </div>
   );
 };

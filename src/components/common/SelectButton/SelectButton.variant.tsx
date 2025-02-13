@@ -5,7 +5,7 @@ export const selectButtonVariants = cva(
   {
     variants: {
       buttonSize: {
-        sm: 'h-12 px-4 py-3',
+        sm: 'h-12 px-4 py-3 pr-[46px]',
         md: 'h-16 px-4 py-4',
       },
       bgColor: {
@@ -19,9 +19,9 @@ export const selectButtonVariants = cva(
       },
       // 리디자인 완성 시 삭제
       size: {
-        small: 'min-w-20 px-3 py-2 text-sm rounded-md pr-8',
-        basic: 'min-w-24 px-5 py-3 text-base rounded-lg pr-10',
-        large: 'min-w-28 px-7 py-5 text-lg rounded-lg pr-12',
+        small: '',
+        basic: '',
+        large: '',
       },
     },
   },
@@ -30,8 +30,8 @@ export const selectButtonVariants = cva(
 export const typoVariants = cva('whitespace-pre-line text-wrap', {
   variants: {
     buttonSize: {
-      sm: 'text-lg leading-[1.52] tracking-[-0.008em] font-medium',
-      md: 'text-base leading-[1.52] tracking-[-0.008em] font-medium',
+      sm: 'text-base leading-[1.52] tracking-[-0.008em] font-medium',
+      md: 'text-lg leading-[1.52] tracking-[-0.008em] font-medium',
     },
     state: {
       selected: 'text-black-100',

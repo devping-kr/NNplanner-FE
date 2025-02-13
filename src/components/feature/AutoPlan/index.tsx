@@ -97,12 +97,13 @@ const AutoPlan = () => {
   }, [hasCategories, prefetchMinorCategories]);
 
   return (
-    <div className='flex gap-8'>
+    <div className='flex gap-6'>
       <MealForm
         legend={MEAL_FORM_LEGEND.autoPlan.create}
         handleSubmit={handleSubmit}
       >
         <MealHeader
+          type='default'
           categories={minorCategories}
           selectedCategory={selectedCategory}
           handleChangeCategory={handleChangeCategory}
@@ -116,7 +117,7 @@ const AutoPlan = () => {
           readonly={true}
         />
       </MealForm>
-      <div className='flex w-full flex-col gap-2 pt-[166px]'>
+      <div className='flex w-full flex-col gap-4 pt-[142px]'>
         <InfoCard message={INFOCARD_MESSAGE.autoPlan.name} />
         <InfoCard message={INFOCARD_MESSAGE.autoPlan.category} />
       </div>

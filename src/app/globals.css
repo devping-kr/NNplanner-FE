@@ -13,25 +13,25 @@
 @layer utilities {
   .custom-scrollbar::-webkit-scrollbar,
   .scrollbar-gray-100::-webkit-scrollbar {
-    width: 20px; /* 스크롤바 너비 */
+    @apply w-2;
+    /* 스크롤바 너비 */
   }
 
   .custom-scrollbar::-webkit-scrollbar-track,
   .scrollbar-gray-100::-webkit-scrollbar {
-    background-color: transparent; /* 트랙 색상 */
+    @apply bg-transparent;
+    /* 트랙 색상 */
   }
 
   .custom-scrollbar::-webkit-scrollbar-thumb,
   .scrollbar-gray-100::-webkit-scrollbar-thumb {
-    /* 손잡이 색상 grey300*/
-    background-color: #abadb2;
-    border-radius: 20px;
-    /* 트랙과의 구분을 위한 여백 white100*/
-    border: 6px solid #ffffff;
+    @apply rounded bg-grey-300;
+    /* 손잡이 색상 grey300 */
   }
 
   .scrollbar-gray-100::-webkit-scrollbar-thumb {
-    border-color: #f5f5f5; /* navbar 제외한 배경색 white-200  */
+    @apply bg-white-100;
+    /* navbar 제외한 배경색 white-100  */
   }
 }
 
