@@ -1,5 +1,9 @@
 import { cn } from '@/utils/core';
-import { CardTitle, HeadPrimary } from '@/components/common/Typography';
+import {
+  Body2Black,
+  HeadPrimary,
+  SubTitle1Black,
+} from '@/components/common/Typography';
 
 interface Props {
   list: string[];
@@ -8,10 +12,8 @@ interface Props {
 }
 const TextList = ({ list, title, type }: Props) => {
   return (
-    <div className='flex w-full flex-col gap-3 rounded border border-gray-300 bg-white-100 p-5'>
-      <div className='border-b border-gray-200 pb-3'>
-        <CardTitle>{title}</CardTitle>
-      </div>
+    <div className='flex w-full flex-col gap-6 rounded-2xl bg-white-100 p-6'>
+      <SubTitle1Black>{title}</SubTitle1Black>
       <ul
         className={cn(
           'flex flex-col gap-2 overflow-y-auto pr-2',
@@ -19,7 +21,11 @@ const TextList = ({ list, title, type }: Props) => {
         )}
       >
         {list.length !== 0 &&
-          list.map((text, idx) => <li key={`${idx}-${text}`}>{text}</li>)}
+          list.map((text, idx) => (
+            <li key={`${idx}-${text}`} className='h-6'>
+              <Body2Black>{text}</Body2Black>
+            </li>
+          ))}
         {list.length === 0 && (
           <HeadPrimary>제출된 설문이 없습니다.</HeadPrimary>
         )}
