@@ -70,7 +70,6 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           bgcolor,
           variant,
           height,
-          size,
           disabled,
           isError,
         })}
