@@ -1,17 +1,16 @@
 'use client';
 
+import { CalendarType } from '@/type/calendar';
 import { FoodInfo } from '@/type/menu/menuResponse';
 import { SelectedCategory } from '@/type/menuCategory/category';
-import Button from '@/components/common/Button/Button';
 import Calendar, { CalendarProps } from '@/components/common/Calendar';
-import { MealCalenderTitle } from '@/components/common/Typography';
+import { H1Black } from '@/components/common/Typography';
 import MealCreate from '@/components/shared/Meal/MealCreate';
 import MealEdit from '@/components/shared/Meal/MealEdit';
 import NutritionInfo from '@/components/shared/Meal/NutritionInfo';
-import useNavigate from '@/hooks/useNavigate';
 
 type MealCalendarProps = {
-  type?: 'default' | 'create' | 'edit' | 'menualCreate' | 'mealPlan';
+  type?: CalendarType;
   selectedCategory?: SelectedCategory;
   selectedDate?: string;
   handleChangeMenu?: (
@@ -20,12 +19,8 @@ type MealCalendarProps = {
     updatedItem: FoodInfo,
     type: 'edit' | 'add',
   ) => void;
-  handleResetMenu?: () => void;
   handleSaveMenu?: (date: string, menuList: FoodInfo[]) => void;
-  handleEditMenu?: () => void;
-  handleCreateSurvey?: () => void;
-  handleSaveExcel?: () => void;
-  handleDeleteMenu?: () => void;
+  handleResetMenu?: () => void;
 } & CalendarProps;
 
 const MealCalendar = ({
@@ -37,117 +32,13 @@ const MealCalendar = ({
   readonly,
   onDateClick,
   handleChangeMenu,
-  handleResetMenu,
   handleSaveMenu,
-  handleEditMenu,
-  handleCreateSurvey,
-  handleSaveExcel,
-  handleDeleteMenu,
 }: MealCalendarProps) => {
-  const { handleBack } = useNavigate();
   return (
-    <div className='flex'>
-      <div className='flex w-fit flex-col gap-2'>
+    <div className='flex rounded-2xl bg-white-100 p-6'>
+      <div className='flex w-fit flex-col gap-6'>
         <div className='flex w-full items-center justify-between'>
-          <MealCalenderTitle>{month}월</MealCalenderTitle>
-          {type === 'default' && (
-            <Button className='h-10 w-fit' size='basic' type='submit'>
-              생성
-            </Button>
-          )}
-          {type === 'create' && (
-            <div className='flex w-fit items-center gap-2'>
-              <Button className='h-10 w-fit' size='basic' type='submit'>
-                저장
-              </Button>
-              <Button
-                className='h-10 w-fit'
-                size='basic'
-                type='button'
-                onClick={handleEditMenu}
-              >
-                메뉴 수정
-              </Button>
-            </div>
-          )}
-          {type === 'edit' && (
-            <div className='flex w-fit items-center gap-2'>
-              <Button
-                className='h-10 w-fit'
-                size='basic'
-                variant='outline'
-                type='button'
-                onClick={handleResetMenu}
-              >
-                메뉴 초기화
-              </Button>
-              <Button className='h-10 w-fit' size='basic' type='submit'>
-                수정 완료
-              </Button>
-              <Button
-                className='h-10 w-fit'
-                size='basic'
-                type='button'
-                onClick={handleBack}
-              >
-                취소
-              </Button>
-            </div>
-          )}
-          {type === 'menualCreate' && (
-            <div className='flex w-fit items-center gap-2'>
-              <Button
-                className='h-10 w-fit'
-                size='basic'
-                variant='outline'
-                type='button'
-                onClick={handleResetMenu}
-              >
-                메뉴 초기화
-              </Button>
-              <Button className='h-10 w-fit' size='basic' type='submit'>
-                생성
-              </Button>
-            </div>
-          )}
-          {type === 'mealPlan' && (
-            <div className='flex w-fit items-center gap-2'>
-              <Button
-                className='h-10 w-fit'
-                size='basic'
-                variant='outline'
-                type='button'
-                onClick={handleCreateSurvey}
-              >
-                설문 생성
-              </Button>
-              <Button
-                className='h-10 w-fit'
-                size='basic'
-                variant='outline'
-                type='button'
-                onClick={handleSaveExcel}
-              >
-                엑셀 저장
-              </Button>
-              <Button
-                className='h-10 w-fit'
-                size='basic'
-                type='button'
-                onClick={handleEditMenu}
-              >
-                수정
-              </Button>
-              <Button
-                className='h-10 w-fit'
-                size='basic'
-                type='button'
-                onClick={handleDeleteMenu}
-              >
-                삭제
-              </Button>
-            </div>
-          )}
+          <H1Black>{month}월</H1Black>
         </div>
         <Calendar
           year={year}

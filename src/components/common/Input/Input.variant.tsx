@@ -24,12 +24,12 @@ export const inputContainerVariants = cva(
         meal: 'bg-white-100',
       },
       height: {
-        basic: 'h-[38px]',
-        large: 'h-[62px]',
+        basic: '',
+        large: '',
       },
       borderRadius: {
-        basic: 'rounded-md',
-        large: 'rounded-lg',
+        basic: '',
+        large: '',
       },
       isError: {
         true: 'border-red-300',

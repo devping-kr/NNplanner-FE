@@ -98,6 +98,10 @@ const MealPlan = ({ id }: MealPlanProps) => {
       <MealPlanHeader
         mealName={monthMenuDetail.monthMenuName || ''}
         selectedCategory={selectedCategory}
+        handleCreateSurvey={handleCreateSurvey}
+        handleSaveExcel={handleSaveExcel}
+        handleEditMenu={handleEditMenu}
+        handleDeleteMenu={handleDeleteMenu}
       />
       <MealCalendar
         type='mealPlan'
@@ -106,10 +110,6 @@ const MealPlan = ({ id }: MealPlanProps) => {
         month={month}
         onDateClick={handleDateClick}
         selectedDate={selectedDate}
-        handleCreateSurvey={handleCreateSurvey}
-        handleSaveExcel={handleSaveExcel}
-        handleEditMenu={handleEditMenu}
-        handleDeleteMenu={handleDeleteMenu}
       />
     </MealForm>
   );

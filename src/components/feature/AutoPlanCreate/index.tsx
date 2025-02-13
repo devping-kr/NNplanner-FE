@@ -109,7 +109,13 @@ const AutoPlanCreate = () => {
       minorCategory: category.minorCategory,
     });
     setCalendarData(calendarData);
-  }, [year, month, queryClient]);
+  }, [
+    year,
+    month,
+    queryClient,
+    category.majorCategory,
+    category.minorCategory,
+  ]);
 
   return (
     <MealForm
@@ -119,7 +125,9 @@ const AutoPlanCreate = () => {
       <MealCreateHeader
         pageHeaderTitle={PAGE_TITLE.autoPlan.create}
         selectedCategory={selectedCategory}
+        type='create'
         register={register}
+        handleEditMenu={handleEditMenu}
         errors={errors}
       />
       <MealCalendar
@@ -129,7 +137,6 @@ const AutoPlanCreate = () => {
         month={month}
         onDateClick={handleDateClick}
         selectedDate={selectedDate}
-        handleEditMenu={handleEditMenu}
       />
     </MealForm>
   );

@@ -86,10 +86,10 @@ const AutoPlanEdit = () => {
     if (isValidDateString(date)) setSelectedDate(date);
   };
 
-  const handleResetMenu = () => {
-    getOriginalCalendar();
-    setSelectedDate('');
-  };
+  // const handleResetMenu = () => {
+  //   getOriginalCalendar();
+  //   setSelectedDate('');
+  // };
 
   const onSubmit = (data: MealHeaderFormData) => {
     const formattedData = transformCalendarToPostSave(
@@ -152,7 +152,7 @@ const AutoPlanEdit = () => {
         onDateClick={handleDateClick}
         selectedDate={selectedDate}
         handleChangeMenu={handleChangeMenu}
-        handleResetMenu={handleResetMenu}
+        // handleResetMenu={handleResetMenu}
       />
     </MealForm>
   );

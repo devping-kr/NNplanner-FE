@@ -38,7 +38,7 @@ const MealForm = <T extends FieldValues>({
 
   return (
     <form onSubmit={submitHandler}>
-      <fieldset className='flex w-fit flex-col gap-4'>
+      <fieldset className='flex w-fit flex-col gap-6'>
         <legend className='sr-only'>{legend}</legend>
         {children}
       </fieldset>

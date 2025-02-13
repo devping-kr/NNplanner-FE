@@ -70,9 +70,11 @@ const MenualPlanCreate = () => {
       handleSubmit={handleSubmit}
     >
       <MealCreateHeader
+        type='create'
         pageHeaderTitle={PAGE_TITLE.menualPlan.create}
         inputValue={monthMenuName}
         selectedCategory={category}
+        handleEditMenu={handleEditMenu}
       />
       <MealCalendar
         type='create'
@@ -81,7 +83,6 @@ const MenualPlanCreate = () => {
         month={month}
         onDateClick={handleDateClick}
         selectedDate={selectedDate}
-        handleEditMenu={handleEditMenu}
       />
     </MealForm>
   );
