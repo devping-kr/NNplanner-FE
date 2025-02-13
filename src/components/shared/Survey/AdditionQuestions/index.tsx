@@ -2,7 +2,12 @@ import { useState } from 'react';
 import Button from '@/components/common/Button/Button';
 import { Input } from '@/components/common/Input';
 import { Selectbox } from '@/components/common/Selectbox';
-import { CardTitle, SubTitle1Black } from '@/components/common/Typography';
+import {
+  CardTitle,
+  SubTitle1Black,
+  Subtitle2Black,
+  Subtitle2Grey100,
+} from '@/components/common/Typography';
 import { inputsType } from '@/components/feature/Survey/Create';
 import { WARNING } from '@/constants/_toastMessage';
 import { useToastStore } from '@/stores/useToastStore';
@@ -64,8 +69,6 @@ const AdditionQuestions = ({ inputs, setInputs, successSubmit }: Props) => {
       );
   };
 
-  console.log(inputs);
-
   return (
     <div className='flex w-full flex-col gap-6 rounded-2xl bg-white-100 p-6'>
       <SubTitle1Black>추가 질문</SubTitle1Black>
@@ -80,23 +83,33 @@ const AdditionQuestions = ({ inputs, setInputs, successSubmit }: Props) => {
         />
         <div className='min-w-[110px]'>
           <Selectbox
+            key={addInputType}
             size='small'
             options={ANSWER_TYPE}
-            selectedValue={addInputType}
+            selectedValue={
+              addInputType === 'text'
+                ? '서술형'
+                : addInputType === 'radio'
+                  ? '선택형'
+                  : ''
+            }
             placeholder='질문 형식'
             onChange={handleChangeAddInputType}
             buttonSize='sm'
           />
         </div>
-        <Button
-          size='sm'
-          variant='teritary'
-          onClick={handleAddInput}
-          disabled={successSubmit}
-          className='rounded-lg'
-        >
-          등록
-        </Button>
+        <div className='min-w-[60px]'>
+          <Button
+            size='sm'
+            width='full'
+            variant='teritary'
+            onClick={handleAddInput}
+            disabled={successSubmit}
+            className='rounded-lg'
+          >
+            <Subtitle2Grey100>등록</Subtitle2Grey100>
+          </Button>
+        </div>
       </div>
       <ul className='flex flex-col gap-3'>
         {inputs.length !== 0 ? (
@@ -113,21 +126,28 @@ const AdditionQuestions = ({ inputs, setInputs, successSubmit }: Props) => {
                 <Selectbox
                   size='small'
                   selectedValue={
-                    input.answerType === 'text' ? '서술형' : '선택형'
+                    input.answerType === 'text'
+                      ? '서술형'
+                      : input.answerType === 'radio'
+                        ? '선택형'
+                        : ''
                   }
                   readonly
                   buttonSize='sm'
                 />
               </div>
-              <Button
-                size='sm'
-                variant='outline'
-                onClick={() => handleDeleteInput(idx)}
-                disabled={successSubmit}
-                className='rounded-lg'
-              >
-                삭제
-              </Button>
+              <div className='min-w-[60px]'>
+                <Button
+                  size='sm'
+                  variant='outline'
+                  width='full'
+                  onClick={() => handleDeleteInput(idx)}
+                  disabled={successSubmit}
+                  className='rounded-lg'
+                >
+                  <Subtitle2Black>삭제</Subtitle2Black>
+                </Button>
+              </div>
             </div>
           ))
         ) : (
