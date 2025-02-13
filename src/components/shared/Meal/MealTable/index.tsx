@@ -37,7 +37,7 @@ const MealTable = ({ data, isButton = false, onClick }: MealTableProps) => {
           <button
             type='button'
             key={`${item.foodId}-${index}`}
-            className='flex w-full flex-col rounded-lg text-left transition duration-300 ease-in-out hover:bg-gray-100 active:bg-gray-200'
+            className='flex w-full flex-col rounded-lg text-left transition duration-300 ease-in-out hover:bg-grey-100 active:bg-grey-200'
             onClick={() => onClick?.(item.foodName)}
           >
             {content}
