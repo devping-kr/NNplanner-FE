@@ -3,7 +3,6 @@ import Button from '@/components/common/Button/Button';
 import { Input } from '@/components/common/Input';
 import { Selectbox } from '@/components/common/Selectbox';
 import {
-  CardTitle,
   SubTitle1Black,
   Subtitle2Black,
   Subtitle2Grey100,
@@ -27,7 +26,7 @@ const ANSWER_TYPE = [
 
 const AdditionQuestions = ({ inputs, setInputs, successSubmit }: Props) => {
   const [addInputValue, setAddInputValue] = useState('');
-  const [addInputType, setAddInputType] = useState('');
+  const [addInputType, setAddInputType] = useState('text');
   const showToast = useToastStore((state) => state.showToast);
 
   const handleAddInput = () => {
@@ -49,7 +48,7 @@ const AdditionQuestions = ({ inputs, setInputs, successSubmit }: Props) => {
         },
       ]);
       setAddInputValue('');
-      setAddInputType('');
+      setAddInputType('text');
     }
   };
 
@@ -84,6 +83,7 @@ const AdditionQuestions = ({ inputs, setInputs, successSubmit }: Props) => {
         <div className='min-w-[110px]'>
           <Selectbox
             key={addInputType}
+            bgColor='grey'
             size='small'
             options={ANSWER_TYPE}
             selectedValue={
@@ -93,7 +93,7 @@ const AdditionQuestions = ({ inputs, setInputs, successSubmit }: Props) => {
                   ? '선택형'
                   : ''
             }
-            placeholder='질문 형식'
+            placeholder='서술형'
             onChange={handleChangeAddInputType}
             buttonSize='sm'
           />
@@ -112,7 +112,7 @@ const AdditionQuestions = ({ inputs, setInputs, successSubmit }: Props) => {
         </div>
       </div>
       <ul className='flex flex-col gap-3'>
-        {inputs.length !== 0 ? (
+        {inputs.length !== 0 &&
           inputs.map((input, idx) => (
             <div key={`${input}-${idx}`} className='flex items-center gap-2'>
               <Input
@@ -125,6 +125,7 @@ const AdditionQuestions = ({ inputs, setInputs, successSubmit }: Props) => {
               <div className='min-w-[110px]'>
                 <Selectbox
                   size='small'
+                  bgColor='grey'
                   selectedValue={
                     input.answerType === 'text'
                       ? '서술형'
@@ -149,12 +150,7 @@ const AdditionQuestions = ({ inputs, setInputs, successSubmit }: Props) => {
                 </Button>
               </div>
             </div>
-          ))
-        ) : (
-          <div className='text-center'>
-            <CardTitle>추가 질문이 없습니다.</CardTitle>
-          </div>
-        )}
+          ))}
       </ul>
     </div>
   );

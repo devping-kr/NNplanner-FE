@@ -87,7 +87,7 @@ const SurveyCreate = ({ id }: { id: string }) => {
   };
 
   return (
-    <div className='flex flex-col gap-5'>
+    <div className='flex w-[1596px] flex-col gap-5'>
       <SurveyHeader title='설문 생성' />
       <SurveyControls
         isChangeable
