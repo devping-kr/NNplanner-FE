@@ -72,17 +72,15 @@ const SurveyEdit = ({ id }: Props) => {
   return (
     detailSurvey && (
       <div className='flex flex-col gap-5'>
-        <SurveyHeader
-          title='설문 수정'
-          accessBtnText='수정'
-          accessHandler={submitSurvey}
-        />
+        <SurveyHeader title='설문 수정' />
         <SurveyControls
           isChangeable
           surveyName={editSurveyName!}
           setEditSurveyName={setEditSurveyName}
           deadLine={editDeadLine!}
           setDeadLine={setEditDeadLine!}
+          accessBtnText='수정'
+          accessHandler={submitSurvey}
         />
         <div className='flex gap-5'>
           <DefaultQuestions />
