@@ -1,5 +1,11 @@
+import { useRouter } from 'next/navigation';
+import Button from '@/components/common/Button/Button';
 import DatepickerCalendar from '@/components/common/DatepickerCalendar';
 import { Input } from '@/components/common/Input';
+import {
+  Subtitle2Green500,
+  Subtitle2White,
+} from '@/components/common/Typography';
 
 interface Props {
   isChangeable: boolean;
@@ -8,6 +14,8 @@ interface Props {
   setSurveyName?: React.Dispatch<React.SetStateAction<string>>;
   deadLine: Date | null;
   setDeadLine: React.Dispatch<React.SetStateAction<Date | null>>;
+  accessBtnText: string;
+  accessHandler: () => void;
 }
 
 const EXTRA_SURVEYNAME_LIMIT = 30;
@@ -19,7 +27,11 @@ const SurveyControls = ({
   setSurveyName,
   deadLine,
   setDeadLine,
+  accessBtnText,
+  accessHandler,
 }: Props) => {
+  const router = useRouter();
+
   const handleChangeSurveyName = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length <= EXTRA_SURVEYNAME_LIMIT && !isChangeable) {
       setEditSurveyName!(e.target.value);
@@ -30,15 +42,13 @@ const SurveyControls = ({
   };
 
   return (
-    <div className='flex gap-4'>
-      <div className='w-1/3'>
+    <div className='flex h-12 gap-4'>
+      <div className='w-64'>
         <Input
+          variant='white'
           value={surveyName}
           onChange={handleChangeSurveyName}
-          placeholder='설문 이름을 입력하세요. (최대 30자)'
-          className='font-semibold'
-          bgcolor='meal'
-          height='basic'
+          placeholder='설문 이름을 입력하세요.(최대 30자)'
         />
       </div>
       <DatepickerCalendar
@@ -46,6 +56,24 @@ const SurveyControls = ({
         deadLine={deadLine}
         setDeadLine={setDeadLine}
       />
+      <div className='flex gap-2'>
+        <Button
+          onClick={accessHandler}
+          size='sm'
+          disabled={surveyName === '' || deadLine === null}
+          className='rounded-lg'
+        >
+          <Subtitle2White>{accessBtnText}</Subtitle2White>
+        </Button>
+        <Button
+          variant={'secondary'}
+          onClick={() => router.back()}
+          size='sm'
+          className='rounded-lg'
+        >
+          <Subtitle2Green500>취소</Subtitle2Green500>
+        </Button>
+      </div>
     </div>
   );
 };
