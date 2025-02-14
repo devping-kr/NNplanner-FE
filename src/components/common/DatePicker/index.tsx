@@ -32,22 +32,24 @@ const DatePicker = ({
 
   return (
     <div className='flex w-full items-center gap-2'>
-      <div className='flex flex-col gap-1'>
-        <span>년도</span>
+      <div className='flex w-[194px] flex-col gap-1'>
         <Selectbox
           options={years}
           onChange={onYearChange}
           placeholder='년도'
           selectedValue={selectedYear.toString()}
+          className='flex justify-start'
+          buttonSize='sm'
         />
       </div>
-      <div className='flex flex-col gap-1'>
-        <span>월</span>
+      <div className='flex w-[194px] flex-col gap-1'>
         <Selectbox
           options={months}
           onChange={onMonthChange}
           placeholder='월'
           selectedValue={selectedMonth.toString()}
+          className='flex justify-start'
+          buttonSize='sm'
         />
       </div>
     </div>

@@ -6,7 +6,10 @@ import dayjs from 'dayjs';
 import { surveyType } from '@/type/survey/surveyResponse';
 import ControlTab from '@/components/common/ControlTab';
 import Pagination from '@/components/common/Pagination';
-import { HeadPrimary } from '@/components/common/Typography';
+import {
+  SubTitle1Black,
+  SubTitle1Green500,
+} from '@/components/common/Typography';
 import GetAllListControls from '@/components/shared/GetAllList/Controls';
 import GetAllListHeader from '@/components/shared/GetAllList/Header';
 import GetAllListTable from '@/components/shared/GetAllList/ListTable';
@@ -80,10 +83,10 @@ const ViewChart = () => {
   };
 
   return (
-    <div className='flex flex-col gap-4'>
+    <div className='flex flex-col gap-6'>
       {surveyList && (
         <>
-          <GetAllListHeader title='설문 결과 리스트' />
+          <GetAllListHeader title='설문 결과 조회' />
           <GetAllListControls
             type='viewChart'
             selectedMonth={selectedMonth}
@@ -92,14 +95,21 @@ const ViewChart = () => {
             onYearChange={setSelectedYear}
             searchValue={searchValue}
             handleChangeSearchValue={handleChangeSearchValue}
-            inputPlaceholder='설문 이름을 입력해주세요.'
+            inputPlaceholder='설문 이름을 입력하세요'
             handleSearchSubmit={handleSearchSubmit}
           />
-          {surveyList?.data.totalItems === 0 ? (
-            <HeadPrimary>설문이 존재하지 않습니다</HeadPrimary>
-          ) : (
-            <div className='flex flex-col gap-6 rounded-2xl bg-white-100 p-6'>
-              <div className='flex items-center justify-end gap-6'>
+          <div className='flex flex-col gap-6 rounded-2xl bg-white-100 p-6'>
+            <div className='flex items-center justify-between gap-6'>
+              <div className='flex items-center gap-1'>
+                <SubTitle1Black>총</SubTitle1Black>
+                <div>
+                  <SubTitle1Green500>
+                    {surveyList.data.totalItems}
+                  </SubTitle1Green500>
+                  <SubTitle1Black>개</SubTitle1Black>
+                </div>
+              </div>
+              <div className='flex items-center gap-6'>
                 <ControlTab
                   controlTabItems={SURVEY_FILTER_OPTIONS}
                   selectedFilter={selectedFilter!}
@@ -116,19 +126,19 @@ const ViewChart = () => {
                   setSelectedTab={setSelectedTab}
                 />
               </div>
-              <GetAllListTable
-                data={convertToTableRowData(surveyList.data.surveys)}
-                onRowClick={(id) => router.push(`${ROUTES.VIEW.CHART}/${id}`)}
-                headerType='viewChart'
-              />
-              <Pagination
-                limit={PAGE_LIMIT}
-                page={page}
-                setPage={setPage}
-                totalPosts={surveyList.data.totalItems}
-              />
             </div>
-          )}
+            <GetAllListTable
+              data={convertToTableRowData(surveyList.data.surveys)}
+              onRowClick={(id) => router.push(`${ROUTES.VIEW.CHART}/${id}`)}
+              headerType='viewChart'
+            />
+            <Pagination
+              limit={PAGE_LIMIT}
+              page={page}
+              setPage={setPage}
+              totalPosts={surveyList.data.totalItems}
+            />
+          </div>
         </>
       )}
     </div>
