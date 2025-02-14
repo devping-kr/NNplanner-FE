@@ -4,7 +4,7 @@ import { SelectedCategory } from '@/type/menuCategory/category';
 import Button from '@/components/common/Button/Button';
 import { Input } from '@/components/common/Input';
 import { Selectbox } from '@/components/common/Selectbox';
-import { H2BlackH2 } from '@/components/common/Typography';
+import { H2Black } from '@/components/common/Typography';
 import { MealHeaderFormData } from '@/components/shared/Meal/MealHeader';
 import { PAGE_TITLE } from '@/constants/_pageTitle';
 import useNavigate from '@/hooks/useNavigate';
@@ -40,7 +40,7 @@ const MealCreateHeader = ({
 
   return (
     <div className='flex flex-col gap-6'>
-      <H2BlackH2>{pageHeaderTitle}</H2BlackH2>
+      <H2Black>{pageHeaderTitle}</H2Black>
       <div className='flex w-fit items-center gap-4'>
         <div className='w-[194px]'>
           <Input
