@@ -7,6 +7,7 @@ export const WARNING = {
   requiredSurveyName: '설문 이름 입력은 필수입니다.',
   maxAdditionQuestion: '추가 질문은 최대 7개까지 생성 가능합니다.',
   noMenuToSave: '저장할 메뉴를 검색창에서 선택해주세요.',
+  noQuestionValue: '질문 입력과 질문 형식을 선택해주세요.',
 };
 
 export const MEAL_CREATE_MESSAGE = {

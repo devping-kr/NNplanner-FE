@@ -1,7 +1,7 @@
 import { cva } from 'class-variance-authority';
 
 export const inputContainerVariants = cva(
-  'flex w-full items-center gap-2 px-4 rounded-lg',
+  'flex w-full h-full items-center gap-2 px-4 rounded-lg',
   {
     variants: {
       variant: {
@@ -44,7 +44,6 @@ export const inputContainerVariants = cva(
       borderRadius: 'basic',
       bgcolor: 'form',
       height: 'basic',
-      size: 's',
     },
   },
 );

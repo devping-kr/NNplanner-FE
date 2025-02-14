@@ -87,20 +87,18 @@ const SurveyCreate = ({ id }: { id: string }) => {
   };
 
   return (
-    <div className='flex flex-col gap-5'>
-      <SurveyHeader
-        title='설문 생성'
-        accessBtnText='생성'
-        accessHandler={submitSurvey}
-      />
+    <div className='flex w-[1596px] flex-col gap-5'>
+      <SurveyHeader title='설문 생성' />
       <SurveyControls
         isChangeable
         surveyName={surveyName}
         setSurveyName={setSurveyName}
         deadLine={deadLine}
         setDeadLine={setDeadLine}
+        accessBtnText='생성'
+        accessHandler={submitSurvey}
       />
-      <div className='flex gap-5'>
+      <div className='flex gap-6'>
         <DefaultQuestions />
         <AdditionQuestions
           inputs={inputs}
