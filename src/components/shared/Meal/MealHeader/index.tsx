@@ -9,7 +9,7 @@ import {
 import Button from '@/components/common/Button/Button';
 import { Input } from '@/components/common/Input';
 import { Option, Selectbox } from '@/components/common/Selectbox';
-import { Caption1Grey500, H2BlackH2 } from '@/components/common/Typography';
+import { Caption1Grey500, H2Black } from '@/components/common/Typography';
 import { ORGANIZATION_LIST } from '@/constants/_category';
 import { AUTO_PLAN_BETA_MESSAGE } from '@/constants/_meal';
 import { PAGE_TITLE } from '@/constants/_pageTitle';
@@ -62,7 +62,7 @@ const MealHeader = ({
   return (
     <div className='flex flex-col gap-6'>
       <div className='flex items-center gap-4'>
-        <H2BlackH2>{pageHeaderTitle}</H2BlackH2>
+        <H2Black>{pageHeaderTitle}</H2Black>
         {pageHeaderTitle === PAGE_TITLE.autoPlan.default && (
           <Caption1Grey500>{AUTO_PLAN_BETA_MESSAGE} </Caption1Grey500>
         )}
