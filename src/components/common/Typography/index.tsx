@@ -33,6 +33,11 @@ export const H2Black = customTypography('span', {
   color: 'black',
 });
 
+export const H2BlackH2 = customTypography('h2', {
+  type: 'H2',
+  color: 'black',
+});
+
 export const H4Black = customTypography('span', {
   type: 'H4',
   color: 'black',
