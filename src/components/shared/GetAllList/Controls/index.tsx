@@ -1,9 +1,11 @@
 'use client';
 
-import { cn } from '@/utils/core';
+import Button from '@/components/common/Button/Button';
 import DatePicker from '@/components/common/DatePicker';
+import Icon from '@/components/common/Icon';
 import { Input } from '@/components/common/Input';
 import { Option, Selectbox } from '@/components/common/Selectbox';
+import { Subtitle2White } from '@/components/common/Typography';
 import { ORGANIZATION_LIST } from '@/constants/_category';
 
 interface Props {
@@ -54,22 +56,34 @@ const GetAllListControls = ({
         onMonthChange={onMonthChange}
         onYearChange={onYearChange}
       />
-      <div
-        className={cn(
-          'flex w-full items-end justify-end gap-5',
-          type === 'viewChart' && 'w-1/2',
-        )}
-      >
-        <Input
-          isLeftIcon
-          height='basic'
-          placeholder={inputPlaceholder}
-          bgcolor='meal'
-          includeButton
-          value={searchValue}
-          onChange={handleChangeSearchValue}
-          onSubmit={handleSearchSubmit}
-        />
+      <div className='flex w-full items-end justify-end gap-2'>
+        <div className='relative h-12 w-60'>
+          <div className='absolute right-[14px] top-[14px]'>
+            <Icon
+              name='search'
+              width={20}
+              height={20}
+              className=''
+              color='black'
+            />
+          </div>
+          <Input
+            variant='white'
+            placeholder={inputPlaceholder}
+            value={searchValue}
+            onChange={handleChangeSearchValue}
+          />
+        </div>
+        <div className='w-[60px]'>
+          <Button
+            variant='primary'
+            size='sm'
+            onClick={handleSearchSubmit}
+            width='full'
+          >
+            <Subtitle2White>검색</Subtitle2White>
+          </Button>
+        </div>
         {type === 'viewPlan' && setOrganization && setSelectedCategory && (
           <div className='flex gap-1 whitespace-pre'>
             <Selectbox

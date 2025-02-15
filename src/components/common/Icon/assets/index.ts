@@ -35,20 +35,20 @@ type IconMapEntry = {
 };
 
 type ColorClassNames = {
-  [group in 'white' | 'dark' | 'red' | 'green' | 'gray' | 'grey']: {
+  [group in 'white' | 'dark' | 'red' | 'green' | 'gray' | 'grey' | 'black']: {
     [shade: number]: string;
   };
 };
 
 export const iconMap: Record<string, IconMapEntry> = {
-  search: { type: 'stroke', file: Search },
+  search: { type: 'fill', file: Search },
   edit: { type: 'fill', file: Edit },
   xmark: { type: 'fill', file: Xmark },
   plus: { type: 'stroke', file: Plus },
   arrowUp: { type: 'fill', file: Arrowup },
   arrowDown: { type: 'fill', file: ArrowDown },
-  arrowPrev: { type: 'stroke', file: ArrowPrev },
-  arrowNext: { type: 'stroke', file: ArrowNext },
+  arrowPrev: { type: 'fill', file: ArrowPrev },
+  arrowNext: { type: 'fill', file: ArrowNext },
   arrowPrevBlock: { type: 'fill', file: ArrowPrevBlock },
   arrowNextBlock: { type: 'fill', file: ArrowNextBlock },
   dashboard: {
@@ -132,6 +132,9 @@ const COLOR_CLASSNAMES: ColorClassNames = {
   dark: {
     100: 'dark-100',
   },
+  black: {
+    100: 'black-100',
+  },
   red: {
     100: 'red-100',
     200: 'red-200',
@@ -187,7 +190,7 @@ type ColorShade = keyof (typeof COLOR_CLASSNAMES)[ColorGroup];
 export type HoverColor = `${ColorGroup}${ColorShade}`;
 
 const getColorClass = (color?: HoverColor): string => {
-  if (!color) return COLOR_CLASSNAMES.dark[100];
+  if (!color) return COLOR_CLASSNAMES.black[100];
 
   const match = color.match(/^(\w+)(\d+)$/);
   if (!match) return COLOR_CLASSNAMES.gray[600];
