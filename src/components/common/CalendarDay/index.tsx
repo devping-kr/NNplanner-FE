@@ -51,9 +51,7 @@ const CalendarDay = ({
       )}
     >
       {isHoliday ? (
-        <Subtitle2Red500
-          className={(calendarDayVariants({ isInvalid }), 'bg-white-100')}
-        >
+        <Subtitle2Red500 className={calendarDayVariants({ isInvalid })}>
           {date}
         </Subtitle2Red500>
       ) : (
