@@ -50,6 +50,8 @@ const MealCreateHeader = ({
             disabled={pageHeaderTitle === PAGE_TITLE.menualPlan.create}
             isError={!!errors?.monthMenuName?.message}
             autoComplete='off'
+            placeholder={type === 'create' ? '식단명을 입력하세요' : ''}
+            className='h-12'
             {...(register ? register('monthMenuName') : {})}
           />
         </div>
