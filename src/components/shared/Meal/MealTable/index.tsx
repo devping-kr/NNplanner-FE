@@ -11,11 +11,11 @@ const DynamicTable = ({ tableData }: DynamicTableProps) => {
 
   return (
     <div className='overflow-hidden rounded-lg border border-grey-100'>
-      <table className='w-full text-center'>
+      <table className='w-full table-fixed text-center'>
         <thead className='border-b border-grey-100'>
           <tr>
             {columns.map((col) => (
-              <th key={col} className='w-[72px] py-1'>
+              <th key={col} className='py-1'>
                 <Label2Black>{col}</Label2Black>
               </th>
             ))}
@@ -25,7 +25,7 @@ const DynamicTable = ({ tableData }: DynamicTableProps) => {
           {tableData.map((row, rowIndex) => (
             <tr key={rowIndex} className='bg-gray-50'>
               {columns.map((col) => (
-                <td key={col} className='w-[72px] py-1'>
+                <td key={col} className='py-1'>
                   <Label2Black>{row[col]}</Label2Black>
                 </td>
               ))}
