@@ -1,7 +1,41 @@
 import { FoodInfo } from '@/type/menu/menuResponse';
 import { removeTrailingZeros } from '@/utils/meal';
-import Table from '@/components/common/Table';
-import { Label1Black } from '@/components/common/Typography';
+import { Label1Black, Label2Black } from '@/components/common/Typography';
+
+type DynamicTableProps = {
+  tableData: Record<string, string | number>[];
+};
+
+const DynamicTable = ({ tableData }: DynamicTableProps) => {
+  const columns = Object.keys(tableData[0]);
+
+  return (
+    <div className='overflow-hidden rounded-lg border border-grey-100'>
+      <table className='w-full text-center'>
+        <thead className='border-b border-grey-100'>
+          <tr>
+            {columns.map((col) => (
+              <th key={col} className='w-[72px] py-1'>
+                <Label2Black>{col}</Label2Black>
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {tableData.map((row, rowIndex) => (
+            <tr key={rowIndex} className='bg-gray-50'>
+              {columns.map((col) => (
+                <td key={col} className='w-[72px] py-1'>
+                  <Label2Black>{row[col]}</Label2Black>
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+};
 
 type MealTableProps = {
   data: FoodInfo[];
@@ -25,11 +59,7 @@ const MealTable = ({ data, isButton = false, onClick }: MealTableProps) => {
         const content = (
           <div className='flex flex-col gap-2'>
             <Label1Black>{item.foodName}</Label1Black>
-            <Table
-              data={tableData}
-              headerClassName='p-1 whitespace-nowrap w-18 text-center'
-              bodyClassName='p-1 bg-grey-50 text-center'
-            />
+            <DynamicTable tableData={tableData} />
           </div>
         );
 
