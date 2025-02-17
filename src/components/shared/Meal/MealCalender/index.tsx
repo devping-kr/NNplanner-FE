@@ -35,7 +35,7 @@ const MealCalendar = ({
   handleSaveMenu,
 }: MealCalendarProps) => {
   return (
-    <div className='rounded-2x flex gap-6'>
+    <div className='flex gap-6'>
       <div className='flex w-fit flex-col gap-6 rounded-2xl bg-white-100 p-6'>
         <div className='flex w-full items-center justify-between'>
           <H1Black>{month}월</H1Black>
