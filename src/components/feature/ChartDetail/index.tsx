@@ -4,14 +4,19 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
+import dayjs from 'dayjs';
 import { FailResponse } from '@/type/response';
 import { Question } from '@/type/survey/surveyResponse';
 import { getTextResponsesByQuestionText } from '@/utils/getTextResponseByQuestionText';
 import Button from '@/components/common/Button/Button';
+import DatepickerCalendar from '@/components/common/DatepickerCalendar';
 import {
   CardTitle,
+  H2Black,
   HeadPrimary,
-  PageHeaderTitle,
+  Subtitle2Green500,
+  Subtitle2Grey100,
+  Subtitle2Grey900,
 } from '@/components/common/Typography';
 import AverageGraph from '@/components/shared/ChartDetail/AverageGraph';
 import BarGraph from '@/components/shared/ChartDetail/BarGraph';
@@ -21,7 +26,7 @@ import { NAV_LINKS, ROUTES } from '@/constants/_navbar';
 import { surveyKeys } from '@/hooks/survey/queryKey';
 import { useDeleteSurvey } from '@/hooks/survey/useDeleteSurvey';
 import { useGetSurveyDetail } from '@/hooks/survey/useGetSurveyDetail';
-import { useGetSurveyQrCode } from '@/hooks/survey/useGetSurveyQrCode';
+// import { useGetSurveyQrCode } from '@/hooks/survey/useGetSurveyQrCode';
 import useNavigate from '@/hooks/useNavigate';
 import { useToastStore } from '@/stores/useToastStore';
 
@@ -49,9 +54,9 @@ const ChartDetail = ({ id }: Props) => {
 
   const { data: detailData } = useGetSurveyDetail(id);
 
-  const { data: qrData } = useGetSurveyQrCode(id, {
-    enabled: !!detailData,
-  });
+  // const { data: qrData } = useGetSurveyQrCode(id, {
+  //   enabled: !!detailData,
+  // });
 
   const { surveyName, averageScores, additionalQuestions, mandatoryQuestions } =
     detailData || {};
@@ -65,44 +70,53 @@ const ChartDetail = ({ id }: Props) => {
     return distributionValues.every((value) => value === 0);
   };
 
-  const copyQRcode = async () => {
-    try {
-      if (!qrData?.body) return;
-      const imageUrl = `data:image/png;base64,${qrData.body}`;
+  // const copyQRcode = async () => {
+  //   try {
+  //     if (!qrData?.body) return;
+  //     const imageUrl = `data:image/png;base64,${qrData.body}`;
 
-      const response = await fetch(imageUrl);
-      const blob = await response.blob();
+  //     const response = await fetch(imageUrl);
+  //     const blob = await response.blob();
 
-      await navigator.clipboard.write([
-        new ClipboardItem({ 'image/png': blob }),
-      ]);
+  //     await navigator.clipboard.write([
+  //       new ClipboardItem({ 'image/png': blob }),
+  //     ]);
 
-      showToast('QRcode 복사 성공', 'success', 1000);
-    } catch (error) {
-      showToast('QRcode 복사 실패', 'warning', 1000);
-    }
-  };
+  //     showToast('QRcode 복사 성공', 'success', 1000);
+  //   } catch (error) {
+  //     showToast('QRcode 복사 실패', 'warning', 1000);
+  //   }
+  // };
 
   return (
     <div className='flex flex-col gap-10'>
       {detailData &&
         averageScores &&
         mandatoryQuestions &&
-        additionalQuestions &&
-        qrData && (
-          <>
+        additionalQuestions && (
+          // qrData &&
+          <div className='flex flex-col gap-6'>
+            <H2Black>{surveyName}</H2Black>
             <div className='flex items-center justify-between'>
-              <PageHeaderTitle>{surveyName}</PageHeaderTitle>
-              <div className='flex h-8 gap-3'>
-                <Button size='small'>설문 종료</Button>
+              <DatepickerCalendar
+                deadLine={dayjs(detailData.deadline).format(
+                  'YYYY-MM-DDTHH:mm:ss.SSS[Z]',
+                )}
+                isChangeable={false}
+              />
+              <div className='flex h-12 gap-2'>
+                <Button variant='secondary' size='sm'>
+                  <Subtitle2Green500>설문 종료</Subtitle2Green500>
+                </Button>
                 <Button
-                  size='small'
+                  variant='teritary'
+                  size='sm'
                   onClick={() => navigate(`${ROUTES.SURVEY.EDIT}/${id}`)}
                 >
-                  질문 수정
+                  <Subtitle2Grey100>질문 수정</Subtitle2Grey100>
                 </Button>
-                <Button size='small' onClick={deleteHandler}>
-                  설문 삭제
+                <Button variant='grey' size='sm' onClick={deleteHandler}>
+                  <Subtitle2Grey900>설문 삭제</Subtitle2Grey900>
                 </Button>
               </div>
             </div>
@@ -149,7 +163,7 @@ const ChartDetail = ({ id }: Props) => {
                       width={180}
                       height={180}
                       style={{ borderRadius: 4 }}
-                      src={`data:image/png;base64,${qrData.body}`}
+                      src={`/imgs/pi-gon-ping.jpg`}
                       alt='qr이미지'
                       onClick={() => navigate(`${ROUTES.SURVEY.TAKE}/${id}`)}
                     />
@@ -157,7 +171,7 @@ const ChartDetail = ({ id }: Props) => {
                       size='xSmall'
                       width='fit'
                       className='mb-2 rounded'
-                      onClick={copyQRcode}
+                      // onClick={copyQRcode}
                     >
                       QRcode 복사
                     </Button>
@@ -187,7 +201,7 @@ const ChartDetail = ({ id }: Props) => {
                 />
               </div>
             </div>
-          </>
+          </div>
         )}
     </div>
   );
