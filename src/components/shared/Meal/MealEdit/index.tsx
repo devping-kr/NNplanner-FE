@@ -70,11 +70,9 @@ const MealEdit = ({ date, data, handleChangeMenu }: MealEditProps) => {
 
   // 검색창에 keyword 입력 후 검색 버튼 눌렀을 때
   const handleSearchClick = () => {
-    console.log('검색버튼 클릭');
     if (keyword.length < 0) return;
     resetPagination();
     refetch();
-    console.log('리패치');
   };
 
   // 검색한 메뉴 목록에서 새로운 메뉴 선택
@@ -171,11 +169,15 @@ const MealEdit = ({ date, data, handleChangeMenu }: MealEditProps) => {
           onChange={(e) => setKeyword(e.target.value)}
           value={keyword || ''}
         />
-        <Button variant='outline' onClick={handleSearchClick}>
-          <Subtitle2Black className='whitespace-nowrap'>검색</Subtitle2Black>
+        <Button
+          variant='outline'
+          onClick={handleSearchClick}
+          className='min-w-[68px]'
+        >
+          <Subtitle2Black>검색</Subtitle2Black>
         </Button>
       </div>
-      {isSearchShow && keyword!.length >= 0 && (
+      {isSearchShow && keyword!.length >= 0 && searchResultList.length > 0 && (
         <MealSearchContainer
           ref={searchContainerRef} // ref 추가
           keyword={keyword}
