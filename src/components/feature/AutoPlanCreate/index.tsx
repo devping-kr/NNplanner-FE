@@ -126,6 +126,7 @@ const AutoPlanCreate = () => {
         pageHeaderTitle={PAGE_TITLE.autoPlan.create}
         selectedCategory={selectedCategory}
         type='create'
+        inputValue={getValues().monthMenuName}
         register={register}
         handleEditMenu={handleEditMenu}
         errors={errors}

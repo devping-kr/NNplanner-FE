@@ -1,6 +1,5 @@
 import { cn } from '@/utils/core';
-import Icon from '@/components/common/Icon';
-import { NutritionMenu } from '@/components/common/Typography';
+import { Caption1Grey500, Label1Black } from '@/components/common/Typography';
 
 type NutritionMenuButtonProps = {
   menuName: string;
@@ -19,14 +18,14 @@ const NutritionMenuButton = ({
     <button
       type='button'
       className={cn(
-        'flex w-full justify-between rounded-md p-2 transition duration-300 ease-in-out hover:bg-green-100 hover:text-gray-900 focus:bg-green-200 active:bg-green-200',
+        'flex w-full items-center justify-between hover:cursor-pointer',
         className,
       )}
       onFocus={onFocus}
       onClick={onClick}
     >
-      <NutritionMenu>{menuName}</NutritionMenu>
-      <Icon name='edit' />
+      <Label1Black>{menuName}</Label1Black>
+      <Caption1Grey500>삭제</Caption1Grey500>
     </button>
   );
 };

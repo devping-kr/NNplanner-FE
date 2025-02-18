@@ -1,17 +1,76 @@
 import { FoodInfo } from '@/type/menu/menuResponse';
+import { cn } from '@/utils/core';
 import { removeTrailingZeros } from '@/utils/meal';
-import Table from '@/components/common/Table';
-import { Label1Black } from '@/components/common/Typography';
+import { Label1Black, Label2Black } from '@/components/common/Typography';
+
+type DynamicTableProps = {
+  tableData: Record<string, string | number>[];
+  theadColor?: 'grey' | 'white';
+};
+
+const DynamicTable = ({
+  tableData,
+  theadColor = 'grey',
+}: DynamicTableProps) => {
+  const columns = Object.keys(tableData[0]);
+
+  return (
+    <div className='overflow-hidden rounded-lg border border-grey-100'>
+      <table className='w-full table-fixed text-center'>
+        <thead
+          className={cn(
+            'border-b border-grey-100',
+            theadColor === 'grey' && 'bg-grey-50',
+            theadColor === 'white' && 'bg-white-100',
+          )}
+        >
+          <tr>
+            {columns.map((col) => (
+              <th key={col} className='py-1'>
+                <Label2Black>{col}</Label2Black>
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {tableData.map((row, rowIndex) => (
+            <tr
+              key={rowIndex}
+              className={cn(
+                theadColor === 'grey' && 'bg-white-100',
+                theadColor === 'white' && 'bg-grey-50',
+              )}
+            >
+              {columns.map((col) => (
+                <td key={col} className='py-1'>
+                  <Label2Black>{row[col]}</Label2Black>
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+};
 
 type MealTableProps = {
   data: FoodInfo[];
   isButton?: boolean;
+  contentClassName?: string;
+  theadColor?: 'grey' | 'white';
   onClick?: (menu: string) => void;
 };
 
-const MealTable = ({ data, isButton = false, onClick }: MealTableProps) => {
+const MealTable = ({
+  data,
+  isButton = false,
+  contentClassName,
+  theadColor = 'grey',
+  onClick,
+}: MealTableProps) => {
   return (
-    <div className='flex w-full flex-col gap-4'>
+    <div className='flex w-full flex-col'>
       {data?.map((item, index) => {
         const tableData = [
           {
@@ -23,13 +82,9 @@ const MealTable = ({ data, isButton = false, onClick }: MealTableProps) => {
         ];
 
         const content = (
-          <div className='flex flex-col gap-2'>
+          <div className={cn('flex flex-col gap-2', contentClassName)}>
             <Label1Black>{item.foodName}</Label1Black>
-            <Table
-              data={tableData}
-              headerClassName='p-1 whitespace-nowrap w-18 text-center'
-              bodyClassName='p-1 bg-grey-50 text-center'
-            />
+            <DynamicTable tableData={tableData} theadColor={theadColor} />
           </div>
         );
 
