@@ -2,6 +2,9 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { FoodInfo } from '@/type/menu/menuResponse';
+import Button from '@/components/common/Button/Button';
+import { Input } from '@/components/common/Input';
+import { Subtitle2Black } from '@/components/common/Typography';
 import KcalInfo from '@/components/shared/Meal/KcalInfo';
 import MealInfoContainer from '@/components/shared/Meal/MealInfoContainer';
 import MealSearchContainer from '@/components/shared/Meal/MealSearchContainer';
@@ -149,36 +152,44 @@ const MealEdit = ({ date, data, handleChangeMenu }: MealEditProps) => {
 
   return (
     <MealInfoContainer date={date}>
-      <div className='flex w-full flex-col gap-1'>
+      <div className='flex w-full flex-col gap-4'>
         {data.map((item) => (
           <NutritionMenuButton
             key={item.foodId}
             menuName={item.foodName}
-            className={
-              clickedMenu === item.foodName
-                ? 'bg-green-200 hover:bg-green-200'
-                : ''
-            }
             onFocus={() => setIsSearchShow(true)}
             onClick={() => handleClickMenu(item.foodName)}
           />
         ))}
-        <KcalInfo data={data} />
       </div>
-      {isSearchShow && keyword!.length >= 0 && (
+      <div className='flex h-12 gap-2'>
+        <Input
+          placeholder='메뉴 이름을 입력해주세요'
+          variant='grey50'
+          onChange={(e) => setKeyword(e.target.value)}
+          value={keyword || ''}
+        />
+        <Button
+          variant='outline'
+          onClick={handleSearchClick}
+          className='min-w-[68px]'
+        >
+          <Subtitle2Black>검색</Subtitle2Black>
+        </Button>
+      </div>
+      {isSearchShow && keyword!.length >= 0 && searchResultList.length > 0 && (
         <MealSearchContainer
           ref={searchContainerRef} // ref 추가
           keyword={keyword}
           searchResultList={searchResultList}
-          onChange={(e) => setKeyword(e.target.value)}
-          onSubmit={handleSearchClick}
-          onClickNewMenu={handleClickNewMenu}
           isError={isError}
           isLoading={isLoading}
           hasMore={hasMore}
+          onClickNewMenu={handleClickNewMenu}
           onScroll={handleSearchContainerScroll}
         />
       )}
+      <KcalInfo data={data} />
     </MealInfoContainer>
   );
 };

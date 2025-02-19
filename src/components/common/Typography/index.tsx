@@ -58,6 +58,11 @@ export const Label1Black = customTypography('span', {
   color: 'black',
 });
 
+export const Label2Black = customTypography('span', {
+  type: 'label2',
+  color: 'black',
+});
+
 export const Body2Black = customTypography('span', {
   type: 'Body2',
   color: 'black',

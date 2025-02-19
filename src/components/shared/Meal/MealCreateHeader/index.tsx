@@ -4,7 +4,12 @@ import { SelectedCategory } from '@/type/menuCategory/category';
 import Button from '@/components/common/Button/Button';
 import { Input } from '@/components/common/Input';
 import { Selectbox } from '@/components/common/Selectbox';
-import { H2BlackH2 } from '@/components/common/Typography';
+import {
+  H2BlackH2,
+  Subtitle2Green500,
+  Subtitle2Grey900,
+  Subtitle2White,
+} from '@/components/common/Typography';
 import { MealHeaderFormData } from '@/components/shared/Meal/MealHeader';
 import { PAGE_TITLE } from '@/constants/_pageTitle';
 import useNavigate from '@/hooks/useNavigate';
@@ -50,6 +55,8 @@ const MealCreateHeader = ({
             disabled={pageHeaderTitle === PAGE_TITLE.menualPlan.create}
             isError={!!errors?.monthMenuName?.message}
             autoComplete='off'
+            placeholder={type === 'create' ? '식단명을 입력하세요' : ''}
+            className='h-12'
             {...(register ? register('monthMenuName') : {})}
           />
         </div>
@@ -92,25 +99,26 @@ const MealCreateHeader = ({
         )}
         {type === 'edit' && (
           <div className='flex w-fit items-center gap-4'>
+            <div className='flex items-center gap-2'>
+              <Button size='sm' variant='primary' type='submit'>
+                <Subtitle2White>수정 완료</Subtitle2White>
+              </Button>
+              <Button
+                size='sm'
+                variant='secondary'
+                type='button'
+                onClick={handleBack}
+              >
+                <Subtitle2Green500>취소</Subtitle2Green500>
+              </Button>
+            </div>
             <Button
-              className='h-10 w-fit'
-              size='basic'
-              variant='outline'
+              size='sm'
+              variant='grey'
               type='button'
               onClick={handleResetMenu}
             >
-              메뉴 초기화
-            </Button>
-            <Button className='h-10 w-fit' size='basic' type='submit'>
-              수정 완료
-            </Button>
-            <Button
-              className='h-10 w-fit'
-              size='basic'
-              type='button'
-              onClick={handleBack}
-            >
-              취소
+              <Subtitle2Grey900>메뉴 초기화</Subtitle2Grey900>
             </Button>
           </div>
         )}
