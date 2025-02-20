@@ -93,6 +93,11 @@ export const Body3Grey600 = customTypography('span', {
   color: 'grey600',
 });
 
+export const Body3Assistive = customTypography('span', {
+  type: 'Body3',
+  color: 'assistive',
+});
+
 export const SubTitle1Black = customTypography('span', {
   type: 'Subtitle1',
   color: 'black',
@@ -156,6 +161,11 @@ export const Body2Grey500 = customTypography('span', {
 export const Body2Grey200 = customTypography('span', {
   type: 'Body2',
   color: 'grey200',
+});
+
+export const Body2Assistive = customTypography('span', {
+  type: 'Body2',
+  color: 'assistive',
 });
 
 export const Subtitle2Red500 = customTypography('span', {
