@@ -12,8 +12,8 @@ interface Props {
   surveyName: string;
   setEditSurveyName?: React.Dispatch<React.SetStateAction<string>>;
   setSurveyName?: React.Dispatch<React.SetStateAction<string>>;
-  deadLine: Date | null;
-  setDeadLine: React.Dispatch<React.SetStateAction<Date | null>>;
+  deadLine: Date | null | string;
+  setDeadLine: React.Dispatch<React.SetStateAction<Date | null | string>>;
   accessBtnText: string;
   accessHandler: () => void;
 }
