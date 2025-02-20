@@ -11,9 +11,12 @@ import { getTextResponsesByQuestionText } from '@/utils/getTextResponseByQuestio
 import Button from '@/components/common/Button/Button';
 import DatepickerCalendar from '@/components/common/DatepickerCalendar';
 import {
-  CardTitle,
+  Body2Assistive,
+  Body2Black,
+  Body3Assistive,
   H2Black,
-  HeadPrimary,
+  SubTitle1Black,
+  Subtitle2Black,
   Subtitle2Green500,
   Subtitle2Grey100,
   Subtitle2Grey900,
@@ -120,85 +123,102 @@ const ChartDetail = ({ id }: Props) => {
                 </Button>
               </div>
             </div>
-            <div className='flex w-full gap-5'>
-              <div className='flex w-full flex-col gap-3 rounded border border-gray-300 bg-white-100 p-5'>
-                <CardTitle>월별 총 만족도 점수 분포도</CardTitle>
+            <div className='flex h-[336px] w-full gap-6'>
+              <div className='flex h-full w-full max-w-[1056px] flex-col gap-6 rounded-2xl bg-white-100 p-6'>
+                <SubTitle1Black>월별 총 만족도 점수 분포도</SubTitle1Black>
                 {mandatoryQuestions!.every(isAllDistributionZero) ? (
-                  <HeadPrimary>제출된 설문이 없습니다.</HeadPrimary>
+                  <div className='flex min-h-[130px] w-full items-center justify-center'>
+                    <Body2Assistive>제출된 설문이 없습니다.</Body2Assistive>
+                  </div>
                 ) : (
-                  <BarGraph data={mandatoryQuestions![0].radioResponses} />
+                  <div className='h-full w-[1008px]'>
+                    <BarGraph data={mandatoryQuestions![0].radioResponses} />
+                  </div>
                 )}
               </div>
-              <div className='flex w-1/2 flex-col gap-3 rounded border border-gray-300 bg-white-100 p-5'>
-                <CardTitle>만족도 평균</CardTitle>
+              <div className='flex h-full w-[516px] flex-col gap-4 rounded-2xl bg-white-100 p-6'>
+                <SubTitle1Black>만족도 평균</SubTitle1Black>
                 {!Object.values(averageScores).every((score) => score === 0) ? (
-                  <AverageGraph averageScores={averageScores} />
+                  <div className='h-full w-full'>
+                    <AverageGraph averageScores={averageScores} />
+                  </div>
                 ) : (
-                  <HeadPrimary>제출된 설문이 없습니다.</HeadPrimary>
+                  <div className='flex min-h-[130px] w-full items-center justify-center'>
+                    <Body2Assistive>제출된 설문이 없습니다.</Body2Assistive>
+                  </div>
                 )}
               </div>
             </div>
-            <div className='flex w-full gap-8'>
-              <div className='flex w-full flex-col gap-3 rounded border border-gray-300 bg-white-100 p-5'>
-                <TopCard
-                  title='식단 좋아요 Top3'
-                  top3Data={getTextResponsesByQuestionText(
+            <div className='flex w-full gap-6'>
+              <TopCard
+                title='식단 좋아요 Top3'
+                type='like'
+                top3Data={getTextResponsesByQuestionText(
+                  mandatoryQuestions,
+                  '가장 좋아하는 상위 3개 식단',
+                )}
+              />
+              <TopCard
+                title='식단 싫어요 Top3'
+                type='unlike'
+                top3Data={getTextResponsesByQuestionText(
+                  mandatoryQuestions,
+                  '가장 싫어하는 상위 3개 식단',
+                )}
+              />
+            </div>
+            <div className='flex w-full gap-6'>
+              <TextList
+                type='desireMenu'
+                list={
+                  getTextResponsesByQuestionText(
                     mandatoryQuestions,
-                    '가장 좋아하는 상위 3개 식단',
-                  )}
-                />
-                <TopCard
-                  title='식단 싫어요 Top3'
-                  top3Data={getTextResponsesByQuestionText(
+                    '먹고 싶은 메뉴',
+                  )!
+                }
+                title='먹고 싶은 메뉴'
+              />
+              <TextList
+                type='desireMenu'
+                list={
+                  getTextResponsesByQuestionText(
                     mandatoryQuestions,
-                    '가장 싫어하는 상위 3개 식단',
-                  )}
-                />
-              </div>
-              <div className='flex w-1/3 flex-col gap-3'>
-                <div className='mb-3 flex flex-1 flex-col gap-3 rounded border border-gray-300 bg-white-100 p-5'>
-                  <CardTitle>설문 조사 링크</CardTitle>
-                  <div className='flex cursor-pointer flex-col items-center justify-center gap-2 rounded border border-gray-300'>
+                    '영양사에게 한마디',
+                  )!
+                }
+                title='영양사에게 한마디'
+              />
+              <div className='flex w-full flex-col gap-6 rounded-2xl bg-white-100 p-6'>
+                <SubTitle1Black>설문 조사 링크</SubTitle1Black>
+                <div className='flex w-full items-center gap-6'>
+                  <div className='flex min-h-[120px] min-w-[120px] items-center justify-center rounded-lg border border-grey-100'>
                     <Image
-                      width={180}
-                      height={180}
-                      style={{ borderRadius: 4 }}
+                      width={96}
+                      height={96}
                       src={`/imgs/pi-gon-ping.jpg`}
                       alt='qr이미지'
                       onClick={() => navigate(`${ROUTES.SURVEY.TAKE}/${id}`)}
                     />
-                    <Button
-                      size='xSmall'
-                      width='fit'
-                      className='mb-2 rounded'
-                      // onClick={copyQRcode}
-                    >
-                      QRcode 복사
-                    </Button>
+                  </div>
+                  <div className='flex w-full flex-col gap-4'>
+                    <div className='flex flex-col gap-2'>
+                      <Body3Assistive>
+                        QR 코드를 다운로드하거나 URL을 복사하여
+                        <br />
+                        작성한 설문을 간편하게 공유하세요!
+                      </Body3Assistive>
+                      <Body2Black>https://www.nnplanner.com/qrqrqr</Body2Black>
+                    </div>
+                    <div className='flex w-full gap-2'>
+                      <Button variant='outline' size='xs' width='full'>
+                        <Subtitle2Black>QR 코드 다운로드</Subtitle2Black>
+                      </Button>
+                      <Button variant='outline' size='xs' width='full'>
+                        <Subtitle2Black>URL 복사</Subtitle2Black>
+                      </Button>
+                    </div>
                   </div>
                 </div>
-                <TextList
-                  type='desireMenu'
-                  list={
-                    getTextResponsesByQuestionText(
-                      mandatoryQuestions,
-                      '먹고 싶은 메뉴',
-                    )!
-                  }
-                  title='먹고 싶은 메뉴'
-                />
-              </div>
-              <div className='flex w-2/3 flex-col gap-3'>
-                <TextList
-                  type='message'
-                  list={
-                    getTextResponsesByQuestionText(
-                      mandatoryQuestions,
-                      '영양사에게 한마디',
-                    )!
-                  }
-                  title='영양사에게 한마디'
-                />
               </div>
             </div>
           </div>
