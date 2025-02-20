@@ -30,29 +30,34 @@ const AverageGraph = ({ averageScores }: Props) => {
     legend: {
       show: true,
       position: 'bottom',
-      formatter: (seriesName: string, opts) => {
-        const value = opts.w.globals.series[opts.seriesIndex];
-        return `${seriesName}: ${value !== undefined ? value.toFixed(0) : 0}점`;
+      fontSize: '14px',
+      height: 30,
+      horizontalAlign: 'center',
+      fontFamily: 'Pretendard',
+
+      formatter: (seriesName: string) => {
+        // const value = opts.w.globals.series[opts.seriesIndex];
+        return `${seriesName}`;
       },
     },
     labels: titleList,
-    colors: ['#FFF9B1', '#FFD1A9', '#C9F4C5', '#A7D8F0'],
+    colors: ['#98DAC2', '#33B988', '#008D5A', '#005637'],
     plotOptions: {
       radialBar: {
         offsetY: 0,
         startAngle: 0,
         endAngle: 270,
         hollow: {
-          margin: 7,
-          size: '20%',
+          margin: 8,
+          size: '15%',
           background: 'transparent',
           image: undefined,
           position: 'front',
         },
         track: {
           background: '#fff',
-          strokeWidth: '75%',
-          margin: 5,
+          strokeWidth: '100%',
+          margin: 3,
         },
         dataLabels: {
           name: {
@@ -73,12 +78,14 @@ const AverageGraph = ({ averageScores }: Props) => {
         barLabels: {
           enabled: true,
           useSeriesColors: false,
-          offsetX: -20,
+          offsetX: -10,
           fontSize: '12px',
+          fontWeight: 400,
+          fontFamily: 'Pretendard',
           formatter: function (seriesName, opts) {
             return (
               seriesName +
-              ':  ' +
+              ' ' +
               Number(opts.w.globals.series[opts.seriesIndex]).toFixed(0)
             );
           },
@@ -91,12 +98,12 @@ const AverageGraph = ({ averageScores }: Props) => {
   };
 
   return (
-    <div id='chart'>
+    <div id='chart' className='-mt-3 h-[250px] w-full'>
       <ApexCharts
         options={chartOptions}
         series={scoreValueList.map((item) => item * 10 || 0)}
         type='radialBar'
-        height={330}
+        height='100%'
         width='100%'
       />
     </div>
