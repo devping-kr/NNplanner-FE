@@ -25,7 +25,7 @@ const SurveyEdit = ({ id }: Props) => {
   const { data: detailSurvey } = useGetSurveyDetail(id);
 
   const [editSurveyName, setEditSurveyName] = useState('');
-  const [editDeadLine, setEditDeadLine] = useState<Date | null>(null);
+  const [editDeadLine, setEditDeadLine] = useState<Date | null | string>(null);
   const [inputs, setInputs] = useState<inputsType[]>([]);
 
   useEffect(() => {
