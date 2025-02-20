@@ -1,7 +1,7 @@
 import { cn } from '@/utils/core';
 import {
+  Body2Assistive,
   Body2Black,
-  HeadPrimary,
   SubTitle1Black,
 } from '@/components/common/Typography';
 
@@ -16,8 +16,8 @@ const TextList = ({ list, title, type }: Props) => {
       <SubTitle1Black>{title}</SubTitle1Black>
       <ul
         className={cn(
-          'flex flex-col gap-2 overflow-y-auto pr-2',
-          type === 'desireMenu' ? 'max-h-[310px]' : 'max-h-[600px]',
+          'flex flex-col overflow-y-auto',
+          type === 'desireMenu' ? 'max-h-[242px] gap-4' : 'max-h-[600px] gap-2',
         )}
       >
         {list.length !== 0 &&
@@ -27,7 +27,9 @@ const TextList = ({ list, title, type }: Props) => {
             </li>
           ))}
         {list.length === 0 && (
-          <HeadPrimary>제출된 설문이 없습니다.</HeadPrimary>
+          <div className='flex min-h-[130px] w-full items-center justify-center'>
+            <Body2Assistive>제출된 설문이 없습니다.</Body2Assistive>
+          </div>
         )}
       </ul>
     </div>
