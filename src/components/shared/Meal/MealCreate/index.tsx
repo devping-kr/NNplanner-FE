@@ -74,12 +74,13 @@ const MealCreate = ({ date, handleSaveMenu }: MealCreateProps) => {
     resetPagination();
   };
 
+  // 빌드에러로 인해 주석처리합니다 (승현)
   // 검색창에 keyword 입력 후 검색 버튼 눌렀을 때
-  const handleSearchClick = () => {
-    if (keyword.length < 0) return;
-    resetPagination();
-    refetch();
-  };
+  // const handleSearchClick = () => {
+  //   if (keyword.length < 0) return;
+  //   resetPagination();
+  //   refetch();
+  // };
 
   // 메뉴 삭제
   const handleDeleteMenu = () => {
@@ -279,8 +280,9 @@ const MealCreate = ({ date, handleSaveMenu }: MealCreateProps) => {
             ref={searchContainerRef}
             keyword={keyword}
             searchResultList={searchResultList}
-            onChange={(e) => setKeyword(e.target.value)}
-            onSubmit={handleSearchClick}
+            // 빌드에러로 인해 주석처리합니다 (승현)
+            // onChange={(e) => setKeyword(e.target.value)}
+            // onSubmit={handleSearchClick}
             onClickNewMenu={handleClickNewMenu}
             isError={isError}
             isLoading={isLoading}
