@@ -44,7 +44,10 @@ const Modal = ({ children }: ModalProps) => {
 
   return (
     <div className='fixed inset-0 z-50 flex items-center justify-center bg-dimmed'>
-      <div ref={modalRef} className='left-1/2 top-1/2'>
+      <div
+        ref={modalRef}
+        className='left-1/2 top-1/2 rounded-2xl bg-white-100 p-6'
+      >
         {children}
       </div>
     </div>
