@@ -34,10 +34,10 @@ const SurveyControls = ({
 
   const handleChangeSurveyName = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length <= EXTRA_SURVEYNAME_LIMIT && !isChangeable) {
-      setEditSurveyName!(e.target.value);
+      setSurveyName!(e.target.value);
     }
     if (e.target.value.length <= EXTRA_SURVEYNAME_LIMIT && isChangeable) {
-      setSurveyName!(e.target.value);
+      setEditSurveyName!(e.target.value);
     }
   };
 
