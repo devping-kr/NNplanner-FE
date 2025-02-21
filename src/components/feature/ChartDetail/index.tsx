@@ -1,6 +1,5 @@
 'use client';
 
-import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
@@ -25,11 +24,11 @@ import AverageGraph from '@/components/shared/ChartDetail/AverageGraph';
 import BarGraph from '@/components/shared/ChartDetail/BarGraph';
 import TextList from '@/components/shared/ChartDetail/TextList';
 import TopCard from '@/components/shared/ChartDetail/TopCard';
-import { NAV_LINKS, ROUTES } from '@/constants/_navbar';
+import QrCodeCanvas from '@/components/shared/Survey/QrCodeCanvas';
+import { BASE_DOMAIN, NAV_LINKS, ROUTES } from '@/constants/_navbar';
 import { surveyKeys } from '@/hooks/survey/queryKey';
 import { useDeleteSurvey } from '@/hooks/survey/useDeleteSurvey';
 import { useGetSurveyDetail } from '@/hooks/survey/useGetSurveyDetail';
-// import { useGetSurveyQrCode } from '@/hooks/survey/useGetSurveyQrCode';
 import useNavigate from '@/hooks/useNavigate';
 import { useToastStore } from '@/stores/useToastStore';
 
@@ -57,10 +56,6 @@ const ChartDetail = ({ id }: Props) => {
 
   const { data: detailData } = useGetSurveyDetail(id);
 
-  // const { data: qrData } = useGetSurveyQrCode(id, {
-  //   enabled: !!detailData,
-  // });
-
   const { surveyName, averageScores, additionalQuestions, mandatoryQuestions } =
     detailData || {};
 
@@ -73,23 +68,32 @@ const ChartDetail = ({ id }: Props) => {
     return distributionValues.every((value) => value === 0);
   };
 
-  // const copyQRcode = async () => {
-  //   try {
-  //     if (!qrData?.body) return;
-  //     const imageUrl = `data:image/png;base64,${qrData.body}`;
+  const downloadQRCode = () => {
+    const canvas = document.getElementById('qrcode');
+    if (!(canvas instanceof HTMLCanvasElement)) {
+      return;
+    }
+    const pngUrl = canvas
+      .toDataURL('image/png')
+      .replace('image/png', 'image/octet-stream');
+    const downloadLink = document.createElement('a');
+    downloadLink.href = pngUrl;
+    downloadLink.download = 'qrcode.png';
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    document.body.removeChild(downloadLink);
+  };
 
-  //     const response = await fetch(imageUrl);
-  //     const blob = await response.blob();
-
-  //     await navigator.clipboard.write([
-  //       new ClipboardItem({ 'image/png': blob }),
-  //     ]);
-
-  //     showToast('QRcode 복사 성공', 'success', 1000);
-  //   } catch (error) {
-  //     showToast('QRcode 복사 실패', 'warning', 1000);
-  //   }
-  // };
+  const copyQRcode = async () => {
+    try {
+      await navigator.clipboard.writeText(
+        `${BASE_DOMAIN}${ROUTES.SURVEY.TAKE}/${id}`,
+      );
+      showToast('QRcode 복사 성공', 'success', 1000);
+    } catch (error) {
+      showToast('QRcode 복사 실패', 'warning', 1000);
+    }
+  };
 
   return (
     <div className='flex flex-col gap-10'>
@@ -97,7 +101,6 @@ const ChartDetail = ({ id }: Props) => {
         averageScores &&
         mandatoryQuestions &&
         additionalQuestions && (
-          // qrData &&
           <div className='flex flex-col gap-6'>
             <H2Black>{surveyName}</H2Black>
             <div className='flex items-center justify-between'>
@@ -191,15 +194,7 @@ const ChartDetail = ({ id }: Props) => {
               <div className='flex w-full flex-col gap-6 rounded-2xl bg-white-100 p-6'>
                 <SubTitle1Black>설문 조사 링크</SubTitle1Black>
                 <div className='flex w-full items-center gap-6'>
-                  <div className='flex min-h-[120px] min-w-[120px] items-center justify-center rounded-lg border border-grey-100'>
-                    <Image
-                      width={96}
-                      height={96}
-                      src={`/imgs/pi-gon-ping.jpg`}
-                      alt='qr이미지'
-                      onClick={() => navigate(`${ROUTES.SURVEY.TAKE}/${id}`)}
-                    />
-                  </div>
+                  <QrCodeCanvas id={id} />
                   <div className='flex w-full flex-col gap-4'>
                     <div className='flex flex-col gap-2'>
                       <Body3Assistive>
@@ -207,13 +202,23 @@ const ChartDetail = ({ id }: Props) => {
                         <br />
                         작성한 설문을 간편하게 공유하세요!
                       </Body3Assistive>
-                      <Body2Black>https://www.nnplanner.com/qrqrqr</Body2Black>
+                      <Body2Black>{`${BASE_DOMAIN}${ROUTES.SURVEY.TAKE}/${id}`}</Body2Black>
                     </div>
                     <div className='flex w-full gap-2'>
-                      <Button variant='outline' size='xs' width='full'>
+                      <Button
+                        variant='outline'
+                        size='xs'
+                        width='full'
+                        onClick={downloadQRCode}
+                      >
                         <Subtitle2Black>QR 코드 다운로드</Subtitle2Black>
                       </Button>
-                      <Button variant='outline' size='xs' width='full'>
+                      <Button
+                        variant='outline'
+                        size='xs'
+                        width='full'
+                        onClick={copyQRcode}
+                      >
                         <Subtitle2Black>URL 복사</Subtitle2Black>
                       </Button>
                     </div>
