@@ -108,6 +108,11 @@ export const SubTitle1Green500 = customTypography('span', {
   color: 'green',
 });
 
+export const Subtitle1White = customTypography('span', {
+  type: 'Subtitle1',
+  color: 'white',
+});
+
 export const Subtitle2Black = customTypography('span', {
   type: 'Subtitle2',
   color: 'black',
