@@ -1,3 +1,4 @@
+export const BASE_DOMAIN = 'https://www.nnplanner.com';
 export const BASE_ROUTES = {
   MAIN: '/main',
   AUTO: '/autoPlan',
