@@ -14,8 +14,8 @@ import '@/styles/datepicker-custom.css';
 
 interface Props {
   isChangeable: boolean;
-  deadLine: Date | null;
-  setDeadLine: React.Dispatch<React.SetStateAction<Date | null>>;
+  deadLine: Date | string | null;
+  setDeadLine?: React.Dispatch<React.SetStateAction<Date | string | null>>;
 }
 
 const TWO_WEEK_DAYS = 14;
@@ -38,7 +38,7 @@ const DatepickerCalendar = ({ isChangeable, deadLine, setDeadLine }: Props) => {
         disabled={!isChangeable}
         ref={deadLineDatePickerRef}
         className='disabled:bg-grey-100 disabled:text-grey-500'
-        selected={deadLine}
+        selected={deadLine ? new Date(deadLine) : null}
         minDate={now}
         onChange={handleChangeDate}
         locale={ko}
@@ -62,7 +62,7 @@ const DatepickerCalendar = ({ isChangeable, deadLine, setDeadLine }: Props) => {
               마감 일자
             </Subtitle2Black>
             <span className='flex-1 text-base font-medium'>
-              {deadLine!.toISOString().split('T')[0]}
+              {deadLine ? new Date(deadLine).toISOString().split('T')[0] : null}
             </span>
             <Icon
               name='calendar'

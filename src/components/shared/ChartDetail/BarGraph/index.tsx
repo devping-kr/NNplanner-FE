@@ -90,12 +90,12 @@ const BarGraph = ({ data }: SatisfactionDistribution) => {
   });
 
   return (
-    <div id='chart'>
+    <div id='chart' className='h-[238px]'>
       <ApexCharts
         options={chartOptions}
         series={[{ data: valuesArray, name: '해당 점수 비율' }]}
         type='bar'
-        height={325}
+        height='100%'
         width='100%'
       />
     </div>

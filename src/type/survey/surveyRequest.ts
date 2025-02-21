@@ -3,7 +3,7 @@ import { inputsType } from '@/components/feature/Survey/Create';
 export interface PostSurveyRequest {
   mmId: string;
   surveyName: string;
-  deadlineAt: Date | null;
+  deadlineAt: Date | null | string;
   additionalQuestions: inputsType[];
 }
 
@@ -19,7 +19,7 @@ export interface GetSearchSurveyRequest {
 
 export interface PutSurveyRequest {
   surveyName: string;
-  deadlineAt: Date | null;
+  deadlineAt: Date | null | string;
   state?: string;
   questions: {
     questionId: number;

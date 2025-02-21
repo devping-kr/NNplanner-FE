@@ -40,7 +40,7 @@ const SurveyCreate = ({ id }: { id: string }) => {
 
   const [inputs, setInputs] = useState<inputsType[]>([]);
   const [surveyName, setSurveyName] = useState('');
-  const [deadLine, setDeadLine] = useState<Date | null>(twoWeeksLater);
+  const [deadLine, setDeadLine] = useState<Date | null | string>(twoWeeksLater);
   const showToast = useToastStore((state) => state.showToast);
 
   const requestData = {
