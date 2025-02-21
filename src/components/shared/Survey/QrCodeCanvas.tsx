@@ -1,7 +1,6 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import React from 'react';
 import { QRCodeCanvas } from 'qrcode.react';
 import { BASE_DOMAIN, ROUTES } from '@/constants/_navbar';
 
