@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { AUTH_LINKS } from '@/constants/_auth';
-import { NAV_LINKS } from '@/constants/_navbar';
+import { NAV_LINKS, ROUTES } from '@/constants/_navbar';
 
 export const config = {
   matcher: [
@@ -8,7 +8,7 @@ export const config = {
   ],
 };
 
-const publicRoutes = [AUTH_LINKS.signup, AUTH_LINKS.login];
+const publicRoutes = [AUTH_LINKS.signup, AUTH_LINKS.login, ROUTES.SURVEY.TAKE];
 
 export function middleware(request: NextRequest) {
   const isLogin = request.cookies.get('isLogin');
