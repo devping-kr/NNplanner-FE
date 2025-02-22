@@ -1,6 +1,9 @@
 import { forwardRef } from 'react';
 import { FoodInfo } from '@/type/menu/menuResponse';
-import { Caption1Grey500, NutritionMenu } from '@/components/common/Typography';
+import {
+  Body2Assistive,
+  Caption1Grey500,
+} from '@/components/common/Typography';
 import MealTable from '@/components/shared/Meal/MealTable';
 
 type MealSearchContainerProps = {
@@ -29,9 +32,11 @@ const MealSearchContainer = forwardRef<
           onScroll={onScroll}
         >
           {searchResultList.length === 0 ? (
-            <NutritionMenu>
-              {isError ? '메뉴 검색에 실패했습니다' : '메뉴를 검색해주세요'}
-            </NutritionMenu>
+            <div className='m-auto flex h-20 w-full items-center justify-center rounded-lg bg-grey-50'>
+              <Body2Assistive>
+                {isError ? '메뉴 검색에 실패했습니다' : '메뉴를 검색해주세요'}
+              </Body2Assistive>
+            </div>
           ) : (
             <>
               <MealTable
