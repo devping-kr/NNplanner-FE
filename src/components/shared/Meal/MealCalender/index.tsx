@@ -4,6 +4,7 @@ import { CalendarType } from '@/type/calendar';
 import { FoodInfo } from '@/type/menu/menuResponse';
 import { SelectedCategory } from '@/type/menuCategory/category';
 import Calendar, { CalendarProps } from '@/components/common/Calendar';
+import InfoCard from '@/components/common/InfoCard';
 import { H1Black } from '@/components/common/Typography';
 import MealCreate from '@/components/shared/Meal/MealCreate';
 import MealEdit from '@/components/shared/Meal/MealEdit';
@@ -21,6 +22,7 @@ type MealCalendarProps = {
   ) => void;
   handleSaveMenu?: (date: string, menuList: FoodInfo[]) => void;
   handleResetMenu?: () => void;
+  handleDeleteMenu?: (date: string, foodId: string) => void;
 } & CalendarProps;
 
 const MealCalendar = ({
@@ -33,6 +35,8 @@ const MealCalendar = ({
   onDateClick,
   handleChangeMenu,
   handleSaveMenu,
+  handleResetMenu,
+  handleDeleteMenu,
 }: MealCalendarProps) => {
   return (
     <div className='flex gap-6'>
@@ -52,11 +56,19 @@ const MealCalendar = ({
         <NutritionInfo date={selectedDate} data={data[selectedDate]?.foods} />
       )}
       {selectedDate && type === 'edit' && data && (
-        <MealEdit
-          date={selectedDate}
-          data={data[selectedDate]?.foods}
-          handleChangeMenu={handleChangeMenu}
-        />
+        <div className='flex flex-col gap-4'>
+          <MealEdit
+            date={selectedDate}
+            data={data[selectedDate]?.foods}
+            handleChangeMenu={handleChangeMenu}
+            handleResetMenu={handleResetMenu}
+            handleDeleteMenu={handleDeleteMenu}
+          />
+          <div className='flex flex-col gap-4'>
+            <InfoCard message='날짜를 누른 후 메뉴 검색을 통해 편하게 식단을 만들 수 있습니다.' />
+            <InfoCard message='선택한 카테고리로 식단들을 저장하고 관리할 수 있습니다.' />
+          </div>
+        </div>
       )}
       {selectedDate && type === 'menualCreate' && (
         <MealCreate date={selectedDate} handleSaveMenu={handleSaveMenu} />
