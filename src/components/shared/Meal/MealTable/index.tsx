@@ -70,7 +70,7 @@ const MealTable = ({
   onClick,
 }: MealTableProps) => {
   return (
-    <div className='flex w-full flex-col'>
+    <div className='flex w-full flex-col gap-4'>
       {data?.map((item, index) => {
         const tableData = [
           {
