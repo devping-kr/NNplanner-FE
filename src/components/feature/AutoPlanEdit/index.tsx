@@ -82,22 +82,6 @@ const AutoPlanEdit = () => {
     });
   };
 
-  const handleDeleteMenu = (date: string, foodId: string) => {
-    setCalendarData((prevList) => {
-      if (!prevList[date]) {
-        return prevList;
-      }
-
-      return {
-        ...prevList,
-        [date]: {
-          ...prevList[date],
-          foods: prevList[date].foods.filter((item) => item.foodId !== foodId),
-        },
-      };
-    });
-  };
-
   const handleDateClick = (date: string) => {
     if (isValidDateString(date)) setSelectedDate(date);
   };
@@ -156,7 +140,7 @@ const AutoPlanEdit = () => {
     >
       <MealCreateHeader
         type='edit'
-        pageHeaderTitle={PAGE_TITLE.autoPlan.edit}
+        pageHeaderTitle={PAGE_TITLE.autoPlan.default}
         selectedCategory={selectedCategory}
         register={register}
         handleResetMenu={handleResetMenu}
@@ -170,8 +154,6 @@ const AutoPlanEdit = () => {
         onDateClick={handleDateClick}
         selectedDate={selectedDate}
         handleChangeMenu={handleChangeMenu}
-        handleResetMenu={getOriginalCalendar}
-        handleDeleteMenu={handleDeleteMenu}
       />
     </MealForm>
   );
