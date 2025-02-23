@@ -4,6 +4,7 @@ import MealEditButton from '@/components/shared/Meal/MealEditButton';
 
 type NutritionMenuButtonProps = {
   menuName: string;
+  isFocused: boolean;
   className?: string;
   onFocus: () => void;
   onClick: () => void;
@@ -12,6 +13,7 @@ type NutritionMenuButtonProps = {
 const NutritionMenuButton = ({
   menuName,
   className,
+  isFocused,
   onFocus,
   onClick,
 }: NutritionMenuButtonProps) => {
@@ -26,7 +28,9 @@ const NutritionMenuButton = ({
         onFocus={onFocus}
         onClick={onClick}
       >
-        <div className='hidden h-4 w-1 bg-green-200 group-focus:flex'></div>
+        <div
+          className={cn('h-4 w-1 bg-green-200', isFocused ? 'flex' : 'hidden')}
+        ></div>
         <div className='flex w-full justify-between'>
           <Label1Black>{menuName}</Label1Black>
           <MealEditButton />
