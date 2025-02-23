@@ -61,7 +61,7 @@ const MealPlan = ({ id }: MealPlanProps) => {
     navigate(`${ROUTES.VIEW.PLAN}/${id}${ROUTES.EDIT.EDIT}`);
   };
 
-  const handleDeleteMenu = () => {
+  const handleDeleteMealPlan = () => {
     deleteMenuMutate(
       { monthMenuId: id },
       {
@@ -101,7 +101,7 @@ const MealPlan = ({ id }: MealPlanProps) => {
         handleCreateSurvey={handleCreateSurvey}
         handleSaveExcel={handleSaveExcel}
         handleEditMenu={handleEditMenu}
-        handleDeleteMenu={handleDeleteMenu}
+        handleDeleteMealPlan={handleDeleteMealPlan}
       />
       <MealCalendar
         type='mealPlan'
