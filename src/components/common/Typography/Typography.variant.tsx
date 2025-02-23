@@ -58,6 +58,7 @@ export const typographyVariants = cva('whitespace-pre-line text-wrap', {
       grey200: 'text-grey-200',
       grey500: 'text-grey-500',
       grey600: 'text-grey-600',
+      grey700: 'text-grey-700',
       grey900: 'text-grey-900',
       assistive: 'text-assistiveTxt',
 
