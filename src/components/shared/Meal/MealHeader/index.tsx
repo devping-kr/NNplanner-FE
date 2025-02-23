@@ -9,7 +9,14 @@ import {
 import Button from '@/components/common/Button/Button';
 import { Input } from '@/components/common/Input';
 import { Option, Selectbox } from '@/components/common/Selectbox';
-import { Caption1Grey500, H2BlackH2 } from '@/components/common/Typography';
+import {
+  Caption1Grey500,
+  H2BlackH2,
+  Subtitle2Green500,
+  Subtitle2Grey100,
+  Subtitle2Grey900,
+  Subtitle2White,
+} from '@/components/common/Typography';
 import { ORGANIZATION_LIST } from '@/constants/_category';
 import { AUTO_PLAN_BETA_MESSAGE } from '@/constants/_meal';
 import { PAGE_TITLE } from '@/constants/_pageTitle';
@@ -46,9 +53,6 @@ const MealHeader = ({
   handleChangeCategory,
   handleResetMenu,
   handleEditMenu,
-  handleCreateSurvey,
-  handleSaveExcel,
-  handleDeleteMenu,
   register,
   errors,
   isCategoryError,
@@ -84,6 +88,7 @@ const MealHeader = ({
           <Selectbox
             options={ORGANIZATION_LIST}
             buttonSize='sm'
+            className='min-w-[194px] justify-start'
             onChange={(majorCategory) => {
               handleChangeCategory('majorCategory', majorCategory);
             }}
@@ -97,6 +102,7 @@ const MealHeader = ({
                   key={item.value}
                   options={categories}
                   buttonSize='sm'
+                  className='min-w-[194px] justify-start'
                   onChange={(minorCategory) =>
                     handleChangeCategory('minorCategory', minorCategory)
                   }
@@ -114,13 +120,13 @@ const MealHeader = ({
             type='submit'
             disabled={!isBothSelected}
           >
-            생성
+            <Subtitle2White>생성</Subtitle2White>
           </Button>
         )}
         {type === 'create' && (
           <div className='flex w-fit items-center gap-2'>
             <Button variant='primary' size='sm' type='submit' disabled={true}>
-              저장
+              <Subtitle2White>저장</Subtitle2White>
             </Button>
             <Button
               variant='teritary'
@@ -128,25 +134,22 @@ const MealHeader = ({
               type='button'
               onClick={handleEditMenu}
             >
-              메뉴 수정
+              <Subtitle2Grey100>메뉴 수정</Subtitle2Grey100>
             </Button>
           </div>
         )}
         {type === 'edit' && (
-          <div className='flex w-fit items-center gap-2'>
-            <Button
-              size='sm'
-              variant='outline'
-              type='button'
-              onClick={handleResetMenu}
-            >
-              메뉴 초기화
-            </Button>
-            <Button size='sm' type='submit'>
-              수정 완료
-            </Button>
-            <Button size='sm' type='button' onClick={handleBack}>
-              취소
+          <div className='flex gap-4'>
+            <div className='flex w-fit items-center gap-2'>
+              <Button variant='primary' size='sm' type='submit'>
+                <Subtitle2White>수정 완료</Subtitle2White>
+              </Button>
+              <Button variant='secondary' size='sm' onClick={handleBack}>
+                <Subtitle2Green500>취소</Subtitle2Green500>
+              </Button>
+            </div>
+            <Button variant='grey' size='sm' onClick={handleResetMenu}>
+              <Subtitle2Grey900>메뉴 초기화</Subtitle2Grey900>
             </Button>
           </div>
         )}
@@ -158,36 +161,10 @@ const MealHeader = ({
               type='button'
               onClick={handleResetMenu}
             >
-              메뉴 초기화
+              <Subtitle2Grey900>메뉴 초기화</Subtitle2Grey900>
             </Button>
             <Button size='sm' type='submit'>
-              생성
-            </Button>
-          </div>
-        )}
-        {type === 'mealPlan' && (
-          <div className='flex w-fit items-center gap-2'>
-            <Button
-              size='sm'
-              variant='outline'
-              type='button'
-              onClick={handleCreateSurvey}
-            >
-              설문 생성
-            </Button>
-            <Button
-              size='sm'
-              variant='outline'
-              type='button'
-              onClick={handleSaveExcel}
-            >
-              엑셀 저장
-            </Button>
-            <Button size='sm' type='button' onClick={handleEditMenu}>
-              수정
-            </Button>
-            <Button size='sm' type='button' onClick={handleDeleteMenu}>
-              삭제
+              <Subtitle2White>생성</Subtitle2White>
             </Button>
           </div>
         )}
