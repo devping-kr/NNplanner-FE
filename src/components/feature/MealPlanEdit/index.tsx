@@ -109,6 +109,9 @@ const MealPlanEdit = ({ id: monthMenuId }: MealPlanEditProps) => {
     if (isValidDateString(date)) setSelectedDate(date);
   };
 
+  /**
+   * @description 식단 수정 페이지 - 수정 완료 버튼 눌렀을 때 실행
+   */
   const onSubmit = (data: MealHeaderFormData) => {
     const { majorCategory, minorCategory } = selectedCategory;
 
@@ -150,6 +153,9 @@ const MealPlanEdit = ({ id: monthMenuId }: MealPlanEditProps) => {
     );
   };
 
+  /**
+   * @description 식단 수정 페이지 - 수정 실패 시 실행
+   */
   const onError = () => {
     if (errors.monthMenuName) {
       showToast(MEAL_HEADER_ERROR.name.min, 'warning', 3000);
@@ -195,7 +201,7 @@ const MealPlanEdit = ({ id: monthMenuId }: MealPlanEditProps) => {
     getOriginalCalendar();
   }, []);
 
-  if (!Object.keys(calendarData).length) {
+  if (!calendarData) {
     return <div>로딩 중...</div>;
   }
 
@@ -205,13 +211,14 @@ const MealPlanEdit = ({ id: monthMenuId }: MealPlanEditProps) => {
       handleSubmit={handleSubmit(onSubmit, onError)}
     >
       <MealHeader
+        type='edit'
         categories={minorCategories}
         register={register}
         errors={errors}
         selectedCategory={selectedCategory}
         handleChangeCategory={handleChangeCategory}
         isCategoryError={isCategoryError}
-        pageHeaderTitle={PAGE_TITLE.mealPlan.default}
+        pageHeaderTitle={PAGE_TITLE.mealPlan.edit}
       />
       <MealCalendar
         type='edit'
