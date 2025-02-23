@@ -9,6 +9,7 @@ import { H1Black } from '@/components/common/Typography';
 import MealCreate from '@/components/shared/Meal/MealCreate';
 import MealEdit from '@/components/shared/Meal/MealEdit';
 import NutritionInfo from '@/components/shared/Meal/NutritionInfo';
+import { INFOCARD_MESSAGE } from '@/constants/_infoCard';
 
 type MealCalendarProps = {
   type?: CalendarType;
@@ -21,8 +22,6 @@ type MealCalendarProps = {
     type: 'edit' | 'add',
   ) => void;
   handleSaveMenu?: (date: string, menuList: FoodInfo[]) => void;
-  handleResetMenu?: () => void;
-  handleDeleteMenu?: (date: string, foodId: string) => void;
 } & CalendarProps;
 
 const MealCalendar = ({
@@ -35,8 +34,6 @@ const MealCalendar = ({
   onDateClick,
   handleChangeMenu,
   handleSaveMenu,
-  handleResetMenu,
-  handleDeleteMenu,
 }: MealCalendarProps) => {
   return (
     <div className='flex gap-6'>
@@ -53,7 +50,7 @@ const MealCalendar = ({
         />
       </div>
       {selectedDate && (type === 'create' || type === 'mealPlan') && data && (
-        <NutritionInfo date={selectedDate} data={data[selectedDate]?.foods} />
+        <NutritionInfo data={data[selectedDate]?.foods} />
       )}
       {selectedDate && type === 'edit' && data && (
         <div className='flex flex-col gap-4'>
@@ -61,8 +58,6 @@ const MealCalendar = ({
             date={selectedDate}
             data={data[selectedDate]?.foods}
             handleChangeMenu={handleChangeMenu}
-            handleResetMenu={handleResetMenu}
-            handleDeleteMenu={handleDeleteMenu}
           />
           <div className='flex flex-col gap-4'>
             <InfoCard message='날짜를 누른 후 메뉴 검색을 통해 편하게 식단을 만들 수 있습니다.' />
@@ -71,7 +66,13 @@ const MealCalendar = ({
         </div>
       )}
       {selectedDate && type === 'menualCreate' && (
-        <MealCreate date={selectedDate} handleSaveMenu={handleSaveMenu} />
+        <div className='flex flex-col gap-4'>
+          <MealCreate date={selectedDate} handleSaveMenu={handleSaveMenu} />
+          <div className='flex w-fit flex-col gap-2'>
+            <InfoCard message={INFOCARD_MESSAGE.autoPlan.name} />
+            <InfoCard message={INFOCARD_MESSAGE.autoPlan.category} />
+          </div>
+        </div>
       )}
     </div>
   );
