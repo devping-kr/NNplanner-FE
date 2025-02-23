@@ -3,6 +3,7 @@
 import { CalendarType } from '@/type/calendar';
 import { FoodInfo } from '@/type/menu/menuResponse';
 import { SelectedCategory } from '@/type/menuCategory/category';
+import { cn } from '@/utils/core';
 import Calendar, { CalendarProps } from '@/components/common/Calendar';
 import InfoCard from '@/components/common/InfoCard';
 import { H1Black } from '@/components/common/Typography';
@@ -71,7 +72,12 @@ const MealCalendar = ({
   };
 
   return (
-    <div className='flex w-full gap-6'>
+    <div
+      className={cn(
+        'flex w-full gap-6',
+        type === 'mealPlan' && !renderContent() && 'gap-0',
+      )}
+    >
       <div className='flex w-full flex-col gap-6 rounded-2xl bg-white-100 p-6'>
         <div className='flex w-full items-center justify-between'>
           <H1Black>{month}월</H1Black>
