@@ -162,6 +162,7 @@ const MealEdit = ({ date, data, handleChangeMenu }: MealEditProps) => {
           <NutritionMenuButton
             key={`${item.foodId}-${item.foodName}`}
             menuName={item.foodName}
+            isFocused={item.foodName === clickedMenu}
             onFocus={() => setIsSearchShow(true)}
             onClick={() => handleClickMenu(item.foodName)}
           />
