@@ -27,7 +27,7 @@ const MealSearchContainer = forwardRef<
     return (
       <div className='flex w-full flex-col gap-2'>
         <div
-          className='max-h-[584px] w-full overflow-y-auto rounded bg-grey-50 p-2'
+          className='max-h-[584px] w-full overflow-y-auto rounded-lg bg-grey-50 p-2'
           ref={ref}
           onScroll={onScroll}
         >
