@@ -35,9 +35,44 @@ const MealCalendar = ({
   handleChangeMenu,
   handleSaveMenu,
 }: MealCalendarProps) => {
+  const renderContent = () => {
+    if (!selectedDate || !data) return null;
+
+    switch (type) {
+      case 'create':
+      case 'mealPlan':
+        return <NutritionInfo data={data[selectedDate]?.foods} />;
+      case 'edit':
+        return (
+          <MealEdit
+            date={selectedDate}
+            data={data[selectedDate]?.foods}
+            handleChangeMenu={handleChangeMenu}
+          />
+        );
+      case 'menualCreate':
+        return (
+          <MealCreate date={selectedDate} handleSaveMenu={handleSaveMenu} />
+        );
+      default:
+        return null;
+    }
+  };
+
+  const renderInfocard = () => {
+    if (type === 'mealPlan') return null;
+
+    return (
+      <div className='flex flex-col gap-4'>
+        <InfoCard message={INFOCARD_MESSAGE.autoPlan.name} />
+        <InfoCard message={INFOCARD_MESSAGE.autoPlan.category} />
+      </div>
+    );
+  };
+
   return (
-    <div className='flex gap-6'>
-      <div className='flex w-fit flex-col gap-6 rounded-2xl bg-white-100 p-6'>
+    <div className='flex w-full gap-6'>
+      <div className='flex w-full flex-col gap-6 rounded-2xl bg-white-100 p-6'>
         <div className='flex w-full items-center justify-between'>
           <H1Black>{month}월</H1Black>
         </div>
@@ -49,31 +84,10 @@ const MealCalendar = ({
           onDateClick={onDateClick}
         />
       </div>
-      {selectedDate && (type === 'create' || type === 'mealPlan') && data && (
-        <NutritionInfo data={data[selectedDate]?.foods} />
-      )}
-      {selectedDate && type === 'edit' && data && (
-        <div className='flex flex-col gap-4'>
-          <MealEdit
-            date={selectedDate}
-            data={data[selectedDate]?.foods}
-            handleChangeMenu={handleChangeMenu}
-          />
-          <div className='flex flex-col gap-4'>
-            <InfoCard message='날짜를 누른 후 메뉴 검색을 통해 편하게 식단을 만들 수 있습니다.' />
-            <InfoCard message='선택한 카테고리로 식단들을 저장하고 관리할 수 있습니다.' />
-          </div>
-        </div>
-      )}
-      {selectedDate && type === 'menualCreate' && (
-        <div className='flex flex-col gap-4'>
-          <MealCreate date={selectedDate} handleSaveMenu={handleSaveMenu} />
-          <div className='flex w-fit flex-col gap-2'>
-            <InfoCard message={INFOCARD_MESSAGE.autoPlan.name} />
-            <InfoCard message={INFOCARD_MESSAGE.autoPlan.category} />
-          </div>
-        </div>
-      )}
+      <div className='flex flex-col gap-4'>
+        {renderContent()}
+        {renderInfocard()}
+      </div>
     </div>
   );
 };
