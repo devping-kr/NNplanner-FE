@@ -102,12 +102,6 @@ const MenualPlanEdit = () => {
     if (isValidDateString(date)) setSelectedDate(date);
   };
 
-  const handleResetMenu = () => {
-    // 메뉴 초기화 클릭 시 실행
-    setCalendarData(calendar);
-    setSelectedDate('');
-  };
-
   const onSubmit = (data: MealHeaderFormData) => {
     const { majorCategory, minorCategory } = selectedCategory;
 
@@ -158,7 +152,7 @@ const MenualPlanEdit = () => {
         selectedCategory={selectedCategory}
         handleChangeCategory={handleChangeCategory}
         isCategoryError={isCategoryError}
-        pageHeaderTitle={PAGE_TITLE.autoPlan.edit}
+        pageHeaderTitle={PAGE_TITLE.autoPlan.default}
       />
       <MealCalendar
         type='edit'
@@ -168,7 +162,6 @@ const MenualPlanEdit = () => {
         onDateClick={handleDateClick}
         selectedDate={selectedDate}
         handleChangeMenu={handleChangeMenu}
-        handleResetMenu={handleResetMenu}
       />
     </MealForm>
   );

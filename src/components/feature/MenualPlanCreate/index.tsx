@@ -71,7 +71,7 @@ const MenualPlanCreate = () => {
     >
       <MealCreateHeader
         type='create'
-        pageHeaderTitle={PAGE_TITLE.menualPlan.create}
+        pageHeaderTitle={PAGE_TITLE.menualPlan.default}
         inputValue={monthMenuName}
         selectedCategory={category}
         handleEditMenu={handleEditMenu}

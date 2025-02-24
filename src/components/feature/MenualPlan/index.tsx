@@ -15,13 +15,11 @@ import {
   hasFoods,
   isValidDateString,
 } from '@/utils/calendar';
-import InfoCard from '@/components/common/InfoCard';
 import MealForm from '@/components/common/MealForm';
 import MealCalendar from '@/components/shared/Meal/MealCalender';
 import MealHeader, {
   MealHeaderFormData,
 } from '@/components/shared/Meal/MealHeader';
-import { INFOCARD_MESSAGE } from '@/constants/_infoCard';
 import { MEAL_FORM_LEGEND } from '@/constants/_MealForm';
 import { ROUTES } from '@/constants/_navbar';
 import { PAGE_TITLE } from '@/constants/_pageTitle';
@@ -131,37 +129,6 @@ const MenualPlan = () => {
     prefetchMinorCategories();
   }, [hasCategories, prefetchMinorCategories]);
 
-  // useEffect(() => {
-  //   const fetchCategories = () => {
-  //     switch (selectedCategory.majorCategory) {
-  //       case MAJOR_CATEGORIES[0]:
-  //         return queryClient.getQueryData<Result<string[]>>([
-  //           'getSchoolMinorCategories',
-  //         ]);
-  //       case MAJOR_CATEGORIES[1]:
-  //         return queryClient.getQueryData<Result<string[]>>([
-  //           'getSchoolNameMinorCategories',
-  //         ]);
-  //       case MAJOR_CATEGORIES[2]:
-  //         return queryClient.getQueryData<Result<string[]>>([
-  //           'getHospitalMinorCategories',
-  //         ]);
-  //       default:
-  //         return null;
-  //     }
-  //   };
-
-  //   const categories = fetchCategories();
-  //   if (!categories) return;
-  //   const { data } = categories;
-  //   if (!data) return;
-  //   const formattedData = data.map((category) => ({
-  //     value: category,
-  //     label: category,
-  //   }));
-  //   setMinorCategories(formattedData);
-  // }, [selectedCategory.majorCategory]);
-
   return (
     <div className='flex gap-8'>
       <MealForm
@@ -189,10 +156,6 @@ const MenualPlan = () => {
           handleSaveMenu={handleSaveMenu}
         />
       </MealForm>
-      <div className='flex w-fit flex-col gap-2 pt-[166px]'>
-        <InfoCard message={INFOCARD_MESSAGE.autoPlan.name} />
-        <InfoCard message={INFOCARD_MESSAGE.autoPlan.category} />
-      </div>
     </div>
   );
 };

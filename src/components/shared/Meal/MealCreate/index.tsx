@@ -5,7 +5,8 @@ import { FoodInfo } from '@/type/menu/menuResponse';
 import { cn } from '@/utils/core';
 import Button from '@/components/common/Button/Button';
 import { MAXIUM_MENU_PER_DAY } from '@/components/common/CalendarDay';
-import Tooltip from '@/components/common/Tooltip';
+import { Input } from '@/components/common/Input';
+import { Subtitle2Black, Subtitle2White } from '@/components/common/Typography';
 import KcalInfo from '@/components/shared/Meal/KcalInfo';
 import MealInfoContainer from '@/components/shared/Meal/MealInfoContainer';
 import MealSearchContainer from '@/components/shared/Meal/MealSearchContainer';
@@ -31,12 +32,13 @@ const MealCreate = ({ date, handleSaveMenu }: MealCreateProps) => {
   const [menuList, setMenuList] = useState<FoodInfo[]>([]);
   const [clickedMenu, setClickedMenu] = useState<string | null>(null);
   const [keyword, setKeyword] = useState('');
-  const [isSearchShow, setIsSearchShow] = useState(false);
+  const [isSearchShow, setIsSearchShow] = useState(true);
   const [searchResultList, setSearchResultList] = useState<FoodInfo[]>([]);
   const [page, setPage] = useState(MEAL_DEFAULT_PAGE_NUMBER);
   const [hasMore, setHasMore] = useState(true);
 
   const showToast = useToastStore((set) => set.showToast);
+  const isSavable = menuList.length > 0;
 
   const {
     refetch,
@@ -61,11 +63,6 @@ const MealCreate = ({ date, handleSaveMenu }: MealCreateProps) => {
     setSearchResultList([]);
   };
 
-  // 메뉴 추가 버튼 클릭
-  const handleClickAddMenu = () => {
-    setIsSearchShow(true);
-  };
-
   // 기존 메뉴 클릭(연필모양)
   const handleClickMenu = (menu: string) => {
     setKeyword(menu);
@@ -74,13 +71,11 @@ const MealCreate = ({ date, handleSaveMenu }: MealCreateProps) => {
     resetPagination();
   };
 
-  // 빌드에러로 인해 주석처리합니다 (승현)
-  // 검색창에 keyword 입력 후 검색 버튼 눌렀을 때
-  // const handleSearchClick = () => {
-  //   if (keyword.length < 0) return;
-  //   resetPagination();
-  //   refetch();
-  // };
+  const handleSearchClick = () => {
+    if (keyword.length < 0) return;
+    resetPagination();
+    refetch();
+  };
 
   // 메뉴 삭제
   const handleDeleteMenu = () => {
@@ -160,7 +155,6 @@ const MealCreate = ({ date, handleSaveMenu }: MealCreateProps) => {
     setMenuList(savedMenu);
     setClickedMenu(null);
     setKeyword('');
-    setIsSearchShow(false);
     setSearchResultList([]);
   }, [date, allMenuList]);
 
@@ -208,88 +202,84 @@ const MealCreate = ({ date, handleSaveMenu }: MealCreateProps) => {
   }, [page, refetch]);
 
   return (
-    <MealInfoContainer date={date}>
-      <div className='flex w-full flex-col gap-2'>
+    <MealInfoContainer>
+      <div className='flex justify-between'>
+        <Subtitle2Black>{date}</Subtitle2Black>
+        <KcalInfo data={menuList} />
+      </div>
+      <div className='flex w-full flex-col gap-6'>
         {isSearchShow && (
-          <div className='ml-auto flex gap-2'>
+          <div className='flex w-full justify-between gap-2'>
             <Button
               type='button'
+              size='xs'
               variant='outline'
-              className='y-2 h-fit w-fit p-2'
-              onClick={handleSaveMeal}
-            >
-              식단 저장
-            </Button>
-            <Tooltip
-              content='삭제하고 싶은 메뉴를 클릭 후 메뉴 삭제 버튼을 눌러주세요.'
-              position='bottom'
-            >
-              <Button
-                type='button'
-                variant='secondary'
-                className='y-2 h-fit w-fit p-2'
-                onClick={handleDeleteMenu}
-              >
-                메뉴 삭제
-              </Button>
-            </Tooltip>
-            <Button
-              type='button'
-              variant='secondary'
-              className='y-2 h-fit w-fit p-2'
+              width='full'
               onClick={handleResetMenu}
             >
-              메뉴 초기화
+              <Subtitle2Black>초기화</Subtitle2Black>
+            </Button>
+            <Button
+              type='button'
+              size='xs'
+              variant='outline'
+              width='full'
+              onClick={handleDeleteMenu}
+            >
+              <Subtitle2Black>메뉴 삭제</Subtitle2Black>
+            </Button>
+            <Button
+              type='button'
+              size='xs'
+              variant='teritary'
+              width='full'
+              disabled={!isSavable}
+              onClick={handleSaveMeal}
+            >
+              <Subtitle2White>식단 저장</Subtitle2White>
             </Button>
           </div>
         )}
-        <div className='flex w-full flex-col gap-2'>
-          <div
-            className={cn(
-              'flex w-full flex-col gap-1',
-              isSearchShow ? 'h-[302px]' : '',
-            )}
-          >
-            {menuList.map((item) => (
-              <NutritionMenuButton
-                key={item.foodId}
-                menuName={item.foodName}
-                className={
-                  clickedMenu === item.foodName
-                    ? 'bg-green-200 hover:bg-green-200'
-                    : ''
-                }
-                onFocus={() => setIsSearchShow(true)}
-                onClick={() => handleClickMenu(item.foodName)}
-              />
-            ))}
-            {menuList.length < ONE && !isSearchShow && (
-              <Button
-                type='button'
-                variant='primary'
-                onClick={handleClickAddMenu}
-              >
-                메뉴 등록하기
-              </Button>
-            )}
-          </div>
-          <KcalInfo data={menuList} />
+        <div className={cn('flex min-h-[288px] w-full flex-col gap-4')}>
+          {menuList.map((item) => (
+            <NutritionMenuButton
+              key={item.foodId}
+              menuName={item.foodName}
+              isFocused={item.foodName === clickedMenu}
+              onFocus={() => setIsSearchShow(true)}
+              onClick={() => handleClickMenu(item.foodName)}
+            />
+          ))}
         </div>
-        {isSearchShow && keyword.length >= 0 && (
-          <MealSearchContainer
-            ref={searchContainerRef}
-            keyword={keyword}
-            searchResultList={searchResultList}
-            // 빌드에러로 인해 주석처리합니다 (승현)
-            // onChange={(e) => setKeyword(e.target.value)}
-            // onSubmit={handleSearchClick}
-            onClickNewMenu={handleClickNewMenu}
-            isError={isError}
-            isLoading={isLoading}
-            hasMore={hasMore}
-            onScroll={handleSearchContainerScroll}
-          />
-        )}
+        <div className='flex flex-col gap-2'>
+          <div className='flex h-12 gap-2'>
+            <Input
+              placeholder='메뉴 이름을 입력해주세요'
+              variant='grey50'
+              onChange={(e) => setKeyword(e.target.value)}
+              value={keyword || ''}
+            />
+            <Button
+              variant='outline'
+              className='min-w-[68px]'
+              onClick={handleSearchClick}
+            >
+              <Subtitle2Black>검색</Subtitle2Black>
+            </Button>
+          </div>
+          {isSearchShow && keyword.length > 0 && (
+            <MealSearchContainer
+              ref={searchContainerRef}
+              keyword={keyword}
+              searchResultList={searchResultList}
+              onClickNewMenu={handleClickNewMenu}
+              isError={isError}
+              isLoading={isLoading}
+              hasMore={hasMore}
+              onScroll={handleSearchContainerScroll}
+            />
+          )}
+        </div>
       </div>
     </MealInfoContainer>
   );

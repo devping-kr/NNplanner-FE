@@ -71,6 +71,7 @@ const MealEdit = ({ date, data, handleChangeMenu }: MealEditProps) => {
   // 검색창에 keyword 입력 후 검색 버튼 눌렀을 때
   const handleSearchClick = () => {
     if (keyword.length < 0) return;
+    setIsSearchShow(true);
     resetPagination();
     refetch();
   };
@@ -151,45 +152,51 @@ const MealEdit = ({ date, data, handleChangeMenu }: MealEditProps) => {
   if (!data) return null;
 
   return (
-    <MealInfoContainer date={date}>
+    <MealInfoContainer>
+      <div className='flex justify-between'>
+        <Subtitle2Black>{date}</Subtitle2Black>
+        <KcalInfo data={data} />
+      </div>
       <div className='flex w-full flex-col gap-4'>
         {data.map((item) => (
           <NutritionMenuButton
-            key={item.foodId}
+            key={`${item.foodId}-${item.foodName}`}
             menuName={item.foodName}
+            isFocused={item.foodName === clickedMenu}
             onFocus={() => setIsSearchShow(true)}
             onClick={() => handleClickMenu(item.foodName)}
           />
         ))}
       </div>
-      <div className='flex h-12 gap-2'>
-        <Input
-          placeholder='메뉴 이름을 입력해주세요'
-          variant='grey50'
-          onChange={(e) => setKeyword(e.target.value)}
-          value={keyword || ''}
-        />
-        <Button
-          variant='outline'
-          onClick={handleSearchClick}
-          className='min-w-[68px]'
-        >
-          <Subtitle2Black>검색</Subtitle2Black>
-        </Button>
+      <div className='flex flex-col gap-2'>
+        <div className='flex h-12 gap-2'>
+          <Input
+            placeholder='메뉴 이름을 입력해주세요'
+            variant='grey50'
+            onChange={(e) => setKeyword(e.target.value)}
+            value={keyword || ''}
+          />
+          <Button
+            variant='outline'
+            className='min-w-[68px]'
+            onClick={handleSearchClick}
+          >
+            <Subtitle2Black>검색</Subtitle2Black>
+          </Button>
+        </div>
+        {isSearchShow && (
+          <MealSearchContainer
+            ref={searchContainerRef} // ref 추가
+            keyword={keyword}
+            searchResultList={searchResultList}
+            isError={isError}
+            isLoading={isLoading}
+            hasMore={hasMore}
+            onClickNewMenu={handleClickNewMenu}
+            onScroll={handleSearchContainerScroll}
+          />
+        )}
       </div>
-      {isSearchShow && keyword!.length >= 0 && searchResultList.length > 0 && (
-        <MealSearchContainer
-          ref={searchContainerRef} // ref 추가
-          keyword={keyword}
-          searchResultList={searchResultList}
-          isError={isError}
-          isLoading={isLoading}
-          hasMore={hasMore}
-          onClickNewMenu={handleClickNewMenu}
-          onScroll={handleSearchContainerScroll}
-        />
-      )}
-      <KcalInfo data={data} />
     </MealInfoContainer>
   );
 };

@@ -86,10 +86,10 @@ const AutoPlanEdit = () => {
     if (isValidDateString(date)) setSelectedDate(date);
   };
 
-  // const handleResetMenu = () => {
-  //   getOriginalCalendar();
-  //   setSelectedDate('');
-  // };
+  const handleResetMenu = () => {
+    getOriginalCalendar();
+    setSelectedDate('');
+  };
 
   const onSubmit = (data: MealHeaderFormData) => {
     const formattedData = transformCalendarToPostSave(
@@ -139,9 +139,11 @@ const AutoPlanEdit = () => {
       handleSubmit={handleSubmit(onSubmit, onError)}
     >
       <MealCreateHeader
-        pageHeaderTitle={PAGE_TITLE.autoPlan.edit}
+        type='edit'
+        pageHeaderTitle={PAGE_TITLE.autoPlan.default}
         selectedCategory={selectedCategory}
         register={register}
+        handleResetMenu={handleResetMenu}
         errors={errors}
       />
       <MealCalendar
@@ -152,7 +154,6 @@ const AutoPlanEdit = () => {
         onDateClick={handleDateClick}
         selectedDate={selectedDate}
         handleChangeMenu={handleChangeMenu}
-        // handleResetMenu={handleResetMenu}
       />
     </MealForm>
   );

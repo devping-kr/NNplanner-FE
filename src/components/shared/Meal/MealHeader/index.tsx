@@ -29,7 +29,6 @@ type MealHeaderProps = {
     value: string,
   ) => void;
   handleResetMenu?: () => void;
-  // handleSaveMenu?: (date: string, menuList: FoodInfo[]) => void;
   handleEditMenu?: () => void;
   handleCreateSurvey?: () => void;
   handleSaveExcel?: () => void;
@@ -46,7 +45,6 @@ const MealHeader = ({
   selectedCategory,
   handleChangeCategory,
   handleResetMenu,
-  // handleSaveMenu,
   handleEditMenu,
   handleCreateSurvey,
   handleSaveExcel,
@@ -73,7 +71,8 @@ const MealHeader = ({
             <Input
               variant='white'
               size='s'
-              placeholder='식단명을 입력하세요'
+              className='h-12'
+              placeholder='식단 이름을 입력하세요'
               isError={!!errors.monthMenuName?.message}
               autoComplete='off'
               {...register('monthMenuName')}

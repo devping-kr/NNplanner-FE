@@ -1,8 +1,10 @@
 import { cn } from '@/utils/core';
-import { Caption1Grey500, Label1Black } from '@/components/common/Typography';
+import { Label1Black } from '@/components/common/Typography';
+import MealEditButton from '@/components/shared/Meal/MealEditButton';
 
 type NutritionMenuButtonProps = {
   menuName: string;
+  isFocused: boolean;
   className?: string;
   onFocus: () => void;
   onClick: () => void;
@@ -11,22 +13,30 @@ type NutritionMenuButtonProps = {
 const NutritionMenuButton = ({
   menuName,
   className,
+  isFocused,
   onFocus,
   onClick,
 }: NutritionMenuButtonProps) => {
   return (
-    <button
-      type='button'
-      className={cn(
-        'flex w-full items-center justify-between hover:cursor-pointer',
-        className,
-      )}
-      onFocus={onFocus}
-      onClick={onClick}
-    >
-      <Label1Black>{menuName}</Label1Black>
-      <Caption1Grey500>삭제</Caption1Grey500>
-    </button>
+    <div className='flex w-full justify-between'>
+      <button
+        type='button'
+        className={cn(
+          'group flex w-full items-center justify-between gap-2 hover:cursor-pointer',
+          className,
+        )}
+        onFocus={onFocus}
+        onClick={onClick}
+      >
+        <div
+          className={cn('h-4 w-1 bg-green-200', isFocused ? 'flex' : 'hidden')}
+        ></div>
+        <div className='flex w-full justify-between'>
+          <Label1Black>{menuName}</Label1Black>
+          <MealEditButton />
+        </div>
+      </button>
+    </div>
   );
 };
 

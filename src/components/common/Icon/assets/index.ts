@@ -17,6 +17,7 @@ import Normal from '@/components/common/Icon/assets/Info';
 import InfoCircle from '@/components/common/Icon/assets/InfoCircle';
 import Logout from '@/components/common/Icon/assets/Logout';
 import NavSearch from '@/components/common/Icon/assets/NavSearch';
+import Pencil from '@/components/common/Icon/assets/Pencil';
 import Plus from '@/components/common/Icon/assets/Plus';
 import Profile from '@/components/common/Icon/assets/Profile';
 import Search from '@/components/common/Icon/assets/Search';
@@ -122,6 +123,10 @@ export const iconMap: Record<string, IconMapEntry> = {
     type: 'stroke',
     file: NavSearch,
   },
+  pencil: {
+    type: 'stroke',
+    file: Pencil,
+  },
 };
 
 const COLOR_CLASSNAMES: ColorClassNames = {
@@ -170,6 +175,7 @@ export const COLORS = {
   warning: colors.red[500],
   black: colors.black[100],
   grey: colors.grey[200],
+  grey300: colors.grey[300],
   grey500: colors.grey[500],
   green500: colors.green[500],
   grey900: colors.grey[900],

@@ -123,7 +123,7 @@ const AutoPlanCreate = () => {
       handleSubmit={handleSubmit(onSubmit, onError)}
     >
       <MealCreateHeader
-        pageHeaderTitle={PAGE_TITLE.autoPlan.create}
+        pageHeaderTitle={PAGE_TITLE.autoPlan.default}
         selectedCategory={selectedCategory}
         type='create'
         inputValue={getValues().monthMenuName}
