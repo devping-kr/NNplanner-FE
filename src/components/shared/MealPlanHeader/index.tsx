@@ -34,7 +34,6 @@ const MealPlanHeader = ({
             buttonSize='sm'
             bgColor='disabled'
             selectedValue={selectedCategory.majorCategory}
-            className='text-gray-500'
             readonly={true}
           />
           <Selectbox
