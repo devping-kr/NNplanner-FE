@@ -41,13 +41,13 @@ const Calendar = ({
   );
 
   return (
-    <div className='w-[1196px]'>
+    <div className='w-full min-w-[1196px]'>
       <div className='grid w-full grid-cols-7'>
         {SUN_TO_SAT.map((day, index) => (
           <CalendarHeaderDay key={day} day={day} index={index} />
         ))}
       </div>
-      <div className='grid w-full grid-cols-7'>
+      <div className='grid w-full flex-grow grid-cols-7'>
         {allDays.map((date, index) => {
           const formattedDate = formatFullDate(date);
           const isActive = formattedDate === activeDate;

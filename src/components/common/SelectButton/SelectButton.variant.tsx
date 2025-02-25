@@ -37,5 +37,10 @@ export const typoVariants = cva('whitespace-pre-line text-wrap', {
       selected: 'text-black-100',
       placeholder: 'text-grey-200',
     },
+    bgColor: {
+      grey: '',
+      white: '',
+      disabled: 'text-grey-500',
+    },
   },
 });

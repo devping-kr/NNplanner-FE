@@ -51,6 +51,7 @@ const SelectButton = ({
         className={typoVariants({
           buttonSize,
           state: selectedOption ? 'selected' : 'placeholder',
+          bgColor,
         })}
       >
         {selectedOption || placeholder}

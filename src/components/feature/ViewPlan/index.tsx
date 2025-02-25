@@ -45,24 +45,6 @@ const ViewPlan = () => {
   const [page, setPage] = useState(DEFAULT_PAGE);
   const [isSearchClicked, setIsSearchClicked] = useState(false);
 
-  // const searchTriggerCondition =
-  //   // 1. 대분류, 소분류 값있을 때
-  //   !!(selectedOrganization && selectedCategory) ||
-  //   // 2. 기본 연월과 다른 연월 선택했을 때
-  //   !!(
-  //     selectedYear !== year.toString() || selectedMonth !== month.toString()
-  //   ) ||
-  //   // 3. 오래된 순이면서 다른 파람들 중에 유효한 값이 하나라도 있어야 함
-  //   !!(
-  //     selectedTab !== TAB_OPTIONS[0] ||
-  //     // 대분류 + 소분류 선택되거나
-  //     (selectedOrganization && selectedCategory) ||
-  //     // 기본 연월과 다른 연월 선택했을 때
-  //     selectedYear !== year.toString() ||
-  //     selectedMonth !== month.toString()
-  //   ) ||
-  //   // 4. 검색어 있고 검색버튼 클릭 됐을 때
-  //   !!isSearchClicked;
   const searchTriggerCondition =
     // 1. 대분류, 소분류 값이 있을 때
     !!(selectedOrganization && selectedCategory) ||
