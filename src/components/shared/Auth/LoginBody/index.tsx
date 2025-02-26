@@ -6,7 +6,15 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { loginSchema } from '@/schema/authSchema';
 import { LoginRequest } from '@/type/auth/authRequest';
 import Button from '@/components/common/Button/Button';
+import Icon from '@/components/common/Icon';
 import { Input } from '@/components/common/Input';
+import {
+  Caption1Red500,
+  H4Black,
+  Label1Black,
+  Subtitle1White,
+  Subtitle2Black,
+} from '@/components/common/Typography';
 import { BASE_ROUTES } from '@/constants/_navbar';
 import { usePostLogin } from '@/hooks/auth/usePostLogin';
 import { useAuth } from '@/hooks/useAuth';
@@ -26,6 +34,7 @@ const LoginBody = () => {
     register,
     handleSubmit,
     formState: { errors },
+    watch,
   } = useForm<LoginRequest>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -50,75 +59,87 @@ const LoginBody = () => {
   };
 
   return (
-    <div className='flex w-full flex-col gap-3'>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <fieldset className='flex w-full flex-col gap-8'>
+    <div className='flex w-[480px] flex-col items-center gap-10'>
+      <form onSubmit={handleSubmit(onSubmit)} className='w-full'>
+        <fieldset className='flex w-full flex-col gap-6'>
           <legend className='sr-only'>로그인 인증</legend>
-          <div className='relative w-full'>
-            <label
-              htmlFor='email'
-              className='absolute left-0 top-[-24px] font-semibold text-green-800'
-            >
-              이메일
-            </label>
-            <Input
-              type='text'
-              id='email'
-              placeholder='이메일을 입력해주세요'
-              height='large'
-              className='text-green-500 placeholder:text-green-400'
-              {...register('email')}
-            />
+          <div className='flex w-full flex-col gap-2'>
+            <Label1Black htmlFor='email'>이메일</Label1Black>
+            <div className='h-16'>
+              <Input
+                type='text'
+                id='email'
+                placeholder='이메일을 입력해 주세요.'
+                size='m'
+                variant='grey50'
+                {...register('email')}
+              />
+            </div>
             {errors.email && (
-              <span className='text-xs text-red-300'>
-                {errors.email.message}
-              </span>
-            )}
-          </div>
-          <div className='relative w-full'>
-            <label
-              htmlFor='password'
-              className='absolute left-0 top-[-24px] font-semibold text-green-800'
-            >
-              비밀번호
-            </label>
-            <Input
-              type={isShowPassword ? 'text' : 'password'}
-              id='password'
-              placeholder='비밀번호를 입력해주세요'
-              height='large'
-              className='text-green-500 placeholder:text-green-400'
-              isRightIcon={true}
-              rightIcon={isShowPassword ? 'show' : 'hide'}
-              rightIconAction={() => setIsShowPassword(!isShowPassword)}
-              {...register('password')}
-            />
-            {errors.password && (
-              <span className='text-xs text-red-300'>
-                {errors.password.message}
-              </span>
+              <Caption1Red500>{errors.email.message}</Caption1Red500>
             )}
           </div>
           <div className='flex w-full flex-col gap-2'>
-            <Button type='submit' size='basic' className='shadow-lg'>
-              로그인
+            <Label1Black htmlFor='password'>비밀번호</Label1Black>
+            <div className='h-16'>
+              <Input
+                type={isShowPassword ? 'text' : 'password'}
+                id='password'
+                placeholder='비밀번호를 입력해 주세요.'
+                size='m'
+                variant='grey50'
+                isRightIcon={true}
+                rightIcon={!isShowPassword ? 'show' : 'hide'}
+                rightIconAction={() => setIsShowPassword(!isShowPassword)}
+                {...register('password')}
+              />
+            </div>
+            {errors.password && (
+              <Caption1Red500>{errors.password.message}</Caption1Red500>
+            )}
+          </div>
+          <div className='w-full border-b border-grey-100'>
+            <Button
+              type='submit'
+              size='lg'
+              width='full'
+              variant='primary'
+              disabled={
+                watch('email').length === 0 || watch('password').length === 0
+              }
+              className='my-10'
+            >
+              <Subtitle1White>로그인</Subtitle1White>
             </Button>
-            <Button type='submit' size='basic' className='shadow-lg'>
-              구글 로그인
-            </Button>
+          </div>
+          <div className='flex w-full flex-col items-center gap-6'>
+            <H4Black>회원가입</H4Black>
+            <div className='flex w-full flex-col gap-4'>
+              <Button
+                onClick={() => navigate(BASE_ROUTES.SIGNUP)}
+                variant='soft'
+                className='flex items-center justify-between px-4'
+                width='full'
+                size='md'
+              >
+                <Icon name='envelope' width={24} height={24} color='black' />
+                <Subtitle2Black>이메일로 시작하기</Subtitle2Black>
+                <div />
+              </Button>
+              <Button
+                className='flex items-center justify-between px-4'
+                width='full'
+                size='md'
+                variant='outline'
+              >
+                <Icon name='google' width={24} height={24} />
+                <Subtitle2Black>구글로 시작하기</Subtitle2Black>
+                <div />
+              </Button>
+            </div>
           </div>
         </fieldset>
       </form>
-      <span className='text-center'>
-        아직 계정이 없다면{' '}
-        <span
-          onClick={() => navigate(BASE_ROUTES.SIGNUP)}
-          className='cursor-pointer font-semibold text-green-700'
-        >
-          여기서
-        </span>{' '}
-        회원가입하세요
-      </span>
     </div>
   );
 };

@@ -1,15 +1,14 @@
 'use client';
 
-import Logo from '@/components/common/Logo';
+import { H1Black } from '@/components/common/Typography';
 import LoginBody from '@/components/shared/Auth/LoginBody';
 
 const Login = () => {
   return (
     <main className='mx-auto my-0 flex overflow-hidden'>
-      <section className="flex h-screen w-full flex-col gap-10 bg-[url('/imgs/auth.jpg')] bg-cover bg-center"></section>
-      <div className='h-full bg-gradient-to-b from-green-100 to-transparent'></div>
-      <section className='flex h-screen w-1/2 flex-col items-center justify-center gap-10 px-8'>
-        <Logo width={180} height={42} href='#' />
+      <section className="h-screen w-full bg-[url('/imgs/auth.jpg')] bg-cover bg-center"></section>
+      <section className='flex h-screen min-w-[608px] flex-col items-center justify-center gap-6 px-16'>
+        <H1Black>로그인</H1Black>
         <LoginBody />
       </section>
     </main>
