@@ -10,6 +10,13 @@ import { SignupRequest } from '@/type/auth/authRequest';
 import { FailResponse, Result } from '@/type/response';
 import Button from '@/components/common/Button/Button';
 import { Input } from '@/components/common/Input';
+import {
+  Body2Black,
+  Body2Green500,
+  Caption1Red500,
+  Label1Black,
+  Subtitle1White,
+} from '@/components/common/Typography';
 import { AUTH_LINKS } from '@/constants/_auth';
 import { usePostSignup } from '@/hooks/auth/usePostSignup';
 import { usePostVerifyConfirm } from '@/hooks/auth/usePostVerifyConfirm';
@@ -107,172 +114,148 @@ const SignupBody = () => {
   }, [sendSuccess]);
 
   return (
-    <div className='flex w-full flex-col gap-3'>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <fieldset className='flex w-full flex-col gap-8'>
+    <div className='flex w-[480px] flex-col items-center gap-10'>
+      <form onSubmit={handleSubmit(onSubmit)} className='w-full'>
+        <fieldset className='flex w-full flex-col gap-6'>
           <legend className='sr-only'>회원가입 인증</legend>
-          <div className='flex gap-3'>
-            <div className='relative w-full'>
-              <label
-                htmlFor='email'
-                className='absolute left-0 top-[-24px] text-sm font-semibold text-green-800'
+          <div className='flex w-full flex-col gap-2'>
+            <Label1Black htmlFor='email'>이메일</Label1Black>
+            <div className='flex h-16 gap-3'>
+              <Input
+                type='text'
+                placeholder='이메일을 입력해주세요'
+                disabled={sendSuccess}
+                id='email'
+                size='m'
+                variant='grey50'
+                {...register('email')}
+              />
+              <Button
+                variant='teritary'
+                size='lg'
+                type='button'
+                className='min-w-[100px]'
+                onClick={handleEmailVerification}
+                disabled={!email || !!errors.email || confirmSuccess}
               >
-                이메일
-              </label>
-              <div className='flex gap-3'>
-                <Input
-                  type='text'
-                  placeholder='이메일을 입력해주세요'
-                  disabled={sendSuccess}
-                  id='email'
-                  height='basic'
-                  className='text-green-500 placeholder:text-green-400'
-                  {...register('email')}
-                />
-                <Button
-                  size='small'
-                  type='button'
-                  className='h-auto w-1/3'
-                  onClick={handleEmailVerification}
-                  disabled={!email || !!errors.email || confirmSuccess}
-                >
-                  인증번호 받기
-                </Button>
-              </div>
-              {errors.email && (
-                <span className='text-xs text-red-300'>
-                  {errors.email.message}
-                </span>
-              )}
+                <Subtitle1White>인증하기</Subtitle1White>
+              </Button>
             </div>
+            {errors.email && (
+              <Caption1Red500>{errors.email.message}</Caption1Red500>
+            )}
           </div>
           {showVerificationInput && (
-            <div className='flex gap-3'>
-              <div className='relative w-full'>
-                <label
-                  htmlFor='verification'
-                  className='absolute left-0 top-[-24px] text-sm font-semibold text-green-800'
-                >
-                  인증번호
-                </label>
+            <div className='flex w-full flex-col gap-2'>
+              <Label1Black htmlFor='verification'>인증번호</Label1Black>
+              <div className='flex h-16 gap-3'>
                 <Input
                   type='text'
                   id='verification'
-                  placeholder='인증번호를 입력해주세요'
-                  height='basic'
+                  placeholder='인증번호를 입력해주세요.'
+                  size='m'
+                  variant='grey50'
                   value={verification}
                   onChange={handleVerification}
                   disabled={confirmSuccess}
-                  className='text-green-500 placeholder:text-xs placeholder:text-green-400'
                 />
+                <Button
+                  size='lg'
+                  variant='teritary'
+                  type='button'
+                  className='min-w-[100px]'
+                  onClick={handleEmailVerifyConfirm}
+                  disabled={confirmSuccess || verification.length === 0}
+                >
+                  <Subtitle1White>확인</Subtitle1White>
+                </Button>
               </div>
-              <Button
-                size='small'
-                type='button'
-                className='flex w-1/3'
-                onClick={handleEmailVerifyConfirm}
-                disabled={confirmSuccess}
-              >
-                인증
-              </Button>
             </div>
           )}
-          <div className='relative'>
-            <label
-              htmlFor='name'
-              className='absolute left-0 top-[-24px] text-sm font-semibold text-green-800'
-            >
-              이름
-            </label>
-            <Input
-              type='text'
-              id='name'
-              placeholder='이름을 입력해주세요'
-              height='basic'
-              className='text-green-500 placeholder:text-green-400'
-              {...register('username')}
-            />
+          <div className='flex w-full flex-col gap-2'>
+            <Label1Black htmlFor='name'>이름</Label1Black>
+            <div className='h-16'>
+              <Input
+                type='text'
+                id='name'
+                placeholder='이름을 입력해 주세요.'
+                size='m'
+                variant='grey50'
+                {...register('username')}
+              />
+            </div>
             {errors.username && (
-              <span className='text-xs text-red-300'>
-                {errors.username.message}
-              </span>
-            )}
-          </div>
-          <div className='relative'>
-            <label
-              htmlFor='password'
-              className='absolute left-0 top-[-24px] text-sm font-semibold text-green-800'
-            >
-              비밀번호
-            </label>
-            <Input
-              type={isShowPassword ? 'text' : 'password'}
-              id='password'
-              placeholder='비밀번호를 입력해주세요'
-              height='basic'
-              className='text-green-500 placeholder:text-green-400'
-              isRightIcon={true}
-              rightIcon={isShowPassword ? 'show' : 'hide'}
-              rightIconAction={() => setIsShowPassword(!isShowPassword)}
-              {...register('password')}
-            />
-            {errors.password && (
-              <span className='text-xs text-red-300'>
-                {errors.password.message}
-              </span>
-            )}
-          </div>
-          <div className='relative'>
-            <label
-              htmlFor='passwordConfirm'
-              className='absolute left-0 top-[-24px] text-sm font-semibold text-green-800'
-            >
-              비밀번호 확인
-            </label>
-            <Input
-              type={isShowPasswordConfirm ? 'text' : 'password'}
-              id='passwordConfirm'
-              placeholder='비밀번호를 다시 입력해주세요'
-              height='basic'
-              className='text-green-500 placeholder:text-green-400'
-              isRightIcon={true}
-              rightIcon={isShowPasswordConfirm ? 'show' : 'hide'}
-              rightIconAction={() =>
-                setIsShowPasswordConfirm(!isShowPasswordConfirm)
-              }
-              {...register('passwordConfirm')}
-            />
-            {errors.passwordConfirm && (
-              <span className='text-xs text-red-300'>
-                {errors.passwordConfirm.message}
-              </span>
+              <Caption1Red500>{errors.username.message}</Caption1Red500>
             )}
           </div>
           <div className='flex w-full flex-col gap-2'>
+            <Label1Black htmlFor='password'>비밀번호</Label1Black>
+            <div className='h-16'>
+              <Input
+                type={isShowPassword ? 'text' : 'password'}
+                id='password'
+                placeholder='비밀번호를 입력해 주세요.'
+                size='m'
+                variant='grey50'
+                isRightIcon={true}
+                rightIcon={!isShowPassword ? 'show' : 'hide'}
+                rightIconAction={() => setIsShowPassword(!isShowPassword)}
+                {...register('password')}
+              />
+            </div>
+            {errors.password && (
+              <Caption1Red500>{errors.password.message}</Caption1Red500>
+            )}
+          </div>
+          <div className='flex w-full flex-col gap-2'>
+            <Label1Black htmlFor='passwordConfirm'>비밀번호 확인</Label1Black>
+            <div className='h-16'>
+              <Input
+                type={isShowPasswordConfirm ? 'text' : 'password'}
+                id='passwordConfirm'
+                placeholder='비밀번호를 다시 입력해 주세요.'
+                size='m'
+                variant='grey50'
+                isRightIcon={true}
+                rightIcon={!isShowPasswordConfirm ? 'show' : 'hide'}
+                rightIconAction={() =>
+                  setIsShowPasswordConfirm(!isShowPasswordConfirm)
+                }
+                {...register('passwordConfirm')}
+              />
+            </div>
+            {errors.passwordConfirm && (
+              <Caption1Red500>{errors.passwordConfirm.message}</Caption1Red500>
+            )}
+          </div>
+          <div className='mt-4 w-full'>
             <Button
               type='submit'
-              size='basic'
-              className='shadow-lg'
+              size='lg'
               disabled={!confirmSuccess}
+              variant='primary'
+              width='full'
             >
-              회원가입
+              <Subtitle1White>회원가입</Subtitle1White>
             </Button>
-            <Button type='submit' size='basic' className='shadow-lg'>
+            {/* OAuth 개발 후 적용예정 */}
+            {/* <Button type='submit' size='basic' className='shadow-lg'>
               구글 회원가입
-            </Button>
+            </Button> */}
           </div>
         </fieldset>
       </form>
-      <span className='text-center'>
-        이미 계정이 있다면{' '}
-        <span
+
+      <Body2Black>
+        이미 계정이 있나요? 여기서{' '}
+        <Body2Green500
           onClick={() => router.push(AUTH_LINKS.login)}
-          className='cursor-pointer font-semibold text-green-700 hover:text-green-800'
+          className='cursor-pointer'
         >
-          여기서
-        </span>{' '}
-        로그인하세요
-      </span>
+          로그인
+        </Body2Green500>
+        하세요.
+      </Body2Black>
     </div>
   );
 };
