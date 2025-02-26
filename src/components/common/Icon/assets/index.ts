@@ -11,6 +11,8 @@ import CheckCircle from '@/components/common/Icon/assets/CheckCircle';
 import Danger from '@/components/common/Icon/assets/Danger';
 import Dashboard from '@/components/common/Icon/assets/Dashboard';
 import Edit from '@/components/common/Icon/assets/Edit';
+import Envelope from '@/components/common/Icon/assets/Envelope';
+import Google from '@/components/common/Icon/assets/Google';
 import Group from '@/components/common/Icon/assets/Group';
 import Hide from '@/components/common/Icon/assets/Hide';
 import Normal from '@/components/common/Icon/assets/Info';
@@ -59,6 +61,14 @@ export const iconMap: Record<string, IconMapEntry> = {
   user: {
     type: 'stroke',
     file: User,
+  },
+  envelope: {
+    type: 'stroke',
+    file: Envelope,
+  },
+  google: {
+    type: 'fill',
+    file: Google,
   },
   auto: { type: 'stroke', file: Auto },
   chart: { type: 'stroke', file: Chart },
