@@ -6,7 +6,7 @@ import { cn } from '@/utils/core';
 import { typographyVariants } from '@/components/common/Typography/Typography.variant';
 
 export type TypographyProps = VariantProps<typeof typographyVariants> &
-  ComponentPropsWithoutRef<'p'>;
+  ComponentPropsWithoutRef<ElementType>;
 
 const customTypography = (
   element: ElementType,
@@ -53,12 +53,12 @@ export const Body3Grey500 = customTypography('span', {
   color: 'grey500',
 });
 
-export const Label1Black = customTypography('span', {
+export const Label1Black = customTypography('label', {
   type: 'label1',
   color: 'black',
 });
 
-export const Label2Black = customTypography('span', {
+export const Label2Black = customTypography('label', {
   type: 'label2',
   color: 'black',
 });
@@ -183,6 +183,11 @@ export const Body2Grey200 = customTypography('span', {
   color: 'grey200',
 });
 
+export const Body2Green500 = customTypography('span', {
+  type: 'Body2',
+  color: 'green',
+});
+
 export const Body2Assistive = customTypography('span', {
   type: 'Body2',
   color: 'assistive',
@@ -196,6 +201,11 @@ export const Caption1Grey500 = customTypography('span', {
 export const Caption1Grey600 = customTypography('span', {
   type: 'Caption1',
   color: 'grey600',
+});
+
+export const Caption1Red500 = customTypography('span', {
+  type: 'Caption1',
+  color: 'red',
 });
 
 // 리디자인 변경 전 Typography
