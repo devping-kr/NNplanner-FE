@@ -10,7 +10,7 @@ export const inputContainerVariants = cva(
       },
 
       isFocused: {
-        true: 'border border-green-500',
+        true: 'ring-1 ring-green-500',
         false: '',
       },
       disabled: {
