@@ -175,6 +175,7 @@ export const COLORS = {
   warning: colors.red[500],
   black: colors.black[100],
   grey: colors.grey[200],
+  grey100: colors.grey[100],
   grey300: colors.grey[300],
   grey500: colors.grey[500],
   green500: colors.green[500],
