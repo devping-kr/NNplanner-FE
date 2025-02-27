@@ -6,7 +6,7 @@ import { cn } from '@/utils/core';
 import { typographyVariants } from '@/components/common/Typography/Typography.variant';
 
 export type TypographyProps = VariantProps<typeof typographyVariants> &
-  ComponentPropsWithoutRef<'p'>;
+  ComponentPropsWithoutRef<ElementType>;
 
 const customTypography = (
   element: ElementType,
@@ -103,6 +103,11 @@ export const SubTitle1Black = customTypography('span', {
   color: 'black',
 });
 
+export const SubTitle1Grey100 = customTypography('span', {
+  type: 'Subtitle1',
+  color: 'grey100',
+});
+
 export const SubTitle1Green500 = customTypography('span', {
   type: 'Subtitle1',
   color: 'green',
@@ -173,6 +178,11 @@ export const Label1White = customTypography('span', {
   color: 'white',
 });
 
+export const Body1Black = customTypography('span', {
+  type: 'Body1',
+  color: 'black',
+});
+
 export const Body2Grey500 = customTypography('span', {
   type: 'Body2',
   color: 'grey500',
@@ -188,6 +198,11 @@ export const Body2Assistive = customTypography('span', {
   color: 'assistive',
 });
 
+export const Caption1Grey400 = customTypography('span', {
+  type: 'Caption1',
+  color: 'grey400',
+});
+
 export const Caption1Grey500 = customTypography('span', {
   type: 'Caption1',
   color: 'grey500',
@@ -196,6 +211,11 @@ export const Caption1Grey500 = customTypography('span', {
 export const Caption1Grey600 = customTypography('span', {
   type: 'Caption1',
   color: 'grey600',
+});
+
+export const Caption1Red500 = customTypography('span', {
+  type: 'Caption1',
+  color: 'red',
 });
 
 // 리디자인 변경 전 Typography
