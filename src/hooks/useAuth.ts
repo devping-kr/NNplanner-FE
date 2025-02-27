@@ -1,4 +1,5 @@
 import { useRouter } from 'next/navigation';
+import { destroyTokens } from '@/utils/destroyTokens';
 import { AUTH_LINKS } from '@/constants/_auth';
 import { NAV_LINKS } from '@/constants/_navbar';
 import { useAuthStore } from '@/stores/authStore';
@@ -14,6 +15,7 @@ export const useAuth = () => {
 
   const handleLogout = () => {
     logout();
+    destroyTokens();
     router.push(AUTH_LINKS.login);
   };
 

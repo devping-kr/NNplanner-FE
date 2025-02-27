@@ -103,6 +103,11 @@ export const SubTitle1Black = customTypography('span', {
   color: 'black',
 });
 
+export const SubTitle1Grey100 = customTypography('span', {
+  type: 'Subtitle1',
+  color: 'grey100',
+});
+
 export const SubTitle1Green500 = customTypography('span', {
   type: 'Subtitle1',
   color: 'green',
@@ -173,6 +178,11 @@ export const Label1White = customTypography('span', {
   color: 'white',
 });
 
+export const Body1Black = customTypography('span', {
+  type: 'Body1',
+  color: 'black',
+});
+
 export const Body2Grey500 = customTypography('span', {
   type: 'Body2',
   color: 'grey500',
@@ -191,6 +201,11 @@ export const Body2Green500 = customTypography('span', {
 export const Body2Assistive = customTypography('span', {
   type: 'Body2',
   color: 'assistive',
+});
+
+export const Caption1Grey400 = customTypography('span', {
+  type: 'Caption1',
+  color: 'grey400',
 });
 
 export const Caption1Grey500 = customTypography('span', {

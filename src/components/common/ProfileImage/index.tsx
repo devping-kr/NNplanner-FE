@@ -19,7 +19,7 @@ const ProfileImage = ({
   return (
     <div
       className={cn(
-        'h-fit w-fit min-w-9 overflow-hidden rounded-full border border-grey-100',
+        'h-fit max-h-24 w-fit min-w-9 overflow-hidden rounded-full',
         className,
       )}
     >
@@ -28,6 +28,7 @@ const ProfileImage = ({
         width={size}
         height={size}
         alt={alt}
+        className='object-cover'
       />
     </div>
   );

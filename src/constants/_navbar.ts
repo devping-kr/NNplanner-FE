@@ -66,6 +66,7 @@ const createRoutes = (baseRoutes: typeof BASE_ROUTES) => ({
   },
   AUTO_PLAN: baseRoutes.AUTO,
   MENUAL_PLAN: baseRoutes.MENUAL,
+  MYPAGE: baseRoutes.MY_PAGE,
 });
 
 export const ROUTES = createRoutes(BASE_ROUTES);
