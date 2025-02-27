@@ -14,6 +14,7 @@ export const buttonVariants = cva(
           'bg-grey-800 text-grey-100 hover:bg-grey-900 active:bg-black-100 disabled:bg-grey-200 disabled:text-white-100',
         outline:
           'bg-white-100 text-black-100 border border-grey-100 hover:bg-grey-100 active:bg-grey-200 disabled:bg-white-100 disabled:text-grey-200 disabled:border-grey-100',
+        soft: 'bg-green-50 text-black-100 hover:bg-green-100 active:bg-green-200',
         pagination: '',
         default: '',
       },

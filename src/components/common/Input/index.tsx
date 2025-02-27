@@ -49,6 +49,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       includeButton = false,
       value,
       disabled,
+      onFocus,
+      onBlur,
       rightIconAction = () => {},
       onSubmit = () => {},
       buttonText = '검색',
@@ -80,8 +82,14 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           ref={ref}
           value={value}
           disabled={disabled}
-          onFocus={handleFocus}
-          onBlur={handleBlur}
+          onFocus={(e) => {
+            handleFocus();
+            onFocus?.(e);
+          }}
+          onBlur={(e) => {
+            handleBlur();
+            onBlur?.(e);
+          }}
           {...props}
         />
         {isRightIcon && rightIcon && (
