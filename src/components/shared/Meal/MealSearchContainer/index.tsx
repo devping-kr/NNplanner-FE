@@ -1,9 +1,7 @@
+import Image from 'next/image';
 import { forwardRef } from 'react';
 import { FoodInfo } from '@/type/menu/menuResponse';
-import {
-  Body2Assistive,
-  Caption1Grey500,
-} from '@/components/common/Typography';
+import { Body2Assistive, Body3Assistive } from '@/components/common/Typography';
 import MealTable from '@/components/shared/Meal/MealTable';
 
 type MealSearchContainerProps = {
@@ -38,7 +36,7 @@ const MealSearchContainer = forwardRef<
               </Body2Assistive>
             </div>
           ) : (
-            <>
+            <div className='flex flex-col gap-4'>
               <MealTable
                 data={searchResultList}
                 isButton
@@ -46,11 +44,24 @@ const MealSearchContainer = forwardRef<
                 theadColor='white'
                 onClick={onClickNewMenu}
               />
-              {isLoading && <Caption1Grey500>로딩 중...</Caption1Grey500>}
-              {!isLoading && !hasMore && (
-                <Caption1Grey500>더 이상 결과가 없습니다.</Caption1Grey500>
+              {isLoading && (
+                <div className='flex w-full flex-col items-center justify-center gap-2'>
+                  <Image
+                    src='/imgs/loading-animation.gif'
+                    alt='로딩 애니메이션'
+                    width={24}
+                    height={24}
+                    unoptimized
+                  />
+                  <Body3Assistive>메뉴 로딩 중...</Body3Assistive>
+                </div>
               )}
-            </>
+              {!isLoading && !hasMore && (
+                <div className='flex items-center justify-center pb-8 pt-4'>
+                  <Body2Assistive>검색 결과가 없습니다.</Body2Assistive>
+                </div>
+              )}
+            </div>
           )}
         </div>
       </div>
