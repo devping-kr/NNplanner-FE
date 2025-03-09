@@ -9,11 +9,9 @@ import {
 } from '@/type/menuCategory/category';
 import { FailResponse, Result } from '@/type/response';
 import { getCurrentYearMonthNow, getLastDateOfMonth } from '@/utils/calendar';
-import InfoCard from '@/components/common/InfoCard';
 import MealForm from '@/components/common/MealForm';
 import MealCalendar from '@/components/shared/Meal/MealCalender';
 import MealHeader from '@/components/shared/Meal/MealHeader';
-import { INFOCARD_MESSAGE } from '@/constants/_infoCard';
 import { MEAL_FORM_LEGEND } from '@/constants/_MealForm';
 import { ROUTES } from '@/constants/_navbar';
 import { PAGE_TITLE } from '@/constants/_pageTitle';
@@ -117,10 +115,6 @@ const AutoPlan = () => {
           readonly={true}
         />
       </MealForm>
-      <div className='flex w-full flex-col gap-4 pt-[142px]'>
-        <InfoCard message={INFOCARD_MESSAGE.autoPlan.name} />
-        <InfoCard message={INFOCARD_MESSAGE.autoPlan.category} />
-      </div>
     </div>
   );
 };
