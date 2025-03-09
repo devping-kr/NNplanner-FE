@@ -16,7 +16,7 @@ const Navbar = () => {
 
   return (
     !isSurveyPage && (
-      <nav className='sticky top-0 flex h-screen w-[260px] min-w-[260px] flex-col bg-grey-800 pt-[88px]'>
+      <nav className='sticky top-0 flex h-screen w-[244px] min-w-[244px] flex-col bg-grey-800 pt-[88px]'>
         <NavbarSection
           title='식단'
           links={mealLinks}
