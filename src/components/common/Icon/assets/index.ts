@@ -11,6 +11,7 @@ import CheckCircle from '@/components/common/Icon/assets/CheckCircle';
 import Danger from '@/components/common/Icon/assets/Danger';
 import Dashboard from '@/components/common/Icon/assets/Dashboard';
 import Edit from '@/components/common/Icon/assets/Edit';
+import EmptyCalendar from '@/components/common/Icon/assets/EmptyCalendar';
 import Envelope from '@/components/common/Icon/assets/Envelope';
 import Google from '@/components/common/Icon/assets/Google';
 import Group from '@/components/common/Icon/assets/Group';
@@ -136,6 +137,10 @@ export const iconMap: Record<string, IconMapEntry> = {
   pencil: {
     type: 'stroke',
     file: Pencil,
+  },
+  emptyCalendar: {
+    type: 'stroke',
+    file: EmptyCalendar,
   },
 };
 

@@ -99,7 +99,7 @@ const MainPageBody = () => {
       <div className='flex gap-6'>
         <MiniCard
           title='관리 중 식단'
-          icon='calendar'
+          icon='emptyCalendar'
           count={currentMenuCount}
           upDownPercent={upDownPlanPercent}
           type='plan'
