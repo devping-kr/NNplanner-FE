@@ -9,12 +9,17 @@ export const config = {
 };
 
 const publicRoutes = [AUTH_LINKS.signup, AUTH_LINKS.login, ROUTES.SURVEY.TAKE];
+const publicRoutePatterns = [/^\/survey\/take\/[^/]+$/];
 
 export function middleware(request: NextRequest) {
   const isLogin = request.cookies.get('isLogin');
   const currentPath = request.nextUrl.pathname;
 
-  if (!isLogin && !publicRoutes.includes(currentPath)) {
+  const isPublicRoute =
+    publicRoutes.includes(currentPath) ||
+    publicRoutePatterns.some((pattern) => pattern.test(currentPath));
+
+  if (!isLogin && !isPublicRoute) {
     const url = request.nextUrl.clone();
     url.pathname = AUTH_LINKS.login;
     return NextResponse.redirect(url);
@@ -25,5 +30,6 @@ export function middleware(request: NextRequest) {
     url.pathname = NAV_LINKS[0].href;
     return NextResponse.redirect(url);
   }
+
   return NextResponse.next();
 }

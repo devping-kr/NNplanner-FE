@@ -90,7 +90,7 @@ const SurveyCreate = ({ id }: { id: string }) => {
     <div className='flex w-[1596px] flex-col gap-5'>
       <SurveyHeader title='설문 생성' />
       <SurveyControls
-        isChangeable
+        isChangeable={false}
         surveyName={surveyName}
         setSurveyName={setSurveyName}
         deadLine={deadLine}

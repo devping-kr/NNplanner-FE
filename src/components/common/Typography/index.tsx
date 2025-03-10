@@ -78,6 +78,11 @@ export const Body3Black = customTypography('span', {
   color: 'black',
 });
 
+export const Body3BlackLabel = customTypography('label', {
+  type: 'Body3',
+  color: 'black',
+});
+
 export const Body3Red = customTypography('span', {
   type: 'Body3',
   color: 'red',

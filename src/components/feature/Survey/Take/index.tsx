@@ -7,7 +7,13 @@ import Button from '@/components/common/Button/Button';
 import Calendar from '@/components/common/Calendar';
 import { Input } from '@/components/common/Input';
 import Radio from '@/components/common/Radio';
-import { CardTitle, H2Black } from '@/components/common/Typography';
+import {
+  Body2Black,
+  Body3Grey600,
+  H2Black,
+  SubTitle1Black,
+  Subtitle1White,
+} from '@/components/common/Typography';
 import { BASE_ROUTES } from '@/constants/_navbar';
 import { useGetMonthMenuDetails } from '@/hooks/menu/useGetMonthMenuDetail';
 import { surveyKeys } from '@/hooks/survey/queryKey';
@@ -97,91 +103,105 @@ const SurveyTake = ({ id }: Props) => {
   return (
     <div className='flex w-full flex-col items-start gap-5'>
       <H2Black>{surveyData?.surveyName}</H2Black>
-      <Calendar
-        data={calendarData}
-        year={createdYear}
-        month={createdMonth}
-        readonly
-      />
-      <ul className='mt-10 flex w-[calc(100%-20px)] max-w-[1224px] flex-col gap-3 rounded-sm bg-white-100 p-6'>
+      <div className='flex w-full items-center justify-center rounded-2xl bg-white-100 p-6'>
+        <Calendar
+          data={calendarData}
+          year={createdYear}
+          month={createdMonth}
+          readonly
+        />
+      </div>
+      <ul className='mt-10 flex w-full flex-col gap-8 rounded-2xl bg-white-100 p-6'>
         <div className='flex items-center justify-between'>
-          <CardTitle>질문</CardTitle>
-          <span className='text-sm text-gray-600'>
-            1(매우 아니다) - 10(매우 그렇다)
-          </span>
+          <SubTitle1Black>질문</SubTitle1Black>
+          <Body3Grey600>1(매우 아니다) - 10(매우 그렇다)</Body3Grey600>
         </div>
-        {surveyData?.mandatoryQuestions.map((question, idx) => (
-          <div
-            key={question.questionId}
-            className='flex w-full flex-col gap-1 border-b border-gray-300 pb-3'
-          >
-            <li className='flex items-center gap-1'>
-              <span>{idx + 1}. </span>
-              <span>{question.questionText}</span>
-            </li>
-            {question.answerType === 'text' && (
-              <Input
-                value={answers[question.questionId] || ''}
-                bgcolor='meal'
-                onChange={(e) =>
-                  handleChange(question.questionId, e.target.value)
-                }
-              />
-            )}
-            {question.answerType === 'radio' && (
-              <div className='flex justify-around'>
-                {RADIO_OPTIONS.map((option) => (
-                  <div key={option}>
-                    <Radio
-                      option={option}
-                      answers={answers}
-                      handleChange={handleChange}
-                      question={question}
-                    />
-                  </div>
-                ))}
-              </div>
-            )}
+        <div className='flex flex-col gap-8'>
+          {surveyData?.mandatoryQuestions.map((question, idx) => (
+            <div
+              key={question.questionId}
+              className='flex w-full flex-col gap-4'
+            >
+              <li className='flex items-center gap-1'>
+                <Body2Black>{idx + 1}. </Body2Black>
+                <Body2Black>{question.questionText}</Body2Black>
+              </li>
+              {question.answerType === 'text' && (
+                <div className='h-16'>
+                  <Input
+                    variant='grey50'
+                    size='m'
+                    value={answers[question.questionId] || ''}
+                    onChange={(e) =>
+                      handleChange(question.questionId, e.target.value)
+                    }
+                    placeholder='답변을 입력하세요.'
+                  />
+                </div>
+              )}
+              {question.answerType === 'radio' && (
+                <div className='flex justify-around'>
+                  {RADIO_OPTIONS.map((option) => (
+                    <div key={option}>
+                      <Radio
+                        option={option}
+                        answers={answers}
+                        handleChange={handleChange}
+                        question={question}
+                      />
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+        <div className='flex flex-col gap-8'>
+          {surveyData?.additionalQuestions.map((question, idx) => (
+            <div
+              key={question.questionId}
+              className='flex w-full flex-col gap-4'
+            >
+              <li className='flex items-center gap-1'>
+                <Body2Black>{idx + 1}. </Body2Black>
+                <Body2Black>{question.questionText}</Body2Black>
+              </li>
+              {question.answerType === 'text' && (
+                <div className='h-16'>
+                  <Input
+                    variant='grey50'
+                    size='m'
+                    value={answers[question.questionId] || ''}
+                    onChange={(e) =>
+                      handleChange(question.questionId, e.target.value)
+                    }
+                    placeholder='답변을 입력하세요.'
+                  />
+                </div>
+              )}
+              {question.answerType === 'radio' && (
+                <div className='flex justify-around'>
+                  {RADIO_OPTIONS.map((option) => (
+                    <div key={option}>
+                      <Radio
+                        option={option}
+                        answers={answers}
+                        handleChange={handleChange}
+                        question={question}
+                      />
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+        <div className='flex w-full justify-end'>
+          <div className='w-40'>
+            <Button size='lg' onClick={submitSurvey} type='button' width='full'>
+              <Subtitle1White>제출</Subtitle1White>
+            </Button>
           </div>
-        ))}
-        {surveyData?.additionalQuestions.map((question, idx) => (
-          <div
-            key={question.questionId}
-            className='flex w-full flex-col gap-1 border-b border-gray-300 pb-3'
-          >
-            <li className='flex items-center gap-1'>
-              <span>{idx + 1}. </span>
-              <span>{question.questionText}</span>
-            </li>
-            {question.answerType === 'text' && (
-              <Input
-                value={answers[question.questionId] || ''}
-                bgcolor='meal'
-                onChange={(e) =>
-                  handleChange(question.questionId, e.target.value)
-                }
-              />
-            )}
-            {question.answerType === 'radio' && (
-              <div className='flex justify-around'>
-                {RADIO_OPTIONS.map((option) => (
-                  <div key={option}>
-                    <Radio
-                      option={option}
-                      answers={answers}
-                      handleChange={handleChange}
-                      question={question}
-                    />
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        ))}
-        <div className='my-4 w-full'>
-          <Button onClick={submitSurvey} type='button'>
-            제출
-          </Button>
         </div>
       </ul>
     </div>

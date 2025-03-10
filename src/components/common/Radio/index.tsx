@@ -1,4 +1,5 @@
 import { Question } from '@/type/survey/surveyResponse';
+import { Body3BlackLabel } from '@/components/common/Typography';
 
 interface Props {
   option: number;
@@ -9,7 +10,7 @@ interface Props {
 
 const Radio = ({ option, question, answers, handleChange }: Props) => {
   return (
-    <div className='flex items-center gap-2'>
+    <div className='flex flex-col items-center gap-4'>
       <label className='relative flex h-5 w-5 cursor-pointer items-center justify-center'>
         <input
           type='radio'
@@ -24,7 +25,9 @@ const Radio = ({ option, question, answers, handleChange }: Props) => {
         <span className='absolute h-5 w-5 rounded-full border-[6px] border-transparent peer-checked:border-green-500'></span>
         <span className='absolute h-5 w-5 rounded-full peer-checked:ring-green-500 peer-focus:ring-4 peer-focus:ring-green-100'></span>
       </label>
-      <label htmlFor={`${question.questionId}_${option}`}>{option}</label>
+      <Body3BlackLabel
+        htmlFor={`${question.questionId}_${option}`}
+      >{`${option}점`}</Body3BlackLabel>
     </div>
   );
 };

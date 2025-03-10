@@ -6,6 +6,7 @@ import { AxiosError } from 'axios';
 import dayjs from 'dayjs';
 import { FailResponse } from '@/type/response';
 import { Question } from '@/type/survey/surveyResponse';
+import { cn } from '@/utils/core';
 import { getTextResponsesByQuestionText } from '@/utils/getTextResponseByQuestionText';
 import Button from '@/components/common/Button/Button';
 import DatepickerCalendar from '@/components/common/DatepickerCalendar';
@@ -161,16 +162,26 @@ const ChartDetail = ({ id }: Props) => {
                   </Button>
                 </div>
               </div>
-              <div className='flex h-[336px] w-full gap-6'>
-                <div className='flex h-full w-full max-w-[1056px] flex-col gap-6 rounded-2xl bg-white-100 p-6'>
+              <div
+                className={cn(
+                  'flex w-full gap-6',
+                  mandatoryQuestions.every(isAllDistributionZero)
+                    ? 'h-[228px]'
+                    : 'h-[336px]',
+                )}
+              >
+                <div className='flex w-full max-w-[1056px] flex-col gap-6 rounded-2xl bg-white-100 p-6'>
                   <SubTitle1Black>월별 총 만족도 점수 분포도</SubTitle1Black>
                   {mandatoryQuestions!.every(isAllDistributionZero) ? (
-                    <div className='flex min-h-[130px] w-full items-center justify-center'>
+                    <div className='flex h-[130px] w-full items-center justify-center'>
                       <Body2Assistive>제출된 설문이 없습니다.</Body2Assistive>
                     </div>
                   ) : (
                     <div className='h-full w-[1008px]'>
-                      <BarGraph data={mandatoryQuestions![0].radioResponses} />
+                      <BarGraph
+                        type='chartDetail'
+                        data={mandatoryQuestions![0].radioResponses}
+                      />
                     </div>
                   )}
                 </div>

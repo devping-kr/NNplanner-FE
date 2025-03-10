@@ -99,14 +99,14 @@ const Pagination = ({ limit, page, setPage, totalPosts }: Props) => {
       {sliceArr}
       <Button
         onClick={nextBtnHandler}
-        disabled={page === totalPages}
+        disabled={page === totalPages || totalPages === ZERO}
         variant='pagination'
       >
         <Icon
           name='arrowNext'
           width={24}
           height={24}
-          color={page === totalPages ? 'grey' : 'black'}
+          color={page === totalPages || totalPages === ZERO ? 'grey' : 'black'}
         />
       </Button>
       <Button

@@ -1,7 +1,7 @@
 const TITLE = '냠냠 플래너';
 const DESCRIPTION = '냠냠 플래너와 함께 더 편하게 식단 관리하세요!';
 const SITE_URL = 'www.nnplanner.com';
-const IMAGE_URL = 'https://i.ibb.co/c6hfN1S/meta-img.png';
+const IMAGE_URL = 'https://i.ibb.co/QFXQj75K/01-fb.png';
 const IMAGE_ALT = '냠냠 플래너 메타 이미지';
 const IMAGE_SIZE = 800;
 
