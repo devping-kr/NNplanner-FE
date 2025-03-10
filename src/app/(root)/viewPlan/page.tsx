@@ -1,4 +1,3 @@
-import { Suspense } from 'react';
 import ViewPlan from '@/components/feature/ViewPlan';
 import { PAGE_METADATA } from '@/constants/_metadata';
 
@@ -11,9 +10,10 @@ export const metadata = {
 
 const page = () => {
   return (
-    <Suspense fallback={<div>loading...</div>}>
-      <ViewPlan />
-    </Suspense>
+    // 추후 스켈레톤ui로 수정
+    // <Suspense fallback={<div>loading...</div>}>
+    <ViewPlan />
+    // </Suspense>
   );
 };
 
