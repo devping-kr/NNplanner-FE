@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import ViewChart from '@/components/feature/ViewChart';
 import { PAGE_METADATA } from '@/constants/_metadata';
 
@@ -11,9 +12,9 @@ export const metadata = {
 const page = () => {
   return (
     // 추후 스켈레톤ui로 수정
-    // <Suspense fallback={<div>loading...</div>}>
-    <ViewChart />
-    // </Suspense>
+    <Suspense fallback={<div></div>}>
+      <ViewChart />
+    </Suspense>
   );
 };
 
