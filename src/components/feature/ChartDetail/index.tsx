@@ -170,7 +170,10 @@ const ChartDetail = ({ id }: Props) => {
                     </div>
                   ) : (
                     <div className='h-full w-[1008px]'>
-                      <BarGraph data={mandatoryQuestions![0].radioResponses} />
+                      <BarGraph
+                        type='chartDetail'
+                        data={mandatoryQuestions![0].radioResponses}
+                      />
                     </div>
                   )}
                 </div>

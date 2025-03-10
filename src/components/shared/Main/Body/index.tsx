@@ -116,7 +116,7 @@ const MainPageBody = () => {
       <div className='flex h-[428px] w-full gap-6'>
         <div className='flex h-full w-full flex-col gap-6 rounded-2xl bg-white-100 p-6'>
           <SubTitle1Black>설문 만족도 분포</SubTitle1Black>
-          <BarGraph data={satisfactionDistribution} />
+          <BarGraph type='main' data={satisfactionDistribution} />
         </div>
         <div className='flex h-full w-full flex-col gap-6 rounded-2xl bg-white-100 p-6'>
           <div className='flex items-center justify-between'>

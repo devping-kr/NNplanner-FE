@@ -7,9 +7,10 @@ interface SatisfactionDistribution {
   data: {
     [key: string]: number;
   };
+  type: 'chartDetail' | 'main';
 }
 
-const BarGraph = ({ data }: SatisfactionDistribution) => {
+const BarGraph = ({ data, type }: SatisfactionDistribution) => {
   const totalVotes = Object.values(data).reduce((acc, cur) => acc + cur, 0);
 
   const valuesArray = Object.values(data).map((score) =>
@@ -90,7 +91,7 @@ const BarGraph = ({ data }: SatisfactionDistribution) => {
   });
 
   return (
-    <div id='chart' className='h-[325px]'>
+    <div id='chart' className={type === 'main' ? 'h-[325px]' : 'h-[238px]'}>
       <ApexCharts
         options={chartOptions}
         series={[{ data: valuesArray, name: '해당 점수 비율' }]}
