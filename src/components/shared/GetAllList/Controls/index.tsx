@@ -56,7 +56,38 @@ const GetAllListControls = ({
         onMonthChange={onMonthChange}
         onYearChange={onYearChange}
       />
-      <div className='flex w-full items-end justify-end gap-2'>
+      <div className='flex w-full items-end justify-end gap-4'>
+        {type === 'viewPlan' && setOrganization && setSelectedCategory && (
+          <div className='flex gap-2 whitespace-pre'>
+            <Selectbox
+              options={ORGANIZATION_LIST}
+              size='small'
+              onChange={handleOrganizationChange}
+              selectedValue={organization}
+            />
+            {ORGANIZATION_LIST.map(
+              (item) =>
+                organization === item.value && (
+                  <Selectbox
+                    key={item.value}
+                    options={minorCategories}
+                    size='small'
+                    onChange={(category) => setSelectedCategory(category)}
+                    selectedValue={selectedCategory}
+                  />
+                ),
+            )}
+            <Button
+              disabled={!organization}
+              variant='grey'
+              size='sm'
+              width='fit'
+              onClick={() => setOrganization('')}
+            >
+              <Subtitle2White>분류 초기화</Subtitle2White>
+            </Button>
+          </div>
+        )}
         <div className='relative h-12 w-60'>
           <div className='absolute right-[14px] top-[14px]'>
             <Icon
@@ -84,28 +115,6 @@ const GetAllListControls = ({
             <Subtitle2White>검색</Subtitle2White>
           </Button>
         </div>
-        {type === 'viewPlan' && setOrganization && setSelectedCategory && (
-          <div className='flex gap-1 whitespace-pre'>
-            <Selectbox
-              options={ORGANIZATION_LIST}
-              size='small'
-              onChange={handleOrganizationChange}
-              selectedValue={organization}
-            />
-            {ORGANIZATION_LIST.map(
-              (item) =>
-                organization === item.value && (
-                  <Selectbox
-                    key={item.value}
-                    options={minorCategories}
-                    size='small'
-                    onChange={(category) => setSelectedCategory(category)}
-                    selectedValue={selectedCategory}
-                  />
-                ),
-            )}
-          </div>
-        )}
       </div>
     </div>
   );
