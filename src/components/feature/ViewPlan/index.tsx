@@ -10,7 +10,11 @@ import ControlTab from '@/components/common/ControlTab';
 import Pagination from '@/components/common/Pagination';
 import { Option } from '@/components/common/Selectbox';
 import { TableRowData } from '@/components/common/Table';
-import { HeadPrimary } from '@/components/common/Typography';
+import {
+  Body2Assistive,
+  SubTitle1Black,
+  SubTitle1Green500,
+} from '@/components/common/Typography';
 import GetAllListControls from '@/components/shared/GetAllList/Controls';
 import GetAllListHeader from '@/components/shared/GetAllList/Header';
 import GetAllListTable from '@/components/shared/GetAllList/ListTable';
@@ -156,7 +160,7 @@ const ViewPlan = () => {
   };
 
   return (
-    <div className='flex flex-col gap-4'>
+    <div className='flex flex-col gap-6'>
       {searchMealList && (
         <>
           <GetAllListHeader title={'내가 작성한 식단'} />
@@ -177,15 +181,28 @@ const ViewPlan = () => {
             minorCategories={minorCategories}
           />
           {searchMealList?.data.totalElements === 0 ? (
-            <HeadPrimary>식단이 존재하지 않습니다</HeadPrimary>
+            <div className='flex h-[168px] items-center justify-center rounded-2xl bg-white-100 p-6'>
+              <Body2Assistive>식단이 존재하지 않습니다.</Body2Assistive>
+            </div>
           ) : (
             <div className='flex flex-col gap-6 rounded-2xl bg-white-100 p-6'>
-              <ControlTab
-                isSortControl
-                controlTabItems={TAB_OPTIONS}
-                selectedTab={selectedTab}
-                setSelectedTab={setSelectedTab}
-              />
+              <div className='flex w-full items-center justify-between'>
+                <div className='flex items-center gap-1'>
+                  <SubTitle1Black>총</SubTitle1Black>
+                  <div>
+                    <SubTitle1Green500>
+                      {searchMealList.data.totalElements}
+                    </SubTitle1Green500>
+                    <SubTitle1Black>개</SubTitle1Black>
+                  </div>
+                </div>
+                <ControlTab
+                  isSortControl
+                  controlTabItems={TAB_OPTIONS}
+                  selectedTab={selectedTab}
+                  setSelectedTab={setSelectedTab}
+                />
+              </div>
               <GetAllListTable
                 data={convertToTableRowData(
                   searchMealList?.data?.menuResponseDTOList ?? [],
