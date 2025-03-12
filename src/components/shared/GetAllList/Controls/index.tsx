@@ -48,6 +48,11 @@ const GetAllListControls = ({
     }
   };
 
+  const resetCategories = () => {
+    setOrganization!('');
+    setSelectedCategory!('');
+  };
+
   return (
     <div className='flex justify-between'>
       <DatePicker
@@ -60,6 +65,7 @@ const GetAllListControls = ({
         {type === 'viewPlan' && setOrganization && setSelectedCategory && (
           <div className='flex gap-2 whitespace-pre'>
             <Selectbox
+              key={organization}
               options={ORGANIZATION_LIST}
               size='small'
               onChange={handleOrganizationChange}
@@ -82,7 +88,7 @@ const GetAllListControls = ({
               variant='grey'
               size='sm'
               width='fit'
-              onClick={() => setOrganization('')}
+              onClick={resetCategories}
             >
               <Subtitle2White>분류 초기화</Subtitle2White>
             </Button>
