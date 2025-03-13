@@ -19,23 +19,20 @@ const NutritionMenuButton = ({
 }: NutritionMenuButtonProps) => {
   return (
     <div className='flex w-full justify-between'>
-      <button
-        type='button'
+      <div
         className={cn(
-          'group flex w-full items-center justify-between gap-2 hover:cursor-pointer',
+          'group flex w-full items-center justify-between gap-2',
           className,
         )}
-        onFocus={onFocus}
-        onClick={onClick}
       >
         <div
           className={cn('h-4 w-1 bg-green-200', isFocused ? 'flex' : 'hidden')}
         ></div>
         <div className='flex w-full justify-between'>
           <Label1Black>{menuName}</Label1Black>
-          <MealEditButton />
+          <MealEditButton onClick={onClick} onFocus={onFocus} />
         </div>
-      </button>
+      </div>
     </div>
   );
 };
