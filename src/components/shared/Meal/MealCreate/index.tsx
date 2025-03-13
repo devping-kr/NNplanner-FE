@@ -65,7 +65,8 @@ const MealCreate = ({ date, handleSaveMenu }: MealCreateProps) => {
 
   // 기존 메뉴 클릭(연필모양)
   const handleClickMenu = (menu: string) => {
-    setKeyword(menu);
+    // setKeyword(menu);
+    setKeyword('');
     setClickedMenu(menu);
     setIsSearchShow(true);
     resetPagination();
