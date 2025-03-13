@@ -42,7 +42,11 @@ const MealCalendar = ({
     switch (type) {
       case 'create':
       case 'mealPlan':
-        return <NutritionInfo data={data[selectedDate]?.foods} />;
+        if (!data[selectedDate]?.foods) {
+          return null;
+        } else {
+          return <NutritionInfo data={data[selectedDate].foods} />;
+        }
       case 'edit':
         return (
           <MealEdit
