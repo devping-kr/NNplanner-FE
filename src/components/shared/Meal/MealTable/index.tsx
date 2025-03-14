@@ -83,7 +83,9 @@ const MealTable = ({
 
         const content = (
           <div className={cn('flex flex-col gap-2', contentClassName)}>
-            <Label1Black>{item.foodName}</Label1Black>
+            <div className='w-fit'>
+              <Label1Black>{item.foodName}</Label1Black>
+            </div>
             <DynamicTable tableData={tableData} theadColor={theadColor} />
           </div>
         );
@@ -92,7 +94,7 @@ const MealTable = ({
           <button
             type='button'
             key={`${item.foodId}-${index}`}
-            className='flex w-full flex-col rounded-lg text-left transition duration-300 ease-in-out hover:bg-grey-100 active:bg-grey-200'
+            className='flex w-full cursor-pointer flex-col rounded-lg text-left transition duration-300 ease-in-out hover:bg-grey-100 active:bg-grey-200'
             onClick={() => onClick?.(item.foodName)}
           >
             {content}

@@ -63,7 +63,7 @@ const MealEdit = ({ date, data, handleChangeMenu }: MealEditProps) => {
 
   // 기존 메뉴 클릭 했을 때
   const handleClickMenu = (menu: string) => {
-    setKeyword(menu);
+    setKeyword('');
     setClickedMenu(menu);
     resetPagination();
   };
