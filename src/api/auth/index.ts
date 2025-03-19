@@ -1,6 +1,7 @@
 import { post } from '@/lib/axios';
 import { env } from '@/lib/env';
 import {
+  GoogleLoginRequest,
   LoginRequest,
   SendRequest,
   SignupRequest,
@@ -41,9 +42,18 @@ const login = async (request: LoginRequest): Promise<Result<LoginResponse>> => {
   return result;
 };
 
+const googleLogin = async (request: GoogleLoginRequest) => {
+  const response = await post<Result<LoginResponse>>(
+    AUTH_API.GOOGLELOGIN,
+    request,
+  );
+  return response.data;
+};
+
 export const auth = {
   signUp,
   verifySend,
   verifyConfirm,
   login,
+  googleLogin,
 };
