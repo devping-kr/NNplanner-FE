@@ -1,10 +1,13 @@
 'use client';
 
-import { useState } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { env } from '@/lib/env';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { loginSchema } from '@/schema/authSchema';
 import { LoginRequest } from '@/type/auth/authRequest';
+import { saveTokens } from '@/utils/saveTokens';
 import Button from '@/components/common/Button/Button';
 import Icon from '@/components/common/Icon';
 import { Input } from '@/components/common/Input';
@@ -16,6 +19,7 @@ import {
   Subtitle2Black,
 } from '@/components/common/Typography';
 import { BASE_ROUTES } from '@/constants/_navbar';
+import { usePostGoogleLogin } from '@/hooks/auth/usePostGoogleLogin';
 import { usePostLogin } from '@/hooks/auth/usePostLogin';
 import { useAuth } from '@/hooks/useAuth';
 import useNavigate from '@/hooks/useNavigate';
@@ -24,11 +28,16 @@ import { useUserStore } from '@/stores/useUserStore';
 
 const LoginBody = () => {
   const { navigate } = useNavigate();
-  const [isShowPassword, setIsShowPassword] = useState(false);
-  const { mutate: loginMutate } = usePostLogin();
   const { login } = useAuth();
+  const searchParams = useSearchParams();
+
+  const [isShowPassword, setIsShowPassword] = useState(false);
+
   const showToast = useToastStore((set) => set.showToast);
   const setUserInfo = useUserStore((set) => set.setUserInfo);
+
+  const { mutate: loginMutate } = usePostLogin();
+  const { mutate: googleLoginMutate } = usePostGoogleLogin();
 
   const {
     register,
@@ -52,11 +61,39 @@ const LoginBody = () => {
         login();
       },
       onError: (error) => {
-        error.message;
         showToast(`${error.message} 로그인 실패`, 'warning', 1000);
       },
     });
   };
+
+  const googleLoginHandler = () => {
+    navigate(
+      `https://accounts.google.com/o/oauth2/v2/auth?client_id=${env.GOOGLE_CLIENT_ID}&redirect_uri=${env.GOOGLE_REDIRECT_URL}&response_type=code&scope=email%20profile%20openid&access_type=offline`,
+    );
+  };
+
+  useEffect(() => {
+    const authCode = searchParams.get('code');
+    if (authCode) {
+      googleLoginMutate(
+        { authCode: authCode || '' },
+        {
+          onSuccess: (data) => {
+            const { username, userId, email } = data.data;
+            setUserInfo(username, userId, email);
+            login();
+            saveTokens({
+              accessToken: data.data.accessToken,
+              refreshToken: data.data.refreshToken,
+            });
+          },
+          onError: () => {
+            showToast('구글 로그인 실패', 'warning', 1000);
+          },
+        },
+      );
+    }
+  }, [searchParams]);
 
   return (
     <div className='flex w-[480px] flex-col items-center gap-10'>
@@ -131,6 +168,7 @@ const LoginBody = () => {
                 width='full'
                 size='md'
                 variant='outline'
+                onClick={() => googleLoginHandler()}
               >
                 <Icon name='google' width={24} height={24} />
                 <Subtitle2Black>구글로 시작하기</Subtitle2Black>
