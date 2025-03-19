@@ -20,6 +20,7 @@ export const AUTH_API = {
   LOGIN: `${BASE_API.AUTHS}/login`,
   REISSUE: `${BASE_API.AUTHS}/reissue`,
   LOGOUT: `${BASE_API.AUTHS}/logout`,
+  GOOGLELOGIN: `${BASE_API.AUTHS}/oauth2/google`,
 };
 
 /**
