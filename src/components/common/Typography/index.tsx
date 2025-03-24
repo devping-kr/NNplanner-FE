@@ -23,6 +23,16 @@ const customTypography = (
   return Typography;
 };
 
+export const LandingWhite = customTypography('span', {
+  type: 'Landing',
+  color: 'white',
+});
+
+export const LandingBadgeBlack = customTypography('span', {
+  type: 'LandingBadge',
+  color: 'black',
+});
+
 export const H1Black = customTypography('span', {
   type: 'H1',
   color: 'black',
@@ -36,6 +46,11 @@ export const H2Black = customTypography('span', {
 export const H2BlackH2 = customTypography('h2', {
   type: 'H2',
   color: 'black',
+});
+
+export const H3White = customTypography('h3', {
+  type: 'H3',
+  color: 'white',
 });
 
 export const H4Black = customTypography('span', {
@@ -71,6 +86,16 @@ export const Body2Black = customTypography('span', {
 export const Body2Grey600 = customTypography('span', {
   type: 'Body2',
   color: 'grey600',
+});
+
+export const Body2White = customTypography('span', {
+  type: 'Body2',
+  color: 'white',
+});
+
+export const Body2Grey900 = customTypography('span', {
+  type: 'Body2',
+  color: 'grey900',
 });
 
 export const Body3Black = customTypography('span', {

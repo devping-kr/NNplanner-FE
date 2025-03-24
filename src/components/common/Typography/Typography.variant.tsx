@@ -3,6 +3,8 @@ import { cva } from 'class-variance-authority';
 export const typographyVariants = cva('whitespace-pre-line text-wrap', {
   variants: {
     type: {
+      Landing: 'text-[64px] leading-[1.44] tracking-[-0.008em] font-semibold',
+      LandingBadge: 'text-[40px] leading-[1.44] tracking-[-0.008em] font-light',
       H1: 'text-[40px] leading-[1.44] tracking-[-0.008em] font-bold',
       H2: 'text-[32px] leading-[1.44] tracking-[-0.008em] font-bold',
       H3: 'text-[28px] leading-[1.44] tracking-[-0.008em] font-bold',
