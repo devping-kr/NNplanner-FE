@@ -18,7 +18,7 @@ const SecondContent = () => {
         className='flex w-[1200px] justify-center gap-8'
         initial={{ y: 200 }}
         whileInView={{ y: 0 }}
-        viewport={{ amount: 0.3 }}
+        viewport={{ amount: 'some', once: true }}
         transition={{ duration: 0.8, ease: 'easeInOut' }}
       >
         {LANDING_SERVICE.map((service) => (
