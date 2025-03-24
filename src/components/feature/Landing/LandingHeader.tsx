@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import Button from '@/components/common/Button/Button';
 import HeaderMenuItem from '@/components/feature/Landing/_components/HeaderMenuItem';
-import { LandingHeaderMenus } from '@/constants/_landingHeader';
+import { LANDING_HEADER_MENUS } from '@/constants/_landingHeader';
 
 const LandingHeader = () => {
   const router = useRouter();
@@ -20,7 +20,7 @@ const LandingHeader = () => {
         className='hover:cursor-pointer'
       />
       <div className='flex w-[528px] items-center justify-between'>
-        {LandingHeaderMenus.map((menu) => (
+        {LANDING_HEADER_MENUS.map((menu) => (
           <HeaderMenuItem menu={menu} key={menu.id} />
         ))}
       </div>
