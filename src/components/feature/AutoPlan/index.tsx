@@ -212,10 +212,10 @@ const AutoPlan = () => {
                   isError={isCategoryError}
                 />
                 {ORGANIZATION_LIST.map(
-                  (item) =>
-                    selectedCategory.majorCategory === item.value && (
+                  (organization) =>
+                    selectedCategory.majorCategory === organization.value && (
                       <Selectbox
-                        key={item.value}
+                        key={organization.value}
                         options={minorCategories}
                         buttonSize='sm'
                         className='min-w-[194px] justify-start'
