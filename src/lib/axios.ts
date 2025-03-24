@@ -77,6 +77,12 @@ instance.interceptors.response.use(
       return Promise.resolve();
     }
 
+    if (error.response.status === 403) {
+      destroyTokens();
+      redirectToLogin();
+      return Promise.reject(error);
+    }
+
     if (
       !originalRequest ||
       error.response?.status !== 410 ||
