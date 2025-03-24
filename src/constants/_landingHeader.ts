@@ -1,4 +1,4 @@
-export const LandingHeaderMenus = [
+export const LANDING_HEADER_MENUS = [
   {
     name: '서비스 소개',
     id: 0,
