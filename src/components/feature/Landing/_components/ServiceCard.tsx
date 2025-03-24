@@ -9,7 +9,7 @@ interface Props {
 
 const ServiceCard = ({ imgHref, firstContent, secondContent }: Props) => {
   return (
-    <div className='flex flex-col items-center gap-4 rounded-2xl bg-grey-50 p-8 pb-12'>
+    <div className='flex w-full flex-col items-center gap-4 rounded-2xl bg-grey-50 p-8 pb-12'>
       <Image
         src={imgHref}
         alt='서비스카드 이미지'

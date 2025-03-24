@@ -15,7 +15,7 @@ const SecondContent = () => {
         subSecondHeader='이런 고민 해보셨나요?'
       />
       <motion.div
-        className='flex justify-center gap-8'
+        className='flex w-[1200px] justify-center gap-8'
         initial={{ y: 200 }}
         whileInView={{ y: 0 }}
         viewport={{ amount: 0.3 }}
