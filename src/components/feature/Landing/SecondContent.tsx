@@ -7,7 +7,7 @@ import { LANDING_SERVICE } from '@/constants/_landingService';
 
 const SecondContent = () => {
   return (
-    <div className='mb-24 flex flex-col gap-10'>
+    <div className='mb-24 flex flex-col gap-10' id='section1'>
       <ContentHeader
         mainHeader='서비스 소개'
         subFirstHeader='영양사님,'

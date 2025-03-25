@@ -7,7 +7,7 @@ import { QNA_DATA } from '@/constants/_landingService';
 
 const FifthContent = () => {
   return (
-    <section className='mb-24 flex flex-col gap-10'>
+    <section className='mb-24 flex flex-col gap-10' id='section3'>
       <ContentHeader
         mainHeader='자주 묻는 질문'
         subFirstHeader='FAQ'

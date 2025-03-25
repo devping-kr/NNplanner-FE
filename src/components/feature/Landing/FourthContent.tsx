@@ -12,6 +12,7 @@ const FourthContent = () => {
       animate={{ borderRadius: 56, marginLeft: 32, marginRight: 32 }}
       transition={{ duration: 0.8, ease: 'easeInOut' }}
       className='flex flex-col items-center gap-8 bg-grey-50 px-[360px] pb-24'
+      id='section2'
     >
       <ContentHeader
         mainHeader='기능 소개'

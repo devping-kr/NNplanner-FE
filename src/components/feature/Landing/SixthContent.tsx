@@ -12,6 +12,7 @@ const SixthContent = () => {
       animate={{ borderRadius: 56, marginLeft: 32, marginRight: 32 }}
       transition={{ duration: 0.8, ease: 'easeInOut' }}
       className='relative flex flex-col items-center gap-8 bg-green-50 px-[360px] pb-24'
+      id='section4'
     >
       <Image
         src='/imgs/landing/stickers/graphic.png'

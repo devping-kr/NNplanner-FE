@@ -9,6 +9,7 @@ import {
   H3White,
   LandingWhite,
 } from '@/components/common/Typography';
+import useNavigate from '@/hooks/useNavigate';
 
 const iconAnimation = (delay: number) => ({
   y: [0, -10, 0],
@@ -22,12 +23,15 @@ const iconAnimation = (delay: number) => ({
 });
 
 const FirstContent = () => {
+  const { navigate } = useNavigate();
+
   return (
     <motion.section
       initial={{ borderRadius: 0, marginLeft: 0, marginRight: 0 }}
       animate={{ borderRadius: 56, marginLeft: 32, marginRight: 32 }}
       transition={{ duration: 0.8, ease: 'easeInOut' }}
       className='bg-green-500'
+      id='section0'
     >
       <div className='flex flex-col gap-8 px-[328px] py-12'>
         <div className='flex flex-col gap-2'>
@@ -68,6 +72,7 @@ const FirstContent = () => {
             className='flex gap-4 rounded-full px-8'
             variant='landingPrimary'
             size='xl'
+            onClick={() => navigate('/login')}
           >
             <H3White>지금 무료로 시작하기</H3White>
             <Icon name='arrowRight' width={32} height={32} color='white' />
