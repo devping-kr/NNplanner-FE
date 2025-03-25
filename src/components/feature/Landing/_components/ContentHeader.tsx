@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { cn } from '@/utils/core';
 import {
   H1Green500,
   H1Grey900,
@@ -12,6 +13,7 @@ interface Props {
   subFirstHeader: string;
   subSecondHeader?: string;
   subSecondColor?: string;
+  isCenter?: boolean;
 }
 
 const ContentHeader = ({
@@ -19,10 +21,14 @@ const ContentHeader = ({
   subFirstHeader,
   subSecondHeader,
   subSecondColor = 'black',
+  isCenter = true,
 }: Props) => {
   return (
     <motion.div
-      className='mt-20 flex flex-col items-center gap-4'
+      className={cn(
+        'mt-20 flex w-full flex-col gap-4',
+        !isCenter ? 'items-start' : 'items-center',
+      )}
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       viewport={{ amount: 0.5 }}
