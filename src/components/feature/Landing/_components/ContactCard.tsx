@@ -66,7 +66,7 @@ const ContactCard = () => {
       className='flex items-end gap-8'
       onSubmit={handleSubmit(onSubmit)}
     >
-      <div className='flex w-[456px] flex-col gap-6'>
+      <div className='flex w-[488px] flex-col gap-6'>
         <div className='flex flex-col gap-2'>
           <Label1Grey900 htmlFor='user_name'>이름</Label1Grey900>
           <div className='h-16'>
@@ -98,7 +98,7 @@ const ContactCard = () => {
           <Selectbox className='flex h-16 justify-start' />
         </div>
       </div>
-      <div className='relative flex h-[318px] w-[456px] flex-col gap-2'>
+      <div className='relative flex h-[318px] w-[488px] flex-col gap-2'>
         <Caption1Placeholder className='absolute bottom-5 right-5'>
           {messageLength} / 600
         </Caption1Placeholder>

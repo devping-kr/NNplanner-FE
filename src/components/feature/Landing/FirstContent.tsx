@@ -30,10 +30,10 @@ const FirstContent = () => {
       initial={{ borderRadius: 0, marginLeft: 0, marginRight: 0 }}
       animate={{ borderRadius: 56, marginLeft: 32, marginRight: 32 }}
       transition={{ duration: 0.8, ease: 'easeInOut' }}
-      className='bg-green-500'
+      className='bg-green-500 px-[328px] py-12'
       id='section0'
     >
-      <div className='flex flex-col gap-8 px-[328px] py-12'>
+      <div className='flex w-[1200px] flex-col gap-8'>
         <div className='flex flex-col gap-2'>
           <div className='flex items-center justify-between'>
             <LandingWhite>학교&#8226;병원 영양사들을 위한</LandingWhite>
@@ -61,7 +61,7 @@ const FirstContent = () => {
           width={1200}
           height={600}
           style={{ width: 1200, height: 600 }}
-          className='rounded-2xl'
+          className='w-[1200px] rounded-2xl'
         />
         <div className='flex items-center justify-between'>
           <div className='flex flex-col'>

@@ -3,7 +3,7 @@ import { Body3Grey400 } from '@/components/common/Typography';
 
 const LandingFooter = () => {
   return (
-    <div className='flex w-full items-center justify-between p-8'>
+    <div className='flex w-full items-center justify-between p-8 pb-32'>
       <Image
         src='/imgs/landing/greyLogo.png'
         alt='회색 로고'
