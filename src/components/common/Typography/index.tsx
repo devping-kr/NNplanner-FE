@@ -68,6 +68,11 @@ export const H4Black = customTypography('h4', {
   color: 'black',
 });
 
+export const H5White = customTypography('h5', {
+  type: 'H5',
+  color: 'white',
+});
+
 export const H5Black = customTypography('h5', {
   type: 'H5',
   color: 'black',
@@ -93,9 +98,19 @@ export const Label1Black = customTypography('label', {
   color: 'black',
 });
 
+export const Label1Grey900 = customTypography('label', {
+  type: 'label1',
+  color: 'grey900',
+});
+
 export const Label2Black = customTypography('label', {
   type: 'label2',
   color: 'black',
+});
+
+export const Caption1Placeholder = customTypography('span', {
+  type: 'Caption1',
+  color: 'placeholder',
 });
 
 export const Body2Black = customTypography('span', {

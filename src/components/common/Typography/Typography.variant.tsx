@@ -65,6 +65,7 @@ export const typographyVariants = cva('whitespace-pre-line text-wrap', {
       grey800: 'text-grey-800',
       grey900: 'text-grey-900',
       assistive: 'text-assistiveTxt',
+      placeholder: 'text-placeholder',
 
       // 리디자인 후 삭제
       darken: 'text-dark-200',
