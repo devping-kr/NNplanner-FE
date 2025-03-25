@@ -200,6 +200,9 @@ const AutoPlan = () => {
                 </div>
               )}
 
+              {/* TODO: 학교명 선택시 학교명 검색 api
+              input창, 검색 결과 표시할 dropdown 필요.
+              */}
               <div className='relative flex gap-4'>
                 <Selectbox
                   options={ORGANIZATION_LIST}
