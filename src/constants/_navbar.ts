@@ -12,6 +12,7 @@ export const BASE_ROUTES = {
   SIGNUP: '/signup',
   LOGIN: '/login',
   MY_PAGE: '/myPage',
+  LANDING: '/',
 };
 
 /**
@@ -67,6 +68,7 @@ const createRoutes = (baseRoutes: typeof BASE_ROUTES) => ({
   AUTO_PLAN: baseRoutes.AUTO,
   MENUAL_PLAN: baseRoutes.MENUAL,
   MYPAGE: baseRoutes.MY_PAGE,
+  LANDING: baseRoutes.LANDING,
 });
 
 export const ROUTES = createRoutes(BASE_ROUTES);
