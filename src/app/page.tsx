@@ -1,6 +1,7 @@
 import FifthContent from '@/components/feature/Landing/FifthContent';
 import FirstContent from '@/components/feature/Landing/FirstContent';
 import FourthContent from '@/components/feature/Landing/FourthContent';
+import LandingFooter from '@/components/feature/Landing/LandingFooter';
 import LandingHeader from '@/components/feature/Landing/LandingHeader';
 import SecondContent from '@/components/feature/Landing/SecondContent';
 import SixthContent from '@/components/feature/Landing/SixthContent';
@@ -16,6 +17,7 @@ export default function Home() {
       <FourthContent />
       <FifthContent />
       <SixthContent />
+      <LandingFooter />
     </div>
   );
 }

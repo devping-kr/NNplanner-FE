@@ -158,6 +158,11 @@ export const Body3Blue = customTypography('span', {
   color: 'blue',
 });
 
+export const Body3Grey400 = customTypography('span', {
+  type: 'Body3',
+  color: 'grey400',
+});
+
 export const Body3Grey600 = customTypography('span', {
   type: 'Body3',
   color: 'grey600',
