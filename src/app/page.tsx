@@ -1,3 +1,4 @@
+import FifthContent from '@/components/feature/Landing/FifthContent';
 import FirstContent from '@/components/feature/Landing/FirstContent';
 import FourthContent from '@/components/feature/Landing/FourthContent';
 import LandingHeader from '@/components/feature/Landing/LandingHeader';
@@ -12,6 +13,7 @@ export default function Home() {
       <SecondContent />
       <ThirdContent />
       <FourthContent />
+      <FifthContent />
     </div>
   );
 }
