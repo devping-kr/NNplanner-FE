@@ -78,6 +78,11 @@ export const H5Grey800 = customTypography('h5', {
   color: 'grey800',
 });
 
+export const H5Green500 = customTypography('h5', {
+  type: 'H5',
+  color: 'green',
+});
+
 export const Body3Grey500 = customTypography('span', {
   type: 'Body3',
   color: 'grey500',
