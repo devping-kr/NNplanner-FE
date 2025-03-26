@@ -23,12 +23,32 @@ const customTypography = (
   return Typography;
 };
 
-export const H1Black = customTypography('span', {
+export const LandingWhite = customTypography('span', {
+  type: 'Landing',
+  color: 'white',
+});
+
+export const LandingBadgeBlack = customTypography('span', {
+  type: 'LandingBadge',
+  color: 'black',
+});
+
+export const H1Black = customTypography('h1', {
   type: 'H1',
   color: 'black',
 });
 
-export const H2Black = customTypography('span', {
+export const H1Grey900 = customTypography('h1', {
+  type: 'H1',
+  color: 'grey900',
+});
+
+export const H1Green500 = customTypography('h1', {
+  type: 'H1',
+  color: 'green',
+});
+
+export const H2Black = customTypography('h2', {
   type: 'H2',
   color: 'black',
 });
@@ -38,14 +58,34 @@ export const H2BlackH2 = customTypography('h2', {
   color: 'black',
 });
 
-export const H4Black = customTypography('span', {
+export const H3White = customTypography('h3', {
+  type: 'H3',
+  color: 'white',
+});
+
+export const H4Black = customTypography('h4', {
   type: 'H4',
   color: 'black',
 });
 
-export const H5Black = customTypography('span', {
+export const H5White = customTypography('h5', {
+  type: 'H5',
+  color: 'white',
+});
+
+export const H5Black = customTypography('h5', {
   type: 'H5',
   color: 'black',
+});
+
+export const H5Grey800 = customTypography('h5', {
+  type: 'H5',
+  color: 'grey800',
+});
+
+export const H5Green500 = customTypography('h5', {
+  type: 'H5',
+  color: 'green',
 });
 
 export const Body3Grey500 = customTypography('span', {
@@ -58,9 +98,19 @@ export const Label1Black = customTypography('label', {
   color: 'black',
 });
 
+export const Label1Grey900 = customTypography('label', {
+  type: 'label1',
+  color: 'grey900',
+});
+
 export const Label2Black = customTypography('label', {
   type: 'label2',
   color: 'black',
+});
+
+export const Caption1Placeholder = customTypography('span', {
+  type: 'Caption1',
+  color: 'placeholder',
 });
 
 export const Body2Black = customTypography('span', {
@@ -71,6 +121,21 @@ export const Body2Black = customTypography('span', {
 export const Body2Grey600 = customTypography('span', {
   type: 'Body2',
   color: 'grey600',
+});
+
+export const Body2White = customTypography('span', {
+  type: 'Body2',
+  color: 'white',
+});
+
+export const Body2Grey900 = customTypography('span', {
+  type: 'Body2',
+  color: 'grey900',
+});
+
+export const Body2Grey800 = customTypography('span', {
+  type: 'Body2',
+  color: 'grey800',
 });
 
 export const Body3Black = customTypography('span', {
@@ -91,6 +156,11 @@ export const Body3Red = customTypography('span', {
 export const Body3Blue = customTypography('span', {
   type: 'Body3',
   color: 'blue',
+});
+
+export const Body3Grey400 = customTypography('span', {
+  type: 'Body3',
+  color: 'grey400',
 });
 
 export const Body3Grey600 = customTypography('span', {

@@ -3,10 +3,12 @@ import ArrowNext from '@/components/common/Icon/assets/ArrowNext';
 import ArrowNextBlock from '@/components/common/Icon/assets/ArrowNextBlock';
 import ArrowPrev from '@/components/common/Icon/assets/ArrowPrev';
 import ArrowPrevBlock from '@/components/common/Icon/assets/ArrowPrevBlock';
+import ArrowRight from '@/components/common/Icon/assets/ArrowRight';
 import Arrowup from '@/components/common/Icon/assets/ArrowUp';
 import Auto from '@/components/common/Icon/assets/Auto';
 import Calendar from '@/components/common/Icon/assets/Calendar';
 import Chart from '@/components/common/Icon/assets/Chart';
+import ChartPie from '@/components/common/Icon/assets/ChartPie';
 import CheckCircle from '@/components/common/Icon/assets/CheckCircle';
 import Danger from '@/components/common/Icon/assets/Danger';
 import Dashboard from '@/components/common/Icon/assets/Dashboard';
@@ -25,6 +27,8 @@ import Plus from '@/components/common/Icon/assets/Plus';
 import Profile from '@/components/common/Icon/assets/Profile';
 import Search from '@/components/common/Icon/assets/Search';
 import Show from '@/components/common/Icon/assets/Show';
+import Squares2x2 from '@/components/common/Icon/assets/Squares2x2';
+import TableCells from '@/components/common/Icon/assets/TableCells';
 import Time from '@/components/common/Icon/assets/Time';
 import TrendDown from '@/components/common/Icon/assets/TrendDown';
 import TrendUp from '@/components/common/Icon/assets/TrendUp';
@@ -141,6 +145,22 @@ export const iconMap: Record<string, IconMapEntry> = {
   emptyCalendar: {
     type: 'stroke',
     file: EmptyCalendar,
+  },
+  squares: {
+    type: 'stroke',
+    file: Squares2x2,
+  },
+  tablecells: {
+    type: 'stroke',
+    file: TableCells,
+  },
+  chartPie: {
+    type: 'stroke',
+    file: ChartPie,
+  },
+  arrowRight: {
+    type: 'stroke',
+    file: ArrowRight,
   },
 };
 

@@ -3,6 +3,8 @@ import { cva } from 'class-variance-authority';
 export const typographyVariants = cva('whitespace-pre-line text-wrap', {
   variants: {
     type: {
+      Landing: 'text-[64px] leading-[1.44] tracking-[-0.008em] font-semibold',
+      LandingBadge: 'text-[40px] leading-[1.44] tracking-[-0.008em] font-light',
       H1: 'text-[40px] leading-[1.44] tracking-[-0.008em] font-bold',
       H2: 'text-[32px] leading-[1.44] tracking-[-0.008em] font-bold',
       H3: 'text-[28px] leading-[1.44] tracking-[-0.008em] font-bold',
@@ -60,8 +62,10 @@ export const typographyVariants = cva('whitespace-pre-line text-wrap', {
       grey500: 'text-grey-500',
       grey600: 'text-grey-600',
       grey700: 'text-grey-700',
+      grey800: 'text-grey-800',
       grey900: 'text-grey-900',
       assistive: 'text-assistiveTxt',
+      placeholder: 'text-placeholder',
 
       // 리디자인 후 삭제
       darken: 'text-dark-200',

@@ -8,7 +8,12 @@ export const config = {
   ],
 };
 
-const publicRoutes = [AUTH_LINKS.signup, AUTH_LINKS.login, ROUTES.SURVEY.TAKE];
+const publicRoutes = [
+  AUTH_LINKS.signup,
+  AUTH_LINKS.login,
+  ROUTES.SURVEY.TAKE,
+  ROUTES.LANDING,
+];
 const publicRoutePatterns = [/^\/survey\/take\/[^/]+$/];
 
 export function middleware(request: NextRequest) {
