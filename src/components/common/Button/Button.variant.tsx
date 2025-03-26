@@ -16,7 +16,7 @@ export const buttonVariants = cva(
           'bg-white-100 text-black-100 border border-grey-100 hover:bg-grey-100 active:bg-grey-200 disabled:bg-white-100 disabled:text-grey-200 disabled:border-grey-100',
         soft: 'bg-green-50 text-black-100 hover:bg-green-100 active:bg-green-200',
         landingPrimary:
-          'bg-green-600 text-white-100 hover:bg-green-700 active:bg-green-800 ',
+          'bg-green-600 text-white-100 hover:bg-green-700 active:bg-green-800',
         landingOutline:
           'bg-white-100 text-green-500 border border-green-500 hover:bg-green-500 hover:text-white-100 active:bg-green-600 active:text-white-100',
         landingPrimaryCircle:
