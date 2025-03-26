@@ -22,7 +22,6 @@ const FunctionCard = ({
           alt='기능 이미지'
           width={94}
           height={104}
-          style={{ width: 94, height: 104 }}
           className='h-[104px] w-[94px]'
         />
       </div>

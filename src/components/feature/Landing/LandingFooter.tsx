@@ -9,7 +9,6 @@ const LandingFooter = () => {
         alt='회색 로고'
         width={66}
         height={48}
-        style={{ width: 66, height: 48 }}
       />
       <Body3Grey400>© 2025 냠냠플래너. All Rights Reserved.</Body3Grey400>
       <Body3Grey400>plannernn@gmail.com</Body3Grey400>

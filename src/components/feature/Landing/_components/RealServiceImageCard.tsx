@@ -29,16 +29,14 @@ const RealServiceImageCard = ({ href, content, id }: Props) => {
             alt='스티커'
             width={100}
             height={74}
-            style={{ width: 100, height: 74 }}
-            className='absolute -right-56 bottom-[143px]'
+            className='absolute -right-56 bottom-[143px] h-[74px] w-[100px]'
           />
           <Image
             src='/imgs/landing/stickers/sticker2.png'
             alt='스티커'
             width={100}
             height={74}
-            style={{ width: 100, height: 74 }}
-            className='absolute -right-44 bottom-4'
+            className='absolute -right-44 bottom-4 h-[74px] w-[100px]'
           />
         </>
       )}
@@ -48,8 +46,7 @@ const RealServiceImageCard = ({ href, content, id }: Props) => {
           alt='스티커'
           width={96}
           height={64}
-          style={{ width: 96, height: 64 }}
-          className='absolute -left-20 top-24'
+          className='absolute -left-20 top-24 h-16 w-24'
         />
       )}
       {id === 2 && (
@@ -59,24 +56,21 @@ const RealServiceImageCard = ({ href, content, id }: Props) => {
             alt='스티커'
             width={100}
             height={74}
-            style={{ width: 100, height: 74 }}
-            className='absolute -left-56 top-32'
+            className='absolute -left-56 top-32 h-[74px] w-[100px]'
           />
           <Image
             src='/imgs/landing/stickers/sticker5.png'
             alt='스티커'
             width={100}
             height={74}
-            style={{ width: 100, height: 74 }}
-            className='absolute -left-48 top-56'
+            className='absolute -left-48 top-56 h-[74px] w-[100px]'
           />
           <Image
             src='/imgs/landing/stickers/sticker6.png'
             alt='스티커'
             width={100}
             height={74}
-            style={{ width: 100, height: 74 }}
-            className='absolute -bottom-10 right-28'
+            className='absolute -bottom-10 right-28 h-[74px] w-[100px]'
           />
         </>
       )}
@@ -85,8 +79,7 @@ const RealServiceImageCard = ({ href, content, id }: Props) => {
         alt='실제 서비스 사진'
         width={884}
         height={424}
-        style={{ width: 884, height: 424 }}
-        className='rounded-2xl'
+        className='h-[424px] w-[884px] rounded-2xl'
       />
       <H5Grey800>{content}</H5Grey800>
     </motion.div>

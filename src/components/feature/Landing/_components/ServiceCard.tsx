@@ -15,7 +15,7 @@ const ServiceCard = ({ imgHref, firstContent, secondContent }: Props) => {
         alt='서비스카드 이미지'
         width={280}
         height={280}
-        style={{ width: 280, height: 280 }}
+        className='h-[280px] w-[280px]'
       />
       <div className='flex flex-col items-center'>
         <H5Grey800>{firstContent}</H5Grey800>

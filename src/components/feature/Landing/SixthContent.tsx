@@ -18,10 +18,9 @@ const SixthContent = () => {
         <Image
           src='/imgs/landing/stickers/graphic.png'
           alt='스티커 모음'
-          className='absolute right-8 top-0'
+          className='absolute right-8 top-0 h-[235px] w-[552px]'
           width={552}
           height={235}
-          style={{ width: 552, height: 235 }}
         />
         <ContentHeader
           mainHeader='문의하기'

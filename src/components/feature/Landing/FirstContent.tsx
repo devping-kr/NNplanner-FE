@@ -60,7 +60,6 @@ const FirstContent = () => {
           alt='첫번째 랜딩페이지 사진'
           width={1200}
           height={600}
-          style={{ width: 1200, height: 600 }}
           className='w-[1200px] rounded-2xl'
         />
         <div className='flex items-center justify-between'>
