@@ -50,9 +50,16 @@ const ContactCard = () => {
       },
     )
       .then(() => {
-        showToast('제출이 성공적으로 완료되었습니다.', 'success', 1000);
+        showToast('메일 전송이 성공적으로 완료되었습니다.', 'success', 1000);
       })
-      .catch((error) => showToast(error, 'warning', 1000));
+      .catch((error) => {
+        const errorMessage =
+          typeof error === 'string'
+            ? error
+            : error?.message || '메일 전송 중 오류가 발생했습니다.';
+
+        showToast(errorMessage, 'warning', 1000);
+      });
   };
 
   const messageLength = watch('message').replace(
