@@ -16,15 +16,13 @@ const FunctionCard = ({
 }: Props) => {
   return (
     <div className='flex w-[264px] flex-col items-center gap-8'>
-      <div className='flex items-center justify-center rounded-2xl bg-white-100 px-[85px] py-14'>
-        <Image
-          src={imgHref}
-          alt='기능 이미지'
-          width={94}
-          height={104}
-          className='h-[104px] w-[94px]'
-        />
-      </div>
+      <Image
+        src={imgHref}
+        alt='기능 이미지'
+        width={264}
+        height={216}
+        className='h-[216px] w-[264px]'
+      />
       <div className='flex flex-col items-center gap-4'>
         <H5Grey800>{title}</H5Grey800>
         <div className='flex flex-col items-center'>
