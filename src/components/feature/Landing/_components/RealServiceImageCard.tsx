@@ -25,48 +25,34 @@ const RealServiceImageCard = ({ href, content, id }: Props) => {
       {id === 0 && (
         <>
           <Image
-            src='/imgs/landing/stickers/sticker1.png'
+            src='/imgs/landing/stickers/graphic01.png'
             alt='스티커'
-            width={100}
-            height={74}
-            className='absolute -right-56 bottom-[143px] h-[74px] w-[100px]'
-          />
-          <Image
-            src='/imgs/landing/stickers/sticker2.png'
-            alt='스티커'
-            width={100}
-            height={74}
-            className='absolute -right-44 bottom-4 h-[74px] w-[100px]'
+            width={183}
+            height={202}
+            className='absolute -right-56 bottom-4'
           />
         </>
       )}
       {id === 1 && (
         <Image
-          src='/imgs/landing/stickers/sticker3.png'
+          src='/imgs/landing/stickers/graphic02.png'
           alt='스티커'
-          width={96}
-          height={64}
-          className='absolute -left-20 top-24 h-16 w-24'
+          width={100}
+          height={74}
+          className='absolute -left-[70px] top-32 h-[74px] w-[100px]'
         />
       )}
       {id === 2 && (
         <>
           <Image
-            src='/imgs/landing/stickers/sticker4.png'
+            src='/imgs/landing/stickers/graphic03.png'
             alt='스티커'
-            width={100}
-            height={74}
-            className='absolute -left-56 top-32 h-[74px] w-[100px]'
+            width={132}
+            height={172}
+            className='absolute -left-56 top-32 h-[172px] w-[132px]'
           />
           <Image
-            src='/imgs/landing/stickers/sticker5.png'
-            alt='스티커'
-            width={100}
-            height={74}
-            className='absolute -left-48 top-56 h-[74px] w-[100px]'
-          />
-          <Image
-            src='/imgs/landing/stickers/sticker6.png'
+            src='/imgs/landing/stickers/graphic04.png'
             alt='스티커'
             width={100}
             height={74}

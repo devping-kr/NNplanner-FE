@@ -16,7 +16,7 @@ const SixthContent = () => {
     >
       <div className='relative flex flex-col items-center gap-8 px-[328px] pb-24'>
         <Image
-          src='/imgs/landing/stickers/graphic.png'
+          src='/imgs/landing/stickers/graphic05.png'
           alt='스티커 모음'
           className='absolute right-8 top-0 h-[235px] w-[552px]'
           width={552}
