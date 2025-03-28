@@ -33,6 +33,11 @@ export const LandingBadgeBlack = customTypography('span', {
   color: 'black',
 });
 
+export const H1White = customTypography('h1', {
+  type: 'H1',
+  color: 'white',
+});
+
 export const H1Black = customTypography('h1', {
   type: 'H1',
   color: 'black',
@@ -60,6 +65,11 @@ export const H2BlackH2 = customTypography('h2', {
 
 export const H3White = customTypography('h3', {
   type: 'H3',
+  color: 'white',
+});
+
+export const H4White = customTypography('h4', {
+  type: 'H4',
   color: 'white',
 });
 
@@ -221,6 +231,11 @@ export const Subtitle2Grey900 = customTypography('span', {
 export const Subtitle2Red500 = customTypography('span', {
   type: 'Subtitle2',
   color: 'red',
+});
+
+export const SubTitle3White = customTypography('span', {
+  type: 'Subtitle3',
+  color: 'white',
 });
 
 export const SubTitle3Black = customTypography('span', {
