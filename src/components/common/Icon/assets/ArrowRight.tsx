@@ -11,16 +11,16 @@ const ArrowRight = ({
     <svg
       width={width}
       height={height}
-      viewBox='0 0 32 32'
+      viewBox='0 0 24 24'
       fill='none'
       xmlns='http://www.w3.org/2000/svg'
       className={className}
       {...props}
     >
       <path
-        d='M18 6L28 16M28 16L18 26M28 16H4'
+        d='M13.5 4.5L21 12M21 12L13.5 19.5M21 12H3'
         stroke={color}
-        strokeWidth='3'
+        strokeWidth='1.5'
         strokeLinecap='round'
         strokeLinejoin='round'
       />
