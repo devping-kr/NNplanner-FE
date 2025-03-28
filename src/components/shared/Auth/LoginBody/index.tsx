@@ -148,7 +148,6 @@ const LoginBody = () => {
               <Subtitle1White>로그인</Subtitle1White>
             </Button>
           </div>
-          {/* <div className='flex w-full flex-col items-center gap-6'> */}
           <div className='flex w-full flex-col gap-4'>
             <Button
               className='flex items-center justify-between px-4'
@@ -173,7 +172,6 @@ const LoginBody = () => {
               <div />
             </Button>
           </div>
-          {/* </div> */}
         </fieldset>
       </form>
     </div>
