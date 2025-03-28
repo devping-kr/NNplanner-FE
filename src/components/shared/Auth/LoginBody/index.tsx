@@ -13,7 +13,6 @@ import Icon from '@/components/common/Icon';
 import { Input } from '@/components/common/Input';
 import {
   Caption1Red500,
-  H4Black,
   Label1Black,
   Subtitle1White,
   Subtitle2Black,
@@ -149,32 +148,29 @@ const LoginBody = () => {
               <Subtitle1White>로그인</Subtitle1White>
             </Button>
           </div>
-          <div className='flex w-full flex-col items-center gap-6'>
-            <H4Black>회원가입</H4Black>
-            <div className='flex w-full flex-col gap-4'>
-              <Button
-                onClick={() => navigate(BASE_ROUTES.SIGNUP)}
-                variant='soft'
-                className='flex items-center justify-between px-4'
-                width='full'
-                size='md'
-              >
-                <Icon name='envelope' width={24} height={24} color='black' />
-                <Subtitle2Black>이메일로 시작하기</Subtitle2Black>
-                <div />
-              </Button>
-              <Button
-                className='flex items-center justify-between px-4'
-                width='full'
-                size='md'
-                variant='outline'
-                onClick={() => googleLoginHandler()}
-              >
-                <Icon name='google' width={24} height={24} />
-                <Subtitle2Black>구글로 시작하기</Subtitle2Black>
-                <div />
-              </Button>
-            </div>
+          <div className='flex w-full flex-col gap-4'>
+            <Button
+              className='flex items-center justify-between px-4'
+              width='full'
+              size='md'
+              variant='outline'
+              onClick={() => googleLoginHandler()}
+            >
+              <Icon name='google' width={24} height={24} />
+              <Subtitle2Black>구글로 시작하기</Subtitle2Black>
+              <div />
+            </Button>
+            <Button
+              onClick={() => navigate(BASE_ROUTES.SIGNUP)}
+              variant='soft'
+              className='flex items-center justify-between px-4'
+              width='full'
+              size='md'
+            >
+              <Icon name='envelope' width={24} height={24} color='black' />
+              <Subtitle2Black>이메일로 시작하기</Subtitle2Black>
+              <div />
+            </Button>
           </div>
         </fieldset>
       </form>
