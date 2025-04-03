@@ -176,9 +176,9 @@ const SurveyTake = ({ id }: Props) => {
                 )}
               {question.answerType === 'text' &&
                 MANY_INPUT_INDEX.includes(idx) && (
-                  <div>
+                  <div className='flex flex-col gap-1'>
                     {[0, 1, 2].map((subIdx) => (
-                      <div key={subIdx} className='h-16'>
+                      <div key={subIdx} className='h-12'>
                         <Input
                           variant='grey50'
                           size='m'
