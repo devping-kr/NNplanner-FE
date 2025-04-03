@@ -4,8 +4,14 @@ import { Body3BlackLabel } from '@/components/common/Typography';
 interface Props {
   option: number;
   question: Question;
-  answers: { [key: number]: number | string };
-  handleChange: (questionId: number, value: number | string) => void;
+  answers: { [key: number]: number | string | string[] };
+  handleChange: (
+    questionId: number,
+    value: number | string,
+    idx: number,
+    answerType: 'text' | 'radio',
+    subIdx?: number,
+  ) => void;
 }
 
 const Radio = ({ option, question, answers, handleChange }: Props) => {
@@ -18,7 +24,9 @@ const Radio = ({ option, question, answers, handleChange }: Props) => {
           id={`${question.questionId}_${option}`}
           value={option}
           checked={answers[question.questionId] === option}
-          onChange={() => handleChange(question.questionId, option)}
+          onChange={() =>
+            handleChange(question.questionId, option, 4, question.answerType)
+          }
           className='peer sr-only'
         />
         <span className='absolute h-5 w-5 rounded-full border border-grey-300 bg-white-100 peer-hover:border-2 peer-hover:border-grey-500'></span>
