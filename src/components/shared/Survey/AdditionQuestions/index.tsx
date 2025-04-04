@@ -44,7 +44,6 @@ const AdditionQuestions = ({ inputs, setInputs, successSubmit }: Props) => {
         {
           question: addInputValue,
           answerType: addInputType,
-          questionId: Number(Math.random().toFixed(5)),
         },
       ]);
       setAddInputValue('');

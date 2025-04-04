@@ -58,13 +58,11 @@ const SurveyEdit = ({ id }: Props) => {
       mutate({
         deadlineAt: editDeadLine,
         surveyName: editSurveyName,
-        questions: inputs
-          .filter((item) => item.questionId !== undefined)
-          .map((item) => ({
-            questionId: item.questionId as number,
-            question: item.question,
-            answerType: item.answerType as 'text' | 'radio',
-          })),
+        state: 'CLOSED',
+        questions: inputs.map(({ questionId, question, answerType }) => {
+          const base = { question, answerType: answerType as 'text' | 'radio' };
+          return questionId ? { questionId, ...base } : base;
+        }),
       });
     }
   };
