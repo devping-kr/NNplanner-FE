@@ -28,13 +28,15 @@ interface Props {
 
 const RADIO_OPTIONS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
+const MANY_INPUT_INDEX = [4, 5, 6];
+
 const SurveyTake = ({ id }: Props) => {
   const { navigate } = useNavigate();
   const queryClient = useQueryClient();
   const showToast = useToastStore((state) => state.showToast);
-  const [answers, setAnswers] = useState<{ [key: number]: number | string }>(
-    {},
-  );
+  const [answers, setAnswers] = useState<{
+    [key: number]: number | string | string[];
+  }>({});
 
   const { data: surveyData } = useGetSurveyDetail(id);
   const { data: monthMenuData, isLoading } = useGetMonthMenuDetails(
@@ -65,11 +67,38 @@ const SurveyTake = ({ id }: Props) => {
     monthMenuDetail.createAt,
   );
 
-  const handleChange = (questionId: number, value: number | string) => {
-    setAnswers((prev) => ({
-      ...prev,
-      [questionId]: value,
-    }));
+  const handleChange = (
+    questionId: number,
+    value: number | string,
+    idx: number,
+    answerType: 'text' | 'radio',
+    subIdx?: number,
+  ) => {
+    setAnswers((prev) => {
+      if (answerType === 'radio') {
+        return {
+          ...prev,
+          [questionId]: Number(value),
+        };
+      }
+
+      if (MANY_INPUT_INDEX.includes(idx)) {
+        const prevAnswers = (prev[questionId] as string[]) || ['', '', ''];
+        const updatedAnswers = [...prevAnswers];
+        if (subIdx !== undefined) {
+          updatedAnswers[subIdx] = value as string;
+        }
+        return {
+          ...prev,
+          [questionId]: updatedAnswers,
+        };
+      }
+
+      return {
+        ...prev,
+        [questionId]: value,
+      };
+    });
   };
 
   const submitSurvey = () => {
@@ -126,19 +155,53 @@ const SurveyTake = ({ id }: Props) => {
                 <Body2Black>{idx + 1}. </Body2Black>
                 <Body2Black>{question.questionText}</Body2Black>
               </li>
-              {question.answerType === 'text' && (
-                <div className='h-16'>
-                  <Input
-                    variant='grey50'
-                    size='m'
-                    value={answers[question.questionId] || ''}
-                    onChange={(e) =>
-                      handleChange(question.questionId, e.target.value)
-                    }
-                    placeholder='답변을 입력하세요.'
-                  />
-                </div>
-              )}
+              {question.answerType === 'text' &&
+                !MANY_INPUT_INDEX.includes(idx) && (
+                  <div className='h-16'>
+                    <Input
+                      variant='grey50'
+                      size='m'
+                      value={answers[question.questionId] || ''}
+                      onChange={(e) =>
+                        handleChange(
+                          question.questionId,
+                          e.target.value,
+                          idx,
+                          question.answerType,
+                        )
+                      }
+                      placeholder='답변을 입력하세요.'
+                    />
+                  </div>
+                )}
+              {question.answerType === 'text' &&
+                MANY_INPUT_INDEX.includes(idx) && (
+                  <div className='flex flex-col gap-1'>
+                    {[0, 1, 2].map((subIdx) => (
+                      <div key={subIdx} className='h-12'>
+                        <Input
+                          variant='grey50'
+                          size='m'
+                          value={
+                            (answers[question.questionId] as string[])?.[
+                              subIdx
+                            ] || ''
+                          }
+                          onChange={(e) =>
+                            handleChange(
+                              question.questionId,
+                              e.target.value,
+                              idx,
+                              question.answerType,
+                              subIdx,
+                            )
+                          }
+                          placeholder={`Top${subIdx + 1}`}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                )}
               {question.answerType === 'radio' && (
                 <div className='flex justify-around'>
                   {RADIO_OPTIONS.map((option) => (
@@ -173,7 +236,12 @@ const SurveyTake = ({ id }: Props) => {
                     size='m'
                     value={answers[question.questionId] || ''}
                     onChange={(e) =>
-                      handleChange(question.questionId, e.target.value)
+                      handleChange(
+                        question.questionId,
+                        e.target.value,
+                        idx,
+                        question.answerType,
+                      )
                     }
                     placeholder='답변을 입력하세요.'
                   />

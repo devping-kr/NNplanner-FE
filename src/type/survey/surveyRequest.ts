@@ -22,7 +22,7 @@ export interface PutSurveyRequest {
   deadlineAt: Date | null | string;
   state?: string;
   questions: {
-    questionId: number;
+    questionId?: number;
     question: string;
     answerType: 'text' | 'radio';
   }[];

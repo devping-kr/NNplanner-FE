@@ -44,12 +44,31 @@ const AdditionQuestions = ({ inputs, setInputs, successSubmit }: Props) => {
         {
           question: addInputValue,
           answerType: addInputType,
-          questionId: Number(Math.random().toFixed(5)),
         },
       ]);
       setAddInputValue('');
       setAddInputType('text');
     }
+  };
+
+  const handleChangeInput = (questionId: number, newValue: string) => {
+    setInputs((prevInputs) =>
+      prevInputs.map((input) =>
+        input.questionId === questionId
+          ? { ...input, question: newValue }
+          : input,
+      ),
+    );
+  };
+
+  const handleChangeInputType = (questionId: number, newType: string) => {
+    setInputs((prevInputs) =>
+      prevInputs.map((input) =>
+        input.questionId === questionId
+          ? { ...input, answerType: newType }
+          : input,
+      ),
+    );
   };
 
   const handleChangeAddInputType = (selectedValue: string) => {
@@ -119,13 +138,17 @@ const AdditionQuestions = ({ inputs, setInputs, successSubmit }: Props) => {
                 type='text'
                 variant='grey50'
                 value={input.question}
-                readOnly
+                onChange={(e) =>
+                  handleChangeInput(input.questionId!, e.target.value)
+                }
                 borderRadius='large'
               />
               <div className='min-w-[110px]'>
                 <Selectbox
                   size='small'
                   bgColor='grey'
+                  key={input.answerType}
+                  options={ANSWER_TYPE}
                   selectedValue={
                     input.answerType === 'text'
                       ? '서술형'
@@ -133,7 +156,9 @@ const AdditionQuestions = ({ inputs, setInputs, successSubmit }: Props) => {
                         ? '선택형'
                         : ''
                   }
-                  readonly
+                  onChange={(selectedValue) =>
+                    handleChangeInputType(input.questionId!, selectedValue)
+                  }
                   buttonSize='sm'
                 />
               </div>
