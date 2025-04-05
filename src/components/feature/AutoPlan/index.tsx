@@ -36,7 +36,7 @@ import {
 import MealCalendar from '@/components/shared/Meal/MealCalender';
 import { MealHeaderFormData } from '@/components/shared/Meal/MealHeader';
 import { ORGANIZATION_LIST } from '@/constants/_category';
-import { AUTO_PLAN_BETA_MESSAGE } from '@/constants/_meal';
+import { AUTO_PLAN_BETA_MESSAGE, MAJOR_CATEGORIES } from '@/constants/_meal';
 import {
   MEAL_FORM_LEGEND,
   MINIMUM_SCHOOL_NAME_LENGTH,
@@ -279,7 +279,7 @@ const AutoPlan = () => {
                   isError={isCategoryError}
                 />
                 <div className='relative'>
-                  {selectedCategory.majorCategory === '학교명' && (
+                  {selectedCategory.majorCategory === MAJOR_CATEGORIES[1] && (
                     <div className='flex gap-2'>
                       <Input
                         variant='white'
@@ -311,7 +311,7 @@ const AutoPlan = () => {
                 {ORGANIZATION_LIST.map(
                   (organization) =>
                     selectedCategory.majorCategory === organization.value &&
-                    selectedCategory.majorCategory !== '학교명' && (
+                    selectedCategory.majorCategory !== MAJOR_CATEGORIES[1] && (
                       <Selectbox
                         key={organization.value}
                         options={minorCategories}
