@@ -242,7 +242,7 @@ const MenualPlan = () => {
 
               <div className='relative'>
                 {selectedCategory.majorCategory === MAJOR_CATEGORIES[1] && (
-                  <div className='flex gap-2'>
+                  <div className='flex gap-4'>
                     <Input
                       variant='white'
                       size='s'
@@ -272,7 +272,8 @@ const MenualPlan = () => {
 
               {ORGANIZATION_LIST.map(
                 (item) =>
-                  selectedCategory.majorCategory === item.value && (
+                  selectedCategory.majorCategory === item.value &&
+                  selectedCategory.majorCategory !== MAJOR_CATEGORIES[1] && (
                     <Selectbox
                       key={item.value}
                       options={minorCategories}

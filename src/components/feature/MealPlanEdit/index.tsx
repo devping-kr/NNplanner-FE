@@ -323,7 +323,7 @@ const MealPlanEdit = ({ id: monthMenuId }: MealPlanEditProps) => {
             />
             <div className='relative'>
               {selectedCategory.majorCategory === MAJOR_CATEGORIES[1] && (
-                <div className='flex gap-2'>
+                <div className='flex gap-4'>
                   <Input
                     variant='white'
                     size='s'
