@@ -6,3 +6,8 @@ export type CalendarInfo = {
     foods: FoodInfo[];
   };
 };
+
+export type MealHeaderForm = {
+  monthMenuName: string;
+  schoolName: string;
+};
