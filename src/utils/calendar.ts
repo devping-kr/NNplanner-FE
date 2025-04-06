@@ -93,7 +93,6 @@ export const transformResponseToCalendar = (
 
   apiData.forEach((menu, index) => {
     const currentDate = startOfMonth.add(index, 'day');
-
     if (currentDate.month() !== month - 1) return;
 
     const formattedDate = formatFullDate(currentDate);
@@ -113,12 +112,18 @@ export const transformResponseToCalendar = (
         fat: food.fat,
       }));
 
-    if (filteredFoods.length > 0) {
+    const menuDate = (menu as MonthMenu).menuDate;
+
+    if (filteredFoods.length === 0) return null;
+
+    if (type === 'auto') {
       calendarData[formattedDate] = {
-        menuId:
-          type === 'auto'
-            ? (menu as MenuResponse).menuId
-            : (menu as MonthMenu).menuId,
+        menuId: (menu as MenuResponse).menuId,
+        foods: filteredFoods,
+      };
+    } else {
+      calendarData[menuDate] = {
+        menuId: (menu as MonthMenu).menuId,
         foods: filteredFoods,
       };
     }
