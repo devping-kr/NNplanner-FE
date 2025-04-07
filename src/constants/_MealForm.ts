@@ -11,3 +11,5 @@ export const MEAL_FORM_LEGEND = {
     edit: '식단 수정',
   },
 };
+
+export const MINIMUM_SCHOOL_NAME_LENGTH = 2;

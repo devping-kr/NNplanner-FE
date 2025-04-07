@@ -6,7 +6,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { useForm } from 'react-hook-form';
 import { mealHeaderSchema } from '@/schema/mealSchema';
-import { CalendarInfo } from '@/type/mealType';
+import { CalendarInfo, MealHeaderForm } from '@/type/mealType';
 import { MajorCategory } from '@/type/menu/menuRequest';
 import { MenuResponse } from '@/type/menu/menuResponse';
 import {
@@ -21,10 +21,13 @@ import {
   transformCalendarToPostSave,
   transformResponseToCalendar,
 } from '@/utils/calendar';
+import { stringArraytoOptionArray } from '@/utils/meal';
 import Button from '@/components/common/Button/Button';
+import Dropdown from '@/components/common/Dropdown';
 import { Input } from '@/components/common/Input';
 import MealForm from '@/components/common/MealForm';
-import { Selectbox } from '@/components/common/Selectbox';
+import OptionList from '@/components/common/OptionList';
+import { Option, Selectbox } from '@/components/common/Selectbox';
 import {
   Caption1Grey500,
   H2BlackH2,
@@ -33,14 +36,18 @@ import {
 import MealCalendar from '@/components/shared/Meal/MealCalender';
 import { MealHeaderFormData } from '@/components/shared/Meal/MealHeader';
 import { ORGANIZATION_LIST } from '@/constants/_category';
-import { AUTO_PLAN_BETA_MESSAGE } from '@/constants/_meal';
-import { MEAL_FORM_LEGEND } from '@/constants/_MealForm';
+import { AUTO_PLAN_BETA_MESSAGE, MAJOR_CATEGORIES } from '@/constants/_meal';
+import {
+  MEAL_FORM_LEGEND,
+  MINIMUM_SCHOOL_NAME_LENGTH,
+} from '@/constants/_MealForm';
 import { ROUTES } from '@/constants/_navbar';
 import { PAGE_TITLE } from '@/constants/_pageTitle';
 import { MEAL_HEADER_ERROR } from '@/constants/_schema';
 import { usePostMonthMenusAuto } from '@/hooks/menu/usePostMonthMenusAuto';
 import { usePostMonthMenusSave } from '@/hooks/menu/usePostMonthMenusSave';
 import { useFetchMinorCategories } from '@/hooks/menuCategory/useFetchMinorCategories';
+import { useGetSearchSchool } from '@/hooks/menuCategory/useGetSearchSchool';
 import { usePrefetchMinorCategories } from '@/hooks/menuCategory/usePrefetchMinorCategories';
 import useNavigate from '@/hooks/useNavigate';
 import { useToastStore } from '@/stores/useToastStore';
@@ -56,6 +63,9 @@ const AutoPlan = () => {
     minorCategory: '',
   });
   const [isCategoryError, setIsCategoryError] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [options, setOptions] = useState<Option[]>([]);
+  const [keyword, setKeyword] = useState('');
   const { year, month } = getCurrentYearMonthNow();
   const showToast = useToastStore((state) => state.showToast);
   const { navigate } = useNavigate();
@@ -73,7 +83,10 @@ const AutoPlan = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<MealHeaderFormData>({
+    watch,
+    getValues,
+    setValue,
+  } = useForm<MealHeaderForm>({
     resolver: zodResolver(mealHeaderSchema),
     mode: 'onChange',
   });
@@ -173,6 +186,60 @@ const AutoPlan = () => {
     prefetchMinorCategories();
   }, [hasCategories, prefetchMinorCategories]);
 
+  const handleSchoolNameSelect = (schoolName: string) => {
+    setValue('schoolName', schoolName);
+    setSelectedCategory((prev) => ({
+      ...prev,
+      minorCategory: schoolName,
+    }));
+    setIsOpen(false);
+  };
+
+  const {
+    data: schoolNameData,
+    isSuccess: isSchoolNameSuccess,
+    isError: isSchoolNameError,
+  } = useGetSearchSchool(
+    {
+      keyword: keyword,
+    },
+    {
+      enabled: keyword.length >= MINIMUM_SCHOOL_NAME_LENGTH,
+    },
+  );
+
+  // 학교명 입력 후 검색 클릭 시
+  const handleSearchClick = () => {
+    if (getValues('schoolName').length < MINIMUM_SCHOOL_NAME_LENGTH)
+      return null;
+
+    setKeyword(getValues('schoolName'));
+
+    if (isSchoolNameError) {
+      showToast(
+        '학교명 검색에 실패했습니다. 잠시 후 다시 시도해주세요.',
+        'warning',
+      );
+      setIsOpen(false);
+      return null;
+    }
+  };
+
+  useEffect(() => {
+    if (isSchoolNameSuccess) {
+      if (schoolNameData.data.length === 0) {
+        showToast('찾으시는 학교명이 없습니다.', 'warning');
+        setIsOpen(false);
+        return;
+      }
+      const formattedOptions = stringArraytoOptionArray(schoolNameData.data);
+      setOptions(formattedOptions);
+      setIsOpen(true);
+    }
+  }, [isSchoolNameSuccess, schoolNameData]);
+
+  const watchSchoolName = watch('schoolName');
+
   return (
     <div className='flex gap-6'>
       <MealForm
@@ -211,9 +278,40 @@ const AutoPlan = () => {
                   selectedValue={selectedCategory.majorCategory}
                   isError={isCategoryError}
                 />
+                <div className='relative'>
+                  {selectedCategory.majorCategory === MAJOR_CATEGORIES[1] && (
+                    <div className='flex gap-4'>
+                      <Input
+                        variant='white'
+                        size='s'
+                        className='h-12'
+                        placeholder='두 글자 이상 입력'
+                        autoComplete='off'
+                        {...register('schoolName')}
+                      />
+                      <Button
+                        variant='teritary'
+                        className='min-w-[68px]'
+                        disabled={watchSchoolName?.length < 2}
+                        onClick={handleSearchClick}
+                      >
+                        <Subtitle2White>검색</Subtitle2White>
+                      </Button>
+                    </div>
+                  )}
+                  <Dropdown isOpen={isOpen} className='top-12'>
+                    <OptionList
+                      options={options}
+                      onSelect={handleSchoolNameSelect}
+                      size='basic'
+                    />
+                  </Dropdown>
+                </div>
+
                 {ORGANIZATION_LIST.map(
                   (organization) =>
-                    selectedCategory.majorCategory === organization.value && (
+                    selectedCategory.majorCategory === organization.value &&
+                    selectedCategory.majorCategory !== MAJOR_CATEGORIES[1] && (
                       <Selectbox
                         key={organization.value}
                         options={minorCategories}
