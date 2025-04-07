@@ -20,3 +20,7 @@ export interface VerifyRequest {
   email: string;
   verifyCode: string;
 }
+
+export interface GoogleLoginRequest {
+  authCode: string;
+}

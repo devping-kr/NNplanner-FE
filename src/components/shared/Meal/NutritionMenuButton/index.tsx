@@ -1,9 +1,10 @@
 import { cn } from '@/utils/core';
-import Icon from '@/components/common/Icon';
-import { NutritionMenu } from '@/components/common/Typography';
+import { Label1Black } from '@/components/common/Typography';
+import MealEditButton from '@/components/shared/Meal/MealEditButton';
 
 type NutritionMenuButtonProps = {
   menuName: string;
+  isFocused: boolean;
   className?: string;
   onFocus: () => void;
   onClick: () => void;
@@ -12,22 +13,27 @@ type NutritionMenuButtonProps = {
 const NutritionMenuButton = ({
   menuName,
   className,
+  isFocused,
   onFocus,
   onClick,
 }: NutritionMenuButtonProps) => {
   return (
-    <button
-      type='button'
-      className={cn(
-        'flex w-full justify-between rounded-md p-2 transition duration-300 ease-in-out hover:bg-green-100 hover:text-gray-900 focus:bg-green-200 active:bg-green-200',
-        className,
-      )}
-      onFocus={onFocus}
-      onClick={onClick}
-    >
-      <NutritionMenu>{menuName}</NutritionMenu>
-      <Icon name='edit' />
-    </button>
+    <div className='flex w-full justify-between'>
+      <div
+        className={cn(
+          'group flex w-full items-center justify-between gap-2',
+          className,
+        )}
+      >
+        <div
+          className={cn('h-4 w-1 bg-green-200', isFocused ? 'flex' : 'hidden')}
+        ></div>
+        <div className='flex w-full justify-between'>
+          <Label1Black>{menuName}</Label1Black>
+          <MealEditButton onClick={onClick} onFocus={onFocus} />
+        </div>
+      </div>
+    </div>
   );
 };
 

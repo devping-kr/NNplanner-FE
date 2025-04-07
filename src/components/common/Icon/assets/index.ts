@@ -1,30 +1,41 @@
 import ArrowDown from '@/components/common/Icon/assets/ArrowDown';
 import ArrowNext from '@/components/common/Icon/assets/ArrowNext';
+import ArrowNextBlock from '@/components/common/Icon/assets/ArrowNextBlock';
 import ArrowPrev from '@/components/common/Icon/assets/ArrowPrev';
+import ArrowPrevBlock from '@/components/common/Icon/assets/ArrowPrevBlock';
+import ArrowRight from '@/components/common/Icon/assets/ArrowRight';
 import Arrowup from '@/components/common/Icon/assets/ArrowUp';
 import Auto from '@/components/common/Icon/assets/Auto';
 import Calendar from '@/components/common/Icon/assets/Calendar';
 import Chart from '@/components/common/Icon/assets/Chart';
+import ChartPie from '@/components/common/Icon/assets/ChartPie';
+import CheckCircle from '@/components/common/Icon/assets/CheckCircle';
 import Danger from '@/components/common/Icon/assets/Danger';
 import Dashboard from '@/components/common/Icon/assets/Dashboard';
 import Edit from '@/components/common/Icon/assets/Edit';
+import EmptyCalendar from '@/components/common/Icon/assets/EmptyCalendar';
+import Envelope from '@/components/common/Icon/assets/Envelope';
+import Google from '@/components/common/Icon/assets/Google';
 import Group from '@/components/common/Icon/assets/Group';
 import Hide from '@/components/common/Icon/assets/Hide';
 import Normal from '@/components/common/Icon/assets/Info';
+import InfoCircle from '@/components/common/Icon/assets/InfoCircle';
 import Logout from '@/components/common/Icon/assets/Logout';
+import NavSearch from '@/components/common/Icon/assets/NavSearch';
+import Pencil from '@/components/common/Icon/assets/Pencil';
 import Plus from '@/components/common/Icon/assets/Plus';
 import Profile from '@/components/common/Icon/assets/Profile';
 import Search from '@/components/common/Icon/assets/Search';
 import Show from '@/components/common/Icon/assets/Show';
-import Success from '@/components/common/Icon/assets/Success';
+import Squares2x2 from '@/components/common/Icon/assets/Squares2x2';
+import TableCells from '@/components/common/Icon/assets/TableCells';
 import Time from '@/components/common/Icon/assets/Time';
 import TrendDown from '@/components/common/Icon/assets/TrendDown';
 import TrendUp from '@/components/common/Icon/assets/TrendUp';
-import Warning from '@/components/common/Icon/assets/Warning';
+import User from '@/components/common/Icon/assets/User';
+import WarnCircle from '@/components/common/Icon/assets/WarnCircle';
 import Xmark from '@/components/common/Icon/assets/Xmark';
 import { colors } from '@/styles/colors';
-import ArrowNextBlock from './ArrowNextBlock';
-import ArrowPrevBlock from './ArrowPrevBlock';
 
 type IconMapEntry = {
   type: 'fill' | 'stroke';
@@ -32,25 +43,37 @@ type IconMapEntry = {
 };
 
 type ColorClassNames = {
-  [group in 'white' | 'dark' | 'red' | 'green' | 'gray']: {
+  [group in 'white' | 'dark' | 'red' | 'green' | 'gray' | 'grey' | 'black']: {
     [shade: number]: string;
   };
 };
 
 export const iconMap: Record<string, IconMapEntry> = {
-  search: { type: 'stroke', file: Search },
+  search: { type: 'fill', file: Search },
   edit: { type: 'fill', file: Edit },
   xmark: { type: 'fill', file: Xmark },
   plus: { type: 'stroke', file: Plus },
-  arrowUp: { type: 'stroke', file: Arrowup },
-  arrowDown: { type: 'stroke', file: ArrowDown },
-  arrowPrev: { type: 'stroke', file: ArrowPrev },
-  arrowNext: { type: 'stroke', file: ArrowNext },
-  arrowPrevBlock: { type: 'stroke', file: ArrowPrevBlock },
-  arrowNextBlock: { type: 'stroke', file: ArrowNextBlock },
+  arrowUp: { type: 'fill', file: Arrowup },
+  arrowDown: { type: 'fill', file: ArrowDown },
+  arrowPrev: { type: 'fill', file: ArrowPrev },
+  arrowNext: { type: 'fill', file: ArrowNext },
+  arrowPrevBlock: { type: 'fill', file: ArrowPrevBlock },
+  arrowNextBlock: { type: 'fill', file: ArrowNextBlock },
   dashboard: {
     type: 'stroke',
     file: Dashboard,
+  },
+  user: {
+    type: 'stroke',
+    file: User,
+  },
+  envelope: {
+    type: 'stroke',
+    file: Envelope,
+  },
+  google: {
+    type: 'fill',
+    file: Google,
   },
   auto: { type: 'stroke', file: Auto },
   chart: { type: 'stroke', file: Chart },
@@ -62,10 +85,6 @@ export const iconMap: Record<string, IconMapEntry> = {
     type: 'stroke',
     file: Calendar,
   },
-  warning: {
-    type: 'stroke',
-    file: Warning,
-  },
   show: {
     type: 'stroke',
     file: Show,
@@ -73,10 +92,6 @@ export const iconMap: Record<string, IconMapEntry> = {
   hide: {
     type: 'stroke',
     file: Hide,
-  },
-  success: {
-    type: 'stroke',
-    file: Success,
   },
   normal: {
     type: 'stroke',
@@ -106,6 +121,47 @@ export const iconMap: Record<string, IconMapEntry> = {
     type: 'stroke',
     file: Profile,
   },
+  // 리디자인 후 추가된 아이콘
+  success: {
+    type: 'stroke',
+    file: CheckCircle,
+  },
+  info: {
+    type: 'stroke',
+    file: InfoCircle,
+  },
+  warning: {
+    type: 'stroke',
+    file: WarnCircle,
+  },
+  navSearch: {
+    type: 'stroke',
+    file: NavSearch,
+  },
+  pencil: {
+    type: 'stroke',
+    file: Pencil,
+  },
+  emptyCalendar: {
+    type: 'stroke',
+    file: EmptyCalendar,
+  },
+  squares: {
+    type: 'stroke',
+    file: Squares2x2,
+  },
+  tablecells: {
+    type: 'stroke',
+    file: TableCells,
+  },
+  chartPie: {
+    type: 'stroke',
+    file: ChartPie,
+  },
+  arrowRight: {
+    type: 'stroke',
+    file: ArrowRight,
+  },
 };
 
 const COLOR_CLASSNAMES: ColorClassNames = {
@@ -115,6 +171,9 @@ const COLOR_CLASSNAMES: ColorClassNames = {
   },
   dark: {
     100: 'dark-100',
+  },
+  black: {
+    100: 'black-100',
   },
   red: {
     100: 'red-100',
@@ -141,12 +200,24 @@ const COLOR_CLASSNAMES: ColorClassNames = {
     700: 'gray-700',
     800: 'gray-800',
   },
+  grey: {
+    200: 'grey-200',
+  },
 };
 
 export const COLORS = {
-  warning: colors.red[100],
+  // 리디자인 색상 적용
+  warning: colors.red[500],
+  black: colors.black[100],
+  grey: colors.grey[200],
+  grey100: colors.grey[100],
+  grey300: colors.grey[300],
+  grey500: colors.grey[500],
+  green500: colors.green[500],
+  grey900: colors.grey[900],
+  //---
+  // 기존 아이콘 색상
   white: colors.white[100],
-  black: colors.dark[100],
   normal: colors.gray[500],
   success: colors.blue[200],
   active: colors.green[800],
@@ -161,7 +232,7 @@ type ColorShade = keyof (typeof COLOR_CLASSNAMES)[ColorGroup];
 export type HoverColor = `${ColorGroup}${ColorShade}`;
 
 const getColorClass = (color?: HoverColor): string => {
-  if (!color) return COLOR_CLASSNAMES.dark[100];
+  if (!color) return COLOR_CLASSNAMES.black[100];
 
   const match = color.match(/^(\w+)(\d+)$/);
   if (!match) return COLOR_CLASSNAMES.gray[600];

@@ -1,3 +1,4 @@
+export const BASE_DOMAIN = 'https://www.nnplanner.com';
 export const BASE_ROUTES = {
   MAIN: '/main',
   AUTO: '/autoPlan',
@@ -11,6 +12,7 @@ export const BASE_ROUTES = {
   SIGNUP: '/signup',
   LOGIN: '/login',
   MY_PAGE: '/myPage',
+  LANDING: '/',
 };
 
 /**
@@ -35,17 +37,12 @@ export const NAV_LINKS = [
   {
     name: '식단 조회',
     href: BASE_ROUTES.VIEW_PLAN,
-    icon: 'search',
+    icon: 'navSearch',
   },
   {
     name: '설문 결과 조회',
     href: BASE_ROUTES.VIEW_CHART,
     icon: 'chart',
-  },
-  {
-    name: '마이 페이지',
-    href: BASE_ROUTES.MY_PAGE,
-    icon: 'profile',
   },
 ];
 
@@ -70,6 +67,8 @@ const createRoutes = (baseRoutes: typeof BASE_ROUTES) => ({
   },
   AUTO_PLAN: baseRoutes.AUTO,
   MENUAL_PLAN: baseRoutes.MENUAL,
+  MYPAGE: baseRoutes.MY_PAGE,
+  LANDING: baseRoutes.LANDING,
 });
 
 export const ROUTES = createRoutes(BASE_ROUTES);

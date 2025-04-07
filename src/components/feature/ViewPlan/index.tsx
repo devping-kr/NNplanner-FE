@@ -5,28 +5,30 @@ import { useQueryClient } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { MenuResponseDTO } from '@/type/menu/menuResponse';
 import { Result } from '@/type/response';
-// import { getCurrentYearMonthNow } from '@/utils/calendar';
 import { findOriginalId } from '@/utils/findOriginalId';
+import ControlTab from '@/components/common/ControlTab';
 import Pagination from '@/components/common/Pagination';
 import { Option } from '@/components/common/Selectbox';
 import { TableRowData } from '@/components/common/Table';
-import { HeadPrimary } from '@/components/common/Typography';
+import {
+  Body2Assistive,
+  SubTitle1Black,
+  SubTitle1Green500,
+} from '@/components/common/Typography';
 import GetAllListControls from '@/components/shared/GetAllList/Controls';
 import GetAllListHeader from '@/components/shared/GetAllList/Header';
 import GetAllListTable from '@/components/shared/GetAllList/ListTable';
 import { CATEGORY_MAPPINGS } from '@/constants/_category';
 import { TAB_OPTIONS } from '@/constants/_controlTab';
 import { ROUTES } from '@/constants/_navbar';
+import { DEFAULT_PAGE, PAGE_LIMIT } from '@/constants/_pagination';
 import { useGetSearchMealList } from '@/hooks/meal/useGetSearchMealList';
 import { usePrefetchMinorCategories } from '@/hooks/menuCategory/usePrefetchMinorCategories';
 import useNavigate from '@/hooks/useNavigate';
 import { useToastStore } from '@/stores/useToastStore';
 
-// TODO: constant 파일로 관리
-const PAGE_LIMIT = 8;
 const SORT_DESC = 'createdAt,desc';
 const SORT_ASC = 'createdAt,asc';
-const DEFAULT_PAGE = 1;
 
 const ViewPlan = () => {
   const { navigate } = useNavigate();
@@ -37,7 +39,6 @@ const ViewPlan = () => {
     usePrefetchMinorCategories();
   const [minorCategories, setMinorCategories] = useState<Option[]>([]);
 
-  // const { month, year } = getCurrentYearMonthNow();
   const [selectedYear, setSelectedYear] = useState<string>('');
   const [selectedMonth, setSelectedMonth] = useState<string>('');
   const [searchInputValue, setSearchInputValue] = useState('');
@@ -48,24 +49,6 @@ const ViewPlan = () => {
   const [page, setPage] = useState(DEFAULT_PAGE);
   const [isSearchClicked, setIsSearchClicked] = useState(false);
 
-  // const searchTriggerCondition =
-  //   // 1. 대분류, 소분류 값있을 때
-  //   !!(selectedOrganization && selectedCategory) ||
-  //   // 2. 기본 연월과 다른 연월 선택했을 때
-  //   !!(
-  //     selectedYear !== year.toString() || selectedMonth !== month.toString()
-  //   ) ||
-  //   // 3. 오래된 순이면서 다른 파람들 중에 유효한 값이 하나라도 있어야 함
-  //   !!(
-  //     selectedTab !== TAB_OPTIONS[0] ||
-  //     // 대분류 + 소분류 선택되거나
-  //     (selectedOrganization && selectedCategory) ||
-  //     // 기본 연월과 다른 연월 선택했을 때
-  //     selectedYear !== year.toString() ||
-  //     selectedMonth !== month.toString()
-  //   ) ||
-  //   // 4. 검색어 있고 검색버튼 클릭 됐을 때
-  //   !!isSearchClicked;
   const searchTriggerCondition =
     // 1. 대분류, 소분류 값이 있을 때
     !!(selectedOrganization && selectedCategory) ||
@@ -113,8 +96,8 @@ const ViewPlan = () => {
 
   const convertToTableRowData = (menus: MenuResponseDTO[]): TableRowData[] => {
     return menus.map((menu) => ({
-      식단ID: menu.monthMenuId.slice(0, 4),
-      식단이름: menu.monthMenuName,
+      '식단 ID': menu.monthMenuId.slice(0, 4),
+      '식단 이름': menu.monthMenuName,
       대분류: menu.majorCategory,
       소분류: menu.minorCategory,
       생성일: dayjs(menu.createAt).format('YYYY-MM-DD'),
@@ -177,7 +160,7 @@ const ViewPlan = () => {
   };
 
   return (
-    <div className='flex flex-col gap-4'>
+    <div className='flex flex-col gap-6'>
       {searchMealList && (
         <>
           <GetAllListHeader title={'내가 작성한 식단'} />
@@ -193,21 +176,39 @@ const ViewPlan = () => {
             setSelectedCategory={setSelectedCategory}
             searchValue={searchInputValue}
             handleChangeSearchValue={handleChangeSearchValue}
-            selectedTab={selectedTab}
-            setSelectedTab={setSelectedTab}
             inputPlaceholder='식단 이름을 입력해주세요.'
             handleSearchSubmit={submitSearchValue}
             minorCategories={minorCategories}
           />
           {searchMealList?.data.totalElements === 0 ? (
-            <HeadPrimary>식단이 존재하지 않습니다</HeadPrimary>
+            <div className='flex h-[168px] items-center justify-center rounded-2xl bg-white-100 p-6'>
+              <Body2Assistive>식단이 존재하지 않습니다.</Body2Assistive>
+            </div>
           ) : (
-            <>
+            <div className='flex flex-col gap-6 rounded-2xl bg-white-100 p-6'>
+              <div className='flex w-full items-center justify-between'>
+                <div className='flex items-center gap-1'>
+                  <SubTitle1Black>총</SubTitle1Black>
+                  <div>
+                    <SubTitle1Green500>
+                      {searchMealList.data.totalElements}
+                    </SubTitle1Green500>
+                    <SubTitle1Black>개</SubTitle1Black>
+                  </div>
+                </div>
+                <ControlTab
+                  isSortControl
+                  controlTabItems={TAB_OPTIONS}
+                  selectedTab={selectedTab}
+                  setSelectedTab={setSelectedTab}
+                />
+              </div>
               <GetAllListTable
                 data={convertToTableRowData(
                   searchMealList?.data?.menuResponseDTOList ?? [],
                 )}
                 onRowClick={(id) => handleClickRow(String(id))}
+                headerType='viewPlan'
               />
               <Pagination
                 limit={PAGE_LIMIT}
@@ -215,7 +216,7 @@ const ViewPlan = () => {
                 setPage={setPage}
                 totalPosts={searchMealList?.data.totalElements ?? 0}
               />
-            </>
+            </div>
           )}
         </>
       )}

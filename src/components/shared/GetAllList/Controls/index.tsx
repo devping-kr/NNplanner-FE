@@ -1,12 +1,12 @@
 'use client';
 
-import { cn } from '@/utils/core';
-import ControlTab from '@/components/common/ControlTab';
+import Button from '@/components/common/Button/Button';
 import DatePicker from '@/components/common/DatePicker';
+import Icon from '@/components/common/Icon';
 import { Input } from '@/components/common/Input';
 import { Option, Selectbox } from '@/components/common/Selectbox';
+import { Subtitle2White } from '@/components/common/Typography';
 import { ORGANIZATION_LIST } from '@/constants/_category';
-import { SURVEY_FILTER_OPTIONS, TAB_OPTIONS } from '@/constants/_controlTab';
 
 interface Props {
   type: 'viewPlan' | 'viewChart';
@@ -18,10 +18,6 @@ interface Props {
   setOrganization?: React.Dispatch<React.SetStateAction<string>>;
   searchValue: string;
   handleChangeSearchValue: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  selectedFilter?: string;
-  setSelectedFilter?: React.Dispatch<React.SetStateAction<string>>;
-  selectedTab: string;
-  setSelectedTab: React.Dispatch<React.SetStateAction<string>>;
   inputPlaceholder: string;
   handleSearchSubmit: () => void;
   minorCategories?: Option[];
@@ -39,10 +35,6 @@ const GetAllListControls = ({
   setOrganization,
   searchValue,
   handleChangeSearchValue,
-  selectedFilter,
-  setSelectedFilter,
-  selectedTab,
-  setSelectedTab,
   inputPlaceholder,
   handleSearchSubmit,
   minorCategories,
@@ -57,79 +49,74 @@ const GetAllListControls = ({
   };
 
   return (
-    <>
-      <div className='flex justify-between'>
-        <DatePicker
-          selectedMonth={selectedMonth}
-          selectedYear={selectedYear}
-          onMonthChange={onMonthChange}
-          onYearChange={onYearChange}
-        />
-        <div
-          className={cn(
-            'flex w-full items-end justify-end gap-5',
-            type === 'viewChart' && 'w-1/2',
-          )}
-        >
+    <div className='flex justify-between'>
+      <DatePicker
+        selectedMonth={selectedMonth}
+        selectedYear={selectedYear}
+        onMonthChange={onMonthChange}
+        onYearChange={onYearChange}
+      />
+      <div className='flex w-full items-end justify-end gap-4'>
+        {type === 'viewPlan' && setOrganization && setSelectedCategory && (
+          <div className='flex gap-2 whitespace-pre'>
+            <Selectbox
+              options={ORGANIZATION_LIST}
+              size='small'
+              onChange={handleOrganizationChange}
+              selectedValue={organization}
+            />
+            {ORGANIZATION_LIST.map(
+              (item) =>
+                organization === item.value && (
+                  <Selectbox
+                    key={item.value}
+                    options={minorCategories}
+                    size='small'
+                    onChange={(category) => setSelectedCategory(category)}
+                    selectedValue={selectedCategory}
+                  />
+                ),
+            )}
+            <Button
+              disabled={!organization}
+              variant='grey'
+              size='sm'
+              width='fit'
+              onClick={() => setOrganization('')}
+            >
+              <Subtitle2White>분류 초기화</Subtitle2White>
+            </Button>
+          </div>
+        )}
+        <div className='relative h-12 w-60'>
+          <div className='absolute right-[14px] top-[14px]'>
+            <Icon
+              name='search'
+              width={20}
+              height={20}
+              className=''
+              color='black'
+            />
+          </div>
           <Input
-            isLeftIcon={true}
-            height='basic'
+            variant='white'
             placeholder={inputPlaceholder}
-            bgcolor='meal'
-            includeButton={true}
             value={searchValue}
             onChange={handleChangeSearchValue}
-            onSubmit={handleSearchSubmit}
           />
-          {type === 'viewPlan' && setOrganization && setSelectedCategory && (
-            <div className='flex gap-1 whitespace-pre'>
-              <Selectbox
-                options={ORGANIZATION_LIST}
-                size='small'
-                onChange={handleOrganizationChange}
-                selectedValue={organization}
-              />
-              {ORGANIZATION_LIST.map(
-                (item) =>
-                  organization === item.value && (
-                    <Selectbox
-                      key={item.value}
-                      options={minorCategories}
-                      size='small'
-                      onChange={(category) => setSelectedCategory(category)}
-                      selectedValue={selectedCategory}
-                    />
-                  ),
-              )}
-            </div>
-          )}
+        </div>
+        <div className='w-[60px]'>
+          <Button
+            variant='primary'
+            size='sm'
+            onClick={handleSearchSubmit}
+            width='full'
+          >
+            <Subtitle2White>검색</Subtitle2White>
+          </Button>
         </div>
       </div>
-      <div className='flex items-center justify-end gap-3'>
-        {type === 'viewChart' && (
-          <>
-            <ControlTab
-              controlTabItems={SURVEY_FILTER_OPTIONS}
-              selectedFilter={selectedFilter!}
-              setSelectedFilter={setSelectedFilter!}
-              selectedTab={selectedTab}
-              setSelectedTab={setSelectedTab}
-            />
-            <span className='mx-1 h-4 cursor-default text-xs text-gray-500'>
-              |
-            </span>
-          </>
-        )}
-        <ControlTab
-          type='sort'
-          controlTabItems={TAB_OPTIONS}
-          selectedFilter={selectedFilter!}
-          setSelectedFilter={setSelectedFilter!}
-          selectedTab={selectedTab}
-          setSelectedTab={setSelectedTab}
-        />
-      </div>
-    </>
+    </div>
   );
 };
 

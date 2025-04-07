@@ -6,7 +6,14 @@ import { getYearAndMonth, transformResponseToCalendar } from '@/utils/calendar';
 import Button from '@/components/common/Button/Button';
 import Calendar from '@/components/common/Calendar';
 import { Input } from '@/components/common/Input';
-import { CardTitle, HeadPrimary } from '@/components/common/Typography';
+import Radio from '@/components/common/Radio';
+import {
+  Body2Black,
+  Body3Grey600,
+  H2Black,
+  SubTitle1Black,
+  Subtitle1White,
+} from '@/components/common/Typography';
 import { BASE_ROUTES } from '@/constants/_navbar';
 import { useGetMonthMenuDetails } from '@/hooks/menu/useGetMonthMenuDetail';
 import { surveyKeys } from '@/hooks/survey/queryKey';
@@ -21,15 +28,17 @@ interface Props {
 
 const RADIO_OPTIONS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
-const SurveyTake = ({ id }: Props) => {
-  const queryClient = useQueryClient();
-  const { navigate } = useNavigate();
-  const showToast = useToastStore((state) => state.showToast);
-  const { data: surveyData } = useGetSurveyDetail(id);
-  const [answers, setAnswers] = useState<{ [key: number]: number | string }>(
-    {},
-  );
+const MANY_INPUT_INDEX = [4, 5, 6];
 
+const SurveyTake = ({ id }: Props) => {
+  const { navigate } = useNavigate();
+  const queryClient = useQueryClient();
+  const showToast = useToastStore((state) => state.showToast);
+  const [answers, setAnswers] = useState<{
+    [key: number]: number | string | string[];
+  }>({});
+
+  const { data: surveyData } = useGetSurveyDetail(id);
   const { data: monthMenuData, isLoading } = useGetMonthMenuDetails(
     { monthMenuId: surveyData?.mmId as string },
     {
@@ -58,11 +67,38 @@ const SurveyTake = ({ id }: Props) => {
     monthMenuDetail.createAt,
   );
 
-  const handleChange = (questionId: number, value: number | string) => {
-    setAnswers((prev) => ({
-      ...prev,
-      [questionId]: value,
-    }));
+  const handleChange = (
+    questionId: number,
+    value: number | string,
+    idx: number,
+    answerType: 'text' | 'radio',
+    subIdx?: number,
+  ) => {
+    setAnswers((prev) => {
+      if (answerType === 'radio') {
+        return {
+          ...prev,
+          [questionId]: Number(value),
+        };
+      }
+
+      if (MANY_INPUT_INDEX.includes(idx)) {
+        const prevAnswers = (prev[questionId] as string[]) || ['', '', ''];
+        const updatedAnswers = [...prevAnswers];
+        if (subIdx !== undefined) {
+          updatedAnswers[subIdx] = value as string;
+        }
+        return {
+          ...prev,
+          [questionId]: updatedAnswers,
+        };
+      }
+
+      return {
+        ...prev,
+        [questionId]: value,
+      };
+    });
   };
 
   const submitSurvey = () => {
@@ -94,105 +130,146 @@ const SurveyTake = ({ id }: Props) => {
   );
 
   return (
-    <div className='flex w-full flex-col items-start gap-5 px-44'>
-      <div className='mb-9 flex w-[calc(100%-20px)] justify-center'>
-        <HeadPrimary>{surveyData?.surveyName}</HeadPrimary>
+    <div className='flex w-full flex-col items-start gap-5'>
+      <H2Black>{surveyData?.surveyName}</H2Black>
+      <div className='flex w-full items-center justify-center rounded-2xl bg-white-100 p-6'>
+        <Calendar
+          data={calendarData}
+          year={createdYear}
+          month={createdMonth}
+          readonly
+        />
       </div>
-      <Calendar
-        data={calendarData}
-        year={createdYear}
-        month={createdMonth}
-        readonly
-      />
-      <ul className='mt-10 flex w-[calc(100%-20px)] max-w-[1224px] flex-col gap-3 rounded-sm bg-white-100 p-6'>
+      <ul className='mt-10 flex w-full flex-col gap-8 rounded-2xl bg-white-100 p-6'>
         <div className='flex items-center justify-between'>
-          <CardTitle>질문</CardTitle>
-          <span className='text-sm text-gray-600'>
-            1(매우 아니다) - 10(매우 그렇다)
-          </span>
+          <SubTitle1Black>질문</SubTitle1Black>
+          <Body3Grey600>1(매우 아니다) - 10(매우 그렇다)</Body3Grey600>
         </div>
-        {surveyData?.mandatoryQuestions.map((question, idx) => (
-          <div
-            key={question.questionId}
-            className='flex w-full flex-col gap-1 border-b border-gray-300 pb-3'
-          >
-            <li className='flex items-center gap-1'>
-              <span>{idx + 1}. </span>
-              <span>{question.questionText}</span>
-            </li>
-            {question.answerType === 'text' && (
-              <Input
-                value={answers[question.questionId] || ''}
-                bgcolor='meal'
-                onChange={(e) =>
-                  handleChange(question.questionId, e.target.value)
-                }
-              />
-            )}
-            {question.answerType === 'radio' && (
-              <div className='flex justify-around'>
-                {RADIO_OPTIONS.map((option) => (
-                  <div key={option} className='flex gap-2'>
-                    <input
-                      type='radio'
-                      name={`question${question.questionId}`}
-                      id={`${question.questionId}_${option}`}
-                      value={option}
-                      checked={answers[question.questionId] === option}
-                      onChange={() => handleChange(question.questionId, option)}
+        <div className='flex flex-col gap-8'>
+          {surveyData?.mandatoryQuestions.map((question, idx) => (
+            <div
+              key={question.questionId}
+              className='flex w-full flex-col gap-4'
+            >
+              <li className='flex items-center gap-1'>
+                <Body2Black>{idx + 1}. </Body2Black>
+                <Body2Black>{question.questionText}</Body2Black>
+              </li>
+              {question.answerType === 'text' &&
+                !MANY_INPUT_INDEX.includes(idx) && (
+                  <div className='h-16'>
+                    <Input
+                      variant='grey50'
+                      size='m'
+                      value={answers[question.questionId] || ''}
+                      onChange={(e) =>
+                        handleChange(
+                          question.questionId,
+                          e.target.value,
+                          idx,
+                          question.answerType,
+                        )
+                      }
+                      placeholder='답변을 입력하세요.'
                     />
-                    <label htmlFor={`${question.questionId}_${option}`}>
-                      {option}
-                    </label>
                   </div>
-                ))}
-              </div>
-            )}
-          </div>
-        ))}
-        {surveyData?.additionalQuestions.map((question, idx) => (
-          <div
-            key={question.questionId}
-            className='flex w-full flex-col gap-1 border-b border-gray-300 pb-3'
-          >
-            <li className='flex items-center gap-1'>
-              <span>{idx + 1}. </span>
-              <span>{question.questionText}</span>
-            </li>
-            {question.answerType === 'text' && (
-              <Input
-                value={answers[question.questionId] || ''}
-                bgcolor='meal'
-                onChange={(e) =>
-                  handleChange(question.questionId, e.target.value)
-                }
-              />
-            )}
-            {question.answerType === 'radio' && (
-              <div className='flex justify-around'>
-                {RADIO_OPTIONS.map((option) => (
-                  <div key={option} className='flex gap-2'>
-                    <input
-                      type='radio'
-                      name={`question${question.questionId}`}
-                      id={`${question.questionId}_${option}`}
-                      value={option}
-                      checked={answers[question.questionId] === option}
-                      onChange={() => handleChange(question.questionId, option)}
-                    />
-                    <label htmlFor={`${question.questionId}_${option}`}>
-                      {option}
-                    </label>
+                )}
+              {question.answerType === 'text' &&
+                MANY_INPUT_INDEX.includes(idx) && (
+                  <div className='flex flex-col gap-1'>
+                    {[0, 1, 2].map((subIdx) => (
+                      <div key={subIdx} className='h-12'>
+                        <Input
+                          variant='grey50'
+                          size='m'
+                          value={
+                            (answers[question.questionId] as string[])?.[
+                              subIdx
+                            ] || ''
+                          }
+                          onChange={(e) =>
+                            handleChange(
+                              question.questionId,
+                              e.target.value,
+                              idx,
+                              question.answerType,
+                              subIdx,
+                            )
+                          }
+                          placeholder={`Top${subIdx + 1}`}
+                        />
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
-            )}
+                )}
+              {question.answerType === 'radio' && (
+                <div className='flex justify-around'>
+                  {RADIO_OPTIONS.map((option) => (
+                    <div key={option}>
+                      <Radio
+                        option={option}
+                        answers={answers}
+                        handleChange={handleChange}
+                        question={question}
+                      />
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+        <div className='flex flex-col gap-8'>
+          {surveyData?.additionalQuestions.map((question, idx) => (
+            <div
+              key={question.questionId}
+              className='flex w-full flex-col gap-4'
+            >
+              <li className='flex items-center gap-1'>
+                <Body2Black>{idx + 1}. </Body2Black>
+                <Body2Black>{question.questionText}</Body2Black>
+              </li>
+              {question.answerType === 'text' && (
+                <div className='h-16'>
+                  <Input
+                    variant='grey50'
+                    size='m'
+                    value={answers[question.questionId] || ''}
+                    onChange={(e) =>
+                      handleChange(
+                        question.questionId,
+                        e.target.value,
+                        idx,
+                        question.answerType,
+                      )
+                    }
+                    placeholder='답변을 입력하세요.'
+                  />
+                </div>
+              )}
+              {question.answerType === 'radio' && (
+                <div className='flex justify-around'>
+                  {RADIO_OPTIONS.map((option) => (
+                    <div key={option}>
+                      <Radio
+                        option={option}
+                        answers={answers}
+                        handleChange={handleChange}
+                        question={question}
+                      />
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+        <div className='flex w-full justify-end'>
+          <div className='w-40'>
+            <Button size='lg' onClick={submitSurvey} type='button' width='full'>
+              <Subtitle1White>제출</Subtitle1White>
+            </Button>
           </div>
-        ))}
-        <div className='my-4 w-full'>
-          <Button onClick={submitSurvey} type='button'>
-            제출
-          </Button>
         </div>
       </ul>
     </div>

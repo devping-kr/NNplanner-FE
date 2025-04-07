@@ -27,6 +27,6 @@ export const MOCK_CATEGORY_LIST = [
 
 export const CATEGORY_MAPPINGS = [
   { category: MAJOR_CATEGORIES[0], queryKey: 'getSchoolMinorCategories' },
-  { category: MAJOR_CATEGORIES[1], queryKey: 'getSchoolNameMinorCategories' },
+  // { category: MAJOR_CATEGORIES[1], queryKey: 'getSchoolNameMinorCategories' },
   { category: MAJOR_CATEGORIES[2], queryKey: 'getHospitalMinorCategories' },
 ] as const;

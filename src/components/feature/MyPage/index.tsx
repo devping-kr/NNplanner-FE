@@ -1,6 +1,6 @@
 'use client';
 
-import Image from 'next/image';
+// import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -13,20 +13,31 @@ import { FailResponse, Result } from '@/type/response';
 import { surveyType } from '@/type/survey/surveyResponse';
 import { findOriginalId } from '@/utils/findOriginalId';
 import Button from '@/components/common/Button/Button';
+import Icon from '@/components/common/Icon';
 import { Input } from '@/components/common/Input';
 import Modal from '@/components/common/Modal';
+import ProfileImage from '@/components/common/ProfileImage';
 import { TableRowData } from '@/components/common/Table';
 import {
-  BodyGray,
-  CardTitle,
-  NutritionDate,
-  NutritionEtc,
+  Body1Black,
+  Body2Black,
+  Body2Grey600,
+  Caption1Grey400,
+  Caption1Red500,
+  H2BlackH2,
+  Label1Black,
+  SubTitle1Black,
+  SubTitle1Grey100,
+  Subtitle1White,
+  Subtitle2Black,
+  Subtitle2Grey100,
+  Subtitle2White,
 } from '@/components/common/Typography';
 import GetAllListTable from '@/components/shared/GetAllList/ListTable';
-import { NAV_LINKS, ROUTES } from '@/constants/_navbar';
+import { ROUTES } from '@/constants/_navbar';
 import { useGetMealList } from '@/hooks/meal/useGetMealList';
-import { useGetMenuCount } from '@/hooks/menu/useGetMenuCount';
 import { useGetSurveyList } from '@/hooks/survey/useGetSurveyList';
+import { useAuth } from '@/hooks/useAuth';
 import useNavigate from '@/hooks/useNavigate';
 import { usePostCheckPw } from '@/hooks/user/usePostCheckPw';
 import { usePostEditPw } from '@/hooks/user/usePostEditPw';
@@ -35,7 +46,7 @@ import { useToastStore } from '@/stores/useToastStore';
 import { useUserStore } from '@/stores/useUserStore';
 
 const imageInfo = {
-  size: 110,
+  size: 96,
   src: '/imgs/pi-gon-ping.jpg',
 };
 
@@ -43,12 +54,15 @@ const LIST_SIZE = 3;
 
 const MyPage = () => {
   const [isMounted, setIsMounted] = useState(false);
+  const [isShowPassword, setIsShowPassword] = useState(false);
+  const [isShowPasswordConfirm, setIsShowPasswordConfirm] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
 
   const { openModal, closeModal } = useModalStore();
+  const { logout } = useAuth();
   const showToast = useToastStore((state) => state.showToast);
   const { username, email } = useUserStore((state) => ({
     username: state.username,
@@ -58,19 +72,14 @@ const MyPage = () => {
   const { mutate: checkPwMutate, isSuccess: isCheckPwSuccess } =
     usePostCheckPw();
   const { mutate: editPwMutate } = usePostEditPw();
-  const { data: surveyList, isSuccess } = useGetSurveyList({
+  const { data: surveyList } = useGetSurveyList({
     pageSize: LIST_SIZE,
   });
-  const surveyTotalItems = isSuccess ? surveyList!.data.totalItems : 0;
   const { data: mealList } = useGetMealList({
     page: 0,
     sort: 'createdAt,desc',
     size: LIST_SIZE,
   });
-  const { data: mealListTotalItems } = useGetMenuCount();
-  const mealTotalItems = isSuccess
-    ? mealListTotalItems?.data.totalMenuCount
-    : 0;
 
   const {
     register,
@@ -107,7 +116,6 @@ const MyPage = () => {
   };
 
   const resetInputs = () => {
-    setValue('currentPassword', '');
     setValue('newPassword', '');
     setValue('newPasswordConfirm', '');
   };
@@ -136,8 +144,8 @@ const MyPage = () => {
 
   const convertToTableRowData = (menus: MenuResponseDTO[]): TableRowData[] => {
     return menus.map((menu) => ({
-      식단ID: menu.monthMenuId.substring(0, 4),
-      식단이름: menu.monthMenuName,
+      '식단 ID': menu.monthMenuId.substring(0, 4),
+      '식단 이름': menu.monthMenuName,
       대분류: menu.majorCategory,
       소분류: menu.minorCategory,
       생성일: dayjs(menu.createAt).format('YYYY-MM-DD'),
@@ -148,8 +156,9 @@ const MyPage = () => {
     surveys: surveyType[],
   ): TableRowData[] => {
     return surveys.map((survey) => ({
-      설문ID: survey.surveyId,
-      설문이름: survey.surveyName,
+      '설문 ID': survey.surveyId,
+      '설문 이름': survey.surveyName,
+      마감일: dayjs(survey.deadlineAt).format('YYYY-MM-DD'),
       생성일: dayjs(survey.createdAt).format('YYYY-MM-DD'),
       상태: survey.state === 'IN_PROGRESS' ? '진행중' : '마감',
     }));
@@ -175,193 +184,201 @@ const MyPage = () => {
   };
 
   return (
-    <>
-      <Modal>
-        <form onSubmit={handleSubmit(submitChangePassword)} className='w-full'>
-          <fieldset className='flex w-full justify-center'>
-            <legend className='sr-only'>비밀번호 변경</legend>
-            <div className='flex w-full flex-col items-center gap-6 rounded bg-white-100 p-12'>
-              <div className='flex w-full flex-col gap-2'>
-                <label
-                  htmlFor='currentPassword'
-                  className='text-sm font-semibold'
-                >
-                  현재 비밀번호
-                </label>
-                <Input
-                  type='password'
-                  placeholder='현재 비밀번호를 입력해주세요.'
-                  id='currentPassword'
-                  height='basic'
-                  className='text-green-500 placeholder:text-green-400'
-                  value={currentPassword}
-                  includeButton
-                  buttonText='확인'
-                  onSubmit={handleCheckPassword}
-                  {...register('currentPassword')}
-                />
+    isMounted && (
+      <>
+        <Modal>
+          <form
+            onSubmit={handleSubmit(submitChangePassword)}
+            className='w-full'
+          >
+            <fieldset className='w-full'>
+              <legend className='sr-only'>비밀번호 변경</legend>
+              <div className='flex w-full flex-col gap-6 rounded-2xl bg-white-100'>
+                <SubTitle1Black>비밀번호 변경</SubTitle1Black>
+                <div className='flex flex-col gap-4'>
+                  <div className='flex w-full flex-col gap-2'>
+                    <Label1Black htmlFor='currentPassword'>
+                      현재 비밀번호
+                    </Label1Black>
+                    <div className='flex h-16 w-full gap-3'>
+                      <div className='min-w-[368px]'>
+                        <Input
+                          type='password'
+                          placeholder='현재 비밀번호를 입력해 주세요.'
+                          id='currentPassword'
+                          size='m'
+                          variant='grey50'
+                          value={currentPassword}
+                          {...register('currentPassword')}
+                        />
+                      </div>
+                      <Button
+                        variant='teritary'
+                        size='lg'
+                        className='min-w-[100px]'
+                        onClick={handleCheckPassword}
+                        disabled={currentPassword.length === 0}
+                      >
+                        <SubTitle1Grey100>확인</SubTitle1Grey100>
+                      </Button>
+                    </div>
+                  </div>
+                  <div className='flex w-full flex-col gap-2'>
+                    <Label1Black htmlFor='newPassword'>
+                      변경 비밀번호
+                    </Label1Black>
+                    <div className='flex h-16 w-full gap-3'>
+                      <Input
+                        type={isShowPassword ? 'text' : 'password'}
+                        placeholder='변경할 비밀번호를 입력해 주세요.'
+                        id='newPassword'
+                        size='m'
+                        variant='grey50'
+                        disabled={!isCheckPwSuccess}
+                        isRightIcon={true}
+                        rightIcon={!isShowPassword ? 'show' : 'hide'}
+                        rightIconAction={() =>
+                          setIsShowPassword(!isShowPassword)
+                        }
+                        {...register('newPassword')}
+                      />
+                    </div>
+                    {errors.newPassword && (
+                      <Caption1Red500>
+                        {errors.newPassword.message}
+                      </Caption1Red500>
+                    )}
+                  </div>
+                  <div className='flex w-full flex-col gap-2'>
+                    <Label1Black htmlFor='newPasswordConfirm'>
+                      변경 비밀번호 확인
+                    </Label1Black>
+                    <div className='flex h-16 w-full gap-3'>
+                      <Input
+                        type={isShowPasswordConfirm ? 'text' : 'password'}
+                        placeholder='변경할 비밀번호를 다시 입력해 주세요.'
+                        id='newPasswordConfirm'
+                        size='m'
+                        variant='grey50'
+                        disabled={!isCheckPwSuccess}
+                        isRightIcon={true}
+                        rightIcon={!isShowPasswordConfirm ? 'show' : 'hide'}
+                        rightIconAction={() =>
+                          setIsShowPasswordConfirm(!isShowPasswordConfirm)
+                        }
+                        {...register('newPasswordConfirm')}
+                      />
+                    </div>
+                    {errors.newPasswordConfirm && (
+                      <Caption1Red500>
+                        {errors.newPasswordConfirm.message}
+                      </Caption1Red500>
+                    )}
+                  </div>
+                </div>
+                <div className='flex gap-4'>
+                  <Button
+                    size='lg'
+                    variant='grey'
+                    width='full'
+                    type='button'
+                    onClick={closeModal}
+                  >
+                    <SubTitle1Black>취소</SubTitle1Black>
+                  </Button>
+                  <Button
+                    size='lg'
+                    width='full'
+                    type='submit'
+                    disabled={
+                      !isCheckPwSuccess ||
+                      !!errors.newPassword ||
+                      !!errors.newPasswordConfirm
+                    }
+                  >
+                    <Subtitle1White>변경</Subtitle1White>
+                  </Button>
+                </div>
               </div>
-              <div className='flex w-full flex-col gap-2'>
-                <label htmlFor='newPassword' className='text-sm font-semibold'>
-                  변경 비밀번호
-                </label>
-                <Input
-                  type='password'
-                  placeholder='변경할 비밀번호를 입력해주세요.'
-                  id='newPassword'
-                  height='basic'
-                  className='text-green-500 placeholder:text-green-400'
-                  disabled={!isCheckPwSuccess}
-                  {...register('newPassword')}
-                />
-                {errors.newPassword && (
-                  <span className='text-xs text-red-300'>
-                    {errors.newPassword.message}
-                  </span>
-                )}
-              </div>
-              <div className='flex w-full flex-col gap-2'>
-                <label
-                  htmlFor='newPasswordConfirm'
-                  className='text-sm font-semibold'
-                >
-                  변경 비밀번호 확인
-                </label>
-                <Input
-                  type='password'
-                  placeholder='변경할 비밀번호를 다시 입력해주세요.'
-                  id='newPasswordConfirm'
-                  height='basic'
-                  className='text-green-500 placeholder:text-green-400'
-                  disabled={!isCheckPwSuccess}
-                  {...register('newPasswordConfirm')}
-                />
-                {errors.newPasswordConfirm && (
-                  <span className='text-xs text-red-300'>
-                    {errors.newPasswordConfirm.message}
-                  </span>
-                )}
-              </div>
-              <div className='flex w-1/2 gap-4'>
-                <Button
-                  size='small'
-                  width='full'
-                  type='submit'
-                  disabled={
-                    !isCheckPwSuccess ||
-                    !!errors.newPassword ||
-                    !!errors.newPasswordConfirm
-                  }
-                >
-                  변경
-                </Button>
-                <Button
-                  size='small'
-                  variant='secondary'
-                  width='full'
-                  type='button'
-                  onClick={closeModal}
-                >
-                  취소
-                </Button>
+            </fieldset>
+          </form>
+        </Modal>
+        <div className='flex w-full flex-col gap-6'>
+          <H2BlackH2>마이페이지</H2BlackH2>
+          <div className='flex h-36 w-full justify-between rounded-2xl bg-white-100 p-6'>
+            <div className='flex gap-6'>
+              <ProfileImage src={imageInfo.src} size={imageInfo.size} />
+              <div className='flex flex-col gap-4'>
+                <div className='flex gap-[2px]'>
+                  <SubTitle1Black>{username}</SubTitle1Black>
+                  <Body1Black>님 안녕하세요.</Body1Black>
+                </div>
+                <div className='flex flex-col gap-1'>
+                  <Label1Black>ID</Label1Black>
+                  <Body2Black>{email}</Body2Black>
+                </div>
               </div>
             </div>
-          </fieldset>
-        </form>
-      </Modal>
-      <div className='flex flex-col'>
-        <div className='mb-10 flex w-full'>
-          <div className='flex w-full items-center gap-4 border-r-2 border-gray-200 border-opacity-50 px-16'>
-            <Image
-              src={imageInfo.src}
-              width={imageInfo.size}
-              height={imageInfo.size}
-              alt='유저 이미지'
-              className='rounded-full'
-            />
-            <div className='flex flex-col gap-1'>
-              <div className='flex items-center gap-2'>
-                <CardTitle>{isMounted ? username : ''}</CardTitle> 님
-                안녕하세요.
-              </div>
-              <BodyGray>{isMounted ? email : ''}</BodyGray>
-            </div>
-            <div className='flex flex-1 justify-end'>
-              <Button onClick={openModal} width='fit' size='small'>
-                비밀번호 변경
+            <div className='flex h-full items-end gap-2'>
+              <Button size='xs' variant='primary' onClick={openModal}>
+                <Subtitle2White>비밀번호 변경</Subtitle2White>
+              </Button>
+              <Button
+                size='xs'
+                variant='teritary'
+                className='gap-1'
+                onClick={logout}
+              >
+                <Icon name='logout' width={24} height={24} color='grey100' />
+                <Subtitle2Grey100>로그아웃</Subtitle2Grey100>
               </Button>
             </div>
           </div>
-          <div className='flex w-1/3 flex-col items-center justify-center gap-2 border-r-2 border-gray-200 border-opacity-50 px-6'>
-            <NutritionEtc>총 작성한 식단</NutritionEtc>
-            <Link
-              href={NAV_LINKS[3].href}
-              className='text-3xl font-semibold text-green-400 underline'
-            >
-              {mealTotalItems}
-            </Link>
-          </div>
-          <div className='flex w-1/3 flex-col items-center justify-center gap-2 px-6'>
-            <NutritionEtc>총 생성한 설문</NutritionEtc>
-            <Link
-              href={NAV_LINKS[4].href}
-              className='text-3xl font-semibold text-green-400 underline'
-            >
-              {surveyTotalItems}
-            </Link>
-          </div>
-        </div>
-        <div className='flex flex-col gap-8'>
-          <div className='flex flex-col gap-2'>
-            <div className='flex items-end justify-between'>
-              <CardTitle>최근 작성한 식단</CardTitle>
-              <Link
-                href={NAV_LINKS[3].href}
-                hidden={mealTotalItems === 0}
-                className='text-xs text-gray-500'
-              >
-                더보기
+          <div className='flex w-full flex-col gap-6 rounded-2xl bg-white-100 p-6'>
+            <div className='flex w-full justify-between'>
+              <SubTitle1Black>최근 작성한 식단</SubTitle1Black>
+              <Link href={ROUTES.VIEW.PLAN}>
+                <Body2Grey600>더 보기</Body2Grey600>
               </Link>
             </div>
             {mealList?.data.menuResponseDTOList ? (
               <GetAllListTable
                 data={convertToTableRowData(mealList!.data.menuResponseDTOList)}
                 onRowClick={(id) => handleMealRowClick(id)}
+                headerType='viewPlan'
               />
             ) : (
-              <div className='mt-1 flex justify-center'>
-                <NutritionDate>최근 작성한 식단이 없습니다.</NutritionDate>
+              <div className='flex justify-center'>
+                <Subtitle2Black>최근 작성한 식단이 없습니다.</Subtitle2Black>
               </div>
             )}
           </div>
-          <div className='flex flex-col gap-2'>
-            <div className='flex items-end justify-between'>
-              <CardTitle>최근 생성한 설문</CardTitle>
-              <Link
-                href={NAV_LINKS[4].href}
-                hidden={surveyTotalItems === 0}
-                className='text-xs text-gray-500'
-              >
-                더보기
+          <div className='flex w-full flex-col gap-6 rounded-2xl bg-white-100 p-6'>
+            <div className='flex w-full justify-between'>
+              <SubTitle1Black>최근 생성한 설문</SubTitle1Black>
+              <Link href={ROUTES.VIEW.CHART}>
+                <Body2Grey600>더 보기</Body2Grey600>
               </Link>
             </div>
             {surveyList?.data.surveys ? (
               <GetAllListTable
                 data={surveyConvertToTableRowData(surveyList!.data.surveys)}
                 onRowClick={(id) => handleSurveyRowClick(Number(id))}
+                headerType='viewChart'
               />
             ) : (
-              <div className='mt-1 flex justify-center'>
-                <NutritionDate>최근 생성한 설문이 없습니다.</NutritionDate>
+              <div className='flex justify-center'>
+                <Subtitle2Black>최근 생성한 설문이 없습니다.</Subtitle2Black>
               </div>
             )}
           </div>
-          <button className='flex justify-end text-xs text-gray-400 underline opacity-50'>
-            회원탈퇴
-          </button>
+          <div className='flex justify-between'>
+            <div />
+            <Caption1Grey400>회원탈퇴</Caption1Grey400>
+          </div>
         </div>
-      </div>
-    </>
+      </>
+    )
   );
 };
 

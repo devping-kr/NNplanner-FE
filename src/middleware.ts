@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { AUTH_LINKS } from '@/constants/_auth';
-import { NAV_LINKS } from '@/constants/_navbar';
+import { NAV_LINKS, ROUTES } from '@/constants/_navbar';
 
 export const config = {
   matcher: [
@@ -8,13 +8,23 @@ export const config = {
   ],
 };
 
-const publicRoutes = [AUTH_LINKS.signup, AUTH_LINKS.login];
+const publicRoutes = [
+  AUTH_LINKS.signup,
+  AUTH_LINKS.login,
+  ROUTES.SURVEY.TAKE,
+  ROUTES.LANDING,
+];
+const publicRoutePatterns = [/^\/survey\/take\/[^/]+$/];
 
 export function middleware(request: NextRequest) {
   const isLogin = request.cookies.get('isLogin');
   const currentPath = request.nextUrl.pathname;
 
-  if (!isLogin && !publicRoutes.includes(currentPath)) {
+  const isPublicRoute =
+    publicRoutes.includes(currentPath) ||
+    publicRoutePatterns.some((pattern) => pattern.test(currentPath));
+
+  if (!isLogin && !isPublicRoute) {
     const url = request.nextUrl.clone();
     url.pathname = AUTH_LINKS.login;
     return NextResponse.redirect(url);
@@ -25,5 +35,6 @@ export function middleware(request: NextRequest) {
     url.pathname = NAV_LINKS[0].href;
     return NextResponse.redirect(url);
   }
+
   return NextResponse.next();
 }

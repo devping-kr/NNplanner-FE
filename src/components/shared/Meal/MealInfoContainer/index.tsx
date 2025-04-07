@@ -1,16 +1,10 @@
-import { NutritionDate } from '@/components/common/Typography';
-
 type MealInfoContainerProps = {
   children: React.ReactNode;
-  date: string;
 };
 
-const MealInfoContainer = ({ children, date }: MealInfoContainerProps) => {
+const MealInfoContainer = ({ children }: MealInfoContainerProps) => {
   return (
-    <div className='fixed right-6 top-[10px] z-30 flex h-fit w-80 flex-col gap-1 rounded-md border-[1px] border-green-400 bg-white-100 p-4'>
-      <div className='text-center'>
-        <NutritionDate>{date}</NutritionDate>
-      </div>
+    <div className='top-[246px] flex h-fit w-80 flex-col gap-6 rounded-2xl bg-white-100 p-4'>
       {children}
     </div>
   );

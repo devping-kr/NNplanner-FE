@@ -20,6 +20,7 @@ export const AUTH_API = {
   LOGIN: `${BASE_API.AUTHS}/login`,
   REISSUE: `${BASE_API.AUTHS}/reissue`,
   LOGOUT: `${BASE_API.AUTHS}/logout`,
+  GOOGLELOGIN: `${BASE_API.AUTHS}/oauth2/google`,
 };
 
 /**
@@ -51,6 +52,7 @@ export const MENU_CAGEGORY_API = {
   MENU_CATEGORIES: BASE_API.MENU_CATEGORIES,
   MAJOR_CATEGORY: 'major-category',
   MINOR_CATEGORY: 'minor-category',
+  SEARCH_SCHOOL: `${BASE_API.MENU_CATEGORIES}/search-school`,
 };
 
 /**

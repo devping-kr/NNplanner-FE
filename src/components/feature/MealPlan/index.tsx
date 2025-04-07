@@ -61,7 +61,7 @@ const MealPlan = ({ id }: MealPlanProps) => {
     navigate(`${ROUTES.VIEW.PLAN}/${id}${ROUTES.EDIT.EDIT}`);
   };
 
-  const handleDeleteMenu = () => {
+  const handleDeleteMealPlan = () => {
     deleteMenuMutate(
       { monthMenuId: id },
       {
@@ -98,6 +98,10 @@ const MealPlan = ({ id }: MealPlanProps) => {
       <MealPlanHeader
         mealName={monthMenuDetail.monthMenuName || ''}
         selectedCategory={selectedCategory}
+        handleCreateSurvey={handleCreateSurvey}
+        handleSaveExcel={handleSaveExcel}
+        handleEditMenu={handleEditMenu}
+        handleDeleteMealPlan={handleDeleteMealPlan}
       />
       <MealCalendar
         type='mealPlan'
@@ -106,10 +110,6 @@ const MealPlan = ({ id }: MealPlanProps) => {
         month={month}
         onDateClick={handleDateClick}
         selectedDate={selectedDate}
-        handleCreateSurvey={handleCreateSurvey}
-        handleSaveExcel={handleSaveExcel}
-        handleEditMenu={handleEditMenu}
-        handleDeleteMenu={handleDeleteMenu}
       />
     </MealForm>
   );

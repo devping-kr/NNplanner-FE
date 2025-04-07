@@ -15,6 +15,8 @@ type TableProps = {
   headerClassName?: string;
   bodyClassName?: string;
   onRowClick?: (id: number | string) => void;
+  headerType?: 'viewPlan' | 'viewChart';
+  miniList?: boolean;
 };
 
 const Table = ({
@@ -23,6 +25,8 @@ const Table = ({
   headerClassName,
   bodyClassName,
   onRowClick,
+  headerType,
+  miniList,
 }: TableProps) => {
   const tableHeaders = Array.from(
     new Set(data.flatMap((item) => Object.keys(item))),
@@ -30,14 +34,21 @@ const Table = ({
 
   return (
     <div className='w-full'>
-      <table className='w-full border-separate border-spacing-0 overflow-hidden rounded-lg text-center'>
-        <TableHeader headerData={tableHeaders} className={headerClassName} />
+      <table className='w-full table-fixed'>
+        <TableHeader
+          headerData={tableHeaders}
+          className={headerClassName}
+          headerType={headerType!}
+          miniList={miniList}
+        />
         <TableBody
           headerData={tableHeaders}
           bodyData={data}
           type={type}
           className={bodyClassName}
           onRowClick={onRowClick}
+          headerType={headerType!}
+          miniList={miniList}
         />
       </table>
     </div>

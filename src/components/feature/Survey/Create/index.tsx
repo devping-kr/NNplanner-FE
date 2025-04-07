@@ -20,8 +20,6 @@ import { surveyKeys } from '@/hooks/survey/queryKey';
 import { usePostSurvey } from '@/hooks/survey/usePostSurvey';
 import { usePostSurveyQrCode } from '@/hooks/survey/usePostSurveyQrCode';
 import { useToastStore } from '@/stores/useToastStore';
-import 'react-datepicker/dist/react-datepicker.css';
-import '@/styles/datepicker-custom.css';
 
 const TWO_WEEK_DAYS = 14;
 const { now: twoWeeksLater } = getCurrentYearMonthNow();
@@ -42,7 +40,7 @@ const SurveyCreate = ({ id }: { id: string }) => {
 
   const [inputs, setInputs] = useState<inputsType[]>([]);
   const [surveyName, setSurveyName] = useState('');
-  const [deadLine, setDeadLine] = useState<Date | null>(twoWeeksLater);
+  const [deadLine, setDeadLine] = useState<Date | null | string>(twoWeeksLater);
   const showToast = useToastStore((state) => state.showToast);
 
   const requestData = {
@@ -89,20 +87,18 @@ const SurveyCreate = ({ id }: { id: string }) => {
   };
 
   return (
-    <div className='flex flex-col gap-5'>
-      <SurveyHeader
-        title='설문 생성'
-        accessBtnText='생성'
-        accessHandler={submitSurvey}
-      />
+    <div className='flex w-[1596px] flex-col gap-5'>
+      <SurveyHeader title='설문 생성' />
       <SurveyControls
-        type='create'
+        isChangeable={false}
         surveyName={surveyName}
         setSurveyName={setSurveyName}
         deadLine={deadLine}
         setDeadLine={setDeadLine}
+        accessBtnText='생성'
+        accessHandler={submitSurvey}
       />
-      <div className='flex gap-5'>
+      <div className='flex gap-6'>
         <DefaultQuestions />
         <AdditionQuestions
           inputs={inputs}

@@ -11,7 +11,8 @@ export const metadata = {
 
 const page = () => {
   return (
-    <Suspense fallback={<div>loading...</div>}>
+    // 추후 스켈레톤ui로 수정
+    <Suspense fallback={<div></div>}>
       <ViewChart />
     </Suspense>
   );

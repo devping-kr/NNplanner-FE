@@ -25,7 +25,7 @@ const SurveyEdit = ({ id }: Props) => {
   const { data: detailSurvey } = useGetSurveyDetail(id);
 
   const [editSurveyName, setEditSurveyName] = useState('');
-  const [editDeadLine, setEditDeadLine] = useState<Date | null>(null);
+  const [editDeadLine, setEditDeadLine] = useState<Date | null | string>(null);
   const [inputs, setInputs] = useState<inputsType[]>([]);
 
   useEffect(() => {
@@ -58,13 +58,11 @@ const SurveyEdit = ({ id }: Props) => {
       mutate({
         deadlineAt: editDeadLine,
         surveyName: editSurveyName,
-        questions: inputs
-          .filter((item) => item.questionId !== undefined)
-          .map((item) => ({
-            questionId: item.questionId as number,
-            question: item.question,
-            answerType: item.answerType as 'text' | 'radio',
-          })),
+        state: 'CLOSED',
+        questions: inputs.map(({ questionId, question, answerType }) => {
+          const base = { question, answerType: answerType as 'text' | 'radio' };
+          return questionId ? { questionId, ...base } : base;
+        }),
       });
     }
   };
@@ -72,24 +70,22 @@ const SurveyEdit = ({ id }: Props) => {
   return (
     detailSurvey && (
       <div className='flex flex-col gap-5'>
-        <SurveyHeader
-          title='설문 수정'
-          accessBtnText='수정'
-          accessHandler={submitSurvey}
-        />
+        <SurveyHeader title='설문 수정' />
         <SurveyControls
-          type='edit'
+          isChangeable
           surveyName={editSurveyName!}
           setEditSurveyName={setEditSurveyName}
           deadLine={editDeadLine!}
           setDeadLine={setEditDeadLine!}
+          accessBtnText='수정'
+          accessHandler={submitSurvey}
         />
         <div className='flex gap-5'>
           <DefaultQuestions />
           <AdditionQuestions
             inputs={inputs}
             setInputs={setInputs}
-            successSubmit={true}
+            successSubmit={false}
           />
         </div>
       </div>

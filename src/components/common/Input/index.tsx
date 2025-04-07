@@ -24,7 +24,7 @@ export type InputIconProps =
       rightIcon?: string;
     };
 
-export type InputProps = ComponentPropsWithoutRef<'input'> &
+export type InputProps = Omit<ComponentPropsWithoutRef<'input'>, 'size'> &
   VariantProps<typeof inputVariants> &
   VariantProps<typeof inputContainerVariants> &
   InputIconProps & {
@@ -41,25 +41,29 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       borderRadius,
       className,
       bgcolor,
+      height,
+      size,
       isLeftIcon = false,
       isRightIcon = false,
       rightIcon = '',
       includeButton = false,
       value,
       disabled,
+      onFocus,
+      onBlur,
       rightIconAction = () => {},
       onSubmit = () => {},
-      height,
       buttonText = '검색',
       isError,
       ...props
-    }: InputProps,
+    },
     ref,
   ) => {
     const [isFocused, setIsFocused] = useState(false);
 
     const handleFocus = useCallback(() => setIsFocused(true), []);
     const handleBlur = useCallback(() => setIsFocused(false), []);
+
     return (
       <div
         className={inputContainerVariants({
@@ -74,21 +78,30 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       >
         {isLeftIcon && <Icon name='search' width={22} height={22} />}
         <input
-          className={cn(inputVariants(), className)}
+          className={cn(inputVariants({ size }), className)}
           ref={ref}
           value={value}
           disabled={disabled}
-          onFocus={handleFocus}
-          onBlur={handleBlur}
+          onFocus={(e) => {
+            handleFocus();
+            onFocus?.(e);
+          }}
+          onBlur={(e) => {
+            handleBlur();
+            onBlur?.(e);
+          }}
           {...props}
         />
         {isRightIcon && rightIcon && (
-          <button onClick={rightIconAction} type='button'>
+          <button
+            onClick={!disabled ? () => rightIconAction() : undefined}
+            type='button'
+          >
             <Icon
               name={rightIcon}
-              width={20}
-              height={20}
-              className='cursor-pointer'
+              width={size === 's' ? 20 : 24}
+              height={size === 's' ? 20 : 24}
+              className={`cursor-pointer ${disabled ? 'cursor-not-allowed' : ''}`}
             />
           </button>
         )}
@@ -108,4 +121,5 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     );
   },
 );
+
 Input.displayName = 'Input';

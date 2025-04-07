@@ -1,4 +1,5 @@
 import { cn } from '@/utils/core';
+import { Body2Black } from '../Typography';
 import Icon from '@/components/common/Icon';
 
 type InfoCardProps = {
@@ -6,20 +7,20 @@ type InfoCardProps = {
   className?: string;
 };
 
-const ICON_SIZE = 16;
+const ICON_SIZE = 24;
 
 const InfoCard = ({ message, className }: InfoCardProps) => {
   return (
     <div
       className={cn(
-        'whitespace-wrap flex h-fit w-full min-w-60 max-w-80 items-center gap-2 overflow-hidden break-all rounded-md border-[1px] border-green-300 bg-white-100 p-4',
+        'whitespace-wrap flex h-fit w-80 items-center gap-2 overflow-hidden break-all rounded-md border border-grey-100 bg-blue-50 p-4',
         className,
       )}
     >
       <div className='h-fit w-fit'>
-        <Icon name='normal' width={ICON_SIZE} height={ICON_SIZE} />
+        <Icon name='info' color='black' width={ICON_SIZE} height={ICON_SIZE} />
       </div>
-      <span className='text-sm'>{message}</span>
+      <Body2Black>{message}</Body2Black>
     </div>
   );
 };

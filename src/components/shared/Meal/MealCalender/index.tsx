@@ -1,17 +1,19 @@
 'use client';
 
+import { CalendarType } from '@/type/calendar';
 import { FoodInfo } from '@/type/menu/menuResponse';
 import { SelectedCategory } from '@/type/menuCategory/category';
-import Button from '@/components/common/Button/Button';
+import { cn } from '@/utils/core';
 import Calendar, { CalendarProps } from '@/components/common/Calendar';
-import { MealCalenderTitle } from '@/components/common/Typography';
+import InfoCard from '@/components/common/InfoCard';
+import { H1Black } from '@/components/common/Typography';
 import MealCreate from '@/components/shared/Meal/MealCreate';
 import MealEdit from '@/components/shared/Meal/MealEdit';
 import NutritionInfo from '@/components/shared/Meal/NutritionInfo';
-import useNavigate from '@/hooks/useNavigate';
+import { INFOCARD_MESSAGE } from '@/constants/_infoCard';
 
 type MealCalendarProps = {
-  type?: 'default' | 'create' | 'edit' | 'menualCreate' | 'mealPlan';
+  type?: CalendarType;
   selectedCategory?: SelectedCategory;
   selectedDate?: string;
   handleChangeMenu?: (
@@ -20,12 +22,7 @@ type MealCalendarProps = {
     updatedItem: FoodInfo,
     type: 'edit' | 'add',
   ) => void;
-  handleResetMenu?: () => void;
   handleSaveMenu?: (date: string, menuList: FoodInfo[]) => void;
-  handleEditMenu?: () => void;
-  handleCreateSurvey?: () => void;
-  handleSaveExcel?: () => void;
-  handleDeleteMenu?: () => void;
 } & CalendarProps;
 
 const MealCalendar = ({
@@ -37,117 +34,57 @@ const MealCalendar = ({
   readonly,
   onDateClick,
   handleChangeMenu,
-  handleResetMenu,
   handleSaveMenu,
-  handleEditMenu,
-  handleCreateSurvey,
-  handleSaveExcel,
-  handleDeleteMenu,
 }: MealCalendarProps) => {
-  const { handleBack } = useNavigate();
+  const renderContent = () => {
+    if (!selectedDate || !data) return null;
+
+    switch (type) {
+      case 'create':
+      case 'mealPlan':
+        if (!data[selectedDate]?.foods) {
+          return null;
+        } else {
+          return <NutritionInfo data={data[selectedDate].foods} />;
+        }
+      case 'edit':
+        return (
+          <MealEdit
+            date={selectedDate}
+            data={data[selectedDate]?.foods}
+            handleChangeMenu={handleChangeMenu}
+          />
+        );
+      case 'menualCreate':
+        return (
+          <MealCreate date={selectedDate} handleSaveMenu={handleSaveMenu} />
+        );
+      default:
+        return null;
+    }
+  };
+
+  const renderInfocard = () => {
+    if (type === 'mealPlan') return null;
+
+    return (
+      <div className='flex flex-col gap-4'>
+        <InfoCard message={INFOCARD_MESSAGE.autoPlan.name} />
+        <InfoCard message={INFOCARD_MESSAGE.autoPlan.category} />
+      </div>
+    );
+  };
+
   return (
-    <div className='flex'>
-      <div className='flex w-fit flex-col gap-2'>
+    <div
+      className={cn(
+        'flex w-full gap-6',
+        type === 'mealPlan' && !renderContent() && 'gap-0',
+      )}
+    >
+      <div className='flex w-full flex-col gap-6 rounded-2xl bg-white-100 p-6'>
         <div className='flex w-full items-center justify-between'>
-          <MealCalenderTitle>{month}월</MealCalenderTitle>
-          {type === 'default' && (
-            <Button className='h-10 w-fit' size='basic' type='submit'>
-              생성
-            </Button>
-          )}
-          {type === 'create' && (
-            <div className='flex w-fit items-center gap-2'>
-              <Button className='h-10 w-fit' size='basic' type='submit'>
-                저장
-              </Button>
-              <Button
-                className='h-10 w-fit'
-                size='basic'
-                type='button'
-                onClick={handleEditMenu}
-              >
-                메뉴 수정
-              </Button>
-            </div>
-          )}
-          {type === 'edit' && (
-            <div className='flex w-fit items-center gap-2'>
-              <Button
-                className='h-10 w-fit'
-                size='basic'
-                variant='outline'
-                type='button'
-                onClick={handleResetMenu}
-              >
-                메뉴 초기화
-              </Button>
-              <Button className='h-10 w-fit' size='basic' type='submit'>
-                수정 완료
-              </Button>
-              <Button
-                className='h-10 w-fit'
-                size='basic'
-                type='button'
-                onClick={handleBack}
-              >
-                취소
-              </Button>
-            </div>
-          )}
-          {type === 'menualCreate' && (
-            <div className='flex w-fit items-center gap-2'>
-              <Button
-                className='h-10 w-fit'
-                size='basic'
-                variant='outline'
-                type='button'
-                onClick={handleResetMenu}
-              >
-                메뉴 초기화
-              </Button>
-              <Button className='h-10 w-fit' size='basic' type='submit'>
-                생성
-              </Button>
-            </div>
-          )}
-          {type === 'mealPlan' && (
-            <div className='flex w-fit items-center gap-2'>
-              <Button
-                className='h-10 w-fit'
-                size='basic'
-                variant='outline'
-                type='button'
-                onClick={handleCreateSurvey}
-              >
-                설문 생성
-              </Button>
-              <Button
-                className='h-10 w-fit'
-                size='basic'
-                variant='outline'
-                type='button'
-                onClick={handleSaveExcel}
-              >
-                엑셀 저장
-              </Button>
-              <Button
-                className='h-10 w-fit'
-                size='basic'
-                type='button'
-                onClick={handleEditMenu}
-              >
-                수정
-              </Button>
-              <Button
-                className='h-10 w-fit'
-                size='basic'
-                type='button'
-                onClick={handleDeleteMenu}
-              >
-                삭제
-              </Button>
-            </div>
-          )}
+          <H1Black>{month}월</H1Black>
         </div>
         <Calendar
           year={year}
@@ -157,19 +94,10 @@ const MealCalendar = ({
           onDateClick={onDateClick}
         />
       </div>
-      {selectedDate && (type === 'create' || type === 'mealPlan') && data && (
-        <NutritionInfo date={selectedDate} data={data[selectedDate]?.foods} />
-      )}
-      {selectedDate && type === 'edit' && data && (
-        <MealEdit
-          date={selectedDate}
-          data={data[selectedDate]?.foods}
-          handleChangeMenu={handleChangeMenu}
-        />
-      )}
-      {selectedDate && type === 'menualCreate' && (
-        <MealCreate date={selectedDate} handleSaveMenu={handleSaveMenu} />
-      )}
+      <div className='flex flex-col gap-4'>
+        {renderContent()}
+        {renderInfocard()}
+      </div>
     </div>
   );
 };

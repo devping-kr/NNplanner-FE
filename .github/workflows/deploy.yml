@@ -2,7 +2,9 @@ name: git push into another repo to deploy to vercel
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
+      - dev
 
 jobs:
   build:
@@ -10,8 +12,9 @@ jobs:
     container: pandoc/latex
     steps:
       - uses: actions/checkout@v4
-      - name: Install mustache (to update the date)
-        run: apk add ruby && gem install mustache
+      - name: Install mustache
+        run: |
+          apk add ruby && gem install mustache
       - name: creates output
         run: sh ./build.sh
       - name: Pushes to another repository
@@ -24,7 +27,7 @@ jobs:
           destination-github-username: plla2
           destination-repository-name: NNplanner-FE
           user-email: ${{ secrets.EMAIL }}
-          commit-message: ${{ github.event.commits[0].message }}
-          target-branch: main
+          commit-message: ${{ github.event.head_commit.message }}
+          target-branch: ${{ github.ref_name }}
       - name: Test get variable exported by push-to-another-repository
         run: echo $DESTINATION_CLONED_DIRECTORY

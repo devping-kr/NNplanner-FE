@@ -1,12 +1,12 @@
 import { cva } from 'class-variance-authority';
 
 export const navMenuVariants = cva(
-  'flex items-center gap-3 w-full px-4 py-3 text-sm bg-transparent h-11 rounded-full cursor-pointer hover:bg-green-100 active:bg-green-100',
+  'flex items-center gap-4 w-full px-6 py-4 bg-transparent h-14 cursor-pointer active:bg-grey-900',
   {
     variants: {
       isActive: {
-        true: 'bg-green-100 text-green-800 ',
-        false: 'text-gray-600',
+        true: 'bg-grey-900 text-green-500',
+        false: 'text-grey-500',
       },
     },
   },

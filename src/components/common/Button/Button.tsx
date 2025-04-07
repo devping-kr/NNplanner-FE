@@ -6,10 +6,7 @@ import { cn } from '@/utils/core';
 import { buttonVariants } from '@/components/common/Button/Button.variant';
 
 export type ButtonProps = VariantProps<typeof buttonVariants> &
-  ComponentPropsWithoutRef<'button'> & {
-    size?: 'xSmall' | 'small' | 'basic' | 'large';
-    width?: 'fit' | 'full';
-  };
+  ComponentPropsWithoutRef<'button'>;
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ size, width, className, variant = 'primary', ...props }, ref) => {
@@ -17,6 +14,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       <button
         className={cn(buttonVariants({ variant, size, width }), className)}
         ref={ref}
+        type='button'
         {...props}
       />
     );

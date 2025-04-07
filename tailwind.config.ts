@@ -10,23 +10,32 @@ const config: Config = {
   theme: {
     extend: {
       colors,
+      textColor: {
+        placeholder: colors.grey[200],
+        assistiveTxt: colors.grey[500],
+        dimmed: colors.dimmed,
+      },
       translate: {
-        // transform: translate-Y(-50%)
         '-1/2': '-50%',
       },
+      boxShadow: {
+        dropShadow: '0px 8px 16px rgba(0, 0, 0, 0.12)',
+      },
+      transitionProperty: {
+        colors: 'color, background-color, border-color, text-decoration-color',
+      },
       animation: {
-        'shrink-1s': 'shrink 1s linear forwards',
-        'shrink-2s': 'shrink 2s linear forwards',
-        'shrink-3s': 'shrink 3s linear forwards',
+        gradient: 'gradient 12s ease infinite',
       },
       keyframes: {
-        shrink: {
-          '0%': { width: '100%' },
-          '100%': { width: '0%' },
+        gradient: {
+          '0%, 100%': { backgroundPosition: '0% 50%' },
+          '50%': { backgroundPosition: '100% 50%' },
         },
       },
+      plugins: [],
     },
   },
-  plugins: [],
 };
+
 export default config;

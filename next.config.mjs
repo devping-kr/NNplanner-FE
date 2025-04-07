@@ -19,15 +19,6 @@ const nextConfig = {
       },
     ];
   },
-  redirects() {
-    return [
-      {
-        source: '/',
-        destination: '/main',
-        permanent: true,
-      },
-    ];
-  },
 };
 
 export default nextConfig;
