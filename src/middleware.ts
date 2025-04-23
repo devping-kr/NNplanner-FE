@@ -8,29 +8,34 @@ export const config = {
   ],
 };
 
-const publicRoutes = [
-  AUTH_LINKS.signup,
-  AUTH_LINKS.login,
-  ROUTES.SURVEY.TAKE,
-  ROUTES.LANDING,
-];
+const publicRoutes = [AUTH_LINKS.signup, AUTH_LINKS.login, ROUTES.LANDING];
+
 const publicRoutePatterns = [/^\/survey\/take\/[^/]+$/];
 
 export function middleware(request: NextRequest) {
   const isLogin = request.cookies.get('isLogin');
   const currentPath = request.nextUrl.pathname;
 
-  const isPublicRoute =
-    publicRoutes.includes(currentPath) ||
-    publicRoutePatterns.some((pattern) => pattern.test(currentPath));
+  const isPublicRoute = publicRoutes.includes(currentPath);
 
-  if (!isLogin && !isPublicRoute) {
+  if (
+    !isLogin &&
+    !isPublicRoute &&
+    !publicRoutePatterns.some((pattern) => pattern.test(currentPath))
+  ) {
     const url = request.nextUrl.clone();
     url.pathname = AUTH_LINKS.login;
     return NextResponse.redirect(url);
   }
 
-  if (isLogin && publicRoutes.includes(currentPath)) {
+  if (
+    !isLogin &&
+    publicRoutePatterns.some((pattern) => pattern.test(currentPath))
+  ) {
+    return NextResponse.next();
+  }
+
+  if (isLogin && isPublicRoute) {
     const url = request.nextUrl.clone();
     url.pathname = NAV_LINKS[0].href;
     return NextResponse.redirect(url);
