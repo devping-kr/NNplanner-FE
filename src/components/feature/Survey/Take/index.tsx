@@ -226,7 +226,7 @@ const SurveyTake = ({ id }: Props) => {
               className='flex w-full flex-col gap-4'
             >
               <li className='flex items-center gap-1'>
-                <Body2Black>{idx + 1}. </Body2Black>
+                <Body2Black>{idx + 9}. </Body2Black>
                 <Body2Black>{question.questionText}</Body2Black>
               </li>
               {question.answerType === 'text' && (
