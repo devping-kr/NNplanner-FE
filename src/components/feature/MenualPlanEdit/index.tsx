@@ -28,7 +28,7 @@ import { Option, Selectbox } from '@/components/common/Selectbox';
 import { H2BlackH2, Subtitle2White } from '@/components/common/Typography';
 import MealCalendar from '@/components/shared/Meal/MealCalender';
 import { MealHeaderFormData } from '@/components/shared/Meal/MealHeader';
-import { ORGANIZATION_LIST } from '@/constants/_category';
+import { ORGANIZATION_LIST, SCHOOL_LEVEL_LIST } from '@/constants/_category';
 import { MAJOR_CATEGORIES } from '@/constants/_meal';
 import {
   MEAL_FORM_LEGEND,
@@ -38,7 +38,7 @@ import { ROUTES } from '@/constants/_navbar';
 import { PAGE_TITLE } from '@/constants/_pageTitle';
 import { MEAL_HEADER_ERROR } from '@/constants/_schema';
 import { usePostMonthMenusSave } from '@/hooks/menu/usePostMonthMenusSave';
-import { useFetchMinorCategories } from '@/hooks/menuCategory/useFetchMinorCategories';
+// import { useFetchMinorCategories } from '@/hooks/menuCategory/useFetchMinorCategories';
 import { useGetSearchSchool } from '@/hooks/menuCategory/useGetSearchSchool';
 import useNavigate from '@/hooks/useNavigate';
 import { useMenualPlanStore } from '@/stores/useMenualPlanStore';
@@ -65,9 +65,9 @@ const MenualPlanEdit = () => {
   const isBothSelected =
     selectedCategory.majorCategory && selectedCategory.minorCategory;
 
-  const { minorCategories } = useFetchMinorCategories(
-    selectedCategory.majorCategory,
-  );
+  // const { minorCategories } = useFetchMinorCategories(
+  //   selectedCategory.majorCategory,
+  // );
   const { mutate: postSaveMutate } = usePostMonthMenusSave();
 
   const {
@@ -286,7 +286,7 @@ const MenualPlanEdit = () => {
                 selectedCategory.majorCategory !== MAJOR_CATEGORIES[1] && (
                   <Selectbox
                     key={organization.value}
-                    options={minorCategories}
+                    options={SCHOOL_LEVEL_LIST}
                     buttonSize='sm'
                     className='min-w-[194px] justify-start'
                     onChange={(minorCategory) =>

@@ -25,7 +25,7 @@ import { Option, Selectbox } from '@/components/common/Selectbox';
 import { H2BlackH2, Subtitle2White } from '@/components/common/Typography';
 import MealCalendar from '@/components/shared/Meal/MealCalender';
 import { MealHeaderFormData } from '@/components/shared/Meal/MealHeader';
-import { ORGANIZATION_LIST } from '@/constants/_category';
+import { ORGANIZATION_LIST, SCHOOL_LEVEL_LIST } from '@/constants/_category';
 import { MAJOR_CATEGORIES } from '@/constants/_meal';
 import {
   MEAL_FORM_LEGEND,
@@ -35,7 +35,7 @@ import { ROUTES } from '@/constants/_navbar';
 import { PAGE_TITLE } from '@/constants/_pageTitle';
 import { MEAL_HEADER_ERROR } from '@/constants/_schema';
 import { MEAL_CREATE_MESSAGE } from '@/constants/_toastMessage';
-import { useFetchMinorCategories } from '@/hooks/menuCategory/useFetchMinorCategories';
+// import { useFetchMinorCategories } from '@/hooks/menuCategory/useFetchMinorCategories';
 import { useGetSearchSchool } from '@/hooks/menuCategory/useGetSearchSchool';
 import { usePrefetchMinorCategories } from '@/hooks/menuCategory/usePrefetchMinorCategories';
 import useNavigate from '@/hooks/useNavigate';
@@ -64,9 +64,9 @@ const MenualPlan = () => {
     }),
   );
 
-  const { minorCategories } = useFetchMinorCategories(
-    selectedCategory.majorCategory,
-  );
+  // const { minorCategories } = useFetchMinorCategories(
+  //   selectedCategory.majorCategory,
+  // );
   const { prefetchMinorCategories, hasCategories } =
     usePrefetchMinorCategories();
 
@@ -276,7 +276,7 @@ const MenualPlan = () => {
                   selectedCategory.majorCategory !== MAJOR_CATEGORIES[1] && (
                     <Selectbox
                       key={item.value}
-                      options={minorCategories}
+                      options={SCHOOL_LEVEL_LIST}
                       buttonSize='sm'
                       className='min-w-[194px] justify-start'
                       onChange={(minorCategory) =>
