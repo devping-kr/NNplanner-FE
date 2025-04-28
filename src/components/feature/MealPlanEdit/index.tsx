@@ -321,8 +321,8 @@ const MealPlanEdit = ({ id: monthMenuId }: MealPlanEditProps) => {
               selectedValue={selectedCategory.majorCategory}
               isError={isCategoryError}
             />
-            <div className='relative'>
-              {selectedCategory.majorCategory === MAJOR_CATEGORIES[1] && (
+            {selectedCategory.majorCategory === MAJOR_CATEGORIES[1] && (
+              <div className='relative'>
                 <div className='flex gap-4'>
                   <Input
                     variant='white'
@@ -341,15 +341,15 @@ const MealPlanEdit = ({ id: monthMenuId }: MealPlanEditProps) => {
                     <Subtitle2White>검색</Subtitle2White>
                   </Button>
                 </div>
-              )}
-              <Dropdown isOpen={isOpen} className='top-12'>
-                <OptionList
-                  options={options}
-                  onSelect={handleSchoolNameSelect}
-                  size='basic'
-                />
-              </Dropdown>
-            </div>
+                <Dropdown isOpen={isOpen} className='top-12'>
+                  <OptionList
+                    options={options}
+                    onSelect={handleSchoolNameSelect}
+                    size='basic'
+                  />
+                </Dropdown>
+              </div>
+            )}
             {ORGANIZATION_LIST.map(
               (organization) =>
                 selectedCategory.majorCategory === organization.value &&
