@@ -42,6 +42,9 @@ import useNavigate from '@/hooks/useNavigate';
 import { useMenualPlanStore } from '@/stores/useMenualPlanStore';
 import { useToastStore } from '@/stores/useToastStore';
 
+/**
+ * @description 수동 식단 작성 페이지
+ */
 const MenualPlan = () => {
   const [calendarData, setCalendarData] = useState<CalendarInfo>({});
   const [selectedDate, setSelectedDate] = useState<string>('');
@@ -240,8 +243,8 @@ const MenualPlan = () => {
                 isError={isCategoryError}
               />
 
-              <div className='relative'>
-                {selectedCategory.majorCategory === MAJOR_CATEGORIES[1] && (
+              {selectedCategory.majorCategory === MAJOR_CATEGORIES[1] && (
+                <div className='relative'>
                   <div className='flex gap-4'>
                     <Input
                       variant='white'
@@ -260,15 +263,15 @@ const MenualPlan = () => {
                       <Subtitle2White>검색</Subtitle2White>
                     </Button>
                   </div>
-                )}
-                <Dropdown isOpen={isOpen} className='top-12'>
-                  <OptionList
-                    options={options}
-                    onSelect={handleSchoolNameSelect}
-                    size='basic'
-                  />
-                </Dropdown>
-              </div>
+                  <Dropdown isOpen={isOpen} className='top-12'>
+                    <OptionList
+                      options={options}
+                      onSelect={handleSchoolNameSelect}
+                      size='basic'
+                    />
+                  </Dropdown>
+                </div>
+              )}
 
               {ORGANIZATION_LIST.map(
                 (item) =>
