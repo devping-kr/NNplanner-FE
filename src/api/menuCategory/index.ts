@@ -6,6 +6,9 @@ import { MENU_CAGEGORY_API } from '@/constants/_apiPath';
 
 const { MENU_CATEGORIES, SEARCH_SCHOOL } = MENU_CAGEGORY_API;
 
+/**
+ * @description 소분류 조회
+ */
 const getMinorCategories = async (param: MajorCategory) => {
   const response = await get<Result<string[] | null>>(MENU_CATEGORIES, {
     params: {
@@ -16,7 +19,7 @@ const getMinorCategories = async (param: MajorCategory) => {
 };
 
 /**
- * @description 학교명 검색 api
+ * @description 학교명 검색
  */
 const getSearchSchool = async ({ keyword }: GetSearchSchoolRequest) => {
   const response = await get<Result<string[] | []>>(SEARCH_SCHOOL, {

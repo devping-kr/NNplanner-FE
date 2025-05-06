@@ -35,7 +35,7 @@ import {
 } from '@/components/common/Typography';
 import MealCalendar from '@/components/shared/Meal/MealCalender';
 import { MealHeaderFormData } from '@/components/shared/Meal/MealHeader';
-import { ORGANIZATION_LIST } from '@/constants/_category';
+import { ORGANIZATION_LIST, SCHOOL_LEVEL_LIST } from '@/constants/_category';
 import { AUTO_PLAN_BETA_MESSAGE, MAJOR_CATEGORIES } from '@/constants/_meal';
 import {
   MEAL_FORM_LEGEND,
@@ -46,7 +46,7 @@ import { PAGE_TITLE } from '@/constants/_pageTitle';
 import { MEAL_HEADER_ERROR } from '@/constants/_schema';
 import { usePostMonthMenusAuto } from '@/hooks/menu/usePostMonthMenusAuto';
 import { usePostMonthMenusSave } from '@/hooks/menu/usePostMonthMenusSave';
-import { useFetchMinorCategories } from '@/hooks/menuCategory/useFetchMinorCategories';
+// import { useFetchMinorCategories } from '@/hooks/menuCategory/useFetchMinorCategories';
 import { useGetSearchSchool } from '@/hooks/menuCategory/useGetSearchSchool';
 import { usePrefetchMinorCategories } from '@/hooks/menuCategory/usePrefetchMinorCategories';
 import useNavigate from '@/hooks/useNavigate';
@@ -71,9 +71,10 @@ const AutoPlan = () => {
   const { navigate } = useNavigate();
 
   const queryClient = useQueryClient();
-  const { minorCategories } = useFetchMinorCategories(
-    selectedCategory.majorCategory,
-  );
+  // 현재는 대분류 '학교' 선택 시 소분류 옵션에 '초/중/고'만 보여주므로 주석처리
+  // const { minorCategories } = useFetchMinorCategories(
+  //   selectedCategory.majorCategory,
+  // );
   const { mutate: postAutoMutate } = usePostMonthMenusAuto();
   const { mutate: postSaveMutate } = usePostMonthMenusSave();
   const { prefetchMinorCategories, hasCategories } =
@@ -278,8 +279,8 @@ const AutoPlan = () => {
                   selectedValue={selectedCategory.majorCategory}
                   isError={isCategoryError}
                 />
-                <div className='relative'>
-                  {selectedCategory.majorCategory === MAJOR_CATEGORIES[1] && (
+                {selectedCategory.majorCategory === MAJOR_CATEGORIES[1] && (
+                  <div className='relative'>
                     <div className='flex gap-4'>
                       <Input
                         variant='white'
@@ -298,15 +299,15 @@ const AutoPlan = () => {
                         <Subtitle2White>검색</Subtitle2White>
                       </Button>
                     </div>
-                  )}
-                  <Dropdown isOpen={isOpen} className='top-12'>
-                    <OptionList
-                      options={options}
-                      onSelect={handleSchoolNameSelect}
-                      size='basic'
-                    />
-                  </Dropdown>
-                </div>
+                    <Dropdown isOpen={isOpen} className='top-12'>
+                      <OptionList
+                        options={options}
+                        onSelect={handleSchoolNameSelect}
+                        size='basic'
+                      />
+                    </Dropdown>
+                  </div>
+                )}
 
                 {ORGANIZATION_LIST.map(
                   (organization) =>
@@ -314,7 +315,7 @@ const AutoPlan = () => {
                     selectedCategory.majorCategory !== MAJOR_CATEGORIES[1] && (
                       <Selectbox
                         key={organization.value}
-                        options={minorCategories}
+                        options={SCHOOL_LEVEL_LIST}
                         buttonSize='sm'
                         className='min-w-[194px] justify-start'
                         onChange={(minorCategory) =>

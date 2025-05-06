@@ -12,19 +12,6 @@ export const ORGANIZATION_LIST = [
   { value: MAJOR_CATEGORIES[2], label: MAJOR_CATEGORIES[2] },
 ];
 
-export const MOCK_CATEGORY_LIST = [
-  SCHOOL_LEVEL_LIST,
-  ORGANIZATION_LIST,
-  [
-    { value: '1', label: '세번쨰' },
-    { value: '2', label: MAJOR_CATEGORIES[1] },
-    { value: '3', label: MAJOR_CATEGORIES[2] },
-    { value: '4', label: '세번쨰' },
-    { value: '5', label: MAJOR_CATEGORIES[1] },
-    { value: '6', label: MAJOR_CATEGORIES[2] },
-  ],
-];
-
 export const CATEGORY_MAPPINGS = [
   { category: MAJOR_CATEGORIES[0], queryKey: 'getSchoolMinorCategories' },
   // { category: MAJOR_CATEGORIES[1], queryKey: 'getSchoolNameMinorCategories' },

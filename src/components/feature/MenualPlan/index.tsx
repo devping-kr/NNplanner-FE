@@ -25,7 +25,7 @@ import { Option, Selectbox } from '@/components/common/Selectbox';
 import { H2BlackH2, Subtitle2White } from '@/components/common/Typography';
 import MealCalendar from '@/components/shared/Meal/MealCalender';
 import { MealHeaderFormData } from '@/components/shared/Meal/MealHeader';
-import { ORGANIZATION_LIST } from '@/constants/_category';
+import { ORGANIZATION_LIST, SCHOOL_LEVEL_LIST } from '@/constants/_category';
 import { MAJOR_CATEGORIES } from '@/constants/_meal';
 import {
   MEAL_FORM_LEGEND,
@@ -35,13 +35,16 @@ import { ROUTES } from '@/constants/_navbar';
 import { PAGE_TITLE } from '@/constants/_pageTitle';
 import { MEAL_HEADER_ERROR } from '@/constants/_schema';
 import { MEAL_CREATE_MESSAGE } from '@/constants/_toastMessage';
-import { useFetchMinorCategories } from '@/hooks/menuCategory/useFetchMinorCategories';
+// import { useFetchMinorCategories } from '@/hooks/menuCategory/useFetchMinorCategories';
 import { useGetSearchSchool } from '@/hooks/menuCategory/useGetSearchSchool';
 import { usePrefetchMinorCategories } from '@/hooks/menuCategory/usePrefetchMinorCategories';
 import useNavigate from '@/hooks/useNavigate';
 import { useMenualPlanStore } from '@/stores/useMenualPlanStore';
 import { useToastStore } from '@/stores/useToastStore';
 
+/**
+ * @description 수동 식단 작성 페이지
+ */
 const MenualPlan = () => {
   const [calendarData, setCalendarData] = useState<CalendarInfo>({});
   const [selectedDate, setSelectedDate] = useState<string>('');
@@ -64,9 +67,9 @@ const MenualPlan = () => {
     }),
   );
 
-  const { minorCategories } = useFetchMinorCategories(
-    selectedCategory.majorCategory,
-  );
+  // const { minorCategories } = useFetchMinorCategories(
+  //   selectedCategory.majorCategory,
+  // );
   const { prefetchMinorCategories, hasCategories } =
     usePrefetchMinorCategories();
 
@@ -240,8 +243,8 @@ const MenualPlan = () => {
                 isError={isCategoryError}
               />
 
-              <div className='relative'>
-                {selectedCategory.majorCategory === MAJOR_CATEGORIES[1] && (
+              {selectedCategory.majorCategory === MAJOR_CATEGORIES[1] && (
+                <div className='relative'>
                   <div className='flex gap-4'>
                     <Input
                       variant='white'
@@ -260,15 +263,15 @@ const MenualPlan = () => {
                       <Subtitle2White>검색</Subtitle2White>
                     </Button>
                   </div>
-                )}
-                <Dropdown isOpen={isOpen} className='top-12'>
-                  <OptionList
-                    options={options}
-                    onSelect={handleSchoolNameSelect}
-                    size='basic'
-                  />
-                </Dropdown>
-              </div>
+                  <Dropdown isOpen={isOpen} className='top-12'>
+                    <OptionList
+                      options={options}
+                      onSelect={handleSchoolNameSelect}
+                      size='basic'
+                    />
+                  </Dropdown>
+                </div>
+              )}
 
               {ORGANIZATION_LIST.map(
                 (item) =>
@@ -276,7 +279,7 @@ const MenualPlan = () => {
                   selectedCategory.majorCategory !== MAJOR_CATEGORIES[1] && (
                     <Selectbox
                       key={item.value}
-                      options={minorCategories}
+                      options={SCHOOL_LEVEL_LIST}
                       buttonSize='sm'
                       className='min-w-[194px] justify-start'
                       onChange={(minorCategory) =>
