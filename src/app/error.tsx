@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import Lottie from 'lottie-react';
-import CarrotAnimation from '../../public/animations/carrot.json';
+import CarrotAnimation from '@/assets/animations/carrot.json';
 import {
   Body1Black,
   SubTitle1Black,
